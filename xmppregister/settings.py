@@ -131,6 +131,7 @@ INSTALLED_APPS = (
 
     'south',
 
+    'core',
     'register',
 )
 
