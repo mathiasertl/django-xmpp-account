@@ -3,5 +3,18 @@
 
 {% block content %}
 <h1>{% block title %}{% trans "Register account" %}{% endblock title %}</h1>
-foobar.
+<form role="form" action="" method="post">{% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    <div class="form-group">
+        <label for="{{ form.username.html_name }}">{{ form.username.label }}{{ form.label_suffix }}</label>
+        {{ form.username }}@foobar.com
+    </div>
+
+    <button type="submit" class="btn btn-default">{% trans "Register" %}</button>
+</form>
 {% endblock content %}

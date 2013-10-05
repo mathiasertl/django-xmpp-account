@@ -17,8 +17,15 @@
 
 from __future__ import unicode_literals
 
-from django.views.generic import TemplateView
+from django.views.generic import FormView
+from register.forms import RegistrationForm
 
 
-class IndexView(TemplateView):
+class IndexView(FormView):
     template_name = 'index.html'
+    form_class = RegistrationForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        print('form valid!')
+        return super(IndexView, self).form_valid(form)
