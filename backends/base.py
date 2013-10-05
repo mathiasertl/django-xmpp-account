@@ -23,7 +23,7 @@ class InvalidXmppBackendError(Exception):
 
 
 class XmppBackendBase(object):
-    def create(self, username, host, password):
+    def create(self, username, host, password, email):
         raise NotImplementedError
 
     def check_password(self, username, host, password):
@@ -32,8 +32,11 @@ class XmppBackendBase(object):
     def set_password(self, username, host, password):
         raise NotImplementedError
 
-    def remove(self, username, host):
+    def set_email(self, username, host, email):
         raise NotImplementedError
 
-    def set_email(self, username, host):
+    def check_email(self, username, host, email):
+        raise NotImplementedError
+
+    def remove(self, username, host):
         raise NotImplementedError
