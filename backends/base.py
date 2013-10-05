@@ -22,6 +22,14 @@ class InvalidXmppBackendError(Exception):
     pass
 
 
+class UserExists(Exception):
+    pass
+
+
+class UserNotFound(Exception):
+    pass
+
+
 class XmppBackendBase(object):
     def create(self, username, host, password, email):
         raise NotImplementedError
