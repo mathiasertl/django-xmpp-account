@@ -17,3 +17,37 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
+from django.utils import importlib
+
+from backends.base import InvalidXmppBackendError
+
+
+DEFAULT_BACKEND_ALIAS = 'default'
+
+
+def parse_backend_conf(backend, **kwargs):
+    conf = settings.XMPP_BACKENDS.get(backend, None)
+    if conf is not None:
+        args = conf.copy()
+        args.update(kwargs)
+        backend = args.pop('BACKEND')
+        return backend, args
+    else:
+        raise InvalidXmppBackendError("Could not find backend '%s'" % backend)
+
+
+def get_backend(backend, **kwargs):
+    try:
+        backend, params = parse_backend_conf(backend)
+        mod_path, cls_name = backend.rsplit('.', 1)
+        mod = importlib.import_module(mod_path)
+        backend_cls = getattr(mod, cls_name)
+    except (AttributeError, ImportError) as e:
+        raise InvalidXmppBackendError(
+            "Could not find backend '%s': %s" % (backend, e))
+    backend = backend_cls(**params)
+    return backend
+
+
+backend = get_backend(DEFAULT_BACKEND_ALIAS)
