@@ -1,2 +1,7 @@
 {% extends "base.html" %}
-{% block content %}foobar{% endblock content %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% block title %}{% trans "Register account" %}{% endblock title %}</h1>
+foobar.
+{% endblock content %}
