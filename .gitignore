@@ -3,5 +3,6 @@
 /lib/
 /local/
 /share/
+/xmppregister/localsettings.py
 *.py[oc]
 *.sw[po]
