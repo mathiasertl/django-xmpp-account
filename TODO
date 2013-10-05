@@ -1,0 +1,5 @@
+Expected functionality of this software:
+* register users
+* reset passwords
+* set email for existing users
+* remove user
