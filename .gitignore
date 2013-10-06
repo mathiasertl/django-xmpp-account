@@ -6,3 +6,4 @@
 /xmppregister/localsettings.py
 *.py[oc]
 *.sw[po]
+/doc/_build/
