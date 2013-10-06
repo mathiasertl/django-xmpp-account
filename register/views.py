@@ -17,6 +17,9 @@
 
 from __future__ import unicode_literals
 
+import random
+import string
+
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
@@ -24,6 +27,10 @@ from django.views.generic import FormView
 from register.forms import RegistrationForm
 from backends import backend
 from backends.base import UserExists
+
+
+def random_password():
+    return ''.join(random.choice(string.ascii_letters + string.digits) for x in range(16))
 
 
 class IndexView(FormView):
@@ -34,7 +41,8 @@ class IndexView(FormView):
     def form_valid(self, form):
         data = form.cleaned_data
         try:
-            backend.create(username=data['username'], password=data['password1'],
+            tmp_password = random_password()
+            backend.create(username=data['username'], password=tmp_password,
                            host=data['host'], email=data['email'])
         except UserExists:
             # if the user already exists, this form is invalid!
