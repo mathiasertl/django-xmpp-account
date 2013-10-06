@@ -28,7 +28,32 @@ _textwidget = forms.TextInput(attrs=_fieldattrs)
 _passwidget = forms.PasswordInput(attrs=_fieldattrs)
 _mailwidget = forms.TextInput(attrs=_emailattrs)
 
-class RegistrationForm(forms.Form):
+
+class PasswordMixin(forms.Form):
+    password_mismatch_message = _("The two password fields didn't match.")
+
+    password1 = forms.CharField(label=_("Password"),
+                                widget=_passwidget)
+    password2 = forms.CharField(label=_("Confirm"),
+        widget=_passwidget,
+        help_text=_("Enter the same password as above, for verification."))
+
+    def clean_password2(self):
+        print('clean pass')
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError(
+                    self.error_messages['password_mismatch'])
+        return password2
+
+
+class RegistrationForm(PasswordMixin, forms.Form):
+    error_messages = {
+        'password_mismatch': PasswordMixin.password_mismatch_message,
+    }
+
     username = forms.CharField(
         label=_("Username"), max_length=30, widget=_textwidget,
         error_messages={
@@ -41,13 +66,13 @@ class RegistrationForm(forms.Form):
             'Required, a confirmation email will be sent to this address.')
     )
 
-    password1 = forms.CharField(label=_("Password"),
-                                widget=_passwidget)
-    password2 = forms.CharField(label=_("Confirm"),
-        widget=_passwidget,
-        help_text=_("Enter the same password as above, for verification."))
-
     # server field is only present if configured for multiple hosts
     host = forms.ChoiceField(
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS]),
     )
+
+    def __init__(self, *args, **kwargs):
+        """Only here to order fields"""
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields.keyOrder = ['username', 'host', 'email',
+                                'password1', 'password2', ]
