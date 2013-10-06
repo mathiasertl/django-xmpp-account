@@ -21,6 +21,8 @@ from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
+from xmppregister.jid import parse_jid
+
 _fieldattrs = {'class': 'form-control', 'maxlength': 30, }
 _emailattrs = _fieldattrs.copy()
 _emailattrs['type'] = 'email'
@@ -64,6 +66,11 @@ class CleanJidMixin(object):
             raise forms.ValidationError(_(
                 "Username must not be shorter then %s characters.") %
                 settings.XMPP_MIN_USERNAME_LENGTH)
+
+        results = parse_jid('%s@example.com' % node)  # fake the server part
+        if not results:
+            raise forms.ValidationError(_(
+                "Username is not a valid XMPP username."))
         return node
 
 
