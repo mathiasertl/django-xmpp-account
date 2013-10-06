@@ -39,7 +39,6 @@ class PasswordMixin(forms.Form):
         help_text=_("Enter the same password as above, for verification."))
 
     def clean_password2(self):
-        print('clean pass')
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
         if password1 and password2:
@@ -49,7 +48,27 @@ class PasswordMixin(forms.Form):
         return password2
 
 
-class RegistrationForm(PasswordMixin, forms.Form):
+class CleanJidMixin(object):
+    def clean_username(self):
+        node = self.cleaned_data.get('username')
+
+        # validate minimum and maximum length
+        length = len(node.encode('utf-8'))
+        max_length = 1023
+        if settings.XMPP_MAX_USERNAME_LENGTH < max_length:
+            max_length = settings.XMPP_MAX_USERNAME_LENGTH
+        if length > max_length:
+            raise forms.ValidationError(_(
+                "Username must not be longer then %s characters.") % max_length)
+        if length < settings.XMPP_MIN_USERNAME_LENGTH:
+            raise forms.ValidationError(_(
+                "Username must not be shorter then %s characters.") %
+                settings.XMPP_MIN_USERNAME_LENGTH)
+        return node
+
+
+
+class RegistrationForm(PasswordMixin, CleanJidMixin, forms.Form):
     error_messages = {
         'password_mismatch': PasswordMixin.password_mismatch_message,
     }
