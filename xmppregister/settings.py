@@ -135,6 +135,10 @@ INSTALLED_APPS = (
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
+# custom settings defaults
+XMPP_MIN_USERNAME_LENGTH = 3
+XMPP_MAX_USERNAME_LENGTH = 32
+
 try:
     from localsettings import *
 except ImportError:
