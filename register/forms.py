@@ -48,6 +48,6 @@ class RegistrationForm(forms.Form):
         help_text=_("Enter the same password as above, for verification."))
 
     # server field is only present if configured for multiple hosts
-    server = forms.ChoiceField(
+    host = forms.ChoiceField(
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS]),
     )
