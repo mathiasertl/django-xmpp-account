@@ -18,7 +18,9 @@
 from __future__ import unicode_literals
 
 from django.views.generic import FormView
+
 from register.forms import RegistrationForm
+from backends import backend
 
 
 class IndexView(FormView):
@@ -27,5 +29,7 @@ class IndexView(FormView):
     success_url = '/'
 
     def form_valid(self, form):
-        print('form valid!')
+        data = form.cleaned_data
+        backend.create(username=data['username'], password=data['password1'],
+                       host=data['host'], email=data['email'])
         return super(IndexView, self).form_valid(form)
