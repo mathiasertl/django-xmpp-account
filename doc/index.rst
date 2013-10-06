@@ -9,9 +9,10 @@ Welcome to xmppregister's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    settings
+   backends/base
 
 
 Indices and tables
