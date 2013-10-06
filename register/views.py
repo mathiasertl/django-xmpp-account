@@ -17,10 +17,13 @@
 
 from __future__ import unicode_literals
 
+from django.forms.util import ErrorList
+from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 
 from register.forms import RegistrationForm
 from backends import backend
+from backends.base import UserExists
 
 
 class IndexView(FormView):
@@ -30,6 +33,13 @@ class IndexView(FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        backend.create(username=data['username'], password=data['password1'],
-                       host=data['host'], email=data['email'])
+        try:
+            backend.create(username=data['username'], password=data['password1'],
+                           host=data['host'], email=data['email'])
+        except UserExists:
+            # if the user already exists, this form is invalid!
+            errors = form._errors.setdefault("username", ErrorList())
+            errors.append(_("User already exists!"))
+            return self.form_invalid(form)
+
         return super(IndexView, self).form_valid(form)
