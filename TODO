@@ -3,3 +3,10 @@ Expected functionality of this software:
 * reset passwords
 * set email for existing users
 * remove user
+
+Anti-Spam functionality:
+* ReCAPTCHA
+* hidden form field (filling out leads to immediate block!)
+* limit to forms per second per IP
+* submit form to fast leads to block
+* add date-field, purpose and security hash, like in comments app.
