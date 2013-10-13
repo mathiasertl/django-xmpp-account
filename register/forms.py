@@ -98,5 +98,10 @@ class RegistrationForm(PasswordMixin, CleanJidMixin, forms.Form):
     def __init__(self, *args, **kwargs):
         """Only here to order fields"""
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        self.fields.keyOrder = ['username', 'host', 'email',
-                                'password1', 'password2', ]
+        self.fields.keyOrder = [
+            'username',
+            'host',
+            'email',
+            'password1',
+            'password2',
+        ]
