@@ -32,7 +32,9 @@ _mailwidget = forms.TextInput(attrs=_emailattrs)
 
 
 class PasswordMixin(forms.Form):
-    password_mismatch_message = _("The two password fields didn't match.")
+    password_error_messages = {
+        'password_mismatch': _("The two password fields didn't match.")
+    }
 
     password1 = forms.CharField(label=_("Password"),
                                 widget=_passwidget)
@@ -46,7 +48,7 @@ class PasswordMixin(forms.Form):
         if password1 and password2:
             if password1 != password2:
                 raise forms.ValidationError(
-                    self.error_messages['password_mismatch'])
+                    self.password_error_messages['password_mismatch'])
         return password2
 
 
@@ -76,10 +78,6 @@ class CleanJidMixin(object):
 
 
 class RegistrationForm(PasswordMixin, CleanJidMixin, forms.Form):
-    error_messages = {
-        'password_mismatch': PasswordMixin.password_mismatch_message,
-    }
-
     username = forms.CharField(
         label=_("Username"), max_length=30, widget=_textwidget,
         error_messages={
