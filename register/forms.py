@@ -52,7 +52,14 @@ class PasswordMixin(forms.Form):
         return password2
 
 
-class CleanJidMixin(object):
+class JidMixin(forms.Form):
+    username = forms.CharField(
+        label=_("Username"), max_length=30, widget=_textwidget,
+        error_messages={
+            'invalid': _("This value may contain only letters, numbers and "
+                         "@/./+/-/_ characters.")}
+    )
+
     def clean_username(self):
         node = self.cleaned_data.get('username')
 
@@ -76,14 +83,7 @@ class CleanJidMixin(object):
         return node
 
 
-
-class RegistrationForm(PasswordMixin, CleanJidMixin, forms.Form):
-    username = forms.CharField(
-        label=_("Username"), max_length=30, widget=_textwidget,
-        error_messages={
-            'invalid': _("This value may contain only letters, numbers and "
-                         "@/./+/-/_ characters.")}
-    )
+class RegistrationForm(PasswordMixin, JidMixin, forms.Form):
     email = forms.EmailField(
         max_length=30, widget=_mailwidget,
         help_text=_(
