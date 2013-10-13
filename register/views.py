@@ -42,8 +42,7 @@ class IndexView(FormView):
         data = form.cleaned_data
         try:
             tmp_password = random_password()
-            backend.create(username=data['username'], password=tmp_password,
-                           host=data['host'], email=data['email'])
+            backend.create(password=tmp_password, **data)
         except UserExists:
             # if the user already exists, this form is invalid!
             errors = form._errors.setdefault("username", ErrorList())

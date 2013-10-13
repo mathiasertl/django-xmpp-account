@@ -83,7 +83,7 @@ class JidMixin(forms.Form):
         return node
 
 
-class RegistrationForm(PasswordMixin, JidMixin, forms.Form):
+class RegistrationForm(JidMixin, forms.Form):
     email = forms.EmailField(
         max_length=30, widget=_mailwidget,
         help_text=_(
@@ -102,6 +102,4 @@ class RegistrationForm(PasswordMixin, JidMixin, forms.Form):
             'username',
             'host',
             'email',
-            'password1',
-            'password2',
         ]
