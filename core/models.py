@@ -22,6 +22,8 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser
 
+from core.managers import RegistrationUserManager
+
 
 class RegistrationUser(AbstractBaseUser):
     username = models.CharField(max_length=1023, unique=True)
@@ -36,6 +38,11 @@ class RegistrationUser(AbstractBaseUser):
     # when the email was confirmed
     confirmed = models.DateTimeField(null=True, blank=True)
 
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
+    objects = RegistrationUserManager()
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'domain', ]
 
@@ -43,3 +50,19 @@ class RegistrationUser(AbstractBaseUser):
         unique_together = (
             ('username', 'domain', ),
         )
+
+    @property
+    def jid(self):
+        return '%s@%s' % (self.username, self.domain)
+
+    def __unicode__(self):
+        return self.email
+
+    def __str__(self):
+        return self.email
+
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        # Simplest possible answer: All admins are staff
+        return self.is_admin
