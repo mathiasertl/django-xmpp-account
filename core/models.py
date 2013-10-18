@@ -17,12 +17,19 @@
 
 from __future__ import unicode_literals
 
+import random
+import string
+
 from django.conf import settings
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser
 
 from core.managers import RegistrationUserManager
+
+from backends import backend
+
+PASSWORD_CHARS = string.ascii_letters + string.digits
 
 
 class RegistrationUser(AbstractBaseUser):
@@ -54,6 +61,22 @@ class RegistrationUser(AbstractBaseUser):
     @property
     def jid(self):
         return '%s@%s' % (self.username, self.domain)
+
+    def set_password(self, raw_password):
+        if raw_password is None:
+            self.set_unusable_password()
+        else:
+            backend.set_password(self.username, self.domain, raw_password)
+
+    def check_password(self, raw_password):
+        return backend.check_password(self.username, self.domain, raw_password)
+
+    def set_unusable_password(self):
+        pwd = ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
+        backend.set_unusable_password(self.username, self.domain, pwd)
+
+    def has_usable_password(self):
+        return backend.has_usable_password(self.username, self.domain)
 
     def __unicode__(self):
         return self.email

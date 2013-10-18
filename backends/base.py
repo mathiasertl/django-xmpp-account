@@ -19,6 +19,11 @@
 
 from __future__ import unicode_literals
 
+import random
+import string
+
+PASSWORD_CHARS = string.ascii_letters + string.digits
+
 
 class InvalidXmppBackendError(Exception):
     """Raised when a backend is raised that cannot be imported."""
@@ -38,19 +43,25 @@ class UserNotFound(Exception):
 class XmppBackendBase(object):
     """Base class for all XMPP backends."""
 
-    def create(self, username, host, password, email):
+    def get_random_password(self):
+        return ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
+
+    def create(self, username, host, email):
         """Create a new user.
 
-        .. NOTE:: The password this method receives is randomly generated and
-           is not the one provided by the user. This method actually only
-           "reserves" the username so no one else can create a user with the
-           same name.
+        This method is invoked when a user first registers for an account. At
+        this point, he/she does not have a confirmed email address and hasn't
+        provided a password.
+
+        If your backend requires you to set a password, you can use
+        :py:func:`get_random_password` to get a random password.
 
         :param username: The username of the new user.
         :param     host: The hostname selected, may be any hostname provided
                          in :ref:`settings-XMPP_HOSTS`.
-        :param password: A randomly generated password.
-        :param    email: The email address provided by the user.
+        :param    email: The email address provided by the user. Note that at
+                         this point it is not confirmed. You are free to ignore
+                         this parameter.
         """
         raise NotImplementedError
 
@@ -74,6 +85,12 @@ class XmppBackendBase(object):
         :param password: The password to set.
         """
         raise NotImplementedError
+
+    def set_unusable_password(self, username, host):
+        self.set_password(username, host, self.get_random_password())
+
+    def has_usable_password(self, username, host):
+        return True
 
     def set_email(self, username, host, email):
         raise NotImplementedError
