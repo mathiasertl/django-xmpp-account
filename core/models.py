@@ -23,12 +23,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
 
-class Registration(AbstractBaseUser):
+class RegistrationUser(AbstractBaseUser):
     username = models.CharField(max_length=1023, unique=True)
-    host = models.CharField(
-        max_length=64,
+    domain = models.CharField(
+        max_length=253,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
-    )
+    )  # maximum length of a domain name is 253 characters (according to spec)
     email = models.EmailField(unique=True)
 
     # when the account was first registered
@@ -37,4 +37,9 @@ class Registration(AbstractBaseUser):
     confirmed = models.DateTimeField(null=True, blank=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'host', 'email', 'registered', ]
+    REQUIRED_FIELDS = ['username', 'domain', ]
+
+    class Meta:
+        unique_together = (
+            ('username', 'domain', ),
+        )
