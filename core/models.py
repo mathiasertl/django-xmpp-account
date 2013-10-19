@@ -75,8 +75,17 @@ class RegistrationUser(AbstractBaseUser):
         pwd = ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
         backend.set_unusable_password(self.username, self.domain, pwd)
 
+    def get_short_name(self):
+        return self.email
+
     def has_usable_password(self):
         return backend.has_usable_password(self.username, self.domain)
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
 
     def __unicode__(self):
         return self.email
