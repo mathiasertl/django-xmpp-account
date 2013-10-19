@@ -29,9 +29,10 @@ log = logging.getLogger(__name__)
 class DummyBackend(XmppBackendBase):
     _users = {}
 
-    def create(self, username, host, password, email):
+    def create(self, username, host, email):
         user = '%s@%s' % (username, host)
-        log.debug('Create user: %s (%s)', user, password)
+        password = self.get_random_password
+        log.debug('Create user: %s (%s)', user, self.get_random_password())
 
         if user in self._users:
             raise UserExists
