@@ -22,7 +22,12 @@ from django.contrib.auth.models import BaseUserManager
 
 class RegistrationUserManager(BaseUserManager):
     def create_user(self, email, username, domain):
-        pass
+        user = self.model(email=email, username=username, domain=domain)
+        user.save(using=self.db)
+        return user
 
     def create_superuser(self, email, username, domain):
-        pass
+        user = self.model(email=email, username=username, domain=domain,
+                          is_admin=True)
+        user.save(using=self.db)
+        return user
