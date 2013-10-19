@@ -135,6 +135,10 @@ INSTALLED_APPS = (
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
+AUTHENTICATION_BACKENDS = (
+    'core.auth_backends.BackendBackend',
+)
+
 # custom settings defaults
 XMPP_MIN_USERNAME_LENGTH = 3
 XMPP_MAX_USERNAME_LENGTH = 32
