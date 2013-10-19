@@ -21,12 +21,20 @@ from django.contrib.auth.models import BaseUserManager
 
 
 class RegistrationUserManager(BaseUserManager):
-    def create_user(self, email, username, domain):
+    def create_user(self, email, username, domain, password=None):
+        """Create a user.
+
+        .. NOTE:: Password is required by manage.py createuser but is unused.
+        """
         user = self.model(email=email, username=username, domain=domain)
         user.save(using=self.db)
         return user
 
-    def create_superuser(self, email, username, domain):
+    def create_superuser(self, email, username, domain, password=None):
+        """Create a superuser.
+
+        .. NOTE:: Password is required by manage.py createuser but is unused.
+        """
         user = self.model(email=email, username=username, domain=domain,
                           is_admin=True)
         user.save(using=self.db)
