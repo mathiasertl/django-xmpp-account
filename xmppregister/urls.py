@@ -2,7 +2,7 @@ from django.conf.urls import patterns
 from django.conf.urls import include
 from django.conf.urls import url
 
-from register.views import IndexView
+from register.views import RegistrationView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -10,7 +10,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^$', RegistrationView.as_view(), name='index'),
     # Examples:
     # url(r'^$', 'xmppregister.views.home', name='home'),
     # url(r'^xmppregister/', include('xmppregister.foo.urls')),

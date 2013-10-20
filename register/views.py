@@ -26,7 +26,7 @@ from backends import backend
 from backends.base import UserExists
 
 
-class IndexView(CreateView):
+class RegistrationView(CreateView):
     template_name = 'register/create.html'
     form_class = RegistrationForm
     success_url = '/'
@@ -40,4 +40,7 @@ class IndexView(CreateView):
             errors.append(_("User already exists!"))
             return self.form_invalid(form)
 
-        return super(IndexView, self).form_valid(form)
+        return super(RegistrationView, self).form_valid(form)
+
+
+
