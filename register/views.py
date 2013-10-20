@@ -17,6 +17,7 @@
 
 from __future__ import unicode_literals
 
+from django import forms
 from django.core.urlresolvers import reverse_lazy
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
@@ -32,6 +33,7 @@ from register.forms import RegistrationConfirmationForm
 
 from backends import backend
 from backends.base import UserExists
+from backends.base import UserNotFound
 
 
 class RegistrationView(CreateView):
@@ -66,6 +68,16 @@ class RegistrationConfirmationView(FormView):
 
     def form_valid(self, form):
         key = Confirmation.objects.registrations().get(key=self.kwargs['key'])
+        try:
+            backend.set_password(
+                username=key.user.username, domain=key.user.domain,
+                password=form.cleaned_data['password1'])
+        except UserNotFound:
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
+                                             ErrorList())
+            errors.append(_("User not found!"))
+            return self.form_invalid(form)
+
         return super(FormView, self).form_valid(form)
 
 
