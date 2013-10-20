@@ -19,9 +19,12 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 from xmppregister.jid import parse_jid
+
+User = get_user_model()
 
 _fieldattrs = {'class': 'form-control', 'maxlength': 30, }
 _emailattrs = _fieldattrs.copy()
@@ -52,8 +55,8 @@ class PasswordMixin(forms.Form):
         return password2
 
 
-class JidMixin(forms.Form):
-    username = forms.CharField(
+class JidMixin(object):
+    USERNAME_FIELD = forms.CharField(
         label=_("Username"), max_length=30, widget=_textwidget,
         error_messages={
             'invalid': _("This value may contain only letters, numbers and "
@@ -83,23 +86,18 @@ class JidMixin(forms.Form):
         return node
 
 
-class RegistrationForm(JidMixin, forms.Form):
-    email = forms.EmailField(
+class EmailMixin(object):
+    EMAIL_FIELD = forms.EmailField(
         max_length=30, widget=_mailwidget,
         help_text=_(
             'Required, a confirmation email will be sent to this address.')
     )
 
-    # server field is only present if configured for multiple hosts
-    host = forms.ChoiceField(
-        choices=tuple([(host, host) for host in settings.XMPP_HOSTS]),
-    )
 
-    def __init__(self, *args, **kwargs):
-        """Only here to order fields"""
-        super(RegistrationForm, self).__init__(*args, **kwargs)
-        self.fields.keyOrder = [
-            'username',
-            'host',
-            'email',
-        ]
+class RegistrationForm(JidMixin, EmailMixin, forms.ModelForm):
+    email = EmailMixin.EMAIL_FIELD
+    username = JidMixin.USERNAME_FIELD
+
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'domain']
