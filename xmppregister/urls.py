@@ -11,9 +11,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r'^$', RegistrationView.as_view(), name='index'),
-    # Examples:
-    # url(r'^$', 'xmppregister.views.home', name='home'),
-    # url(r'^xmppregister/', include('xmppregister.foo.urls')),
+
+    url(r'^register/', include('register.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
