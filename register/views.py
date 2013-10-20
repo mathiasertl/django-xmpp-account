@@ -27,7 +27,7 @@ from backends.base import UserExists
 
 
 class IndexView(CreateView):
-    template_name = 'index.html'
+    template_name = 'register/create.html'
     form_class = RegistrationForm
     success_url = '/'
 
