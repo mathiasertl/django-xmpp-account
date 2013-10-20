@@ -21,6 +21,7 @@ import random
 import string
 
 from django.conf import settings
+from django.core.mail import send_mail
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser
@@ -117,6 +118,12 @@ class Confirmation(models.Model):
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
 
     objects = ConfirmationManager()
+
+    def send(self, template_base, subject):
+        message = self.key
+        send_mail(subject=subject, message=message,
+                  from_email=settings.DEFAULT_FROM_EMAIL,
+                  recipient_list=[self.user.email])
 
     def __unicode__(self):
         return self.key
