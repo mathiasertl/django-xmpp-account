@@ -2,7 +2,7 @@ Expected functionality of this software:
 * Register a new user
   * With Email confirmation
 * Reset your password
-  * Give your JID.
+  * Give your Email. (not jid, for conistency)
   * With Email confirmation
   * Form to set new password.
 * Set email address of existing XMPP user.
