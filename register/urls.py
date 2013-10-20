@@ -24,5 +24,5 @@ from register.views import RegistrationConfirmationView
 
 
 urlpatterns = patterns('',
-    url(r'^confirm/$', RegistrationConfirmationView.as_view(), name='RegistrationConfirmation'),
+    url(r'^confirm/(?P<key>\w+)/$', RegistrationConfirmationView.as_view(), name='RegistrationConfirmation'),
 )

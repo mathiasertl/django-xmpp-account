@@ -64,4 +64,5 @@ class RegistrationConfirmationView(FormView):
     success_url = reverse_lazy('RegistrationThanks')
 
     def form_valid(self, form):
+        key = Confirmation.objects.registrations().get(key=self.kwargs['key'])
         return super(FormView, self).form_valid(form)
