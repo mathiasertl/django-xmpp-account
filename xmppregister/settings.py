@@ -1,6 +1,6 @@
 # Django settings for xmppregister project.
 
-import os
+from datetime import timedelta
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -142,6 +142,8 @@ AUTHENTICATION_BACKENDS = (
 # custom settings defaults
 XMPP_MIN_USERNAME_LENGTH = 3
 XMPP_MAX_USERNAME_LENGTH = 32
+
+CONFIRMATION_TIMEOUT = timedelta(hours=24)
 
 try:
     from localsettings import *
