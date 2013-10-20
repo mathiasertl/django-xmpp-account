@@ -26,6 +26,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
 from core.managers import RegistrationUserManager
+from core.constants import PURPOSE_REGISTER
+from core.constants import PURPOSE_SET_PASSWORD
+from core.constants import PURPOSE_SET_EMAIL
 
 from backends import backend
 
@@ -98,3 +101,16 @@ class RegistrationUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+class Confirmation(models.Model):
+    PURPOSE_CHOICES = (
+        (PURPOSE_REGISTER, 'registration'),
+        (PURPOSE_SET_PASSWORD, 'set password'),
+        (PURPOSE_SET_EMAIL, 'set email'),
+    )
+
+    key = models.CharField(max_length=32)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created = models.DateTimeField(auto_now_add=True)
+    purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
