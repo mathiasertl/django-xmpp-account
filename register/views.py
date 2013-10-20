@@ -54,7 +54,7 @@ class RegistrationView(CreateView):
         response = super(RegistrationView, self).form_valid(form)
 
         # create a confirmation key before returning the response
-        Confirmation.objects.create(
+        key = Confirmation.objects.create(
             user=self.object, purpose=PURPOSE_REGISTER,
             key=Confirmation.objects.get_key(form.cleaned_data['email']))
 
@@ -62,6 +62,13 @@ class RegistrationView(CreateView):
 
 
 class RegistrationConfirmationView(FormView):
+    """Confirm a registration.
+
+    .. NOTE:: This is deliberately not implemented as a generic view related
+       to the Confirmation object. We want to present the form unconditionally
+       and complain about a false key only when the user passed various
+       Anti-SPAM measures.
+    """
     form_class = RegistrationConfirmationForm
     template_name = 'register/confirm.html'
     success_url = reverse_lazy('RegistrationThanks')
