@@ -20,10 +20,13 @@ from __future__ import unicode_literals
 from django import forms
 from django.core.urlresolvers import reverse_lazy
 from django.forms.util import ErrorList
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import FormView
 from django.views.generic import TemplateView
+
+from brake.decorators import ratelimit
 
 from core.constants import PURPOSE_REGISTER
 from core.models import Confirmation
@@ -42,6 +45,10 @@ class RegistrationView(CreateView):
     success_url = '/'
 
     CONFIRMATION_SUBJECT = _('Your new account on %(domain)s')
+
+    @method_decorator(ratelimit(block=True, rate='1/s'))
+    def get(self, *args, **kwargs):
+        return super(RegistrationView, self).get(*args, **kwargs)
 
     def form_valid(self, form):
         try:
