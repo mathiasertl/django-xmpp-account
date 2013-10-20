@@ -101,3 +101,7 @@ class RegistrationForm(JidMixin, EmailMixin, forms.ModelForm):
     class Meta:
         model = User
         fields = ['email', 'username', 'domain']
+
+
+class RegistrationConfirmationForm(PasswordMixin, forms.Form):
+    pass
