@@ -6,7 +6,6 @@ for your new account:
 
     {{ uri }}
 {% endblocktrans %}{% if cleartext %}
-
 {% blocktrans %}Please note that this server stores passwords as plain text. We can only
 encourage you to choose a safe password you use nowhere else.{% endblocktrans %}{% endif %}
 
