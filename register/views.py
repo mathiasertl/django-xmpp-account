@@ -39,9 +39,8 @@ class IndexView(CreateView):
     success_url = '/'
 
     def form_valid(self, form):
-        data = form.cleaned_data
         try:
-            backend.create(**data)
+            backend.create(**form.cleaned_data)
         except UserExists:
             # if the user already exists, this form is invalid!
             errors = form._errors.setdefault("username", ErrorList())
