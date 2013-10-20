@@ -20,8 +20,10 @@ from __future__ import unicode_literals
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
+from django.views.generic import FormView
 
 from register.forms import RegistrationForm
+from register.forms import RegistrationConfirmationForm
 from backends import backend
 from backends.base import UserExists
 
@@ -43,4 +45,9 @@ class RegistrationView(CreateView):
         return super(RegistrationView, self).form_valid(form)
 
 
+class RegistrationConfirmationView(FormView):
+    form_class = RegistrationConfirmationForm
+    template_name = 'register/confirm.html'
 
+    def form_valid(self, form):
+        pass
