@@ -20,7 +20,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.core.urlresolvers import reverse_lazy
 from django.forms.util import ErrorList
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import FormView
 from django.views.generic import TemplateView
@@ -60,7 +60,7 @@ class RegistrationView(CreateView):
             user=self.object, purpose=PURPOSE_REGISTER,
             key=Confirmation.objects.get_key(form.cleaned_data['email']))
         key.send(
-            template_base='register/mail',
+            request=self.request, template_base='register/mail',
             subject=self.CONFIRMATION_SUBJECT % {'domain': key.user.domain, })
 
         return response
