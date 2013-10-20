@@ -17,9 +17,6 @@
 
 from __future__ import unicode_literals
 
-import random
-import string
-
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
@@ -27,10 +24,6 @@ from django.views.generic import CreateView
 from register.forms import RegistrationForm
 from backends import backend
 from backends.base import UserExists
-
-
-def random_password():
-    return ''.join(random.choice(string.ascii_letters + string.digits) for x in range(16))
 
 
 class IndexView(CreateView):
