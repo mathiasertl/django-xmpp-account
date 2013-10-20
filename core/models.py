@@ -114,3 +114,9 @@ class Confirmation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
+
+    def __unicode__(self):
+        return self.key
+
+    def __str__(self):
+        return self.key

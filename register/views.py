@@ -23,8 +23,12 @@ from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
 from django.views.generic import FormView
 
+from core.constants import PURPOSE_REGISTER
+from core.models import Confirmation
+
 from register.forms import RegistrationForm
 from register.forms import RegistrationConfirmationForm
+
 from backends import backend
 from backends.base import UserExists
 
@@ -43,7 +47,15 @@ class RegistrationView(CreateView):
             errors.append(_("User already exists!"))
             return self.form_invalid(form)
 
-        return super(RegistrationView, self).form_valid(form)
+        # get the response
+        response = super(RegistrationView, self).form_valid(form)
+
+        # create a confirmation key before returning the response
+        Confirmation.objects.create(
+            user=self.object, purpose=PURPOSE_REGISTER,
+            key=form.cleaned_data['username'])
+
+        return response
 
 
 class RegistrationConfirmationView(FormView):
