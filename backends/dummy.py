@@ -29,10 +29,10 @@ log = logging.getLogger(__name__)
 class DummyBackend(XmppBackendBase):
     _users = {}
 
-    def create(self, username, host, email):
-        user = '%s@%s' % (username, host)
-        password = self.get_random_password
-        log.debug('Create user: %s (%s)', user, self.get_random_password())
+    def create(self, username, domain, email):
+        user = '%s@%s' % (username, domain)
+        password = self.get_random_password()
+        log.debug('Create user: %s (%s)', user, password)
 
         if user in self._users:
             raise UserExists
@@ -42,17 +42,18 @@ class DummyBackend(XmppBackendBase):
                 'email': email,
             }
 
-    def check_password(self, username, host, password):
-        user = '%s@%s' % (username, host)
+    def check_password(self, username, domain, password):
+        user = '%s@%s' % (username, domain)
         log.debug('Check pass: %s -> %s', user, password)
+        return True
 
         if user not in self._users:
             return False
         else:
             return self._users[user]['pass'] == password
 
-    def check_email(self, username, host, email):
-        user = '%s@%s' % (username, host)
+    def check_email(self, username, domain, email):
+        user = '%s@%s' % (username, domain)
         log.debug('Check email: %s --> %s', user, email)
 
         if user not in self._users:
@@ -60,8 +61,8 @@ class DummyBackend(XmppBackendBase):
         else:
             return self._users[user]['email'] == email
 
-    def set_password(self, username, host, password):
-        user = '%s@%s' % (username, host)
+    def set_password(self, username, domain, password):
+        user = '%s@%s' % (username, domain)
         log.debug('Set pass: %s -> %s', user, password)
 
         if user not in self._users:
@@ -69,8 +70,8 @@ class DummyBackend(XmppBackendBase):
         else:
             self._users[user]['pass'] = password
 
-    def set_email(self, username, host, email):
-        user = '%s@%s' % (username, host)
+    def set_email(self, username, domain, email):
+        user = '%s@%s' % (username, domain)
         log.debug('Set email: %s --> %s', user, email)
 
         if user not in self._users:
@@ -78,8 +79,8 @@ class DummyBackend(XmppBackendBase):
         else:
             self._users[user]['email'] = email
 
-    def remove(self, username, host):
-        user = '%s@%s' % (username, host)
+    def remove(self, username, domain):
+        user = '%s@%s' % (username, domain)
         log.debug('Remove: %s (%s)', user)
 
         if user not in self._users:

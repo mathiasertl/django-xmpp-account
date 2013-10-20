@@ -46,7 +46,7 @@ class XmppBackendBase(object):
     def get_random_password(self):
         return ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
 
-    def create(self, username, host, email):
+    def create(self, username, domain, email):
         """Create a new user.
 
         This method is invoked when a user first registers for an account. At
@@ -57,7 +57,7 @@ class XmppBackendBase(object):
         :py:func:`get_random_password` to get a random password.
 
         :param username: The username of the new user.
-        :param     host: The hostname selected, may be any hostname provided
+        :param   domain: The selected domain, may be any domain provided
                          in :ref:`settings-XMPP_HOSTS`.
         :param    email: The email address provided by the user. Note that at
                          this point it is not confirmed. You are free to ignore
@@ -65,47 +65,47 @@ class XmppBackendBase(object):
         """
         raise NotImplementedError
 
-    def check_password(self, username, host, password):
+    def check_password(self, username, domain, password):
         """Check the password of a user.
 
         :param username: The username of the new user.
-        :param     host: The hostname selected, may be any hostname provided
+        :param   domain: The selected domain, may be any domain provided
                          in :ref:`settings-XMPP_HOSTS`.
         :param password: The password to check.
         :return: ``True`` if the password is correct, ``False`` otherwise.
         """
         raise NotImplementedError
 
-    def set_password(self, username, host, password):
+    def set_password(self, username, domain, password):
         """Set the password of a user.
 
         :param username: The username of the new user.
-        :param     host: The hostname selected, may be any hostname provided
+        :param   domain: The selected domain, may be any domain provided
                          in :ref:`settings-XMPP_HOSTS`.
         :param password: The password to set.
         """
         raise NotImplementedError
 
-    def set_unusable_password(self, username, host):
-        self.set_password(username, host, self.get_random_password())
+    def set_unusable_password(self, username, domain):
+        self.set_password(username, domain, self.get_random_password())
 
-    def has_usable_password(self, username, host):
+    def has_usable_password(self, username, domain):
         return True
 
-    def set_email(self, username, host, email):
+    def set_email(self, username, domain, email):
         raise NotImplementedError
 
-    def check_email(self, username, host, email):
+    def check_email(self, username, domain, email):
         raise NotImplementedError
 
-    def remove(self, username, host):
+    def remove(self, username, domain):
         """Remove a user.
 
         This method is called when a confirmation key expires or when the user
         explicitly wants to remove her/his account.
 
         :param username: The username of the new user.
-        :param     host: The hostname selected, may be any hostname provided
+        :param     domain: The domainname selected, may be any domainname provided
                          in :ref:`settings-XMPP_HOSTS`.
         """
         raise NotImplementedError
