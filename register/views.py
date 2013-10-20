@@ -18,6 +18,8 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.conf import settings
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
@@ -57,6 +59,11 @@ class RegistrationView(CreateView):
         key = Confirmation.objects.create(
             user=self.object, purpose=PURPOSE_REGISTER,
             key=Confirmation.objects.get_key(form.cleaned_data['email']))
+
+        send_mail(subject=_('Your account on %(domain)s') % {'domain': self.object.domain},
+                  message=key.key,
+                  from_email=settings.DEFAULT_FROM_EMAIL,
+                  recipient_list=[self.object.email])
 
         return response
 
