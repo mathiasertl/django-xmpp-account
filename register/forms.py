@@ -24,6 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from xmppregister.jid import parse_jid
 
+from core.forms import AntiSpamForm
 from core.forms import AntiSpamModelForm
 
 User = get_user_model()
@@ -105,5 +106,5 @@ class RegistrationForm(JidMixin, EmailMixin, AntiSpamModelForm):
         fields = ['email', 'username', 'domain']
 
 
-class RegistrationConfirmationForm(PasswordMixin, forms.Form):
+class RegistrationConfirmationForm(PasswordMixin, AntiSpamForm):
     pass
