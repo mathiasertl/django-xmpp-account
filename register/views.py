@@ -22,6 +22,7 @@ from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
 from django.views.generic import FormView
+from django.views.generic import TemplateView
 
 from core.constants import PURPOSE_REGISTER
 from core.models import Confirmation
@@ -66,3 +67,7 @@ class RegistrationConfirmationView(FormView):
     def form_valid(self, form):
         key = Confirmation.objects.registrations().get(key=self.kwargs['key'])
         return super(FormView, self).form_valid(form)
+
+
+class RegistrationThanksView(TemplateView):
+    template_name = 'register/thanks.html'

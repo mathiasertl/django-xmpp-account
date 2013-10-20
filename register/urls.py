@@ -21,8 +21,10 @@ from django.conf.urls import patterns
 from django.conf.urls import url
 
 from register.views import RegistrationConfirmationView
+from register.views import RegistrationThanksView
 
 
 urlpatterns = patterns('',
     url(r'^confirm/(?P<key>\w+)/$', RegistrationConfirmationView.as_view(), name='RegistrationConfirmation'),
+    url(r'^thanks/$', RegistrationThanksView.as_view(), name='RegistrationThanks'),
 )
