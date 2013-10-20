@@ -22,6 +22,7 @@ import string
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.loader import render_to_string
 
@@ -120,10 +121,19 @@ class Confirmation(models.Model):
 
     objects = ConfirmationManager()
 
-    def send(self, template_base, subject):
+    def send(self, request, template_base, subject):
+        path = reverse('RegistrationConfirmation', kwargs={'key': self.key})
+        uri = request.build_absolute_uri(location=path)
+
         context = {
+            'username': self.user.username,
+            'domain': self.user.domain,
+            'jid': self.user.jid,
             'user': self.user,
+            'cleartext': settings.CLEARTEXT_PASSWORDS,
             'key': self,
+            'uri': uri,
+            'lang': request.LANGUAGE_CODE,
         }
         text = render_to_string('%s.txt' % template_base, context)
         html = render_to_string('%s.html' % template_base, context)
