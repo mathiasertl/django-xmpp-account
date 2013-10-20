@@ -79,7 +79,7 @@ class RegistrationConfirmationView(FormView):
             backend.set_password(
                 username=key.user.username, domain=key.user.domain,
                 password=form.cleaned_data['password1'])
-        except UserNotFound:
+        except UserNotFound:  # shouldn't really happen, user was just created
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
                                              ErrorList())
             errors.append(_("User not found!"))
