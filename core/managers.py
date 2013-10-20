@@ -18,6 +18,9 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.models import BaseUserManager
+from django.db import models
+
+from core.querysets import ConfirmationQuerySet
 
 
 class RegistrationUserManager(BaseUserManager):
@@ -39,3 +42,16 @@ class RegistrationUserManager(BaseUserManager):
                           is_admin=True)
         user.save(using=self.db)
         return user
+
+class ConfirmationManager(models.Manager):
+    def get_query_set(self):
+        return ConfirmationQuerySet(self.model)
+
+    def registrations(self):
+        return self.get_query_set().registrations()
+
+    def passwords(self):
+        return self.get_query_set().passwords()
+
+    def emails(self):
+        return self.get_query_set().emails()

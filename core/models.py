@@ -25,6 +25,7 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser
 
+from core.managers import ConfirmationManager
 from core.managers import RegistrationUserManager
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_PASSWORD
@@ -114,6 +115,8 @@ class Confirmation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
+
+    objects = ConfirmationManager()
 
     def __unicode__(self):
         return self.key
