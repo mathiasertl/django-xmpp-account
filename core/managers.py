@@ -17,6 +17,11 @@
 
 from __future__ import unicode_literals
 
+import hashlib
+import random
+import string
+import time
+
 from datetime import datetime
 
 from django.conf import settings
@@ -24,6 +29,8 @@ from django.contrib.auth.models import BaseUserManager
 from django.db import models
 
 from core.querysets import ConfirmationQuerySet
+
+PASSWORD_CHARS = string.ascii_letters + string.digits
 
 
 class RegistrationUserManager(BaseUserManager):
@@ -50,6 +57,11 @@ class ConfirmationManager(models.Manager):
     def get_query_set(self):
         timestamp = datetime.now() - settings.CONFIRMATION_TIMEOUT
         return ConfirmationQuerySet(self.model).filter(created__gt=timestamp)
+
+    def get_key(self, email):
+        seed = ''.join(random.choice(PASSWORD_CHARS) for x in range(32))
+        return hashlib.md5('%s-%s-%s-%s' % (seed, email, settings.SECRET_KEY,
+                                            time.time())).hexdigest()
 
     def registrations(self):
         return self.get_query_set().registrations()
