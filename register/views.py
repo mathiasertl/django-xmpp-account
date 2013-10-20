@@ -56,7 +56,7 @@ class RegistrationView(CreateView):
         # create a confirmation key before returning the response
         Confirmation.objects.create(
             user=self.object, purpose=PURPOSE_REGISTER,
-            key=form.cleaned_data['username'])
+            key=Confirmation.objects.get_key(form.cleaned_data['email']))
 
         return response
 
