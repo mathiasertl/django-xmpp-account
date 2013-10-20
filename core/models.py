@@ -35,7 +35,7 @@ PASSWORD_CHARS = string.ascii_letters + string.digits
 class RegistrationUser(AbstractBaseUser):
     username = models.CharField(max_length=1023, unique=True)
     domain = models.CharField(
-        max_length=253,
+        max_length=253, default=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
     )  # maximum length of a domain name is 253 characters (according to spec)
     email = models.EmailField(unique=True)
