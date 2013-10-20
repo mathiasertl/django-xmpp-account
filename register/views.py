@@ -52,7 +52,11 @@ class RegistrationView(CreateView):
 
     def form_valid(self, form):
         try:
-            backend.create(**form.cleaned_data)
+            username = form.cleaned_data['username']
+            domain = form.cleaned_data['domain']
+            email = form.cleaned_data['email']
+
+            backend.create(username=username, domain=domain, email=email)
         except UserExists:
             # if the user already exists, this form is invalid!
             errors = form._errors.setdefault("username", ErrorList())
