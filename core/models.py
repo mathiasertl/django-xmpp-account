@@ -21,8 +21,9 @@ import random
 import string
 
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
+from django.template.loader import render_to_string
 
 from django.contrib.auth.models import AbstractBaseUser
 
@@ -120,10 +121,17 @@ class Confirmation(models.Model):
     objects = ConfirmationManager()
 
     def send(self, template_base, subject):
-        message = self.key
-        send_mail(subject=subject, message=message,
-                  from_email=settings.DEFAULT_FROM_EMAIL,
-                  recipient_list=[self.user.email])
+        context = {
+            'user': self.user,
+            'key': self,
+        }
+        text = render_to_string('%s.txt' % template_base, context)
+        html = render_to_string('%s.html' % template_base, context)
+
+        msg = EmailMultiAlternatives(
+            subject, text, settings.DEFAULT_FROM_EMAIL, [self.user.email])
+        msg.attach_alternative(html, 'text/html')
+        msg.send()
 
     def __unicode__(self):
         return self.key
