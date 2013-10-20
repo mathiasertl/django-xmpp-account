@@ -37,14 +37,14 @@ _passwidget = forms.PasswordInput(attrs=_fieldattrs)
 _mailwidget = forms.TextInput(attrs=_emailattrs)
 
 
-class PasswordMixin(forms.Form):
+class PasswordMixin(object):
     password_error_messages = {
         'password_mismatch': _("The two password fields didn't match.")
     }
 
-    password1 = forms.CharField(label=_("Password"),
+    PASSWORD1 = forms.CharField(label=_("Password"),
                                 widget=_passwidget)
-    password2 = forms.CharField(label=_("Confirm"),
+    PASSWORD2 = forms.CharField(label=_("Confirm"),
         widget=_passwidget,
         help_text=_("Enter the same password as above, for verification."))
 
@@ -107,4 +107,5 @@ class RegistrationForm(JidMixin, EmailMixin, AntiSpamModelForm):
 
 
 class RegistrationConfirmationForm(PasswordMixin, AntiSpamForm):
-    pass
+    password1 = PasswordMixin.PASSWORD1
+    password2 = PasswordMixin.PASSWORD2
