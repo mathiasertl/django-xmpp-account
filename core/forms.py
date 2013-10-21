@@ -23,6 +23,7 @@ import time
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from core.exceptions import SpamException
 from core.utils import random_string
 
 
@@ -52,7 +53,9 @@ class AntiSpamBase(object):
         now = time.time()
         timestamp = self.cleaned_data["timestamp"]
 
-        if now - 3 < timestamp:  # submit is to fast.
+        if now - 1 < timestamp:  # MUCH to fast - definetly spam
+            raise SpamException()
+        elif now - 3 < timestamp:  # submit is to fast.
             # TODO: Perhaps block the IP?
             raise forms.ValidationError(self.ANTI_SPAM_MESSAGES['too-fast'])
         elif now - (1 * 60 * 60) > timestamp:
@@ -64,15 +67,14 @@ class AntiSpamBase(object):
                                   self.cleaned_data["token"])
         received = self.cleaned_data['security_hash']
         if received != good:
-            raise forms.ValidationError(self.ANTI_SPAM_MESSAGES['wrong-hash'])
+            raise SpamException()
         return received
 
     def clean_value(self):
         value = self.cleaned_data["value"]
 
         if value:
-            # TODO: DEFINETLY block IPs
-            raise forms.ValidationError(self.fields["value"].label)
+            raise SpamException()
         return value
 
 
