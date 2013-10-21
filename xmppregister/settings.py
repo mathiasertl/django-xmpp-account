@@ -95,6 +95,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'core.middleware.AntiSpamMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -146,6 +147,8 @@ XMPP_MAX_USERNAME_LENGTH = 32
 
 CLEARTEXT_PASSWORDS = True
 CONFIRMATION_TIMEOUT = timedelta(hours=24)
+
+SPAM_BLOCK_TIME = 60 * 60 * 24  # one day!
 
 try:
     from localsettings import *
