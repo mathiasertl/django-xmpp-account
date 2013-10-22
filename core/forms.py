@@ -17,13 +17,14 @@
 
 from __future__ import unicode_literals
 
-import hashlib
 import time
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.utils.crypto import salted_hmac
 
 from core.exceptions import SpamException
+from core.exceptions import RateException
 from core.utils import random_string
 
 
@@ -31,7 +32,7 @@ class AntiSpamBase(object):
     VALUE = forms.CharField(required=False)
     TIMESTAMP = forms.IntegerField(widget=forms.HiddenInput)
     TOKEN = forms.CharField(widget=forms.HiddenInput)
-    SECURITY_HASH = forms.CharField(min_length=32, max_length=32, widget=forms.HiddenInput)
+    SECURITY_HASH = forms.CharField(min_length=40, max_length=40, widget=forms.HiddenInput)
 
     ANTI_SPAM_MESSAGES = {
         'too-fast': _('The form was submitted to fast. Please try again.'),
@@ -40,7 +41,9 @@ class AntiSpamBase(object):
     }
 
     def generate_hash(self, timestamp, token):
-        return hashlib.md5('%s-%s' % (timestamp, token)).hexdigest()
+        key_salt = 'xmppregister.core.forms.AntiSpamBase'
+        value = '%s-%s' % (timestamp, token)
+        return salted_hmac(key_salt, value).hexdigest()
 
     def init_security(self, initial):
         initial['timestamp'] = int(time.time())
@@ -56,8 +59,7 @@ class AntiSpamBase(object):
         if now - 1 < timestamp:  # MUCH to fast - definetly spam
             raise SpamException()
         elif now - 3 < timestamp:  # submit is to fast.
-            # TODO: Perhaps block the IP?
-            raise forms.ValidationError(self.ANTI_SPAM_MESSAGES['too-fast'])
+            raise RateException()
         elif now - (1 * 60 * 60) > timestamp:
             raise forms.ValidationError(self.ANTI_SPAM_MESSAGES['too-slow'])
         return self.cleaned_data["timestamp"]
