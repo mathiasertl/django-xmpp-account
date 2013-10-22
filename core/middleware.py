@@ -21,6 +21,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.shortcuts import render
 
+from core.exceptions import RateException
+from core.exceptions import RegistrationRateException
 from core.exceptions import SpamException
 
 
@@ -36,3 +38,7 @@ class AntiSpamMiddleware(object):
         if isinstance(exception, SpamException):
             cache.set('spamblock-%s' % host, True, settings.SPAM_BLOCK_TIME)
             return render(request, 'core/spambot.html')
+        elif isinstance(exception, RegistrationRateException):
+            return render(request, 'core/registration_rate.html')
+        elif isinstance(exception, RateException):
+            return render(request, 'core/rate.html')
