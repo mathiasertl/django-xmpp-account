@@ -17,6 +17,16 @@
 
 from __future__ import unicode_literals
 
+
 class SpamException(Exception):
     """Raised whenever we detect behaviour that suggests a spam-bot."""
     pass
+
+
+class RateException(Exception):
+    """Raised when the user views/posts too often."""
+    pass
+
+
+class RegistrationRateException(RateException):
+    """Raised when the user exceeds rate for registrations."""
