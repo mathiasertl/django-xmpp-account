@@ -61,7 +61,8 @@ class RegistrationView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(RegistrationView, self).get_form_kwargs()
-        kwargs['request'] = self.request
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
         return kwargs
 
     def registration_rate(self):
@@ -123,7 +124,8 @@ class RegistrationConfirmationView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super(RegistrationConfirmationView, self).get_form_kwargs()
-        kwargs['request'] = self.request
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
         return kwargs
 
     def form_valid(self, form):
