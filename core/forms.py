@@ -35,10 +35,11 @@ class AntiSpamBase(object):
     VALUE = forms.CharField(required=False)
     TIMESTAMP = forms.IntegerField(widget=forms.HiddenInput)
     TOKEN = forms.CharField(widget=forms.HiddenInput)
-    SECURITY_HASH = forms.CharField(min_length=40, max_length=40, widget=forms.HiddenInput)
+    SECURITY_HASH = forms.CharField(min_length=40, max_length=40,
+                                    widget=forms.HiddenInput)
 
     ANTI_SPAM_MESSAGES = {
-        'too-slow': _("We're sorry, but your session was lost. Please reload this page and try again."),
+        'too-slow': _("This page has expired. Reload and try again."),
     }
 
     def generate_hash(self, timestamp, token):
@@ -79,6 +80,7 @@ class AntiSpamBase(object):
         if value:
             raise SpamException()
         return value
+
 
 class AntiSpamBaseForm(forms.Form, AntiSpamBase):
     value = AntiSpamBase.VALUE
