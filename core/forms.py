@@ -99,7 +99,6 @@ class AntiSpamModelBaseForm(forms.ModelForm, AntiSpamBase):
 
     def __init__(self, *args, **kwargs):
         kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
-        print(args, kwargs)
         super(AntiSpamModelBaseForm, self).__init__(*args, **kwargs)
 
 if settings.RECAPTCHA_CLIENT is not None:

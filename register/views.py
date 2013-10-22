@@ -48,7 +48,7 @@ from backends.base import UserNotFound
 class RegistrationView(CreateView):
     template_name = 'register/create.html'
     form_class = RegistrationForm
-    success_url = '/'
+    success_url = reverse_lazy('RegistrationThanks')
 
     CONFIRMATION_SUBJECT = _('Your new account on %(domain)s')
 
@@ -105,6 +105,10 @@ class RegistrationView(CreateView):
         return response
 
 
+class RegistrationThanksView(TemplateView):
+    template_name = 'register/thanks.html'
+
+
 class RegistrationConfirmationView(FormView):
     """Confirm a registration.
 
@@ -115,7 +119,7 @@ class RegistrationConfirmationView(FormView):
     """
     form_class = RegistrationConfirmationForm
     template_name = 'register/confirm.html'
-    success_url = reverse_lazy('RegistrationThanks')
+    success_url = reverse_lazy('RegistrationConfirmationThanks')
 
     def get_form_kwargs(self):
         kwargs = super(RegistrationConfirmationView, self).get_form_kwargs()
@@ -137,5 +141,5 @@ class RegistrationConfirmationView(FormView):
         return super(FormView, self).form_valid(form)
 
 
-class RegistrationThanksView(TemplateView):
-    template_name = 'register/thanks.html'
+class RegistrationConfirmationThanksView(TemplateView):
+    template_name = 'register/confirmation-thanks.html'
