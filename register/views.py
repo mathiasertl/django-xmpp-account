@@ -17,7 +17,11 @@
 
 from __future__ import unicode_literals
 
+from datetime import datetime
+
 from django import forms
+from django.conf import settings
+from django.core.cache import cache
 from django.core.urlresolvers import reverse_lazy
 from django.forms.util import ErrorList
 from django.utils.decorators import method_decorator
@@ -30,6 +34,7 @@ from brake.decorators import ratelimit
 
 from core.constants import PURPOSE_REGISTER
 from core.models import Confirmation
+from core.exceptions import RegistrationRateException
 
 from register.forms import RegistrationForm
 from register.forms import RegistrationConfirmationForm
@@ -50,7 +55,21 @@ class RegistrationView(CreateView):
     def get(self, *args, **kwargs):
         return super(RegistrationView, self).get(*args, **kwargs)
 
+    def registration_rate(self):
+        # Check for a registration rate
+        cache_key = 'registration-%s' % self.request.get_host()
+        registrations = cache.get(cache_key, set())
+        now = datetime.now()
+
+        for key, value in settings.REGISTRATION_RATE.items():
+            if len([s for s in registrations if s > now - key]) >= value:
+                raise RegistrationRateException()
+        registrations.add(now)
+        cache.set(cache_key, registrations)
+
     def form_valid(self, form):
+        self.registration_rate()
+
         try:
             username = form.cleaned_data['username']
             domain = form.cleaned_data['domain']
