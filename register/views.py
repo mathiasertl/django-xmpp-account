@@ -34,6 +34,7 @@ from brake.decorators import ratelimit
 
 from core.constants import PURPOSE_REGISTER
 from core.models import Confirmation
+from core.exceptions import RateException
 from core.exceptions import RegistrationRateException
 
 from register.forms import RegistrationForm
@@ -51,9 +52,12 @@ class RegistrationView(CreateView):
 
     CONFIRMATION_SUBJECT = _('Your new account on %(domain)s')
 
-    @method_decorator(ratelimit(block=True, rate='1/s'))
-    def get(self, *args, **kwargs):
-        return super(RegistrationView, self).get(*args, **kwargs)
+    @method_decorator(ratelimit(method='GET', rate='15/m'))
+    @method_decorator(ratelimit(method='POST', rate='5/m'))
+    def dispatch(self, request, *args, **kwargs):
+        if getattr(request, 'limited', False):
+            raise RateException()
+        return super(RegistrationView, self).dispatch(request, *args, **kwargs)
 
     def registration_rate(self):
         # Check for a registration rate
