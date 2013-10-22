@@ -36,9 +36,7 @@ class AntiSpamBase(object):
     SECURITY_HASH = forms.CharField(min_length=40, max_length=40, widget=forms.HiddenInput)
 
     ANTI_SPAM_MESSAGES = {
-        'too-fast': _('The form was submitted to fast. Please try again.'),
         'too-slow': _("We're sorry, but your session was lost. Please reload this page and try again."),
-        'wrong_hash': _('Wrong hash. You must be a spambot - go away!'),
     }
 
     def generate_hash(self, timestamp, token):
