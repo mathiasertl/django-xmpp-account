@@ -4,6 +4,7 @@ from datetime import timedelta
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+RECAPTCHA_CLIENT = None
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -155,10 +156,17 @@ REGISTRATION_RATE = {
     timedelta(minutes=1): 2,
 }
 
+RECAPTCHA_PRIVATE_KEY = None
+RECAPTCHA_PUBLIC_KEY = None
+
 try:
     from localsettings import *
 except ImportError:
     pass
+
+if RECAPTCHA_PRIVATE_KEY and RECAPTCHA_PUBLIC_KEY:
+    from recaptcha import RecaptchaClient
+    RECAPTCHA_CLIENT = RecaptchaClient(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PUBLIC_KEY)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

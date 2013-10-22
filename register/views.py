@@ -59,6 +59,11 @@ class RegistrationView(CreateView):
             raise RateException()
         return super(RegistrationView, self).dispatch(request, *args, **kwargs)
 
+    def get_form_kwargs(self):
+        kwargs = super(RegistrationView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def registration_rate(self):
         # Check for a registration rate
         cache_key = 'registration-%s' % self.request.get_host()
@@ -111,6 +116,11 @@ class RegistrationConfirmationView(FormView):
     form_class = RegistrationConfirmationForm
     template_name = 'register/confirm.html'
     success_url = reverse_lazy('RegistrationThanks')
+
+    def get_form_kwargs(self):
+        kwargs = super(RegistrationConfirmationView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def form_valid(self, form):
         key = Confirmation.objects.registrations().get(key=self.kwargs['key'])

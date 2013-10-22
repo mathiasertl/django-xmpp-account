@@ -24,6 +24,8 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import salted_hmac
 
+from django_recaptcha_field import create_form_subclass_with_recaptcha
+
 from core.exceptions import SpamException
 from core.exceptions import RateException
 from core.utils import random_string
@@ -78,8 +80,7 @@ class AntiSpamBase(object):
             raise SpamException()
         return value
 
-
-class AntiSpamForm(forms.Form, AntiSpamBase):
+class AntiSpamBaseForm(forms.Form, AntiSpamBase):
     value = AntiSpamBase.VALUE
     timestamp = AntiSpamBase.TIMESTAMP
     token = AntiSpamBase.TOKEN
@@ -87,10 +88,10 @@ class AntiSpamForm(forms.Form, AntiSpamBase):
 
     def __init__(self, *args, **kwargs):
         kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
-        super(AntiSpamForm, self).__init__(*args, **kwargs)
+        super(AntiSpamBaseForm, self).__init__(*args, **kwargs)
 
 
-class AntiSpamModelForm(forms.ModelForm, AntiSpamBase):
+class AntiSpamModelBaseForm(forms.ModelForm, AntiSpamBase):
     value = AntiSpamBase.VALUE
     timestamp = AntiSpamBase.TIMESTAMP
     token = AntiSpamBase.TOKEN
@@ -98,4 +99,14 @@ class AntiSpamModelForm(forms.ModelForm, AntiSpamBase):
 
     def __init__(self, *args, **kwargs):
         kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
-        super(AntiSpamModelForm, self).__init__(*args, **kwargs)
+        print(args, kwargs)
+        super(AntiSpamModelBaseForm, self).__init__(*args, **kwargs)
+
+if settings.RECAPTCHA_CLIENT is not None:
+    AntiSpamModelForm = create_form_subclass_with_recaptcha(
+        AntiSpamModelBaseForm, settings.RECAPTCHA_CLIENT)
+    AntiSpamForm = create_form_subclass_with_recaptcha(
+        AntiSpamBaseForm, settings.RECAPTCHA_CLIENT)
+else:
+    AntiSpamModelForm = AntiSpamModelBaseForm
+    AntiSpamForm = AntiSpamBaseForm
