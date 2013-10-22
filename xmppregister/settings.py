@@ -149,6 +149,10 @@ CLEARTEXT_PASSWORDS = True
 CONFIRMATION_TIMEOUT = timedelta(hours=24)
 
 SPAM_BLOCK_TIME = 60 * 60 * 24  # one day!
+REGISTRATION_RATE = {
+    timedelta(seconds=30): 1,
+    timedelta(minutes=1): 2,
+}
 
 try:
     from localsettings import *
