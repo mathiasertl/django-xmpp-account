@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 import time
 
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import salted_hmac
 
@@ -60,7 +61,7 @@ class AntiSpamBase(object):
             raise SpamException()
         elif now - 3 < timestamp:  # submit is to fast.
             raise RateException()
-        elif now - (1 * 60 * 60) > timestamp:
+        elif now - (settings.FORM_TIMEOUT) > timestamp:
             raise forms.ValidationError(self.ANTI_SPAM_MESSAGES['too-slow'])
         return self.cleaned_data["timestamp"]
 
