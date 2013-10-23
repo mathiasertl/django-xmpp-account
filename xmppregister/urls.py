@@ -13,6 +13,8 @@ urlpatterns = patterns('',
     url(r'^$', RegistrationView.as_view(), name='index'),
 
     url(r'^register/', include('register.urls')),
+    url(r'^reset/', include('reset.urls')),
+    url(r'^delete/', include('delete.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
