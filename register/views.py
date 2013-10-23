@@ -52,6 +52,12 @@ class RegistrationView(CreateView):
 
     CONFIRMATION_SUBJECT = _('Your new account on %(domain)s')
 
+    def get_context_data(self, **kwargs):
+        context = super(RegistrationView, self).get_context_data(**kwargs)
+        context['menuitem'] = 'register'
+        return context
+
+
     @method_decorator(ratelimit(method='GET', rate='15/m'))
     @method_decorator(ratelimit(method='POST', rate='5/m'))
     def dispatch(self, request, *args, **kwargs):
