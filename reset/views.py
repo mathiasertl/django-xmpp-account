@@ -21,7 +21,10 @@ from django.views.generic import View
 
 
 class ResetPasswordView(View):
-    pass
+    def get_context_data(self, **kwargs):
+        context = super(ResetPasswordView, self).get_context_data(**kwargs)
+        context['menuitem'] = 'email'
+        return context
 
 
 class ResetPasswordConfirmationView(View):
@@ -33,7 +36,10 @@ class ResetPasswordThanksView(View):
 
 
 class ResetEmailView(View):
-    pass
+    def get_context_data(self, **kwargs):
+        context = super(ResetEmailView, self).get_context_data(**kwargs)
+        context['menuitem'] = 'email'
+        return context
 
 
 class ResetEmailConfirmationView(View):

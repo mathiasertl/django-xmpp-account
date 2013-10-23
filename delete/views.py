@@ -21,7 +21,10 @@ from django.views.generic import View
 
 
 class DeleteView(View):
-    pass
+    def get_context_data(self, **kwargs):
+        context = super(DeleteView, self).get_context_data(**kwargs)
+        context['menuitem'] = 'delete'
+        return context
 
 
 class DeleteConfirmationView(View):
