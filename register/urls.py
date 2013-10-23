@@ -28,7 +28,7 @@ from register.views import RegistrationThanksView
 urlpatterns = patterns('',
     url(r'^confirm/(?P<key>\w+)/$', RegistrationConfirmationView.as_view(),
         name='RegistrationConfirmation'),
-    url(r'^confirm-thanks/(?P<key>\w+)/$',
+    url(r'^confirm-thanks/$',
         RegistrationConfirmationThanksView.as_view(),
         name='RegistrationConfirmationThanks'),
     url(r'^thanks/$', RegistrationThanksView.as_view(),
