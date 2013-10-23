@@ -17,34 +17,39 @@
 
 from __future__ import unicode_literals
 
-from django.views.generic import View
+from django.views.generic import FormView
+from django.views.generic import TemplateView
 
 
-class ResetPasswordView(View):
+class ResetPasswordView(FormView):
+    template_name = 'reset/password.html'
+
     def get_context_data(self, **kwargs):
         context = super(ResetPasswordView, self).get_context_data(**kwargs)
         context['menuitem'] = 'email'
         return context
 
 
-class ResetPasswordConfirmationView(View):
-    pass
+class ResetPasswordConfirmationView(FormView):
+    template_name = 'reset/password-confirmation.html'
 
 
-class ResetPasswordThanksView(View):
-    pass
+class ResetPasswordThanksView(TemplateView):
+    template_name = 'reset/password-thanks.html'
 
 
-class ResetEmailView(View):
+class ResetEmailView(FormView):
+    template_name = 'reset/email.html'
+
     def get_context_data(self, **kwargs):
         context = super(ResetEmailView, self).get_context_data(**kwargs)
         context['menuitem'] = 'email'
         return context
 
 
-class ResetEmailConfirmationView(View):
-    pass
+class ResetEmailConfirmationView(FormView):
+    template_name = 'reset/email-confirmation.html'
 
 
-class ResetEmailThanksView(View):
-    pass
+class ResetEmailThanksView(TemplateView):
+    template_name = 'reset/email-thanks.html'

@@ -17,19 +17,22 @@
 
 from __future__ import unicode_literals
 
-from django.views.generic import View
+from django.views.generic import FormView
+from django.views.generic import TemplateView
 
 
-class DeleteView(View):
+class DeleteView(FormView):
+    template_name = 'delete/delete.html'
+
     def get_context_data(self, **kwargs):
         context = super(DeleteView, self).get_context_data(**kwargs)
         context['menuitem'] = 'delete'
         return context
 
 
-class DeleteConfirmationView(View):
-    pass
+class DeleteConfirmationView(FormView):
+    template_name = 'delete/delete-confirmation.html'
 
 
-class DeleteThanksView(View):
-    pass
+class DeleteThanksView(TemplateView):
+    template_name = 'delete/delete-thanks.html'
