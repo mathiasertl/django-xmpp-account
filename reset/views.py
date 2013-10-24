@@ -17,6 +17,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import FormView
 from django.views.generic import TemplateView
@@ -31,6 +32,12 @@ class ResetPasswordView(FormView):
     form_class = ResetPasswordForm
     success_url = reverse_lazy('ResetPasswordThanks')
     template_name = 'reset/password.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(ResetPasswordView, self).get_form_kwargs()
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super(ResetPasswordView, self).get_context_data(**kwargs)
@@ -47,6 +54,12 @@ class ResetPasswordConfirmationView(FormView):
     success_url = reverse_lazy('ResetPasswordConfirmationThanks')
     template_name = 'reset/password-confirmation.html'
 
+    def get_form_kwargs(self):
+        kwargs = super(ResetEmailConfirmationView, self).get_form_kwargs()
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
+        return kwargs
+
 
 class ResetPasswordConfirmationThanksView(TemplateView):
     template_name = 'reset/password-confirmationthanks.html'
@@ -56,6 +69,12 @@ class ResetEmailView(FormView):
     form_class = ResetEmailForm
     success_url = reverse_lazy('ResetEmailThanks')
     template_name = 'reset/email.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(ResetEmailView, self).get_form_kwargs()
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super(ResetEmailView, self).get_context_data(**kwargs)
@@ -71,6 +90,12 @@ class ResetEmailConfirmationView(FormView):
     form_class = ResetEmailConfirmationForm
     success_url = reverse_lazy('ResetEmailConfirmationThanks')
     template_name = 'reset/email-confirmation.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(ResetEmailConfirmationView, self).get_form_kwargs()
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
+        return kwargs
 
 
 class ResetEmailConfirmationThanksView(TemplateView):
