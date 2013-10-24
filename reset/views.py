@@ -17,11 +17,13 @@
 
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
 
 class ResetPasswordView(FormView):
+    success_url = reverse_lazy('ResetPasswordThanks')
     template_name = 'reset/password.html'
 
     def get_context_data(self, **kwargs):
@@ -30,15 +32,21 @@ class ResetPasswordView(FormView):
         return context
 
 
-class ResetPasswordConfirmationView(FormView):
-    template_name = 'reset/password-confirmation.html'
-
-
 class ResetPasswordThanksView(TemplateView):
     template_name = 'reset/password-thanks.html'
 
 
+class ResetPasswordConfirmationView(FormView):
+    success_url = reverse_lazy('ResetPasswordConfirmationThanks')
+    template_name = 'reset/password-confirmation.html'
+
+
+class ResetPasswordConfirmationThanksView(TemplateView):
+    template_name = 'reset/password-confirmationthanks.html'
+
+
 class ResetEmailView(FormView):
+    success_url = reverse_lazy('ResetEmailThanks')
     template_name = 'reset/email.html'
 
     def get_context_data(self, **kwargs):
@@ -47,9 +55,14 @@ class ResetEmailView(FormView):
         return context
 
 
+class ResetEmailThanksView(TemplateView):
+    template_name = 'reset/email-thanks.html'
+
+
 class ResetEmailConfirmationView(FormView):
+    success_url = reverse_lazy('ResetEmailConfirmationThanks')
     template_name = 'reset/email-confirmation.html'
 
 
-class ResetEmailThanksView(TemplateView):
+class ResetEmailConfirmationThanksView(TemplateView):
     template_name = 'reset/email-thanks.html'
