@@ -17,14 +17,25 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
+from delete.forms import DeleteForm
+from delete.forms import DeleteConfirmationForm
+
 
 class DeleteView(FormView):
+    form_class = DeleteForm
     success_url = reverse_lazy('DeleteThanks')
     template_name = 'delete/delete.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(DeleteView, self).get_form_kwargs()
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super(DeleteView, self).get_context_data(**kwargs)
@@ -37,8 +48,15 @@ class DeleteThanksView(TemplateView):
 
 
 class DeleteConfirmationView(FormView):
+    form_class = DeleteConfirmationForm
     success_url = reverse_lazy('DeleteConfirmationThanks')
     template_name = 'delete/delete-confirmation.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(DeleteConfirmationView, self).get_form_kwargs()
+        if settings.RECAPTCHA_CLIENT is not None:
+            kwargs['request'] = self.request
+        return kwargs
 
 
 class DeleteConfirmationThanksView(TemplateView):
