@@ -21,8 +21,14 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
+from reset.forms import ResetPasswordForm
+from reset.forms import ResetPasswordConfirmationForm
+from reset.forms import ResetEmailForm
+from reset.forms import ResetEmailConfirmationForm
+
 
 class ResetPasswordView(FormView):
+    form_class = ResetPasswordForm
     success_url = reverse_lazy('ResetPasswordThanks')
     template_name = 'reset/password.html'
 
@@ -37,6 +43,7 @@ class ResetPasswordThanksView(TemplateView):
 
 
 class ResetPasswordConfirmationView(FormView):
+    form_class = ResetPasswordConfirmationForm
     success_url = reverse_lazy('ResetPasswordConfirmationThanks')
     template_name = 'reset/password-confirmation.html'
 
@@ -46,6 +53,7 @@ class ResetPasswordConfirmationThanksView(TemplateView):
 
 
 class ResetEmailView(FormView):
+    form_class = ResetEmailForm
     success_url = reverse_lazy('ResetEmailThanks')
     template_name = 'reset/email.html'
 
@@ -60,6 +68,7 @@ class ResetEmailThanksView(TemplateView):
 
 
 class ResetEmailConfirmationView(FormView):
+    form_class = ResetEmailConfirmationForm
     success_url = reverse_lazy('ResetEmailConfirmationThanks')
     template_name = 'reset/email-confirmation.html'
 
