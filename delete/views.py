@@ -50,7 +50,7 @@ class DeleteThanksView(TemplateView):
 class DeleteConfirmationView(FormView):
     form_class = DeleteConfirmationForm
     success_url = reverse_lazy('DeleteConfirmationThanks')
-    template_name = 'delete/delete-confirmation.html'
+    template_name = 'delete/delete-confirm.html'
 
     def get_form_kwargs(self):
         kwargs = super(DeleteConfirmationView, self).get_form_kwargs()
@@ -60,4 +60,4 @@ class DeleteConfirmationView(FormView):
 
 
 class DeleteConfirmationThanksView(TemplateView):
-    template_name = 'delete/delete-confirmation-thanks.html'
+    template_name = 'delete/delete-confirm-thanks.html'
