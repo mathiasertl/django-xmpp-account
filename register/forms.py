@@ -17,80 +17,15 @@
 
 from __future__ import unicode_literals
 
-from django import forms
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.utils.translation import ugettext_lazy as _
-
-from xmppregister.jid import parse_jid
 
 from core.forms import AntiSpamForm
 from core.forms import AntiSpamModelForm
-from core.widgets import EmailWidget
-from core.widgets import PasswordWidget
-from core.widgets import TextWidget
+from core.forms import EmailMixin
+from core.forms import JidMixin
+from core.forms import PasswordMixin
 
 User = get_user_model()
-
-
-class PasswordMixin(object):
-    password_error_messages = {
-        'password_mismatch': _("The two password fields didn't match.")
-    }
-
-    PASSWORD1 = forms.CharField(label=_("Password"),
-                                widget=PasswordWidget)
-    PASSWORD2 = forms.CharField(label=_("Confirm"),
-        widget=PasswordWidget,
-        help_text=_("Enter the same password as above, for verification."))
-
-    def clean_password2(self):
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
-        if password1 and password2:
-            if password1 != password2:
-                raise forms.ValidationError(
-                    self.password_error_messages['password_mismatch'])
-        return password2
-
-
-class JidMixin(object):
-    USERNAME_FIELD = forms.CharField(
-        label=_("Username"), max_length=30, widget=TextWidget,
-        error_messages={
-            'invalid': _("This value may contain only letters, numbers and "
-                         "@/./+/-/_ characters.")}
-    )
-
-    def clean_username(self):
-        node = self.cleaned_data.get('username')
-
-        # validate minimum and maximum length
-        length = len(node.encode('utf-8'))
-        max_length = 1023
-        if settings.XMPP_MAX_USERNAME_LENGTH < max_length:
-            max_length = settings.XMPP_MAX_USERNAME_LENGTH
-        if length > max_length:
-            raise forms.ValidationError(_(
-                "Username must not be longer then %s characters.") % max_length)
-        if length < settings.XMPP_MIN_USERNAME_LENGTH:
-            raise forms.ValidationError(_(
-                "Username must not be shorter then %s characters.") %
-                settings.XMPP_MIN_USERNAME_LENGTH)
-
-        results = parse_jid('%s@example.com' % node)  # fake the server part
-        if not results:
-            raise forms.ValidationError(_(
-                "Username is not a valid XMPP username."))
-        return node
-
-
-class EmailMixin(object):
-    EMAIL_FIELD = forms.EmailField(
-        max_length=30, widget=EmailWidget,
-        help_text=_(
-            'Required, a confirmation email will be sent to this address.')
-    )
 
 
 class RegistrationForm(JidMixin, EmailMixin, AntiSpamModelForm):
