@@ -21,14 +21,17 @@ from django.conf.urls import patterns
 from django.conf.urls import url
 
 from delete.views import DeleteView
-from delete.views import DeleteConfirmationView
 from delete.views import DeleteThanksView
+from delete.views import DeleteConfirmationView
+from delete.views import DeleteConfirmationThanksView
 
 
 urlpatterns = patterns('',
     url(r'^$', DeleteView.as_view(), name='Delete'),
+    url(r'^thanks/$', DeleteThanksView.as_view(),
+        name='DeleteThanks'),
     url(r'^confirm/(?P<key>\w+)/$', DeleteConfirmationView.as_view(),
         name='DeleteConfirmation'),
-    url(r'^thanks/$', DeleteThanksView.as_view(),
-        name='DeleteThanksConfirmation'),
+    url(r'^confirm-thanks/$', DeleteConfirmationThanksView.as_view(),
+        name='DeleteConfirmationThanks'),
 )

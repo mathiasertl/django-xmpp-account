@@ -17,11 +17,13 @@
 
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
 
 class DeleteView(FormView):
+    success_url = reverse_lazy('DeleteThanks')
     template_name = 'delete/delete.html'
 
     def get_context_data(self, **kwargs):
@@ -30,9 +32,14 @@ class DeleteView(FormView):
         return context
 
 
+class DeleteThanksView(TemplateView):
+    template_name = 'delete/delete-thanks.html'
+
+
 class DeleteConfirmationView(FormView):
+    success_url = reverse_lazy('DeleteConfirmationThanks')
     template_name = 'delete/delete-confirmation.html'
 
 
-class DeleteThanksView(TemplateView):
-    template_name = 'delete/delete-thanks.html'
+class DeleteConfirmationThanksView(TemplateView):
+    template_name = 'delete/delete-confirmation-thanks.html'
