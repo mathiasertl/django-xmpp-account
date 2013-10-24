@@ -17,20 +17,40 @@
 
 from __future__ import unicode_literals
 
+from django.contrib.auth import get_user_model
+
 from core.forms import AntiSpamForm
+from core.forms import AntiSpamModelForm
+from core.forms import EmailMixin
+from core.forms import JidMixin
+from core.forms import PasswordMixin
+
+User = get_user_model()
 
 
-class ResetPasswordForm(AntiSpamForm):
-    pass
+class ResetPasswordForm(AntiSpamModelForm, JidMixin, EmailMixin):
+    email = EmailMixin.EMAIL_FIELD
+    username = JidMixin.USERNAME_FIELD
+
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'domain']
 
 
-class ResetPasswordConfirmationForm(AntiSpamForm):
-    pass
+class ResetPasswordConfirmationForm(AntiSpamForm, PasswordMixin):
+    password1 = PasswordMixin.PASSWORD1
+    password2 = PasswordMixin.PASSWORD2
 
 
-class ResetEmailForm(AntiSpamForm):
-    pass
+class ResetEmailForm(AntiSpamModelForm, JidMixin, PasswordMixin):
+    username = JidMixin.USERNAME_FIELD
+    password1 = PasswordMixin.PASSWORD1
+    password2 = PasswordMixin.PASSWORD2
+
+    class Meta:
+        model = User
+        fields = ['username', 'domain']
 
 
-class ResetEmailConfirmationForm(AntiSpamForm):
-    pass
+class ResetEmailConfirmationForm(AntiSpamForm, EmailMixin):
+    email = EmailMixin.EMAIL_FIELD
