@@ -52,7 +52,7 @@ class ResetPasswordThanksView(TemplateView):
 class ResetPasswordConfirmationView(FormView):
     form_class = ResetPasswordConfirmationForm
     success_url = reverse_lazy('ResetPasswordConfirmationThanks')
-    template_name = 'reset/password-confirmation.html'
+    template_name = 'reset/password-confirm.html'
 
     def get_form_kwargs(self):
         kwargs = super(ResetEmailConfirmationView, self).get_form_kwargs()
@@ -62,7 +62,7 @@ class ResetPasswordConfirmationView(FormView):
 
 
 class ResetPasswordConfirmationThanksView(TemplateView):
-    template_name = 'reset/password-confirmationthanks.html'
+    template_name = 'reset/password-confirm-thanks.html'
 
 
 class ResetEmailView(FormView):
@@ -89,7 +89,7 @@ class ResetEmailThanksView(TemplateView):
 class ResetEmailConfirmationView(FormView):
     form_class = ResetEmailConfirmationForm
     success_url = reverse_lazy('ResetEmailConfirmationThanks')
-    template_name = 'reset/email-confirmation.html'
+    template_name = 'reset/email-confirm.html'
 
     def get_form_kwargs(self):
         kwargs = super(ResetEmailConfirmationView, self).get_form_kwargs()
@@ -99,4 +99,4 @@ class ResetEmailConfirmationView(FormView):
 
 
 class ResetEmailConfirmationThanksView(TemplateView):
-    template_name = 'reset/email-thanks.html'
+    template_name = 'reset/email-confirm-thanks.html'
