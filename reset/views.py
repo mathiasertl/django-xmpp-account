@@ -55,7 +55,7 @@ class ResetPasswordConfirmationView(FormView):
     template_name = 'reset/password-confirm.html'
 
     def get_form_kwargs(self):
-        kwargs = super(ResetEmailConfirmationView, self).get_form_kwargs()
+        kwargs = super(ResetPasswordConfirmationView, self).get_form_kwargs()
         if settings.RECAPTCHA_CLIENT is not None:
             kwargs['request'] = self.request
         return kwargs
