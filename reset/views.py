@@ -41,7 +41,7 @@ class ResetPasswordView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ResetPasswordView, self).get_context_data(**kwargs)
-        context['menuitem'] = 'email'
+        context['menuitem'] = 'password'
         return context
 
 
