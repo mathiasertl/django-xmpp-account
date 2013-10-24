@@ -26,15 +26,11 @@ from xmppregister.jid import parse_jid
 
 from core.forms import AntiSpamForm
 from core.forms import AntiSpamModelForm
+from core.widgets import EmailWidget
+from core.widgets import PasswordWidget
+from core.widgets import TextWidget
 
 User = get_user_model()
-
-_fieldattrs = {'class': 'form-control', 'maxlength': 30, }
-_emailattrs = _fieldattrs.copy()
-_emailattrs['type'] = 'email'
-_textwidget = forms.TextInput(attrs=_fieldattrs)
-_passwidget = forms.PasswordInput(attrs=_fieldattrs)
-_mailwidget = forms.TextInput(attrs=_emailattrs)
 
 
 class PasswordMixin(object):
@@ -43,9 +39,9 @@ class PasswordMixin(object):
     }
 
     PASSWORD1 = forms.CharField(label=_("Password"),
-                                widget=_passwidget)
+                                widget=PasswordWidget)
     PASSWORD2 = forms.CharField(label=_("Confirm"),
-        widget=_passwidget,
+        widget=PasswordWidget,
         help_text=_("Enter the same password as above, for verification."))
 
     def clean_password2(self):
@@ -60,7 +56,7 @@ class PasswordMixin(object):
 
 class JidMixin(object):
     USERNAME_FIELD = forms.CharField(
-        label=_("Username"), max_length=30, widget=_textwidget,
+        label=_("Username"), max_length=30, widget=TextWidget,
         error_messages={
             'invalid': _("This value may contain only letters, numbers and "
                          "@/./+/-/_ characters.")}
@@ -91,7 +87,7 @@ class JidMixin(object):
 
 class EmailMixin(object):
     EMAIL_FIELD = forms.EmailField(
-        max_length=30, widget=_mailwidget,
+        max_length=30, widget=EmailWidget,
         help_text=_(
             'Required, a confirmation email will be sent to this address.')
     )
