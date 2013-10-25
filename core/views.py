@@ -55,3 +55,6 @@ class ConfirmationView(AntiSpamFormView):
             subject=self.email_subject % {'domain': user.domain, })
 
         return super(ConfirmationView, self).form_valid(form)
+
+class ConfirmedView(AntiSpamFormView):
+    pass

@@ -30,6 +30,7 @@ from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
 from core.models import Confirmation
 from core.views import ConfirmationView
+from core.views import ConfirmedView
 
 from reset.forms import ResetPasswordForm
 from reset.forms import ResetPasswordConfirmationForm
@@ -63,16 +64,10 @@ class ResetPasswordThanksView(TemplateView):
     template_name = 'reset/password-thanks.html'
 
 
-class ResetPasswordConfirmationView(FormView):
+class ResetPasswordConfirmationView(ConfirmedView):
     form_class = ResetPasswordConfirmationForm
     success_url = reverse_lazy('ResetPasswordConfirmationThanks')
     template_name = 'reset/password-confirm.html'
-
-    def get_form_kwargs(self):
-        kwargs = super(ResetPasswordConfirmationView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
 
 
 class ResetPasswordConfirmationThanksView(TemplateView):
