@@ -17,11 +17,6 @@
 
 from __future__ import unicode_literals
 
-import hashlib
-import random
-import string
-import time
-
 from datetime import datetime
 
 from django.conf import settings
@@ -31,8 +26,6 @@ from django.utils.crypto import salted_hmac
 
 from core.querysets import ConfirmationQuerySet
 from core.utils import random_string
-
-PASSWORD_CHARS = string.ascii_letters + string.digits
 
 
 class RegistrationUserManager(BaseUserManager):
@@ -67,11 +60,6 @@ class ConfirmationManager(models.Manager):
             key = salted_hmac(salt, value).hexdigest()
         return super(ConfirmationManager, self).create(
             user=user, purpose=purpose, key=key, **kwargs)
-
-    def get_key(self, email):
-        seed = ''.join(random.choice(PASSWORD_CHARS) for x in range(32))
-        return hashlib.md5('%s-%s-%s-%s' % (seed, email, settings.SECRET_KEY,
-                                            time.time())).hexdigest()
 
     def registrations(self):
         return self.get_query_set().registrations()

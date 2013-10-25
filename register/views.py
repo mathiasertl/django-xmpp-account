@@ -101,9 +101,8 @@ class RegistrationView(CreateView):
         response = super(RegistrationView, self).form_valid(form)
 
         # create a confirmation key before returning the response
-        key = Confirmation.objects.create(
-            user=self.object, purpose=PURPOSE_REGISTER,
-            key=Confirmation.objects.get_key(form.cleaned_data['email']))
+        key = Confirmation.objects.create(user=self.object,
+                                          purpose=PURPOSE_REGISTER)
         key.send(
             request=self.request, template_base='register/mail',
             subject=self.CONFIRMATION_SUBJECT % {'domain': key.user.domain, })
