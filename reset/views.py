@@ -29,7 +29,7 @@ from django.views.generic import TemplateView
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
 from core.models import Confirmation
-from core.views import AntiSpamFormView
+from core.views import ConfirmationView
 
 from reset.forms import ResetPasswordForm
 from reset.forms import ResetPasswordConfirmationForm
@@ -39,7 +39,7 @@ from reset.forms import ResetEmailConfirmationForm
 User = get_user_model()
 
 
-class ResetPasswordView(AntiSpamFormView):
+class ResetPasswordView(ConfirmationView):
     form_class = ResetPasswordForm
     success_url = reverse_lazy('ResetPasswordThanks')
     template_name = 'reset/password.html'
@@ -53,30 +53,11 @@ class ResetPasswordView(AntiSpamFormView):
         context['menuitem'] = 'password'
         return context
 
-    def form_valid(self, form):
-        data = form.cleaned_data
+    def get_user(self, data):
+        return User.objects.get(email=data['email'],
+                                username=data['username'],
+                                domain=data['domain'])
 
-        try:
-            user = User.objects.get(email=data['email'],
-                                    username=data['username'],
-                                    domain=data['domain'])
-# TODO: use a class-based queryset?
-        except User.DoesNotExist:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
-                                             ErrorList())
-            errors.append(_("User not found!"))
-            return self.form_invalid(form)
-
-        # get the response
-        response = super(ResetPasswordView, self).form_valid(form)
-
-        # create a confirmation key before returning the response
-        key = Confirmation.objects.create(user=user, purpose=self.purpose)
-        key.send(
-            request=self.request, template_base=self.email_template,
-            subject=self.email_subject % {'domain': user.domain, })
-
-        return response
 
 class ResetPasswordThanksView(TemplateView):
     template_name = 'reset/password-thanks.html'

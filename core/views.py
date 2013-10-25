@@ -17,8 +17,16 @@
 
 from __future__ import unicode_literals
 
+from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.forms.util import ErrorList
+from django.utils.translation import ugettext as _
 from django.views.generic import FormView
+
+from core.models import Confirmation
+
+User = get_user_model()
 
 
 class AntiSpamFormView(FormView):
@@ -27,3 +35,23 @@ class AntiSpamFormView(FormView):
         if settings.RECAPTCHA_CLIENT is not None:
             kwargs['request'] = self.request
         return kwargs
+
+
+class ConfirmationView(AntiSpamFormView):
+    def form_valid(self, form):
+        try:
+            user = self.get_user(form.cleaned_data)
+        except User.DoesNotExist:
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
+                                             ErrorList())
+            errors.append(_("User not found!"))
+            return self.form_invalid(form)
+#TODO: Handle case were user already exists
+
+        # create a confirmation key before returning the response
+        key = Confirmation.objects.create(user=user, purpose=self.purpose)
+        key.send(
+            request=self.request, template_base=self.email_template,
+            subject=self.email_subject % {'domain': user.domain, })
+
+        return super(ConfirmationView, self).form_valid(form)
