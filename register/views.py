@@ -94,6 +94,7 @@ class RegistrationConfirmationView(ConfirmedView):
     form_class = RegistrationConfirmationForm
     template_name = 'register/confirm.html'
     success_url = reverse_lazy('RegistrationConfirmationThanks')
+    purpose = PURPOSE_REGISTER
 
     def handle_key(self, key, form):
         backend.set_password(
