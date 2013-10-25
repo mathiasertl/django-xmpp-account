@@ -122,6 +122,7 @@ class JidMixin(object):
         domain = self.cleaned_data.get('domain')
         if domain not in settings.XMPP_HOSTS:
             raise forms.ValidationError(_('Unknown domain given'))
+        return domain
 
     def clean_username(self):
         node = self.cleaned_data.get('username')
