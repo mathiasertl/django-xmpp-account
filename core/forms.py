@@ -93,8 +93,8 @@ class PasswordMixin(object):
 
     PASSWORD1 = forms.CharField(label=_("Password"),
                                 widget=PasswordWidget)
-    PASSWORD2 = forms.CharField(label=_("Confirm"),
-        widget=PasswordWidget,
+    PASSWORD2 = forms.CharField(
+        label=_("Confirm"), widget=PasswordWidget,
         help_text=_("Enter the same password as above, for verification."))
 
     def clean_password2(self):
