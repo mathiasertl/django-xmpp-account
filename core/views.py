@@ -24,6 +24,9 @@ from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 
+from backend.base import UserExists
+from backend.base import UserNotFound
+
 from core.models import Confirmation
 
 User = get_user_model()
@@ -56,5 +59,21 @@ class ConfirmationView(AntiSpamFormView):
 
         return super(ConfirmationView, self).form_valid(form)
 
+
 class ConfirmedView(AntiSpamFormView):
-    pass
+    def form_valid(self, form):
+        key = Confirmation.objects.registrations().get(key=self.kwargs['key'])
+        try:
+            self.handle_key(key, form)
+        except UserNotFound:
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
+                                             ErrorList())
+            errors.append(_("User not found!"))
+            return self.form_invalid(form)
+        except UserExists:
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
+                                             ErrorList())
+            errors.append(_("User already exists!"))
+            return self.form_invalid(form)
+
+        return super(FormView, self).form_valid(form)

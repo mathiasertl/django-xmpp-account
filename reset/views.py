@@ -26,9 +26,10 @@ from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
+from backends import backend
+
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
-from core.models import Confirmation
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
@@ -55,8 +56,7 @@ class ResetPasswordView(ConfirmationView):
         return context
 
     def get_user(self, data):
-        return User.objects.get(email=data['email'],
-                                username=data['username'],
+        return User.objects.get(email=data['email'], username=data['username'],
                                 domain=data['domain'])
 
 
@@ -68,6 +68,10 @@ class ResetPasswordConfirmationView(ConfirmedView):
     form_class = ResetPasswordConfirmationForm
     success_url = reverse_lazy('ResetPasswordConfirmationThanks')
     template_name = 'reset/password-confirm.html'
+
+    def handle_key(self, key, form):
+        backend.set_password(key.user.username, key.user.domain,
+                             form.cleaned_data['password1'])
 
 
 class ResetPasswordConfirmationThanksView(TemplateView):
