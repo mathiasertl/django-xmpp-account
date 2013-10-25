@@ -19,10 +19,15 @@ from __future__ import unicode_literals
 
 from core.forms import AntiSpamForm
 
+from core.forms import JidMixin
+from core.forms import PasswordMixin
 
-class DeleteForm(AntiSpamForm):
-    pass
+
+class DeleteForm(AntiSpamForm, JidMixin, PasswordMixin):
+    username = JidMixin.USERNAME_FIELD
+    domain = JidMixin.DOMAIN
+    password = PasswordMixin.PASSWORD1
 
 
-class DeleteConfirmationForm(AntiSpamForm):
-    pass
+class DeleteConfirmationForm(AntiSpamForm, PasswordMixin):
+    password = PasswordMixin.PASSWORD1

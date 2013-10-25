@@ -17,46 +17,74 @@
 
 from __future__ import unicode_literals
 
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import FormView
+from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
+
+from core.constants import PURPOSE_DELETE
+from core.views import ConfirmationView
+from core.views import ConfirmedView
 
 from delete.forms import DeleteForm
 from delete.forms import DeleteConfirmationForm
 
+from backends import backend
+from backends.base import UserNotFound
 
-class DeleteView(FormView):
+User = get_user_model()
+
+
+class DeleteView(ConfirmationView):
     form_class = DeleteForm
     success_url = reverse_lazy('DeleteThanks')
     template_name = 'delete/delete.html'
 
-    def get_form_kwargs(self):
-        kwargs = super(DeleteView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
+    confirm_url_name = 'DeleteConfirmation'
+    purpose = PURPOSE_DELETE
+    email_subject = _('Delete your account on %(domain)s account')
+    email_template = 'delete/email'
 
     def get_context_data(self, **kwargs):
         context = super(DeleteView, self).get_context_data(**kwargs)
         context['menuitem'] = 'delete'
         return context
 
+    def get_user(self, data):
+        username = data['username']
+        domain = data['domain']
+        if not backend.check_password(username=username, domain=domain,
+                                      password=data['password']):
+           raise UserNotFound()
+        return User.objects.get(username=data['username'],
+                                domain=data['domain'])
+
 
 class DeleteThanksView(TemplateView):
     template_name = 'delete/delete-thanks.html'
 
 
-class DeleteConfirmationView(FormView):
+class DeleteConfirmationView(ConfirmedView):
     form_class = DeleteConfirmationForm
     success_url = reverse_lazy('DeleteConfirmationThanks')
     template_name = 'delete/delete-confirm.html'
+    purpose = PURPOSE_DELETE
 
-    def get_form_kwargs(self):
-        kwargs = super(DeleteConfirmationView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
+    def handle_key(key, form):
+        username = form.cleaned_data['username']
+        domain = form.cleaned_data['domain']
+        password = form.cleaned_data['password']
+
+        if not backend.check_password(username=username, domain=domain,
+                                      password=password):
+            raise UserNotFound()
+
+    def after_delete(self, data):
+        # actually delete user from the database
+        username = data['username']
+        domain = data['domain']
+        User.objects.filter(username=username, domain=domain).delete()
+        backend.remove(username, domain)
 
 
 class DeleteConfirmationThanksView(TemplateView):
