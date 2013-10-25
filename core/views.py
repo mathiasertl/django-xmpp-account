@@ -98,12 +98,16 @@ class ConfirmationView(AntiSpamFormView):
 
 
 class ConfirmedView(AntiSpamFormView):
+    def after_delete(self, data):
+        pass
+
     def form_valid(self, form):
         key = Confirmation.objects.filter(
             purpose=self.purpose).get(key=self.kwargs['key'])
         try:
             self.handle_key(key, form)
             key.delete()
+            self.after_delete(form.cleaned_data)
         except UserNotFound:
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
                                              ErrorList())
