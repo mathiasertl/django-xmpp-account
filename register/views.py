@@ -21,54 +21,43 @@ from datetime import datetime
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.core.urlresolvers import reverse_lazy
 from django.forms.util import ErrorList
-from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import CreateView
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
-from brake.decorators import ratelimit
-
 from core.constants import PURPOSE_REGISTER
-from core.models import Confirmation
-from core.exceptions import RateException
 from core.exceptions import RegistrationRateException
+from core.models import Confirmation
+from core.views import ConfirmationView
+from core.views import ConfirmedView
 
 from register.forms import RegistrationForm
 from register.forms import RegistrationConfirmationForm
 
 from backends import backend
-from backends.base import UserExists
 from backends.base import UserNotFound
 
+User = get_user_model()
 
-class RegistrationView(CreateView):
+
+class RegistrationView(ConfirmationView):
     template_name = 'register/create.html'
     form_class = RegistrationForm
     success_url = reverse_lazy('RegistrationThanks')
 
-    CONFIRMATION_SUBJECT = _('Your new account on %(domain)s')
+    confirm_url_name = 'RegistrationConfirmation'
+    email_subject = _('Your new account on %(domain)s')
+    email_template = 'register/mail'
+    purpose = PURPOSE_REGISTER
 
     def get_context_data(self, **kwargs):
         context = super(RegistrationView, self).get_context_data(**kwargs)
         context['menuitem'] = 'register'
         return context
-
-    @method_decorator(ratelimit(method='GET', rate='15/m'))
-    @method_decorator(ratelimit(method='POST', rate='5/m'))
-    def dispatch(self, request, *args, **kwargs):
-        if getattr(request, 'limited', False):
-            raise RateException()
-        return super(RegistrationView, self).dispatch(request, *args, **kwargs)
-
-    def get_form_kwargs(self):
-        kwargs = super(RegistrationView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
 
     def registration_rate(self):
         # Check for a registration rate
@@ -82,39 +71,24 @@ class RegistrationView(CreateView):
         registrations.add(now)
         cache.set(cache_key, registrations)
 
+    def get_user(self, data):
+        return User.objects.create(username=data['username'],
+                                   domain=data['domain'], email=data['email'])
+
+    def handle_valid(self, form, user):
+        backend.create(username=user.username, domain=user.domain,
+                       email=user.email)
+
     def form_valid(self, form):
         self.registration_rate()
-
-        try:
-            username = form.cleaned_data['username']
-            domain = form.cleaned_data['domain']
-            email = form.cleaned_data['email']
-
-            backend.create(username=username, domain=domain, email=email)
-        except UserExists:
-            # if the user already exists, this form is invalid!
-            errors = form._errors.setdefault("username", ErrorList())
-            errors.append(_("User already exists!"))
-            return self.form_invalid(form)
-
-        # get the response
-        response = super(RegistrationView, self).form_valid(form)
-
-        # create a confirmation key before returning the response
-        key = Confirmation.objects.create(user=self.object,
-                                          purpose=PURPOSE_REGISTER)
-        key.send(
-            request=self.request, template_base='register/mail',
-            subject=self.CONFIRMATION_SUBJECT % {'domain': key.user.domain, })
-
-        return response
+        return super(RegistrationView, self).form_valid(form)
 
 
 class RegistrationThanksView(TemplateView):
     template_name = 'register/thanks.html'
 
 
-class RegistrationConfirmationView(FormView):
+class RegistrationConfirmationView(ConfirmedView):
     """Confirm a registration.
 
     .. NOTE:: This is deliberately not implemented as a generic view related
@@ -126,26 +100,10 @@ class RegistrationConfirmationView(FormView):
     template_name = 'register/confirm.html'
     success_url = reverse_lazy('RegistrationConfirmationThanks')
 
-    def get_form_kwargs(self):
-        kwargs = super(RegistrationConfirmationView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
-
-    def form_valid(self, form):
-        key = Confirmation.objects.registrations().get(key=self.kwargs['key'])
-        try:
-            backend.set_password(
-                username=key.user.username, domain=key.user.domain,
-                password=form.cleaned_data['password1'])
-            key.delete()
-        except UserNotFound:  # shouldn't really happen, user was just created
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
-                                             ErrorList())
-            errors.append(_("User not found!"))
-            return self.form_invalid(form)
-
-        return super(FormView, self).form_valid(form)
+    def handle_key(self, key, form):
+        backend.set_password(
+            username=key.user.username, domain=key.user.domain,
+            password=form.cleaned_data['password1'])
 
 
 class RegistrationConfirmationThanksView(TemplateView):
