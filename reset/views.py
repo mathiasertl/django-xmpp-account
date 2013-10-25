@@ -25,6 +25,7 @@ from django.views.generic import FormView
 from django.views.generic import TemplateView
 
 from backends import backend
+from backends.base import UserNotFound
 
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
@@ -67,6 +68,7 @@ class ResetPasswordConfirmationView(ConfirmedView):
     form_class = ResetPasswordConfirmationForm
     success_url = reverse_lazy('ResetPasswordConfirmationThanks')
     template_name = 'reset/password-confirm.html'
+    purpose = PURPOSE_SET_PASSWORD
 
     def handle_key(self, key, form):
         backend.set_password(key.user.username, key.user.domain,
@@ -77,37 +79,55 @@ class ResetPasswordConfirmationThanksView(TemplateView):
     template_name = 'reset/password-confirm-thanks.html'
 
 
-class ResetEmailView(FormView):
+class ResetEmailView(ConfirmationView):
     form_class = ResetEmailForm
     success_url = reverse_lazy('ResetEmailThanks')
     template_name = 'reset/email.html'
 
-    def get_form_kwargs(self):
-        kwargs = super(ResetEmailView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
+    confirm_url_name = 'ResetEmailConfirmation'
+    purpose = PURPOSE_SET_EMAIL
+    email_subject = _('Confirm the email address for your %(domain)s account')
+    email_template = 'reset/email-mail'
 
     def get_context_data(self, **kwargs):
         context = super(ResetEmailView, self).get_context_data(**kwargs)
         context['menuitem'] = 'email'
         return context
 
+    def get_user(self, data):
+        """User may or may not exist."""
+        username = data['username']
+        domain = data['domain']
+        password = data['password']
+
+        if not backend.check_password(username=username,
+                                      domain=domain, password=password):
+            raise UserNotFound()
+
+        user, created = User.objects.get_or_create(
+            username=data['username'], domain=data['domain'],
+            defaults={'email': data['email']})
+
+        if created:
+            user.email = data['email']
+            user.email_confirmed = False
+            user.save()
+
+        return user
+
 
 class ResetEmailThanksView(TemplateView):
     template_name = 'reset/email-thanks.html'
 
 
-class ResetEmailConfirmationView(FormView):
+class ResetEmailConfirmationView(ConfirmedView):
     form_class = ResetEmailConfirmationForm
     success_url = reverse_lazy('ResetEmailConfirmationThanks')
     template_name = 'reset/email-confirm.html'
+    purpose = PURPOSE_SET_EMAIL
 
-    def get_form_kwargs(self):
-        kwargs = super(ResetEmailConfirmationView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
+    def handle_key(self, key, form):  # don't really do anything here.
+        pass
 
 
 class ResetEmailConfirmationThanksView(TemplateView):
