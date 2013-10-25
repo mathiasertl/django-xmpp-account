@@ -24,8 +24,8 @@ from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 
-from backend.base import UserExists
-from backend.base import UserNotFound
+from backends.base import UserExists
+from backends.base import UserNotFound
 
 from core.models import Confirmation
 
@@ -55,7 +55,9 @@ class ConfirmationView(AntiSpamFormView):
         key = Confirmation.objects.create(user=user, purpose=self.purpose)
         key.send(
             request=self.request, template_base=self.email_template,
-            subject=self.email_subject % {'domain': user.domain, })
+            subject=self.email_subject % {'domain': user.domain, },
+            confirm_url_name=self.confirm_url_name
+        )
 
         return super(ConfirmationView, self).form_valid(form)
 

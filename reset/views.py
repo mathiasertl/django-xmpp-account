@@ -17,11 +17,9 @@
 
 from __future__ import unicode_literals
 
-from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
-from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 from django.views.generic import TemplateView
@@ -46,6 +44,7 @@ class ResetPasswordView(ConfirmationView):
     success_url = reverse_lazy('ResetPasswordThanks')
     template_name = 'reset/password.html'
 
+    confirm_url_name = 'ResetPasswordConfirmation'
     purpose = PURPOSE_SET_PASSWORD
     email_subject = _('Reset the password for your %(domain)s account')
     email_template = 'reset/password-mail'

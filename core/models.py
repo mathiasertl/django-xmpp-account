@@ -121,8 +121,8 @@ class Confirmation(models.Model):
 
     objects = ConfirmationManager()
 
-    def send(self, request, template_base, subject):
-        path = reverse('RegistrationConfirmation', kwargs={'key': self.key})
+    def send(self, request, template_base, subject, confirm_url_name):
+        path = reverse(confirm_url_name, kwargs={'key': self.key})
         uri = request.build_absolute_uri(location=path)
 
         context = {
