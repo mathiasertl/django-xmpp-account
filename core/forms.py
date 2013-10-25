@@ -114,6 +114,14 @@ class JidMixin(object):
             'invalid': _("This value may contain only letters, numbers and "
                          "@/./+/-/_ characters.")}
     )
+    DOMAIN = forms.ChoiceField(
+        choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
+    )
+
+    def clean_domain(self):
+        domain = self.cleaned_data.get('domain')
+        if domain not in settings.XMPP_HOSTS:
+            raise forms.ValidationError(_('Unknown domain given'))
 
     def clean_username(self):
         node = self.cleaned_data.get('username')
