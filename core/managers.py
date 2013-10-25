@@ -27,8 +27,10 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
+from django.utils.crypto import salted_hmac
 
 from core.querysets import ConfirmationQuerySet
+from core.utils import random_string
 
 PASSWORD_CHARS = string.ascii_letters + string.digits
 
@@ -57,6 +59,14 @@ class ConfirmationManager(models.Manager):
     def get_query_set(self):
         timestamp = datetime.now() - settings.CONFIRMATION_TIMEOUT
         return ConfirmationQuerySet(self.model).filter(created__gt=timestamp)
+
+    def create(self, user, purpose, key=None, **kwargs):
+        if key is None:
+            salt = random_string()
+            value = '%s-%s-%s' % (user.email, user.username, user.domain)
+            key = salted_hmac(salt, value).hexdigest()
+        return super(ConfirmationManager, self).create(
+            user=user, purpose=purpose, key=key, **kwargs)
 
     def get_key(self, email):
         seed = ''.join(random.choice(PASSWORD_CHARS) for x in range(32))
