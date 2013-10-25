@@ -29,6 +29,7 @@ from django.views.generic import TemplateView
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
 from core.models import Confirmation
+from core.views import AntiSpamFormView
 
 from reset.forms import ResetPasswordForm
 from reset.forms import ResetPasswordConfirmationForm
@@ -38,7 +39,7 @@ from reset.forms import ResetEmailConfirmationForm
 User = get_user_model()
 
 
-class ResetPasswordView(FormView):
+class ResetPasswordView(AntiSpamFormView):
     form_class = ResetPasswordForm
     success_url = reverse_lazy('ResetPasswordThanks')
     template_name = 'reset/password.html'
@@ -46,12 +47,6 @@ class ResetPasswordView(FormView):
     purpose = PURPOSE_SET_PASSWORD
     email_subject = _('Reset the password for your %(domain)s account')
     email_template = 'reset/password-mail'
-
-    def get_form_kwargs(self):
-        kwargs = super(ResetPasswordView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
-        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super(ResetPasswordView, self).get_context_data(**kwargs)
