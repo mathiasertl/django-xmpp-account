@@ -20,3 +20,4 @@ from __future__ import unicode_literals
 PURPOSE_REGISTER = 0
 PURPOSE_SET_PASSWORD = 1
 PURPOSE_SET_EMAIL = 2
+PURPOSE_DELETE = 3
