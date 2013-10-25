@@ -57,7 +57,6 @@ class RegistrationView(CreateView):
         context['menuitem'] = 'register'
         return context
 
-
     @method_decorator(ratelimit(method='GET', rate='15/m'))
     @method_decorator(ratelimit(method='POST', rate='5/m'))
     def dispatch(self, request, *args, **kwargs):
