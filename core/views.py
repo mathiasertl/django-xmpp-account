@@ -38,9 +38,15 @@ User = get_user_model()
 
 
 class AntiSpamFormView(FormView):
-    @method_decorator(ratelimit(method='GET', rate='15/m'))
-    @method_decorator(ratelimit(method='POST', rate='5/m'))
     def dispatch(self, request, *args, **kwargs):
+        # create a dummy function and dynamically set its name. This way,
+        # the ratelimit decorator is specific to the method in each class.
+        def func(request):
+            pass
+        func.__name__ = str('%s_dispatch' % self.__class__.__name__)
+        func = ratelimit(method='POST', rate='5/m')(func)
+        ratelimit(method='GET', rate='15/m')(func)(request)
+
         if getattr(request, 'limited', False):
             raise RateException()
         return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
