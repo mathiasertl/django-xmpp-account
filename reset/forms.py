@@ -32,26 +32,18 @@ class ResetPasswordForm(AntiSpamForm, JidMixin, EmailMixin):
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.DOMAIN
 
-    class Meta:
-        model = User
-        fields = ['email', 'username', 'domain']
-
 
 class ResetPasswordConfirmationForm(AntiSpamForm, PasswordMixin):
     password1 = PasswordMixin.PASSWORD1
     password2 = PasswordMixin.PASSWORD2
 
 
-class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin):
+class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailMixin):
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.DOMAIN
-    password1 = PasswordMixin.PASSWORD1
-    password2 = PasswordMixin.PASSWORD2
-
-    class Meta:
-        model = User
-        fields = ['username', 'domain']
-
-
-class ResetEmailConfirmationForm(AntiSpamForm, EmailMixin):
     email = EmailMixin.EMAIL_FIELD
+    password = PasswordMixin.PASSWORD1
+
+
+class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
+    password = PasswordMixin.PASSWORD1
