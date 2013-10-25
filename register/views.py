@@ -19,19 +19,15 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
-from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.core.urlresolvers import reverse_lazy
-from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView
 from django.views.generic import TemplateView
 
 from core.constants import PURPOSE_REGISTER
 from core.exceptions import RegistrationRateException
-from core.models import Confirmation
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
@@ -39,7 +35,6 @@ from register.forms import RegistrationForm
 from register.forms import RegistrationConfirmationForm
 
 from backends import backend
-from backends.base import UserNotFound
 
 User = get_user_model()
 
