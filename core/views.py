@@ -22,7 +22,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.forms.util import ErrorList
-from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 
@@ -100,7 +99,8 @@ class ConfirmationView(AntiSpamFormView):
 
 class ConfirmedView(AntiSpamFormView):
     def form_valid(self, form):
-        key = Confirmation.objects.registrations().get(key=self.kwargs['key'])
+        key = Confirmation.objects.filter(
+            purpose=self.purpose).get(key=self.kwargs['key'])
         try:
             self.handle_key(key, form)
             key.delete()
