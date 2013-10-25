@@ -97,6 +97,7 @@ class ConfirmedView(AntiSpamFormView):
         key = Confirmation.objects.registrations().get(key=self.kwargs['key'])
         try:
             self.handle_key(key, form)
+            key.delete()
         except UserNotFound:
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
                                              ErrorList())
@@ -107,6 +108,5 @@ class ConfirmedView(AntiSpamFormView):
                                              ErrorList())
             errors.append(_("User already exists!"))
             return self.form_invalid(form)
-        key.delete()
 
         return super(FormView, self).form_valid(form)
