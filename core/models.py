@@ -114,7 +114,7 @@ class Confirmation(models.Model):
         (PURPOSE_SET_EMAIL, 'set email'),
     )
 
-    key = models.CharField(max_length=32)
+    key = models.CharField(max_length=40)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
