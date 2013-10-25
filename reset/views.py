@@ -126,8 +126,11 @@ class ResetEmailConfirmationView(ConfirmedView):
     template_name = 'reset/email-confirm.html'
     purpose = PURPOSE_SET_EMAIL
 
-    def handle_key(self, key, form):  # don't really do anything here.
-        pass
+    def handle_key(self, key, form):
+        if not backend.check_password(username=key.user.username,
+                                      domain=key.user.domain,
+                                      password=form['password']):
+            raise UserNotFound()
 
 
 class ResetEmailConfirmationThanksView(TemplateView):
