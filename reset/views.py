@@ -64,7 +64,7 @@ class ResetPasswordConfirmationView(ConfirmedView):
 
     def handle_key(self, key, form):
         backend.set_password(key.user.username, key.user.domain,
-                             form.cleaned_data['password1'])
+                             form.cleaned_data['password'])
 
 
 class ResetEmailView(ConfirmationView):
