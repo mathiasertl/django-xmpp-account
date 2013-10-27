@@ -8,9 +8,10 @@
 
 {% if form.is_valid %}{# successfull registration - don't display form! #}
 <div class="alert alert-success">
-{% blocktrans with email=form.email.value %}<strong>Thank you for your registration!</strong><br />
-Please click at the confirmation link you have recieved at {{ email }} to complete your registration.
-{% endblocktrans %}
+    <p><strong>{% trans "Thanks for your registration!" %}</strong></p>
+    <p>{% blocktrans with email=form.email.value %}
+        Please click at the confirmation link you have recieved at {{ email }} to complete your registration.
+    {% endblocktrans %}</p>
 </div>
 {% else %}
 
