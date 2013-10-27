@@ -32,6 +32,7 @@ from core.exceptions import RateException
 from core.utils import random_string
 from core.widgets import EmailWidget
 from core.widgets import PasswordWidget
+from core.widgets import SelectWidget
 from core.widgets import TextWidget
 
 
@@ -115,6 +116,7 @@ class JidMixin(object):
                          "@/./+/-/_ characters.")}
     )
     DOMAIN = forms.ChoiceField(
+        widget=SelectWidget,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
     )
 
