@@ -92,18 +92,21 @@ class AntiSpamBase(object):
 
 
 class PasswordMixin(object):
+    PASSWORD_FIELD = forms.CharField(label=_("Password"),
+                                     widget=PasswordWidget)
+
+
+class PasswordConfirmationMixin(PasswordMixin):
     password_error_messages = {
         'password_mismatch': _("The two password fields didn't match.")
     }
 
-    PASSWORD1 = forms.CharField(label=_("Password"),
-                                widget=PasswordWidget)
-    PASSWORD2 = forms.CharField(
+    PASSWORD2_FIELD = forms.CharField(
         label=_("Confirm"), widget=PasswordWidget,
         help_text=_("Enter the same password as above, for verification."))
 
     def clean_password2(self):
-        password1 = self.cleaned_data.get('password1')
+        password1 = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('password2')
         if password1 and password2:
             if password1 != password2:
