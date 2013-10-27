@@ -2,10 +2,32 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% block title %}{% trans "Confirm new email address" %}{% endblock title %}</h1>
+<h1>{% block title %}{% trans "Confirm new Email address" %}{% endblock title %}</h1>
+
+{% if form.is_valid %}
+<div class="alert alert-success">
+        <p><strong>{% trans "Change successful!" %}</strong></p>
+        <p>{% blocktrans %}You have successfully set your new Email address.{% endblocktrans %}</p>
+{% else %}
+
+<p class="alert alert-info">
+{% blocktrans %}Please give your password again to make sure you are really authorized to
+make this change. {% endblocktrans %}
+
+{% include "core/forms/errors.html" %}
+
 <form role="form" action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
+    {% include "core/forms/head.html" %}
+
+    {% with field=form.password %}
+        {% include "core/forms/field.html" %}
+    {% endwith %}
+
+     {% with field=form.value %}
+        {% include "core/forms/field.html" %}
+    {% endwith %}
 
     <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
 </form>
+{% endif %}
 {% endblock content %}
