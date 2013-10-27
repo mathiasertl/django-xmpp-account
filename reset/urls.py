@@ -21,28 +21,16 @@ from django.conf.urls import patterns
 from django.conf.urls import url
 
 from reset.views import ResetPasswordView
-from reset.views import ResetPasswordThanksView
 from reset.views import ResetPasswordConfirmationView
-from reset.views import ResetPasswordConfirmationThanksView
 from reset.views import ResetEmailView
-from reset.views import ResetEmailThanksView
 from reset.views import ResetEmailConfirmationView
-from reset.views import ResetEmailConfirmationThanksView
 
 
 urlpatterns = patterns('',
     url(r'^password/$', ResetPasswordView.as_view(), name='ResetPassword'),
-    url(r'^password/thanks/$', ResetPasswordThanksView.as_view(),
-        name='ResetPasswordThanks'),
     url(r'^password/confirm/(?P<key>\w+)/$', ResetPasswordConfirmationView.as_view(),
         name='ResetPasswordConfirmation'),
-    url(r'^password/confirm-thanks/$', ResetPasswordConfirmationThanksView.as_view(),
-        name='ResetPasswordConfirmationThanks'),
     url(r'^email/$', ResetEmailView.as_view(), name='ResetEmail'),
-    url(r'^email/thanks/$', ResetEmailThanksView.as_view(),
-        name='ResetEmailThanks'),
     url(r'^email/confirm/(?P<key>\w+)/$', ResetEmailConfirmationView.as_view(),
         name='ResetEmailConfirmation'),
-    url(r'^email/confirm-thanks/$', ResetEmailConfirmationThanksView.as_view(),
-        name='ResetEmailConfirmationThanks'),
 )

@@ -17,12 +17,9 @@
 
 from __future__ import unicode_literals
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
-from django.views.generic import FormView
-from django.views.generic import TemplateView
 
 from backends import backend
 from backends.base import UserNotFound
@@ -60,23 +57,14 @@ class ResetPasswordView(ConfirmationView):
                                 domain=data['domain'])
 
 
-class ResetPasswordThanksView(TemplateView):
-    template_name = 'reset/password-thanks.html'
-
-
 class ResetPasswordConfirmationView(ConfirmedView):
     form_class = ResetPasswordConfirmationForm
-    success_url = reverse_lazy('ResetPasswordConfirmationThanks')
     template_name = 'reset/password-confirm.html'
     purpose = PURPOSE_SET_PASSWORD
 
     def handle_key(self, key, form):
         backend.set_password(key.user.username, key.user.domain,
                              form.cleaned_data['password1'])
-
-
-class ResetPasswordConfirmationThanksView(TemplateView):
-    template_name = 'reset/password-confirm-thanks.html'
 
 
 class ResetEmailView(ConfirmationView):
@@ -116,13 +104,8 @@ class ResetEmailView(ConfirmationView):
         return user
 
 
-class ResetEmailThanksView(TemplateView):
-    template_name = 'reset/email-thanks.html'
-
-
 class ResetEmailConfirmationView(ConfirmedView):
     form_class = ResetEmailConfirmationForm
-    success_url = reverse_lazy('ResetEmailConfirmationThanks')
     template_name = 'reset/email-confirm.html'
     purpose = PURPOSE_SET_EMAIL
 
@@ -131,7 +114,3 @@ class ResetEmailConfirmationView(ConfirmedView):
                                       domain=key.user.domain,
                                       password=form['password']):
             raise UserNotFound()
-
-
-class ResetEmailConfirmationThanksView(TemplateView):
-    template_name = 'reset/email-confirm-thanks.html'
