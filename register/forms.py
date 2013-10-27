@@ -32,10 +32,6 @@ class RegistrationForm(JidMixin, EmailMixin, AntiSpamForm):
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.DOMAIN
 
-    class Meta:
-        model = User
-        fields = ['email', 'username', 'domain']
-
 
 class RegistrationConfirmationForm(PasswordMixin, AntiSpamForm):
     password1 = PasswordMixin.PASSWORD1
