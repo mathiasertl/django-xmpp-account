@@ -117,7 +117,8 @@ class JidMixin(object):
     )
     DOMAIN = forms.ChoiceField(
         widget=SelectWidget,
-        choices=tuple([(host, '@%s' % host) for host in settings.XMPP_HOSTS])
+        choices=tuple([(d, '@%s' % d) for d, c in settings.XMPP_HOSTS.items()
+                       if c['registration']])
     )
 
     def clean_domain(self):
