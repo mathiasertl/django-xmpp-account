@@ -3,9 +3,41 @@
 
 {% block content %}
 <h1>{% block title %}{% trans "Confirm Registration" %}{% endblock title %}</h1>
+
+{% if form.is_valid %}
+<div class="alert alert-success">
+    <p><strong>{% trans "Registration successful!" %}</strong></p>
+    <p>{% blocktrans with jid=jid username=username domain=domain %}
+    Your registration is now complete.  Your full Jabber address is
+    <strong>{{ jid }}</strong>. Note that some clients require you to enter your
+    username (<strong>{{ username }}</strong>) and the jabber server
+    (<strong>{{ domain }}</strong>) separately.
+    {% endblocktrans %}</p>
+</div>
+{% else %}
+
+{% if request.method == "POST" %}
+<div class="alert alert-danger">
+    {% trans "<strong>Error:</strong> There have been errors with your submission. Please see the errors below." %}
+</div>
+{% endif %}
+
 <form role="form" action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
+    {{ form.non_field_errors }}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    {% with value=form.value %}
+        {% include "core/forms/value.html" %}
+    {% endwith %}
+
+    {{ form.password1 }}
+    {{ form.password2 }}
 
     <button type="submit" class="btn btn-default">{% trans "Confirm" %}</button>
 </form>
+
+
+{% endif %}
 {% endblock content %}
