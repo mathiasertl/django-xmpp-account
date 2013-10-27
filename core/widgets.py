@@ -18,10 +18,12 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.utils.translation import ugettext as _
 
 _fieldattrs = {'class': 'form-control', 'maxlength': 30, }
 _emailattrs = _fieldattrs.copy()
 _emailattrs['type'] = 'email'
+_emailattrs['placeholder'] = _("Enter Email")
 _textwidget = forms.TextInput(attrs=_fieldattrs)
 _passwidget = forms.PasswordInput(attrs=_fieldattrs)
 _mailwidget = forms.TextInput(attrs=_emailattrs)
@@ -29,3 +31,4 @@ _mailwidget = forms.TextInput(attrs=_emailattrs)
 TextWidget = forms.TextInput(attrs=_fieldattrs)
 PasswordWidget = forms.PasswordInput(attrs=_fieldattrs)
 EmailWidget = forms.TextInput(attrs=_emailattrs)
+SelectWidget = forms.Select(attrs=_fieldattrs)
