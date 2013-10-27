@@ -117,6 +117,7 @@ class JidMixin(object):
     )
     DOMAIN = forms.ChoiceField(
         widget=SelectWidget,
+        initial=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(d, '@%s' % d) for d, c in settings.XMPP_HOSTS.items()
                        if c['registration']])
     )
