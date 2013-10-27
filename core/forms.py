@@ -61,7 +61,9 @@ class AntiSpamBase(object):
 
     def clean_timestamp(self):
         now = time.time()
-        timestamp = self.cleaned_data["timestamp"]
+        timestamp = self.cleaned_data.get("timestamp")
+        if timestamp is None:
+            raise SpamException()
 
         if now - 1 < timestamp:  # MUCH to fast - definetly spam
             raise SpamException()
@@ -69,12 +71,14 @@ class AntiSpamBase(object):
             raise RateException()
         elif now - (settings.FORM_TIMEOUT) > timestamp:
             raise forms.ValidationError(self.ANTI_SPAM_MESSAGES['too-slow'])
-        return self.cleaned_data["timestamp"]
+        return timestamp
 
     def clean_security_hash(self):
         good = self.generate_hash(self.cleaned_data["timestamp"],
                                   self.cleaned_data["token"])
-        received = self.cleaned_data['security_hash']
+        received = self.cleaned_data.get('security_hash')
+        if received is None:
+            raise SpamException()
         if received != good:
             raise SpamException()
         return received
