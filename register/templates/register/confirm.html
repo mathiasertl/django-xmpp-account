@@ -16,7 +16,6 @@
 </div>
 {% else %}
 
-{% if request.method == "POST" %}
 {% include "core/forms/errors.html" %}
 
 <form role="form" action="" method="post">{% csrf_token %}
