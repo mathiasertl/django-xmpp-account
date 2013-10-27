@@ -1,0 +1,22 @@
+<div class="form-group">
+    <label for="{{ username.id_for_label }}">
+        {{ username.label }}
+    </label>
+    <label for="{{ domain.id_for_label }}" class="sr-only">
+        {{ domain.label }}
+    </label>
+    <div class="row">
+        <div class="col-lg-3">
+            {{ username }}
+            <div class="at-sign">@</div>
+       </div>
+        <div class="col-lg-2">
+            {{ domain }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="help-block">{{ username.help_text }}</div>
+        </div>
+    </div>
+</div>

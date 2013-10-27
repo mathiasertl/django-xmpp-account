@@ -2,10 +2,35 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% block title %}{% trans "Register account" %}{% endblock title %}</h1>
+<div class="page-header">
+    <h1>{% block title %}{% trans "Account registration" %}{% endblock title %}</h1>
+</div>
+
+{% if form.is_valid %}{# successfull registration - don't display form! #}
+<div class="alert alert-success">
+{% blocktrans with email=form.email.value %}<strong>Thank you for your registration!</strong><br />
+Please click at the confirmation link you have recieved at {{ email }} to complete your registration.
+{% endblocktrans %}
+</div>
+{% else %}
+
+{% if request.method == "POST" %}{# POST but with field errors #}
+<div class="alert alert-danger">
+{% trans "<strong>Error:</strong> There have been errors with your submission. Please see the errors below." %}
+</div>
+{% endif %}
+
 <form role="form" action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
+    {% with email=form.email %}
+        {% include "core/forms/email.html" %}
+    {% endwith %}
+
+    {% with username=form.username domain=form.domain %}
+        {% include "core/forms/jid.html" %}
+    {% endwith %}
 
     <button type="submit" class="btn btn-default">{% trans "Register" %}</button>
 </form>
+{% endif %}
+
 {% endblock content %}
