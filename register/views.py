@@ -42,7 +42,6 @@ User = get_user_model()
 class RegistrationView(ConfirmationView):
     template_name = 'register/create.html'
     form_class = RegistrationForm
-    success_url = reverse_lazy('RegistrationThanks')
 
     confirm_url_name = 'RegistrationConfirmation'
     email_subject = _('Your new account on %(domain)s')
@@ -79,10 +78,6 @@ class RegistrationView(ConfirmationView):
         return super(RegistrationView, self).form_valid(form)
 
 
-class RegistrationThanksView(TemplateView):
-    template_name = 'register/thanks.html'
-
-
 class RegistrationConfirmationView(ConfirmedView):
     """Confirm a registration.
 
@@ -93,14 +88,9 @@ class RegistrationConfirmationView(ConfirmedView):
     """
     form_class = RegistrationConfirmationForm
     template_name = 'register/confirm.html'
-    success_url = reverse_lazy('RegistrationConfirmationThanks')
     purpose = PURPOSE_REGISTER
 
     def handle_key(self, key, form):
         backend.set_password(
             username=key.user.username, domain=key.user.domain,
             password=form.cleaned_data['password1'])
-
-
-class RegistrationConfirmationThanksView(TemplateView):
-    template_name = 'register/confirmation-thanks.html'
