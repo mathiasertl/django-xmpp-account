@@ -5,7 +5,10 @@
     <div class="row">
         <div  class="col-lg-5 {% if email.errors %}has-error{% endif %}">
             {{ email }}
-            <div class="help-block">{{ email.help_text }} {{ email.errors|length }} </div>
+            <div class="help-block">
+                {{ email.help_text }}
+                {{ email.errors }}
+            </div>
         </div>
     </div>
 </div>

@@ -6,17 +6,21 @@
         {{ domain.label }}
     </label>
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3 {% if username.errors %}has-error{% endif %}">
             {{ username }}
             <div class="at-sign">@</div>
        </div>
-        <div class="col-lg-2">
+       <div class="col-lg-2 {% if domain.errors %}has-error{% endif %}">
             {{ domain }}
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-5">
-            <div class="help-block">{{ username.help_text }}</div>
+        <div class="col-lg-5 {% if username.errors or domain.errors %}has-error{% endif %}">
+            <div class="help-block">
+                {{ username.help_text }}
+                {{ username.errors }}
+                {{ domain.errors }}
+            </div>
         </div>
     </div>
 </div>
