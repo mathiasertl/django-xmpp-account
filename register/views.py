@@ -93,4 +93,4 @@ class RegistrationConfirmationView(ConfirmedView):
     def handle_key(self, key, form):
         backend.set_password(
             username=key.user.username, domain=key.user.domain,
-            password=form.cleaned_data['password1'])
+            password=form.cleaned_data['password'])
