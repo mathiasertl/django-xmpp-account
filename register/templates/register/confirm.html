@@ -25,16 +25,16 @@
 <form role="form" action="" method="post">{% csrf_token %}
     {% include "core/forms/head.html" %}
 
-    {% with value=form.value %}
-        {% include "core/forms/value.html" %}
+    {% with field=form.value %}
+        {% include "core/forms/field.html" %}
     {% endwith %}
 
-    {% with password=form.password %}
-        {% include "core/forms/password.html" %}
+    {% with field=form.password %}
+        {% include "core/forms/field.html" %}
     {% endwith %}
     
-    {% with password=form.password2 %}
-        {% include "core/forms/password.html" %}
+    {% with field=form.password2 %}
+        {% include "core/forms/field.html" %}
     {% endwith %}
 
     <button type="submit" class="btn btn-default">{% trans "Confirm" %}</button>

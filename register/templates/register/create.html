@@ -23,12 +23,12 @@ Please click at the confirmation link you have recieved at {{ email }} to comple
 <form role="form" action="" method="post">{% csrf_token %}
     {% include "core/forms/head.html" %}
 
-    {% with email=form.email %}
-        {% include "core/forms/email.html" %}
+    {% with field=form.email %}
+        {% include "core/forms/field.html" %}
     {% endwith %}
 
-    {% with value=form.value %}
-        {% include "core/forms/value.html" %}
+    {% with field=form.value %}
+        {% include "core/forms/field.html" %}
     {% endwith %}
 
     {% with username=form.username domain=form.domain %}
