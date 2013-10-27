@@ -14,11 +14,13 @@ Please click at the confirmation link you have recieved at {{ email }} to comple
 </div>
 {% else %}
 
-{% if request.method == "POST" %}{# POST but with field errors #}
-<div class="alert alert-danger">
-{% trans "<strong>Error:</strong> There have been errors with your submission. Please see the errors below." %}
-</div>
-{% endif %}
+<p>{% blocktrans %}
+Please provide the required information below and you will receive a
+confirmation Email to the given address. Click on the link in the E-mail to
+complete your registration.
+{% endblocktrans %}</p>
+
+{% include "core/forms/errors.html" %}
 
 <form role="form" action="" method="post">{% csrf_token %}
     {% include "core/forms/head.html" %}

@@ -17,14 +17,11 @@
 {% else %}
 
 {% if request.method == "POST" %}
-<div class="alert alert-danger">
-    {% trans "<strong>Error:</strong> There have been errors with your submission. Please see the errors below." %}
-</div>
-{% endif %}
+{% include "core/forms/errors.html" %}
 
 <form role="form" action="" method="post">{% csrf_token %}
     {% include "core/forms/head.html" %}
-
+   
     {% with field=form.value %}
         {% include "core/forms/field.html" %}
     {% endwith %}
