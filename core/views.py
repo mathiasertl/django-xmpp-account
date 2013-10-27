@@ -108,9 +108,10 @@ class ConfirmedView(AntiSpamFormView):
 
     def get_context_data(self, **kwargs):
         context = super(ConfirmedView, self).get_context_data(**kwargs)
-        context['username'] = self.user.username
-        context['domain'] = self.user.domain
-        context['jid'] = self.user.jid
+        if self.user is not None:
+            context['username'] = self.user.username
+            context['domain'] = self.user.domain
+            context['jid'] = self.user.jid
         return context
 
     def form_valid(self, form):
