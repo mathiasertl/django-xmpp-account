@@ -21,6 +21,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.http import Http404
 from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
@@ -115,8 +116,11 @@ class ConfirmedView(AntiSpamFormView):
         return context
 
     def form_valid(self, form):
-        key = Confirmation.objects.filter(
-            purpose=self.purpose).get(key=self.kwargs['key'])
+        try:
+            key = Confirmation.objects.filter(
+                purpose=self.purpose).get(key=self.kwargs['key'])
+        except Confirmation.DoesNotExist:
+            raise Http404
         self.user = key.user
 
         try:
