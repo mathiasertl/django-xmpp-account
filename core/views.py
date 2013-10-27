@@ -101,12 +101,21 @@ class ConfirmationView(AntiSpamFormView):
 
 
 class ConfirmedView(AntiSpamFormView):
+    user = None
+
     def after_delete(self, data):
         pass
+
+    def get_context_data(self, **kwargs):
+        context = super(ConfirmedView, self).get_context_data(**kwargs)
+        context['user'] = self.user
+        return context
 
     def form_valid(self, form):
         key = Confirmation.objects.filter(
             purpose=self.purpose).get(key=self.kwargs['key'])
+        self.user = key.user
+
         try:
             self.handle_key(key, form)
             key.delete()
