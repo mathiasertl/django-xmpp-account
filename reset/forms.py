@@ -23,6 +23,7 @@ from core.forms import AntiSpamForm
 from core.forms import EmailMixin
 from core.forms import JidMixin
 from core.forms import PasswordMixin
+from core.forms import PasswordConfirmationMixin
 
 User = get_user_model()
 
@@ -30,20 +31,20 @@ User = get_user_model()
 class ResetPasswordForm(AntiSpamForm, JidMixin, EmailMixin):
     email = EmailMixin.EMAIL_FIELD
     username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.DOMAIN
+    domain = JidMixin.DOMAIN_FIELD
 
 
-class ResetPasswordConfirmationForm(AntiSpamForm, PasswordMixin):
-    password1 = PasswordMixin.PASSWORD1
-    password2 = PasswordMixin.PASSWORD2
+class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
+    password = PasswordConfirmationMixin.PASSWORD_FIELD
+    password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
 class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailMixin):
     username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.DOMAIN
+    domain = JidMixin.DOMAIN_FIELD
     email = EmailMixin.EMAIL_FIELD
-    password = PasswordMixin.PASSWORD1
+    password = PasswordMixin.PASSWORD_FIELD
 
 
 class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
-    password = PasswordMixin.PASSWORD1
+    password = PasswordMixin.PASSWORD_FIELD

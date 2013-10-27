@@ -121,7 +121,7 @@ class ConfirmedView(AntiSpamFormView):
 
         try:
             self.handle_key(key, form)
-            key.delete()
+            #key.delete()
             self.after_delete(form.cleaned_data)
         except UserNotFound:
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,

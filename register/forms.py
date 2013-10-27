@@ -22,7 +22,7 @@ from django.contrib.auth import get_user_model
 from core.forms import AntiSpamForm
 from core.forms import EmailMixin
 from core.forms import JidMixin
-from core.forms import PasswordMixin
+from core.forms import PasswordConfirmationMixin
 
 User = get_user_model()
 
@@ -30,9 +30,9 @@ User = get_user_model()
 class RegistrationForm(JidMixin, EmailMixin, AntiSpamForm):
     email = EmailMixin.EMAIL_FIELD
     username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.DOMAIN
+    domain = JidMixin.DOMAIN_FIELD
 
 
-class RegistrationConfirmationForm(PasswordMixin, AntiSpamForm):
-    password1 = PasswordMixin.PASSWORD1
-    password2 = PasswordMixin.PASSWORD2
+class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
+    password = PasswordConfirmationMixin.PASSWORD_FIELD
+    password2 = PasswordConfirmationMixin.PASSWORD2_FIELD

@@ -122,7 +122,7 @@ class JidMixin(object):
             'invalid': _("This value may contain only letters, numbers and "
                          "@/./+/-/_ characters.")}
     )
-    DOMAIN = forms.ChoiceField(
+    DOMAIN_FIELD = forms.ChoiceField(
         widget=SelectWidget,
         initial=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(d, '@%s' % d) for d, c in settings.XMPP_HOSTS.items()
