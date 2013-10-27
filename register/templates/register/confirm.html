@@ -23,10 +23,7 @@
 {% endif %}
 
 <form role="form" action="" method="post">{% csrf_token %}
-    {{ form.non_field_errors }}
-    {% for hidden in form.hidden_fields %}
-        {{ hidden }}
-    {% endfor %}
+    {% include "core/forms/head.html" %}
 
     {% with value=form.value %}
         {% include "core/forms/value.html" %}

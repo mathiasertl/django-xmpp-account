@@ -1,0 +1,8 @@
+<div class="row"><div class="col-lg-5 {% if form.non_field_errors %}has-error{% endif %}">
+<div class="help-block">
+{{ form.non_field_errors }}
+</div>
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+</div></div>
