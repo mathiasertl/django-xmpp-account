@@ -122,4 +122,4 @@ class ConfirmedView(AntiSpamFormView):
             errors.append(_("User already exists!"))
             return self.form_invalid(form)
 
-        return super(FormView, self).form_valid(form)
+        return super(ConfirmedView, self).form_valid(form)
