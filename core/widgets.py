@@ -24,9 +24,6 @@ _fieldattrs = {'class': 'form-control', 'maxlength': 30, }
 _emailattrs = _fieldattrs.copy()
 _emailattrs['type'] = 'email'
 _emailattrs['placeholder'] = _("Enter Email")
-_textwidget = forms.TextInput(attrs=_fieldattrs)
-_passwidget = forms.PasswordInput(attrs=_fieldattrs)
-_mailwidget = forms.TextInput(attrs=_emailattrs)
 
 TextWidget = forms.TextInput(attrs=_fieldattrs)
 PasswordWidget = forms.PasswordInput(attrs=_fieldattrs)
