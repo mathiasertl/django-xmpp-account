@@ -21,8 +21,17 @@ Please click at the confirmation link you have recieved at {{ email }} to comple
 {% endif %}
 
 <form role="form" action="" method="post">{% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
     {% with email=form.email %}
         {% include "core/forms/email.html" %}
+    {% endwith %}
+
+    {% with value=form.value %}
+        {% include "core/forms/value.html" %}
     {% endwith %}
 
     {% with username=form.username domain=form.domain %}
