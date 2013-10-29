@@ -29,6 +29,10 @@ make this change. {% endblocktrans %}
         {% include "core/forms/field.html" %}
     {% endwith %}
 
+    {% with field=form.recaptcha %}
+        {% include "core/forms/recaptcha.html" %}
+    {% endwith %}
+
     <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
 </form>
 {% endif %}
