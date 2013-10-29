@@ -37,6 +37,15 @@ from core.constants import PURPOSE_SET_EMAIL
 from backends import backend
 
 PASSWORD_CHARS = string.ascii_letters + string.digits
+PURPOSE_CHOICES = (
+    (PURPOSE_REGISTER, 'registration'),
+    (PURPOSE_SET_PASSWORD, 'set password'),
+    (PURPOSE_SET_EMAIL, 'set email'),
+)
+
+
+class Address(models.Model):
+    address = models.GenericIPAdressField()
 
 
 class RegistrationUser(AbstractBaseUser):
@@ -108,12 +117,6 @@ class RegistrationUser(AbstractBaseUser):
 
 
 class Confirmation(models.Model):
-    PURPOSE_CHOICES = (
-        (PURPOSE_REGISTER, 'registration'),
-        (PURPOSE_SET_PASSWORD, 'set password'),
-        (PURPOSE_SET_EMAIL, 'set email'),
-    )
-
     key = models.CharField(max_length=40)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created = models.DateTimeField(auto_now_add=True)
@@ -148,3 +151,9 @@ class Confirmation(models.Model):
 
     def __str__(self):
         return self.key
+
+
+class UserAddresses(models.Model):
+    address = models.ForeignKey(Address)
+    user = models.ForeignKey(RegistrationUser)
+    timestamp = models.DateTimeField(auto_now_add=True)
