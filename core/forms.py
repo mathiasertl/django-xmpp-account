@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 #
-# This file is part of xmppregister (https://account.jabber.at/doc).
+# This file is part of django-xmpp-register (https://account.jabber.at/doc).
 #
-# xmppregister is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# django-xmpp-register is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3 of the License, or (at your option) any
+# later version.
 #
-# xmppregister is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# django-xmpp-register is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with xmppregister.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License along with
+# django-xmpp-register.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
 
@@ -25,7 +25,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import salted_hmac
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from xmppregister.jid import parse_jid
+from xmppaccount.jid import parse_jid
 
 from core.exceptions import SpamException
 from core.exceptions import RateException
@@ -48,7 +48,7 @@ class AntiSpamBase(object):
     }
 
     def generate_hash(self, timestamp, token):
-        key_salt = 'xmppregister.core.forms.AntiSpamBase'
+        key_salt = 'xmppaccount.core.forms.AntiSpamBase'
         value = '%s-%s' % (timestamp, token)
         return salted_hmac(key_salt, value).hexdigest()
 
