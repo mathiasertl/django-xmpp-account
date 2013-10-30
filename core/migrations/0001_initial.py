@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('password', self.gf('django.db.models.fields.CharField')(max_length=128)),
             ('last_login', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('username', self.gf('django.db.models.fields.CharField')(unique=True, max_length=1023)),
+            ('username', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255)),
             ('domain', self.gf('django.db.models.fields.CharField')(default='jabber.at', max_length=253)),
             ('email', self.gf('django.db.models.fields.EmailField')(unique=True, max_length=75)),
             ('registered', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
@@ -97,7 +97,7 @@ class Migration(SchemaMigration):
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'registered': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '1023'})
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'})
         },
         u'core.useraddresses': {
             'Meta': {'object_name': 'UserAddresses'},

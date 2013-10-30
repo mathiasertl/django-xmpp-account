@@ -45,7 +45,8 @@ PURPOSE_CHOICES = (
 
 
 class RegistrationUser(AbstractBaseUser):
-    username = models.CharField(max_length=1023, unique=True)
+    # NOTE: MySQL only allows a 255 character limit
+    username = models.CharField(max_length=255, unique=True)
     domain = models.CharField(
         max_length=253, default=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
