@@ -171,6 +171,8 @@ AUTHENTICATION_BACKENDS = (
     'core.auth_backends.BackendBackend',
 )
 
+AUTH_USER_MODEL = 'core.RegistrationUser'
+
 # custom settings defaults
 XMPP_MIN_USERNAME_LENGTH = 3
 XMPP_MAX_USERNAME_LENGTH = 32
