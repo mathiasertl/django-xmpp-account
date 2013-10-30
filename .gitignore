@@ -9,3 +9,4 @@ localsettings.py
 *.sw[po]
 /doc/_build/
 *.sqlite3
+Makefile
