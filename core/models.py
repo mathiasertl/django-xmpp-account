@@ -44,10 +44,6 @@ PURPOSE_CHOICES = (
 )
 
 
-class Address(models.Model):
-    address = models.GenericIPAdressField()
-
-
 class RegistrationUser(AbstractBaseUser):
     username = models.CharField(max_length=1023, unique=True)
     domain = models.CharField(
@@ -153,7 +149,14 @@ class Confirmation(models.Model):
         return self.key
 
 
+class Address(models.Model):
+    address = models.GenericIPAdressField()
+    activities = models.ManyToManyField(settings.AUTH_USER_MODEL, through='UserAddresses')
+
+
 class UserAddresses(models.Model):
     address = models.ForeignKey(Address)
     user = models.ForeignKey(RegistrationUser)
+
     timestamp = models.DateTimeField(auto_now_add=True)
+    purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
