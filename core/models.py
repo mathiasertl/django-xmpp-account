@@ -150,7 +150,7 @@ class Confirmation(models.Model):
 
 
 class Address(models.Model):
-    address = models.GenericIPAdressField()
+    address = models.GenericIPAddressField()
     activities = models.ManyToManyField(settings.AUTH_USER_MODEL, through='UserAddresses')
 
 
