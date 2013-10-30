@@ -17,7 +17,7 @@
 
 from datetime import timedelta
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 RECAPTCHA_CLIENT = None
 
