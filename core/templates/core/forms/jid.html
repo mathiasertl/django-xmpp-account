@@ -10,7 +10,12 @@
             {{ username }}
         </div>
         <div class="col-lg-2 {% if domain.errors %}has-error{% endif %}">
-            {{ domain }}
+            {% if domain.field.choices|length == 1 %}
+                <p class="form-control-static">{{ domain.field.choices.0.1 }}</p>
+                <div class="single-domain">{{ domain }}</div>
+            {% else %}
+                {{ domain }}
+            {% endif %}
         </div>
     </div>
     <div class="row">

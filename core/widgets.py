@@ -18,7 +18,6 @@
 from __future__ import unicode_literals
 
 from django import forms
-from django.conf import settings
 from django.utils.translation import ugettext as _
 
 _fieldattrs = {'class': 'form-control', 'maxlength': 30, }
@@ -26,9 +25,6 @@ _emailattrs = _fieldattrs.copy()
 _emailattrs['type'] = 'email'
 _emailattrs['placeholder'] = _("Enter Email")
 _selectattrs = _fieldattrs.copy()
-
-if len([v for v in settings.XMPP_HOSTS.values() if v['registration']]) == 1:
-    _selectattrs['disabled'] = None
 
 TextWidget = forms.TextInput(attrs=_fieldattrs)
 PasswordWidget = forms.PasswordInput(attrs=_fieldattrs)
