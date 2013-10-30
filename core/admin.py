@@ -21,7 +21,11 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from core.models import Confirmation
+from core.models import Address
+from core.models import UserAddress
 
 
 admin.site.register(Confirmation)
+admin.site.register(Address)
+admin.site.register(UserAddress)
 admin.site.unregister(Group)
