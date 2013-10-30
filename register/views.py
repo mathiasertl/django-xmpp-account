@@ -22,9 +22,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import TemplateView
 
 from core.constants import PURPOSE_REGISTER
 from core.exceptions import RegistrationRateException
