@@ -33,6 +33,8 @@ from backends.base import UserNotFound
 
 from core.exceptions import RateException
 from core.models import Confirmation
+from core.models import Address
+from core.models import UserAddresses
 
 User = get_user_model()
 
@@ -90,6 +92,12 @@ class ConfirmationView(AntiSpamFormView):
 
 #TODO: Handle case were user already exists
 
+        # log user address:
+        address = Address.objects.get_or_create(
+            address=self.request.get_host())[0]
+        UserAddresses.objects.create(
+            address=address, user=user, purpose=self.purpose)
+
         # create a confirmation key before returning the response
         key = Confirmation.objects.create(user=user, purpose=self.purpose)
         key.send(
@@ -125,7 +133,7 @@ class ConfirmedView(AntiSpamFormView):
 
         try:
             self.handle_key(key, form)
-            #key.delete()
+            key.delete()
             self.after_delete(form.cleaned_data)
         except UserNotFound:
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
