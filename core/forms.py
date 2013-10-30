@@ -116,6 +116,7 @@ class PasswordConfirmationMixin(PasswordMixin):
 
 
 class JidMixin(object):
+#TODO: Update error messages, update max_length
     USERNAME_FIELD = forms.CharField(
         label=_("Username"), max_length=30, widget=TextWidget,
         error_messages={
