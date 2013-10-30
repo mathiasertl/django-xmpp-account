@@ -37,7 +37,6 @@ User = get_user_model()
 
 class DeleteView(ConfirmationView):
     form_class = DeleteForm
-    success_url = reverse_lazy('DeleteThanks')
     template_name = 'delete/delete.html'
 
     confirm_url_name = 'DeleteConfirmation'
@@ -60,13 +59,8 @@ class DeleteView(ConfirmationView):
                                 domain=data['domain'])
 
 
-class DeleteThanksView(TemplateView):
-    template_name = 'delete/delete-thanks.html'
-
-
 class DeleteConfirmationView(ConfirmedView):
     form_class = DeleteConfirmationForm
-    success_url = reverse_lazy('DeleteConfirmationThanks')
     template_name = 'delete/delete-confirm.html'
     purpose = PURPOSE_DELETE
 
@@ -85,7 +79,3 @@ class DeleteConfirmationView(ConfirmedView):
         domain = data['domain']
         User.objects.filter(username=username, domain=domain).delete()
         backend.remove(username, domain)
-
-
-class DeleteConfirmationThanksView(TemplateView):
-    template_name = 'delete/delete-confirm-thanks.html'
