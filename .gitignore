@@ -4,7 +4,7 @@
 /local/
 /share/
 /man/
-/xmppregister/localsettings.py
+localsettings.py
 *.py[oc]
 *.sw[po]
 /doc/_build/
