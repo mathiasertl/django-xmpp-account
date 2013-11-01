@@ -63,8 +63,8 @@ class DeleteConfirmationView(ConfirmedView):
     purpose = PURPOSE_DELETE
 
     def handle_key(self, key, form):
-        username = form.cleaned_data['username']
-        domain = form.cleaned_data['domain']
+        username = key.user.username
+        domain = key.user.domain
         password = form.cleaned_data['password']
 
         if not backend.check_password(username=username, domain=domain,
