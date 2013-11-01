@@ -68,8 +68,8 @@ class RegistrationView(ConfirmationView):
                                    domain=data['domain'], email=data['email'])
 
     def handle_valid(self, form, user):
-        backend.create(username=user.username, domain=user.domain,
-                       email=user.email)
+        backend.reserve(username=user.username, domain=user.domain,
+                        email=user.email)
 
     def form_valid(self, form):
         self.registration_rate()
@@ -89,6 +89,5 @@ class RegistrationConfirmationView(ConfirmedView):
     purpose = PURPOSE_REGISTER
 
     def handle_key(self, key, form):
-        backend.set_password(
-            username=key.user.username, domain=key.user.domain,
-            password=form.cleaned_data['password'])
+        backend.create(username=key.user.username, domain=key.user.domain,
+                       password=form.cleaned_data['password'])
