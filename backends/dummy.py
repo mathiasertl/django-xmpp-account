@@ -19,6 +19,8 @@ from __future__ import unicode_literals
 
 import logging
 
+from django.conf import settings
+
 from backends.base import XmppBackendBase
 from backends.base import UserExists
 from backends.base import UserNotFound
@@ -29,9 +31,15 @@ log = logging.getLogger(__name__)
 class DummyBackend(XmppBackendBase):
     _users = {}
 
-    def create(self, username, domain, email):
+    def create(self, username, domain, password, email):
+        if password is None:
+            password = self.get_random_password()
+        elif settings.XMPP_HOSTS[domain].get('RESERVE', False):
+            self.set_password(username, domain, password)
+            self.set_email(username, domain, email)
+            return
+
         user = '%s@%s' % (username, domain)
-        password = self.get_random_password()
         log.debug('Create user: %s (%s)', user, password)
 
         if user in self._users:
@@ -45,7 +53,6 @@ class DummyBackend(XmppBackendBase):
     def check_password(self, username, domain, password):
         user = '%s@%s' % (username, domain)
         log.debug('Check pass: %s -> %s', user, password)
-        return True
 
         if user not in self._users:
             return False
