@@ -70,7 +70,7 @@ class EjabberdctlBackend(XmppBackendBase):
         elif code == 1:
             raise UserExists()
         else:
-            raise BackendError(code)
+            raise BackendError(code)  # TODO: 3 means nodedown.
 
     def check_password(self, username, domain, password):
         """Check the password of a user.
