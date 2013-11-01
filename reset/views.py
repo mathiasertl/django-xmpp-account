@@ -99,7 +99,7 @@ class ResetEmailView(ConfirmationView):
             username=data['username'], domain=data['domain'],
             defaults={'email': data['email']})
 
-        if created:
+        if not created:
             user.email = data['email']
             user.email_confirmed = False
             user.save()
