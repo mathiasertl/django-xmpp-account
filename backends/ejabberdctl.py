@@ -88,7 +88,7 @@ class EjabberdctlBackend(XmppBackendBase):
         elif code == 1:
             return False
         else:
-            raise BackendError()
+            raise BackendError(code)
 
     def set_password(self, username, domain, password):
         """Set the password of a user.
@@ -101,13 +101,13 @@ class EjabberdctlBackend(XmppBackendBase):
         code, out, err = self.ctl('change_password', username, domain,
                                   password)
         if code != 0:  # 0 is also returned if the user doesn't exist.
-            raise BackendError()
+            raise BackendError(code)
 
     def set_unusable_password(self, username, domain):
         code, out, err = self.ctl('ban_account', username, domain,
                                   'by django-xmpp-account')
         if code != 0:
-            raise BackendError()
+            raise BackendError(code)
 
     def has_usable_password(self, username, domain):
         return True  # unfortunately we can't tell
@@ -131,4 +131,4 @@ class EjabberdctlBackend(XmppBackendBase):
         """
         code, out, err = self.ctl('unregister', username, domain)
         if code != 0:  # 0 is also returned if the user does not exist
-            raise BackendError()
+            raise BackendError(code)
