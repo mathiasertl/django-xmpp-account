@@ -62,7 +62,7 @@ class DeleteConfirmationView(ConfirmedView):
     template_name = 'delete/delete-confirm.html'
     purpose = PURPOSE_DELETE
 
-    def handle_key(key, form):
+    def handle_key(self, key, form):
         username = form.cleaned_data['username']
         domain = form.cleaned_data['domain']
         password = form.cleaned_data['password']
