@@ -115,7 +115,7 @@ class ResetEmailConfirmationView(ConfirmedView):
     def handle_key(self, key, form):
         if not backend.check_password(username=key.user.username,
                                       domain=key.user.domain,
-                                      password=form['password']):
+                                      password=form.cleaned_data['password']):
             raise UserNotFound()
         key.user.email_confirmed = True
         key.user.save()
