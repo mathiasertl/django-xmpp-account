@@ -25,17 +25,22 @@ import string
 PASSWORD_CHARS = string.ascii_letters + string.digits
 
 
-class InvalidXmppBackendError(Exception):
+class BackendError(Exception):
+    """All backend exceptions should be a subclass of this exception."""
+    pass
+
+
+class InvalidXmppBackendError(BackendError):
     """Raised when a backend is raised that cannot be imported."""
     pass
 
 
-class UserExists(Exception):
+class UserExists(BackendError):
     """Raised when a user already exists."""
     pass
 
 
-class UserNotFound(Exception):
+class UserNotFound(BackendError):
     """Raised when a user is not found."""
     pass
 
