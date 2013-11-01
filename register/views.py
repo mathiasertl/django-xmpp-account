@@ -68,8 +68,9 @@ class RegistrationView(ConfirmationView):
                                    domain=data['domain'], email=data['email'])
 
     def handle_valid(self, form, user):
-        backend.reserve(username=user.username, domain=user.domain,
-                        email=user.email)
+        if settings.XMPP_HOSTS[user.domain].get('RESERVE', False):
+            backend.reserve(username=user.username, domain=user.domain,
+                            email=user.email)
 
     def form_valid(self, form):
         self.registration_rate()
@@ -90,4 +91,4 @@ class RegistrationConfirmationView(ConfirmedView):
 
     def handle_key(self, key, form):
         backend.create(username=key.user.username, domain=key.user.domain,
-                       password=form.cleaned_data['password'])
+                       email=key.user.email, password=form.cleaned_data['password'])
