@@ -36,7 +36,7 @@ class EjabberdctlBackend(XmppBackendBase):
         return p.returncode, stdout, stderr
 
     def ctl(self, *cmd):
-        return self.ex('ejabberdctl', *cmd)
+        return self.ex('/usr/sbin/ejabberdctl', *cmd)
 
     def create(self, username, domain, password, email):
         """Create a new user.
@@ -100,7 +100,7 @@ class EjabberdctlBackend(XmppBackendBase):
         """
         code, out, err = self.ctl('change_password', username, domain,
                                   password)
-        if code != 0:
+        if code != 0:  # 0 is also returned if the user doesn't exist.
             raise BackendError()
 
     def set_unusable_password(self, username, domain):
