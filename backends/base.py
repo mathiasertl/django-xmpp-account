@@ -19,10 +19,7 @@
 
 from __future__ import unicode_literals
 
-import random
-import string
-
-PASSWORD_CHARS = string.ascii_letters + string.digits
+from core.utils import random_string
 
 
 class BackendError(Exception):
@@ -48,8 +45,8 @@ class UserNotFound(BackendError):
 class XmppBackendBase(object):
     """Base class for all XMPP backends."""
 
-    def get_random_password(self):
-        return ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
+    def get_random_password(self, length=32):
+        return random_string(length=length)
 
     def create(self, username, domain, email):
         """Create a new user.
