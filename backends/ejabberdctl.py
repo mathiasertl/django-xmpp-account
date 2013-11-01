@@ -17,11 +17,14 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from subprocess import PIPE
 from subprocess import Popen
 
 from backends.base import UserExists
 from backends.base import UserNotFound
+from backends.base import BackendError
 from backends.base import XmppBackendBase
 
 class EjabberdctlBackend(XmppBackendBase):
@@ -32,7 +35,10 @@ class EjabberdctlBackend(XmppBackendBase):
         stdout, stderr = p.communicate()
         return p.returncode, stdout, stderr
 
-    def create(self, username, domain, email):
+    def ctl(self, *cmd):
+        return self.ex('ejabberdctl', *cmd)
+
+    def create(self, username, domain, password, email):
         """Create a new user.
 
         This method is invoked when a user first registers for an account. At
@@ -49,10 +55,22 @@ class EjabberdctlBackend(XmppBackendBase):
                          this point it is not confirmed. You are free to ignore
                          this parameter.
         """
-        retval, stdout, stderr = self.ex('ejabberdctl', 'register', username,
-                                         domain, self.get_random_password())
-        if retval == 1:
+        if password is None:
+            password = self.get_random_password()
+
+        elif settings.XMPP_HOSTS[domain].get('RESERVE', False):
+            self.set_password(username, domain, password)
+            self.set_email(username, domain, email)
+            return
+
+        code, out, err = self.ctl('register', username, domain, password)
+
+        if code == 0:
+            return
+        elif code == 1:
             raise UserExists()
+        else:
+            raise BackendError()
 
     def check_password(self, username, domain, password):
         """Check the password of a user.
@@ -63,9 +81,14 @@ class EjabberdctlBackend(XmppBackendBase):
         :param password: The password to check.
         :return: ``True`` if the password is correct, ``False`` otherwise.
         """
-        retval, stdout, stderr = self.ex('ejabberdctl', 'check_password',
-                                         username, domain, password)
-        return retval == 0
+        code, out, err = self.ctl('check_password', username, domain, password)
+
+        if code == 0:
+            return True
+        elif code == 1:
+            return False
+        else:
+            raise BackendError()
 
     def set_password(self, username, domain, password):
         """Set the password of a user.
@@ -75,19 +98,22 @@ class EjabberdctlBackend(XmppBackendBase):
                          in :ref:`settings-XMPP_HOSTS`.
         :param password: The password to set.
         """
-        retval, stdout, stderr = self.ex('ejabberdctl', 'change_password',
-                                         username, domain, password)
-        raise NotImplementedError
+        code, out, err = self.ctl('change_password', username, domain,
+                                  password)
+        if code != 0:
+            raise BackendError()
 
     def set_unusable_password(self, username, domain):
-        retval, stdout, stderr = self.ex('ejabberdctl', 'ban_account',
-                                         username, domain,
-                                         'by django-xmpp-account')
+        code, out, err = self.ctl('ban_account', username, domain,
+                                  'by django-xmpp-account')
+        if code != 0:
+            raise BackendError()
 
     def has_usable_password(self, username, domain):
         return True  # unfortunately we can't tell
 
     def set_email(self, username, domain, email):
+        # ejabberdctl get_vcard2 mati jabber.at EMAIL USERID
         pass  # maybe as vcard field?
 
     def check_email(self, username, domain, email):
@@ -103,5 +129,6 @@ class EjabberdctlBackend(XmppBackendBase):
         :param     domain: The domainname selected, may be any domainname provided
                          in :ref:`settings-XMPP_HOSTS`.
         """
-        retval, stdout, stderr = self.ex('ejabberdctl', 'unregister', username,
-                                         domain)
+        code, out, err = self.ctl('unregister', username, domain)
+        if code != 0:  # 0 is also returned if the user does not exist
+            raise BackendError()
