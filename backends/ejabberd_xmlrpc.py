@@ -28,15 +28,14 @@ from backends.base import BackendError
 class EjabberdXMLRPCBackend(XmppBackendBase):
     library = 'xmlrpclib'
 
-    def __init__(self, *args, **kwargs):
-        super(EjabberdXMLRPCBackend, self).__init__(*args, **kwargs)
-        config = settings.XMPP_BACKENDS['default']
+    def __init__(self, HOST, USER, SERVER, PASSWORD):
+        super(EjabberdXMLRPCBackend, self).__init__()
 
-        self.client = self.module.ServerProxy(config['HOST'])
+        self.client = self.module.ServerProxy(HOST)
         self.credentials = {
-            'user': config['USER'],
-            'server': config['SERVER'],
-            'password': config['PASSWORD'],
+            'user': USER,
+            'server': SERVER,
+            'password': PASSWORD,
         }
 
     def rpc(self, cmd, **kwargs):
