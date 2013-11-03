@@ -21,8 +21,8 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from backend.base import XmppBackendBase
-from backend.base import BackendError
+from backends.base import XmppBackendBase
+from backends.base import BackendError
 
 
 class EjabberdXMLRPCBackend(XmppBackendBase):
