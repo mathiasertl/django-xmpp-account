@@ -28,22 +28,27 @@ from backends.base import BackendError
 
 
 class EjabberdXMLRPCBackend(XmppBackendBase):
+    credentials = None
 
     def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None,
                  PASSWORD=None):
         super(EjabberdXMLRPCBackend, self).__init__()
 
         self.client = xmlrpclib.ServerProxy(HOST)
-        self.credentials = {
-            'user': USER,
-            'server': SERVER,
-            'password': PASSWORD,
-        }
+        if USER is not None:
+            self.credentials = {
+                'user': USER,
+                'server': SERVER,
+                'password': PASSWORD,
+            }
 
     def rpc(self, cmd, **kwargs):
         kwargs = {str(k): str(v) for k, v in kwargs.items()}  # cast to strs
         func = getattr(self.client, cmd)
-        return func(self.credentials, kwargs)
+        if self.credentials is None:
+            return func(kwargs)
+        else:
+            return func(self.credentials, kwargs)
 
     def create(self, username, domain, password, email):
         """Create a new user.
