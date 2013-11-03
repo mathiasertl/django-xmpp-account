@@ -17,7 +17,10 @@
 
 from __future__ import unicode_literals
 
+from copy import copy
+
 from django.contrib.auth import get_user_model
+from django.utils.translation import ugettext_lazy as _
 
 from core.forms import AntiSpamForm
 from core.forms import EmailMixin
@@ -41,8 +44,9 @@ class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
 class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailMixin):
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.DOMAIN_FIELD
-    email = EmailMixin.EMAIL_FIELD
+    email = copy(EmailMixin.EMAIL_FIELD)
     password = PasswordMixin.PASSWORD_FIELD
+    email.label = _("New Email")
 
 
 class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
