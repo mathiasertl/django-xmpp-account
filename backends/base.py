@@ -19,6 +19,8 @@
 
 from __future__ import unicode_literals
 
+from django.utils import importlib
+
 from core.utils import random_string
 
 
@@ -44,6 +46,38 @@ class UserNotFound(BackendError):
 
 class XmppBackendBase(object):
     """Base class for all XMPP backends."""
+
+    library = None
+    """Import-party of any third-party library you need.
+
+    Set this attribute to an import path and you will be able to access the
+    module as ``self.module``. This way you don't have to do a module-level
+    import, which would mean that everyone has to have that library installed,
+    even if they're not using your backend.
+    """
+    _module = None
+
+    @property
+    def module(self):
+        """The module specified by the ``library`` attribute."""
+
+        if self._module is None:
+            if self.library is None:
+                raise ValueError(
+                    "Backend '%s' doesn't specify a library attribute" %
+                    self.__class__)
+
+            if isinstance(self.library, (tuple, list)):
+                name, mod_path = self.library
+            else:
+                name = mod_path = self.library
+            try:
+                module = importlib.import_module(mod_path)
+            except ImportError:
+                raise ValueError("Couldn't load %s backend library library"
+                                 % name)
+            self._module = module
+        return self._module
 
     def get_random_password(self, length=32):
         """Get a random password.
