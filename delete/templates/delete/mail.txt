@@ -1,15 +1,11 @@
-{% load i18n %}{% language lang %}{% blocktrans %}Dear {{ username }},
+{% load i18n %}{% language lang %}{% blocktrans %}Dear {{ username }},{% endblocktrans %}
 
-You have registered the account {{ jid }} with this email address. To complete
-your registration, please click on the following link and provide a password
-for your new account:
+{% blocktrans %}You wanted to delete your Jabber account {{ jid }}.
+To completely delete your account, please go to this address:{% endblocktrans %}
 
     {{ uri }}
-{% endblocktrans %}{% if cleartext %}
-{% blocktrans %}Please note that this server stores passwords as plain text. We can only
-encourage you to choose a safe password you use nowhere else.{% endblocktrans %}{% endif %}
 
-{% blocktrans %}If you haven't registered for an account, you can simply disregard this email.
+{% trans "If you no longer want to delete the account, simply disregard this email." %}
 
-greetings,
-    {{ domain }}{% endblocktrans %}{% endlanguage %}
+{% trans "greetings," %}
+    {{ domain }}{% endlanguage %}

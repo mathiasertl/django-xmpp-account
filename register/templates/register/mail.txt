@@ -9,7 +9,8 @@ provide a password for your new account:{% endblocktrans %}
 {% blocktrans %}Please note that this server stores passwords as plain text. We can only
 encourage you to choose a safe password you use nowhere else.{% endblocktrans %}{% endif %}
 
-{% blocktrans %}If you haven't registered for an account, you can simply disregard this email.{% endblocktrans %}
+{% blocktrans %}If you haven't registered for an account, you can simply disregard this
+Email.{% endblocktrans %}
 
 {% trans "greetings," %}
     {{ domain }}{% endlanguage %}

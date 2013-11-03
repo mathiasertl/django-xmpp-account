@@ -1,3 +1,15 @@
-<html><head></head><body>
-        {{ key.key }}
+{% load i18n %}{% language lang %}<!DOCTYPE HTML>
+<html>
+<head><title>{{ subject }}</title></head>
+<body>
+<p>{% blocktrans %}Dear {{ username }},{% endblocktrans %}</p>
+
+<p>{% blocktrans %}You wanted to delete your Jabber account {{ jid }}.
+To completely delete your account, please <a href="{{ uri }}">click here</a>.{% endblocktrans %}</p>
+
+<p>{% trans "If you no longer want to delete the account, simply disregard this email." %}
+
+<p>{% trans "greetings," %}<br />
+<p style="padding-left: 4em;">{{ domain }}</p>
+{% endlanguage %}
 </body></html>
