@@ -2,12 +2,6 @@
     display: none;
 }
 
-.at-sign {
-    position: absolute;
-    right: -8px;
-    top: 8px;
-}
-
 .single-domain {
     display: none;
 }
