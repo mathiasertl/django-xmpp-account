@@ -28,7 +28,7 @@ from backends.base import BackendError
 
 
 class EjabberdXMLRPCBackend(XmppBackendBase):
-    credentials = None
+    credentials = {}
 
     def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None,
                  PASSWORD=None):
