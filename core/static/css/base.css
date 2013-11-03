@@ -13,3 +13,10 @@ input#recaptcha_response_field {
 nav {
     margin-top: 10px;
 }
+
+footer {
+    color: #777;
+    background-color: #f8f8f8;
+    padding-top: 5px;
+    margin-top: 2em;
+}
