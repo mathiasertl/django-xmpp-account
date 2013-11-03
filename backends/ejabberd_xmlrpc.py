@@ -25,10 +25,11 @@ from django.conf import settings
 
 from backends.base import XmppBackendBase
 from backends.base import BackendError
+from backends.base import UserExists
 
 
 class EjabberdXMLRPCBackend(XmppBackendBase):
-    credentials = {}
+    credentials = None
 
     def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None,
                  PASSWORD=None):
@@ -43,7 +44,6 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             }
 
     def rpc(self, cmd, **kwargs):
-        kwargs = {str(k): str(v) for k, v in kwargs.items()}  # cast to strs
         func = getattr(self.client, cmd)
         if self.credentials is None:
             return func(kwargs)
@@ -97,12 +97,14 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             self.set_email(username, domain, email)
             return
 
-        code = self.client.register(self.credentials, {
-            'user': username,
-            'host': domain,
-            'password': password,
-        })
-        raise BackendError('%s (%s)' % (code, type(code)))
+        result = self.rpc('register', user=username, host=domain,
+                          password=password)
+        if result['res'] == 0:
+            return
+        elif result['res'] == 1:
+            raise UserExists()
+        else:
+            raise BackendError(result.get('text', 'Unknown Error'))
 
     def check_password(self, username, domain, password):
         """Check the password of a user.
@@ -113,9 +115,14 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         :param password: The password to check.
         :return: ``True`` if the password is correct, ``False`` otherwise.
         """
-        code = self.rpc('check_password', user=username, host=domain,
-                        password=password)
-        raise BackendError('%s (%s)' % (code, type(code)))
+        result = self.rpc('check_password', user=username, host=domain,
+                          password=password)
+        if result['res'] == 0:
+            return True
+        elif result['res'] == 1:
+            return False
+        else:
+            raise BackendError(result.get('text', 'Unknown Error'))
 
     def set_password(self, username, domain, password):
         """Set the password of a user.
@@ -125,29 +132,24 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
                          in :ref:`settings-XMPP_HOSTS`.
         :param password: The password to set.
         """
-        code = self.rpc('change_password', user=username, host=domain,
-                        password=password)
-        raise BackendError('%s (%s)' % (code, type(code)))
+        result = self.rpc('change_password', user=username, host=domain,
+                          password=password)
+        if result['res'] == 0:
+            return True
+        else:
+            raise BackendError(result.get('text', 'Unknown Error'))
 
     def has_usable_password(self, username, domain):
         return True
 
     def set_email(self, username, domain, email):
         """Set the email address of a user."""
-        raise NotImplementedError
+        pass
 
     def check_email(self, username, domain, email):
         """Check the email address of a user."""
-        raise NotImplementedError
+        pass
 
-    def expire(self, username, domain):
-        """Expire a username reservation.
-
-        This method is called when the confirmation key for a registration
-        expires. The default implementation just calls :py:func:`remove`. This
-        is fine if you do not override :py:func:`reserve`.
-        """
-        self.remove(username, domain)
 
     def remove(self, username, domain):
         """Remove a user.
@@ -159,4 +161,8 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         :param   domain: The domainname selected, may be any domainname
                          provided in :ref:`settings-XMPP_HOSTS`.
         """
-        raise NotImplementedError
+        result = self.rpc('unregister', user=username, host=domain)
+        if result['res'] == 0:
+            return True
+        else:
+            raise BackendError(result.get('text', 'Unknown Error'))
