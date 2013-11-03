@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# xmppregister documentation build configuration file, created by
+# django-xmpp-register documentation build configuration file, created by
 # sphinx-quickstart on Sun Oct  6 12:28:54 2013.
 #
 # This file is execfile()d with the current directory set to its
@@ -19,7 +19,7 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('..'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'xmppregister.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'xmppaccount.settings'
 
 # -- General configuration ------------------------------------------------
 
@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'xmppregister'
+project = u'django-xmpp-account'
 copyright = u'2013, Mathias Ertl'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -183,8 +183,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'xmppregisterdoc'
-
+htmlhelp_basename = 'django-xmpp-account-doc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -203,7 +202,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'xmppregister.tex', u'xmppregister Documentation',
+  ('index', 'django-xmpp-register.tex', u'django-xmpp-register Documentation',
    u'Mathias Ertl', 'manual'),
 ]
 
@@ -233,7 +232,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'xmppregister', u'xmppregister Documentation',
+    ('index', 'django-xmpp-register', u'django-xmpp-register Documentation',
      [u'Mathias Ertl'], 1)
 ]
 
@@ -247,8 +246,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'xmppregister', u'xmppregister Documentation',
-   u'Mathias Ertl', 'xmppregister', 'One line description of project.',
+  ('index', 'django-xmpp-register', u'django-xmpp-register Documentation',
+   u'Mathias Ertl', 'django-xmpp-register', 'One line description of project.',
    'Miscellaneous'),
 ]
 
