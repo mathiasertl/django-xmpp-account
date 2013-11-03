@@ -6,17 +6,20 @@
         </title>
 </head>
 <body>
-{% blocktrans %}Dear {{ username }},
+<p>{% blocktrans %}Dear {{ username }},{% endblocktrans %}</p>
 
-You have registered the account {{ jid }} with this email address. To complete
-your registration, please <a href="{{ uri }}">click here</a> and provide a password
-for your new account.
-{% endblocktrans %}{% if cleartext %}
-{% blocktrans %}Please note that this server stores passwords as plain text. We can only
-encourage you to choose a safe password you use nowhere else.{% endblocktrans %}{% endif %}
+<p>{% blocktrans %}You have registered the account {{ jid }} with this email address. To
+complete your registration, please <a href="{{ uri }}">click here</a> and
+provide a password for your new account.{% endblocktrans %}</p>
 
-{% blocktrans %}If you haven't registered for an account, you can simply disregard this email.
+{% if cleartext %}
+<p>{% blocktrans %}Please note that this server stores passwords as plain text. We can only
+encourage you to choose a safe password you use nowhere else.{% endblocktrans %}</p>
+{% endif %}
 
-greetings,
-    {{ domain }}{% endblocktrans %}{% endlanguage %}
+<p>{% trans "If you haven't registered for an account, you can simply disregard this email." %}</p>
+
+<p>{% trans "greetings," %}<br />
+<p style="padding-left: 4em;">{{ domain }}</p>
+{% endlanguage %}
 </body></html>
