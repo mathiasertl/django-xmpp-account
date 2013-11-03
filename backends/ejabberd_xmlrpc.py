@@ -133,7 +133,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         :param password: The password to set.
         """
         result = self.rpc('change_password', user=username, host=domain,
-                          password=password)
+                          newpass=password)
         if result['res'] == 0:
             return True
         else:
