@@ -1,3 +1,22 @@
-<html><head></head><body>
-        {{ key.key }}
+{% load i18n %}{% language lang %}<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>
+            {% blocktrans %}Your new account on {{ domain }}{% endblocktrans %}
+        </title>
+</head>
+<body>
+{% blocktrans %}Dear {{ username }},
+
+You have registered the account {{ jid }} with this email address. To complete
+your registration, please <a href="{{ uri }}">click here</a> and provide a password
+for your new account.
+{% endblocktrans %}{% if cleartext %}
+{% blocktrans %}Please note that this server stores passwords as plain text. We can only
+encourage you to choose a safe password you use nowhere else.{% endblocktrans %}{% endif %}
+
+{% blocktrans %}If you haven't registered for an account, you can simply disregard this email.
+
+greetings,
+    {{ domain }}{% endblocktrans %}{% endlanguage %}
 </body></html>
