@@ -25,6 +25,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.loader import render_to_string
+from django.utils.encoding import python_2_unicode_compatible
 
 from django.contrib.auth.models import AbstractBaseUser
 
@@ -42,8 +43,9 @@ PURPOSE_CHOICES = (
     (PURPOSE_SET_PASSWORD, 'set password'),
     (PURPOSE_SET_EMAIL, 'set email'),
 )
+PURPOSE_DICT = dict(PURPOSE_CHOICES)
 
-
+@python_2_unicode_compatible
 class RegistrationUser(AbstractBaseUser):
     # NOTE: MySQL only allows a 255 character limit
     username = models.CharField(max_length=255, unique=True)
@@ -100,11 +102,8 @@ class RegistrationUser(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return self.is_admin
 
-    def __unicode__(self):
-        return self.email
-
     def __str__(self):
-        return self.email
+        return '%s (%s)' % (self.email, self.jid)
 
     @property
     def is_staff(self):
@@ -113,6 +112,7 @@ class RegistrationUser(AbstractBaseUser):
         return self.is_admin
 
 
+@python_2_unicode_compatible
 class Confirmation(models.Model):
     key = models.CharField(max_length=40)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -144,21 +144,27 @@ class Confirmation(models.Model):
         msg.attach_alternative(html, 'text/html')
         msg.send()
 
-    def __unicode__(self):
-        return self.key
-
     def __str__(self):
-        return self.key
+        return '%s: %s' % (PURPOSE_DICT[self.purpose], self.user.jid)
 
 
+@python_2_unicode_compatible
 class Address(models.Model):
     address = models.GenericIPAddressField()
     activities = models.ManyToManyField(settings.AUTH_USER_MODEL, through='UserAddresses')
 
+    def __str__(self):
+        return self.address
 
+
+@python_2_unicode_compatible
 class UserAddresses(models.Model):
     address = models.ForeignKey(Address)
     user = models.ForeignKey(RegistrationUser)
 
     timestamp = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
+
+    def __str__(self):
+        return '%s: %s/%s' % (PURPOSE_DICT[self.purpose], self.address.address,
+                              self.user.jid)
