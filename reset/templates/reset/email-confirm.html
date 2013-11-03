@@ -10,11 +10,12 @@
 <div class="alert alert-success">
         <p><strong>{% trans "Change successful!" %}</strong></p>
         <p>{% blocktrans %}You have successfully set your new Email address.{% endblocktrans %}</p>
+</div>
 {% else %}
 
 <p class="alert alert-info">
 {% blocktrans %}Please give your password again to make sure you are really authorized to
-make this change. {% endblocktrans %}
+make this change.{% endblocktrans %}</p>
 
 {% include "core/forms/errors.html" %}
 
