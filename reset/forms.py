@@ -29,7 +29,6 @@ User = get_user_model()
 
 
 class ResetPasswordForm(AntiSpamForm, JidMixin, EmailMixin):
-    email = EmailMixin.EMAIL_FIELD
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.DOMAIN_FIELD
 

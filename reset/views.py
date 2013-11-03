@@ -53,7 +53,7 @@ class ResetPasswordView(ConfirmationView):
         return context
 
     def get_user(self, data):
-        return User.objects.get(email=data['email'], username=data['username'],
+        return User.objects.get(username=data['username'],
                                 domain=data['domain'])
 
 
