@@ -12,6 +12,6 @@
     display: none;
 }
 
-input.recaptcha_response_field {
+input#recaptcha_response_field {
     line-height: normal !important;
 }
