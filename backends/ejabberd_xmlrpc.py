@@ -97,8 +97,11 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             self.set_email(username, domain, email)
             return
 
-        code = self.rpc('register', user=username, host=domain,
-                        password=password)
+        code = self.client.register(self.credentials, {
+            'user': username,
+            'host': domain,
+            'password': password,
+        })
         raise BackendError('%s (%s)' % (code, type(code)))
 
     def check_password(self, username, domain, password):
