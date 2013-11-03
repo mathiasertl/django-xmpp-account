@@ -28,7 +28,8 @@ from backends.base import BackendError
 class EjabberdXMLRPCBackend(XmppBackendBase):
     library = 'xmlrpclib'
 
-    def __init__(self, HOST, USER, SERVER, PASSWORD):
+    def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None,
+                 PASSWORD=None):
         super(EjabberdXMLRPCBackend, self).__init__()
 
         self.client = self.module.ServerProxy(HOST)
