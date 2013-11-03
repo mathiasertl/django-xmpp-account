@@ -9,3 +9,7 @@
 input#recaptcha_response_field {
     line-height: normal !important;
 }
+
+nav {
+    margin-top: 10px;
+}
