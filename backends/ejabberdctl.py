@@ -17,6 +17,8 @@
 
 from __future__ import unicode_literals
 
+import time
+
 from django.conf import settings
 
 from subprocess import PIPE
@@ -66,6 +68,8 @@ class EjabberdctlBackend(XmppBackendBase):
         code, out, err = self.ctl('register', username, domain, password)
 
         if code == 0:
+            self.ctl('set_last', username, domain, int(time.time()),
+                     'Registered')
             return
         elif code == 1:
             raise UserExists()
