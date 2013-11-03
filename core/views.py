@@ -94,7 +94,7 @@ class ConfirmationView(AntiSpamFormView):
 
         # log user address:
         address = Address.objects.get_or_create(
-            address=self.request.get_host())[0]
+            address=self.request.META['REMOTE_ADDR'])[0]
         UserAddresses.objects.create(
             address=address, user=user, purpose=self.purpose)
 
