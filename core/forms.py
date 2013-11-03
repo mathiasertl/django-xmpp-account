@@ -92,7 +92,7 @@ class AntiSpamBase(object):
 
 
 class PasswordMixin(object):
-    PASSWORD_FIELD = forms.CharField(label=_("Password"),
+    PASSWORD_FIELD = forms.CharField(label=_("Password"), max_length=60,
                                      widget=PasswordWidget)
 
 
@@ -102,7 +102,7 @@ class PasswordConfirmationMixin(PasswordMixin):
     }
 
     PASSWORD2_FIELD = forms.CharField(
-        label=_("Confirm"), widget=PasswordWidget,
+        label=_("Confirm"), widget=PasswordWidget, max_length=60,
         help_text=_("Enter the same password as above, for verification."))
 
     def clean_password2(self):
