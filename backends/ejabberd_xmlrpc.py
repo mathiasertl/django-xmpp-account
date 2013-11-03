@@ -30,12 +30,13 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
 
     def __init__(self, *args, **kwargs):
         super(EjabberdXMLRPCBackend, self).__init__(*args, **kwargs)
+        config = settings.XMPP_BACKENDS['default']
 
-        self.client = self.module.ServerProxy(settings.EJABBERD_XMLRPC['HOST'])
+        self.client = self.module.ServerProxy(config['HOST'])
         self.credentials = {
-            'user': settings.EJABBERD_XMLRPC['USER'],
-            'server': settings.EJABBERD_XMLRPC['server'],
-            'password': settings.EJABBERD_XMLRPC['password'],
+            'user': config['USER'],
+            'server': config['SERVER'],
+            'password': config['PASSWORD'],
         }
 
     def rpc(self, cmd, **kwargs):
