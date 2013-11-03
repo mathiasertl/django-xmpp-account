@@ -1,7 +1,7 @@
 {% load i18n %}{% language lang %}{% blocktrans %}Dear {{ username }},{% endblocktrans %}
 
-{% blocktrans %}You have registered the account {{ jid }} with this email address. To
-complete your registration, please click on the following link and
+{% blocktrans %}You have registered the account {{ jid }} with this email address.
+To complete your registration, please click on the following link and
 provide a password for your new account:{% endblocktrans %}
 
     {{ uri }}
