@@ -39,7 +39,7 @@ class DeleteView(ConfirmationView):
 
     confirm_url_name = 'DeleteConfirmation'
     purpose = PURPOSE_DELETE
-    email_subject = _('Delete your account on %(domain)s account')
+    email_subject = _('Delete your account on %(domain)s')
     email_template = 'delete/mail'
 
     def get_context_data(self, **kwargs):
