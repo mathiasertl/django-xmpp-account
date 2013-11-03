@@ -19,6 +19,7 @@
 
 from __future__ import unicode_literals
 
+import time
 import xmlrpclib
 
 from django.conf import settings
@@ -100,6 +101,11 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         result = self.rpc('register', user=username, host=domain,
                           password=password)
         if result['res'] == 0:
+            # set last activity, so that no user has the activity 'Never'.
+            # this way the account isn't removed with delete_old_users.
+            self.rpc('set_last', user=username, host=domain,
+                     timestamp=int(time.time()), status='Registered')
+
             return
         elif result['res'] == 1:
             raise UserExists()
