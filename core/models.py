@@ -134,6 +134,7 @@ class Confirmation(models.Model):
             'key': self,
             'uri': uri,
             'lang': request.LANGUAGE_CODE,
+            'subject': subject,
         }
         text = render_to_string('%s.txt' % template_base, context)
         html = render_to_string('%s.html' % template_base, context)
