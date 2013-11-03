@@ -40,7 +40,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         }
 
     def rpc(self, cmd, **kwargs):
-        return getattr(self.client, cmd)(self.credentials, **kwargs)
+        return getattr(self.client, cmd)(self.credentials, kwargs)
 
     def create(self, username, domain, password, email):
         """Create a new user.
