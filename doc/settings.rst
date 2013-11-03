@@ -13,7 +13,7 @@ Todo
 XMPP_MAX_USERNAME_LENGTH
 ________________________
 
-Todo.
+Todo. NOTE: Max 255 characters.
 
 .. _settings-XMPP_BACKENDS:
 

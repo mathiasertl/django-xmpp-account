@@ -195,6 +195,9 @@ try:
 except ImportError:
     pass
 
+if XMPP_MAX_USERNAME_LENGTH > 255:
+    XMPP_MAX_USERNAME_LENGTH = 255
+
 if RECAPTCHA_PRIVATE_KEY and RECAPTCHA_PUBLIC_KEY:
     from recaptcha import RecaptchaClient
     RECAPTCHA_CLIENT = RecaptchaClient(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PUBLIC_KEY)
