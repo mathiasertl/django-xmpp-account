@@ -11,6 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
+   setup
    settings
    backends/base
 
