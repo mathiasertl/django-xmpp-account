@@ -196,8 +196,8 @@ try:
 except ImportError:
     pass
 
-RESERVATION_HOSTS = [k for k, v in XMPP_HOSTS.items() if v['RESERVATION']]
-REGISTRATION_HOSTS = [k for k, v in XMPP_HOSTS.items() if v['REGISTRATION']]
+RESERVATION_HOSTS = [k for k, v in XMPP_HOSTS.items() if v.get('RESERVATION')]
+REGISTRATION_HOSTS = [k for k, v in XMPP_HOSTS.items() if v.get('REGISTRATION')]
 
 if XMPP_MAX_USERNAME_LENGTH > 255:
     XMPP_MAX_USERNAME_LENGTH = 255
