@@ -33,7 +33,7 @@ User = get_user_model()
 
 class ResetPasswordForm(AntiSpamForm, JidMixin, EmailMixin):
     username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.DOMAIN_FIELD
+    domain = JidMixin.ALL_DOMAINS_FIELD
 
 
 class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
@@ -43,7 +43,7 @@ class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
 
 class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailMixin):
     username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.DOMAIN_FIELD
+    domain = JidMixin.ALL_DOMAINS_FIELD
     email = copy(EmailMixin.EMAIL_FIELD)
     password = PasswordMixin.PASSWORD_FIELD
     email.label = _("New Email")

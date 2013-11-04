@@ -25,7 +25,7 @@ from core.forms import PasswordMixin
 
 class DeleteForm(AntiSpamForm, JidMixin, PasswordMixin):
     username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.DOMAIN_FIELD
+    domain = JidMixin.ALL_DOMAINS_FIELD
     password = PasswordMixin.PASSWORD_FIELD
 
 
