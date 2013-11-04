@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 import logging
 
 from django.conf import settings
+from django.core.cache import cache
 
 from backends.base import XmppBackendBase
 from backends.base import UserExists
@@ -42,55 +43,59 @@ class DummyBackend(XmppBackendBase):
         user = '%s@%s' % (username, domain)
         log.debug('Create user: %s (%s)', user, password)
 
-        if user in self._users:
-            raise UserExists
-        else:
-            self._users[user] = {
+        data = cache.get(user)
+        if data is None:
+            cache.set(user, {
                 'pass': password,
                 'email': email,
-            }
+            })
+        else:
+            raise UserExists()
 
     def check_password(self, username, domain, password):
         user = '%s@%s' % (username, domain)
         log.debug('Check pass: %s -> %s', user, password)
 
-        if user not in self._users:
+        data = cache.get(user)
+        if data is None:
             return False
         else:
-            return self._users[user]['pass'] == password
+            return data['pass'] == password
 
     def check_email(self, username, domain, email):
         user = '%s@%s' % (username, domain)
         log.debug('Check email: %s --> %s', user, email)
 
-        if user not in self._users:
+        data = cache.get(user)
+        if data is None:
             return False
         else:
-            return self._users[user]['email'] == email
+            return data['email'] == email
 
     def set_password(self, username, domain, password):
         user = '%s@%s' % (username, domain)
         log.debug('Set pass: %s -> %s', user, password)
 
-        if user not in self._users:
-            raise UserNotFound
+        data = cache.get(user)
+        if data is None:
+            raise UserNotFound()
         else:
-            self._users[user]['pass'] = password
+            data['pass'] = password
+            cache.set(user, data)
 
     def set_email(self, username, domain, email):
         user = '%s@%s' % (username, domain)
         log.debug('Set email: %s --> %s', user, email)
 
-        if user not in self._users:
-            raise UserNotFound
+        data = cache.get(user)
+        if data is None:
+            raise UserNotFound()
         else:
-            self._users[user]['email'] = email
+            data['email'] = email
+            cache.set(user, data)
 
     def remove(self, username, domain):
         user = '%s@%s' % (username, domain)
         log.debug('Remove: %s (%s)', user)
 
-        if user not in self._users:
-            raise UserNotFound
-        else:
-            del self._users[user]
+        cache.delete(user)
