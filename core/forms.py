@@ -128,7 +128,7 @@ class JidMixin(object):
         widget=SelectWidget,
         initial=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(d, '@%s' % d) for d, c in settings.XMPP_HOSTS.items()
-                       if c['registration']])
+                       if c['REGISTRATION']])
     )
 
     def clean_domain(self):
