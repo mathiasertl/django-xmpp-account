@@ -19,6 +19,8 @@ from __future__ import unicode_literals
 
 import time
 
+from copy import copy
+
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -127,8 +129,12 @@ class JidMixin(object):
     DOMAIN_FIELD = forms.ChoiceField(
         widget=SelectWidget,
         initial=settings.DEFAULT_XMPP_HOST,
-        choices=tuple([(d, '@%s' % d) for d, c in settings.XMPP_HOSTS.items()
-                       if c['REGISTRATION']])
+        choices=tuple([(d, '@%s' % d) for d in settings.REGISTRATION_HOSTS])
+    )
+    ALL_DOMAINS_FIELD = forms.ChoiceField(
+        widget=copy(SelectWidget),
+        initial=settings.DEFAULT_XMPP_HOST,
+        choices=tuple([(d, '@%s' % d) for d in settings.MANAGED_HOSTS])
     )
 
     def clean_domain(self):
