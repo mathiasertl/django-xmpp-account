@@ -174,6 +174,7 @@ AUTHENTICATION_BACKENDS = (
 AUTH_USER_MODEL = 'core.RegistrationUser'
 
 # custom settings defaults
+XMPP_HOSTS = {}
 XMPP_MIN_USERNAME_LENGTH = 3
 XMPP_MAX_USERNAME_LENGTH = 32
 
@@ -194,6 +195,9 @@ try:
     from localsettings import *
 except ImportError:
     pass
+
+RESERVATION_HOSTS = [k for k, v in XMPP_HOSTS.items() if v['RESERVATION']]
+REGISTRATION_HOSTS = [k for k, v in XMPP_HOSTS.items() if v['REGISTRATION']]
 
 if XMPP_MAX_USERNAME_LENGTH > 255:
     XMPP_MAX_USERNAME_LENGTH = 255
