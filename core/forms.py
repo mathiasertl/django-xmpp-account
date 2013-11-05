@@ -76,8 +76,8 @@ class AntiSpamBase(object):
         return timestamp
 
     def clean_security_hash(self):
-        good = self.generate_hash(self.cleaned_data["timestamp"],
-                                  self.cleaned_data["token"])
+        good = self.generate_hash(self.data.get("timestamp", ''),
+                                  self.data.get("token", ''))
         received = self.cleaned_data.get('security_hash')
         if received is None:
             raise SpamException()
