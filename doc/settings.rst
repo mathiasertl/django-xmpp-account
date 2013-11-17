@@ -14,26 +14,96 @@ registration or as a new Email address for an existing user.
 Domains from the :ref:`settings-XMPP_HOSTS` setting that don't have their
 ``EMAIL`` key set to ``True`` will be automatically be included in this list.
 
-.. _settings-XMPP_MIN_USERNAME_LENGTH:
+.. _settings-CLEARTEXT_PASSWORDS:
 
-XMPP_MIN_USERNAME_LENGTH
-________________________
+CLEARTEXT_PASSWORDS
+___________________
 
-Todo
+Default:: ``True``
 
-.. _settings-XMPP_MAX_USERNAME_LENGTH:
+TODO
 
-XMPP_MAX_USERNAME_LENGTH
-________________________
+.. _settings-CONFIRMATION_TIMEOUT:
+
+CONFIRMATION_TIMEOUT
+____________________
+
+Default:: ``timedelta(hours=24)`` (24 hours)
+
+TODO
+
+.. _settings-FORM_TIMEOUT:
+
+FORM_TIMEOUT
+____________
+
+Default:: ``3600`` (1 hour)
+
+TODO
+
+.. _settings-MIN_USERNAME_LENGTH:
+
+MIN_USERNAME_LENGTH
+___________________
+
+Default:: ``3``
+
+TODO
+
+.. _settings-MAX_USERNAME_LENGTH:
+
+MAX_USERNAME_LENGTH
+___________________
+
+Default:: ``32``
 
 Todo. NOTE: Max 255 characters.
+
+.. _settings-RECAPTCHA_PRIVATE_KEY:
+
+RECAPTCHA_PRIVATE_KEY
+_____________________
+
+Default:: ``""`` (empty string)
+
+.. _settings-RECAPTCHA_PUBLIC_KEY:
+
+RECAPTCHA_PUBLIC_KEY
+____________________
+
+Default:: ``""`` (empty string)
+
+TODO
+
+.. _settings-REGISTRATION_RATE:
+
+REGISTRATION_RATE
+_________________
+
+Default::
+
+   {
+       timedelta(seconds=30): 1,
+       timedelta(minutes=1): 2,
+   }
+
+TODO
+
+.. _settings-SPAM_BLOCK_TIME:
+
+SPAM_BLOCK_TIME
+_______________
+
+Default:: ``86400`` (24 hours)
+
+TODO
 
 .. _settings-XMPP_BACKENDS:
 
 XMPP_BACKENDS
 _____________
 
-Todo.
+TODO
 
 .. _settings-XMPP_HOSTS:
 
