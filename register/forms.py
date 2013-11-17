@@ -38,8 +38,8 @@ class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
 
     username.help_text = _(
         'A minimum of %(min)s and a maximum of %(max)s characters. No "@" characters or spaces.') % {
-            'min': settings.XMPP_MIN_USERNAME_LENGTH,
-            'max': settings.XMPP_MAX_USERNAME_LENGTH,
+            'min': settings.MIN_USERNAME_LENGTH,
+            'max': settings.MAX_USERNAME_LENGTH,
         }
 
 

@@ -120,7 +120,7 @@ class PasswordConfirmationMixin(PasswordMixin):
 class JidMixin(object):
 #TODO: Update error messages, update max_length
     USERNAME_FIELD = forms.CharField(
-        label=_("Username"), max_length=settings.XMPP_MAX_USERNAME_LENGTH,
+        label=_("Username"), max_length=settings.MAX_USERNAME_LENGTH,
         widget=TextWidget,
         error_messages={
             'invalid': _("This value may contain only letters, numbers and "
@@ -149,16 +149,16 @@ class JidMixin(object):
         # validate minimum and maximum length
         length = len(node.encode('utf-8'))
         max_length = 1023
-        if settings.XMPP_MAX_USERNAME_LENGTH < max_length:
-            max_length = settings.XMPP_MAX_USERNAME_LENGTH
+        if settings.MAX_USERNAME_LENGTH < max_length:
+            max_length = settings.MAX_USERNAME_LENGTH
         if length > max_length:
             raise forms.ValidationError(_(
                 "Username must not be longer then %s characters.") %
                 max_length)
-        if length < settings.XMPP_MIN_USERNAME_LENGTH:
+        if length < settings.MIN_USERNAME_LENGTH:
             raise forms.ValidationError(_(
                 "Username must not be shorter then %s characters.") %
-                settings.XMPP_MIN_USERNAME_LENGTH)
+                settings.MIN_USERNAME_LENGTH)
 
         results = parse_jid('%s@example.com' % node)  # fake the server part
         if not results:
