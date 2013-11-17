@@ -24,15 +24,15 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 from core.forms import AntiSpamForm
-from core.forms import EmailMixin
+from core.forms import EmailBlockedMixin
 from core.forms import JidMixin
 from core.forms import PasswordConfirmationMixin
 
 User = get_user_model()
 
 
-class RegistrationForm(JidMixin, EmailMixin, AntiSpamForm):
-    email = EmailMixin.EMAIL_FIELD
+class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
+    email = EmailBlockedMixin.EMAIL_FIELD
     username = copy(JidMixin.USERNAME_FIELD)
     domain = JidMixin.DOMAIN_FIELD
 

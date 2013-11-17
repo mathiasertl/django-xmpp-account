@@ -187,6 +187,7 @@ REGISTRATION_RATE = {
     timedelta(seconds=30): 1,
     timedelta(minutes=1): 2,
 }
+BLOCKED_EMAIL_TLDS = set()
 
 RECAPTCHA_PRIVATE_KEY = None
 RECAPTCHA_PUBLIC_KEY = None
@@ -201,6 +202,8 @@ RESERVATION_HOSTS = [k for k, v in XMPP_HOSTS.items()
                      if v.get('RESERVATION') and v.get('MANAGE', True)]
 REGISTRATION_HOSTS = [k for k, v in XMPP_HOSTS.items()
                       if v.get('REGISTRATION') and v.get('MANAGE', True)]
+NO_EMAIL_HOSTS = [k for k, v in XMPP_HOSTS.items() if not v.get('EMAIL')]
+BLOCKED_EMAIL_TLDS.update(NO_EMAIL_HOSTS)
 
 if XMPP_MAX_USERNAME_LENGTH > 255:
     XMPP_MAX_USERNAME_LENGTH = 255

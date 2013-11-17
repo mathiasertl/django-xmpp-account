@@ -24,6 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from core.forms import AntiSpamForm
 from core.forms import EmailMixin
+from core.forms import EmailBlockedMixin
 from core.forms import JidMixin
 from core.forms import PasswordMixin
 from core.forms import PasswordConfirmationMixin
@@ -41,10 +42,10 @@ class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
     password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
-class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailMixin):
+class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailBlockedMixin):
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.ALL_DOMAINS_FIELD
-    email = copy(EmailMixin.EMAIL_FIELD)
+    email = copy(EmailBlockedMixin.EMAIL_FIELD)
     password = PasswordMixin.PASSWORD_FIELD
     email.label = _("New Email")
 

@@ -153,7 +153,8 @@ class JidMixin(object):
             max_length = settings.XMPP_MAX_USERNAME_LENGTH
         if length > max_length:
             raise forms.ValidationError(_(
-                "Username must not be longer then %s characters.") % max_length)
+                "Username must not be longer then %s characters.") %
+                max_length)
         if length < settings.XMPP_MIN_USERNAME_LENGTH:
             raise forms.ValidationError(_(
                 "Username must not be shorter then %s characters.") %
@@ -172,6 +173,40 @@ class EmailMixin(object):
         help_text=_(
             'Required, a confirmation email will be sent to this address.')
     )
+    EMAIL_ERROR_MESSAGES = {
+        'own-domain': _(
+            "This Jabber host does not provide email addresses. "
+            "You're meant to give your own Email address."
+        ),
+        'blocked-domain': _(
+            "Email addresses with this domain are blocked and cannot be used "
+            "on this site."
+        ),
+    }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        try:
+            hostname = email.rsplit('@', 1)[1]
+            if hostname in settings.NO_EMAIL_HOSTS:
+                raise forms.ValidationError(
+                    self.EMAIL_ERROR_MESSAGES['own-domain'])
+        except IndexError:
+            pass
+        return email
+
+
+class EmailBlockedMixin(EmailMixin):
+    def clean_email(self):
+        email = super(EmailBlockedMixin, self).clean_email()
+        try:
+            hostname = email.rsplit('@', 1)[1]
+            if hostname in settings.BLOCKED_EMAIL_TLDS:
+                raise forms.ValidationError(
+                    self.EMAIL_ERROR_MESSAGES['blocked-domain'])
+        except IndexError:
+            pass
+        return email
 
 
 class AntiSpamBaseForm(forms.Form, AntiSpamBase):

@@ -1,6 +1,19 @@
 Settings
 --------
 
+.. _settings-BLOCKED_EMAIL_TLDS:
+
+BLOCKED_EMAIL_TLDS
+__________________
+
+Default: ``set()`` (Empty set)
+
+A set of domains that are not allowed to be used in Email addresses during
+registration or as a new Email address for an existing user.
+
+Domains from the :ref:`settings-XMPP_HOSTS` setting that don't have their
+``EMAIL`` key set to ``True`` will be automatically be included in this list.
+
 .. _settings-XMPP_MIN_USERNAME_LENGTH:
 
 XMPP_MIN_USERNAME_LENGTH
@@ -30,7 +43,8 @@ __________
 Default: ``{}`` (Empty dictionary)
 
 A dictionary of the hosts this installation is able to manage. This means that
-your backend (see :ref:`XMPP_BACKENDS`) can handle each of these domains.
+your backend (see :ref:`settings-XMPP_BACKENDS`) can handle each of these
+domains.
 
 The value must be a dictionary, with the keys being domains and the values being
 dictionaries, with the following possible keys:
@@ -44,6 +58,9 @@ dictionaries, with the following possible keys:
   provides a password at the Email confirmation page. The default is ``False``.
 * ``MANAGE``: Set this value to ``False`` if you want to completely disable a
   domain but still have local users in the database.
+* ``EMAIL``: Unfortunately people frequently try to give their full Jabber ID as
+  their Email address. Unless you set this setting to ``True``, users will not
+  be able to fill in Email addresses with this domain in any form.
 
 Example::
 
