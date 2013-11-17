@@ -95,7 +95,8 @@ class XmppBackendBase(object):
         the user hasn't provided a password yet, so login via XMPP should be
         impossible at this point.
 
-        The default implementation calls :py:func:`create` with password=None.
+        The default implementation calls
+        :py:func:`~backends.base.XmppBackendBase.create` with password=None.
         You can override this if your account supports a true "reservation"
         method that blocks registration via other means but does not allow the
         user to log in.
@@ -118,10 +119,10 @@ class XmppBackendBase(object):
         :py:func:`~backends.base.XmppBackendBase.reserve`, then the password is
         ``None`` if this function is called via
         :py:func:`~backends.base.XmppBackendBase.reserve`, in which case you can
-        use :py:func:`.get_random_password` for a password. If the password is
-        not ``None``, you have to consider that the user already exists (with a
-        random password) in the backend and you only have to set his/her email
-        and password::
+        use :py:func:`~backends.base.XmppBackendBase.get_random_password` for a
+        password. If the password is not ``None``, you have to consider that
+        the user already exists (with a random password) in the backend and you
+        only have to set his/her email and password::
 
             from django.conf import settings
             from backends.base import XmppBackendBase
@@ -139,8 +140,6 @@ class XmppBackendBase(object):
 
                     # actually create teh user in the backend
                     self._really_create(username, domain, password, email)
-
-        After this method, the user should be able to log in via XMPP.
 
         :param    username: The username of the new user.
         :param      domain: The selected domain, may be any domain provided
@@ -196,8 +195,9 @@ class XmppBackendBase(object):
         """Expire a username reservation.
 
         This method is called when the confirmation key for a registration
-        expires. The default implementation just calls :py:func:`remove`. This
-        is fine if you do not override :py:func:`reserve`.
+        expires. The default implementation just calls
+        :py:func:`~backends.base.XmppBackendBase.remove`. This is fine if you
+        do not override :py:func:`~backends.base.XmppBackendBase.reserve`.
         """
         self.remove(username, domain)
 
