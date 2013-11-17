@@ -30,7 +30,29 @@ from backends.base import BackendError
 from backends.base import XmppBackendBase
 
 class EjabberdctlBackend(XmppBackendBase):
-    """Base class for all XMPP backends."""
+    """This backend uses the ejabberdctl command line utility.
+
+    .. WARNING:: This backend is not very secure because ejabberdctl gets any
+       passwords in clear text via the commandline. The process list (and thus
+       the passwords) can usually be viewed by anyone that has shell-access to
+       your machine!
+
+    Settings:
+
+    * ``EJABBERDCTL_PATH``: The full path to the ejabberdctl utility. The
+      default is :file:`/usr/sbin/ejabberdctl`
+
+    Example::
+
+        XMPP_BACKENDS = {
+            'BACKEND': 'backends.ejabberdctl.EjabberdctlBackend',
+            # optional:
+            #'EJABBERDCTL_PATH': '/usr/sbin/ejabberdctl',
+        }
+    """
+
+    def __init__(self, EJABBERDCTL_PATH='/usr/sbin/ejabberdctl'):
+        self.ejabberdctl = EJABBERDCTL_PATH
 
     def ex(self, *cmd):
         p = Popen(cmd, stdout=PIPE, stderr=PIPE)
@@ -38,25 +60,9 @@ class EjabberdctlBackend(XmppBackendBase):
         return p.returncode, stdout, stderr
 
     def ctl(self, *cmd):
-        return self.ex('/usr/sbin/ejabberdctl', *cmd)
+        return self.ex(self.ejabberdctl, *cmd)
 
     def create(self, username, domain, password, email):
-        """Create a new user.
-
-        This method is invoked when a user first registers for an account. At
-        this point, he/she does not have a confirmed email address and hasn't
-        provided a password.
-
-        If your backend requires you to set a password, you can use
-        :py:func:`get_random_password` to get a random password.
-
-        :param username: The username of the new user.
-        :param   domain: The selected domain, may be any domain provided
-                         in :ref:`settings-XMPP_HOSTS`.
-        :param    email: The email address provided by the user. Note that at
-                         this point it is not confirmed. You are free to ignore
-                         this parameter.
-        """
         if password is None:
             password = self.get_random_password()
 
@@ -77,14 +83,6 @@ class EjabberdctlBackend(XmppBackendBase):
             raise BackendError(code)  # TODO: 3 means nodedown.
 
     def check_password(self, username, domain, password):
-        """Check the password of a user.
-
-        :param username: The username of the new user.
-        :param   domain: The selected domain, may be any domain provided
-                         in :ref:`settings-XMPP_HOSTS`.
-        :param password: The password to check.
-        :return: ``True`` if the password is correct, ``False`` otherwise.
-        """
         code, out, err = self.ctl('check_password', username, domain, password)
 
         if code == 0:
@@ -95,13 +93,6 @@ class EjabberdctlBackend(XmppBackendBase):
             raise BackendError(code)
 
     def set_password(self, username, domain, password):
-        """Set the password of a user.
-
-        :param username: The username of the new user.
-        :param   domain: The selected domain, may be any domain provided
-                         in :ref:`settings-XMPP_HOSTS`.
-        :param password: The password to set.
-        """
         code, out, err = self.ctl('change_password', username, domain,
                                   password)
         if code != 0:  # 0 is also returned if the user doesn't exist.
@@ -117,22 +108,15 @@ class EjabberdctlBackend(XmppBackendBase):
         return True  # unfortunately we can't tell
 
     def set_email(self, username, domain, email):
+        """Not yet implemented."""
         # ejabberdctl get_vcard2 mati jabber.at EMAIL USERID
         pass  # maybe as vcard field?
 
     def check_email(self, username, domain, email):
+        """Not yet implemented."""
         pass  # maybe as vcard field?
 
     def remove(self, username, domain):
-        """Remove a user.
-
-        This method is called when a confirmation key expires or when the user
-        explicitly wants to remove her/his account.
-
-        :param username: The username of the new user.
-        :param     domain: The domainname selected, may be any domainname provided
-                         in :ref:`settings-XMPP_HOSTS`.
-        """
         code, out, err = self.ctl('unregister', username, domain)
         if code != 0:  # 0 is also returned if the user does not exist
             raise BackendError(code)
