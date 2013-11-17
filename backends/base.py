@@ -113,11 +113,13 @@ class XmppBackendBase(object):
     def create(self, username, domain, password, email):
         """Create a new user.
 
-        If the domains ``RESERVE`` setting is True and your backend does not
-        override :py:func:`reserve`, then the password is ``None`` if this
-        function is called via :py:func:`reserve`, in which case you can use
-        :py:func:`get_random_password` for a password. If the password is not
-        ``None, you have to consider that the user already exists (with a
+        If the domains ``RESERVE`` setting is ``True`` (see
+        :ref:`settings-XMPP_BACKENDS`) and your backend does not override
+        :py:func:`~backends.base.XmppBackendBase.reserve`, then the password is
+        ``None`` if this function is called via
+        :py:func:`~backends.base.XmppBackendBase.reserve`, in which case you can
+        use :py:func:`.get_random_password` for a password. If the password is
+        not ``None``, you have to consider that the user already exists (with a
         random password) in the backend and you only have to set his/her email
         and password::
 
@@ -147,7 +149,6 @@ class XmppBackendBase(object):
         :param       email: The email address provided by the user. Note that at
                             this point it is not confirmed. You are free to ignore
                             this parameter.
-        :param reservation: True only when called via :py:func:`reserve`.
         """
         raise NotImplementedError
 

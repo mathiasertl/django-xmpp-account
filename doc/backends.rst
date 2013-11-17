@@ -1,7 +1,7 @@
 Backends
 --------
 
-The :ref:`setting-XMPP_BACKENDS` setting configures the backend that your site
+The :ref:`settings-XMPP_BACKENDS` setting configures the backend that your site
 uses. The backend is used to communicate with your Jabber server(s) and register
 accounts and so on. Various backends are availabe, if you want to implement your
 own backend please see :ref:`custom-backends` below.
