@@ -32,16 +32,6 @@ from backends.base import XmppBackendBase
 class EjabberdctlBackend(XmppBackendBase):
     """This backend uses the ejabberdctl command line utility.
 
-    .. WARNING:: This backend is not very secure because ejabberdctl gets any
-       passwords in clear text via the commandline. The process list (and thus
-       the passwords) can usually be viewed by anyone that has shell-access to
-       your machine!
-
-    Settings:
-
-    * ``EJABBERDCTL_PATH``: The full path to the ejabberdctl utility. The
-      default is :file:`/usr/sbin/ejabberdctl`
-
     Example::
 
         XMPP_BACKENDS = {
@@ -49,6 +39,16 @@ class EjabberdctlBackend(XmppBackendBase):
             # optional:
             #'EJABBERDCTL_PATH': '/usr/sbin/ejabberdctl',
         }
+
+    .. WARNING:: This backend is not very secure because ejabberdctl gets any
+       passwords in clear text via the commandline. The process list (and thus
+       the passwords) can usually be viewed by anyone that has shell-access to
+       your machine!
+
+    This backend uses the following settings:
+
+    **EJABBERDCTL_PATH** (optional, default: :file:`/usr/sbin/ejabberdctl`)
+        The full path to the ejabberdctl utility.
     """
 
     def __init__(self, EJABBERDCTL_PATH='/usr/sbin/ejabberdctl'):

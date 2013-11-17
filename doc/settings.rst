@@ -21,7 +21,9 @@ ___________________
 
 Default:: ``True``
 
-TODO
+Unless this setting is set to ``False``, the site will display a warning that
+passwords are stored in clear text whenever the user is prompted to enter a new
+password.
 
 .. _settings-CONFIRMATION_TIMEOUT:
 
@@ -30,7 +32,9 @@ ____________________
 
 Default:: ``timedelta(hours=24)`` (24 hours)
 
-TODO
+Every action requires an Email confirmation: The user receives an Email, and
+only if he clicks the link provided there, he can actually do anything. This
+setting configures the time the links in the comfirmation Emails stay valid.
 
 .. _settings-FORM_TIMEOUT:
 
@@ -39,7 +43,8 @@ ____________
 
 Default:: ``3600`` (1 hour)
 
-TODO
+Maximum amount of time a form stays valid. If the user loads a page and submits
+it after this many seconds, he will have to reload the page to get a new form.
 
 .. _settings-MIN_USERNAME_LENGTH:
 
@@ -48,7 +53,7 @@ ___________________
 
 Default:: ``3``
 
-TODO
+Minimum characters required for the registration of a new username.
 
 .. _settings-MAX_USERNAME_LENGTH:
 
@@ -57,7 +62,8 @@ ___________________
 
 Default:: ``32``
 
-Todo. NOTE: Max 255 characters.
+Maximum characters allowed for the registration of a new username. If you
+provide a value greater then 255 characters, it will be capped to that value.
 
 .. _settings-RECAPTCHA_PRIVATE_KEY:
 
@@ -66,6 +72,9 @@ _____________________
 
 Default:: ``""`` (empty string)
 
+If you set both this setting and :ref:`settings-RECAPTCHA_PUBLIC_KEY`, every
+form will be protected by a CAPTCHA.
+
 .. _settings-RECAPTCHA_PUBLIC_KEY:
 
 RECAPTCHA_PUBLIC_KEY
@@ -73,7 +82,8 @@ ____________________
 
 Default:: ``""`` (empty string)
 
-TODO
+If you set both this setting and :ref:`settings-RECAPTCHA_PRIVATE_KEY`, every
+form will be protected by a CAPTCHA.
 
 .. _settings-REGISTRATION_RATE:
 
@@ -83,11 +93,25 @@ _________________
 Default::
 
    {
-       timedelta(seconds=30): 1,
-       timedelta(minutes=1): 2,
+       timedelta(minutes=2): 1,
+       timedelta(hours=1): 2,
+       timedelta(days=1): 5,
    }
 
-TODO
+This configures how many accounts a single IP address can register within the
+given timeframes. Every restriction is added up, if any rate is exceeded, no
+registration is possible at the given time. The default means that an IP address
+can register at most:
+
+* once every two minutes
+* twice every hour
+* five times per day
+
+If you want to override this setting, make sure you have the
+``datetime.timedelta`` imported at the top of
+:file:`xmpplist/localsettings.py`::
+
+   from datetime import timedelta
 
 .. _settings-SPAM_BLOCK_TIME:
 
@@ -96,21 +120,43 @@ _______________
 
 Default:: ``86400`` (24 hours)
 
-TODO
+If the client shows behaviour that clearly identifies it as spambot, it will be
+blocked for this amount of seconds.
+
+Clients are identified as spambots if:
+
+* some hidden form fields are given incorrectly
+* a form is submitted within one second
+
 
 .. _settings-XMPP_BACKENDS:
 
 XMPP_BACKENDS
 _____________
 
-TODO
+Default:: ``{}`` (Empty dictionary, **required**)
+
+Configure XMPP backends for this site. See :doc:`backends <backends>` for a list of
+available backends and their settings. The only required setting is ``BACKEND``,
+which gives the Python path to the implementation. Example::
+
+   XMPP_BACKENDS = {
+      'default': {
+         'BACKEND': 'backends.ejabberd_xmlrpc.EjabberdXMLRPCBackend',
+         'USER': 'account.example.com',
+         'SERVER': 'account.example.com',
+         'PASSWORD': 'super-secure-password',
+      }
+   }
+
+Currently the only used key for this setting is ``default``.
 
 .. _settings-XMPP_HOSTS:
 
 XMPP_HOSTS
 __________
 
-Default: ``{}`` (Empty dictionary)
+Default: ``{}`` (Empty dictionary, **required**)
 
 A dictionary of the hosts this installation is able to manage. This means that
 your backend (see :ref:`settings-XMPP_BACKENDS`) can handle each of these

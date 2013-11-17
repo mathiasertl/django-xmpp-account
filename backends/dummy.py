@@ -30,6 +30,14 @@ log = logging.getLogger(__name__)
 
 
 class DummyBackend(XmppBackendBase):
+    """A dummy backend for development using Djangos caching framework.
+
+    By default, Djangos caching framework uses in-memory data structures, so
+    every registration will be removed if you restart the development server.
+    You can configure a different cache (e.g. memcached), see
+    `Django's cache framework <https://docs.djangoproject.com/en/dev/topics/cache/>`_
+    for details.
+    """
     _users = {}
 
     def create(self, username, domain, password, email):
