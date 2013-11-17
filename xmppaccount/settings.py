@@ -184,8 +184,9 @@ FORM_TIMEOUT = 60 * 60  # 1 hour
 
 SPAM_BLOCK_TIME = 60 * 60 * 24  # one day!
 REGISTRATION_RATE = {
-    timedelta(seconds=30): 1,
-    timedelta(minutes=1): 2,
+    timedelta(minutes=2): 1,
+    timedelta(hours=1): 2,
+    timedelta(days=1): 5,
 }
 BLOCKED_EMAIL_TLDS = set()
 
