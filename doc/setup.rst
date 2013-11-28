@@ -124,6 +124,17 @@ Here is what we do using Apache and mod_wsgi:
       # "account" is the normal system user/group added above.
       WSGIDaemonProcess account user=account group=account threads=1 python-path=/home/account/django-xmpp-account/:/home/account/django-xmpp-account/lib/python2.7/site-packages
       WSGIProcessGroup account
+
+      # Fix static files. This means that you have the following in
+      # localsettings.py:
+      #
+      # STATIC_ROOT = '/var/www/account.example.com/static/'
+      # STATIC_URL = '/static/'
+      Alias /static/ /var/www/account.example.com/static/
+      <Directory /var/www/account.example.com/static>
+          Order deny,allow
+          Allow from all
+      </Directory>
    </VirtualHost>
 
 Periodic tasks
