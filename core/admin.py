@@ -19,15 +19,44 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from django.contrib.auth.models import Group
+from django.db import models
 
 from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
 
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ['address', 'count_activities', 'timerange' ]
+
+    def queryset(self, request):
+        qs = super(AddressAdmin, self).queryset(request)
+        return qs.annotate(
+            count_activities=models.Count('activities')
+        ).annotate(
+            first_activity=models.Min('useraddresses__timestamp')
+        ).annotate(
+            last_activity=models.Max('useraddresses__timestamp')
+        )
+
+    def timerange(self, obj):
+        if obj.count_activities <= 1:
+            return '-'
+        diff = obj.last_activity - obj.first_activity
+        hours, remainder = divmod(diff.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        obj.timerange = diff
+
+        return '%s days, %s:%s:%s' % (diff.days, hours, minutes, seconds)
+    timerange.short_description = 'Timerange of activities'
+
+    def count_activities(self, obj):
+        return obj.count_activities
+    count_activities.short_description = 'Number of activities'
+    count_activities.admin_order_field = 'count_activities'
 
 admin.site.register(Confirmation)
-admin.site.register(Address)
+admin.site.register(Address, AddressAdmin)
 admin.site.register(UserAddresses)
 admin.site.register(RegistrationUser)
 admin.site.unregister(Group)
