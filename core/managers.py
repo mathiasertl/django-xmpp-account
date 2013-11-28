@@ -60,6 +60,9 @@ class ConfirmationManager(models.Manager):
     def valid(self):
         return self.get_query_set().valid()
 
+    def expired(self):
+        return self.get_query_set().expired()
+
     def registrations(self):
         return self.get_query_set().registrations()
 

@@ -35,6 +35,10 @@ class ConfirmationQuerySet(QuerySet):
         timestamp = pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
         return self.filter(created__gt=timestamp)
 
+    def expired(self):
+        timestamp = pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
+        return self.filter(created__lt=timestamp)
+
     def registrations(self):
         return self.filter(purpose=PURPOSE_REGISTER)
 
