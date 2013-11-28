@@ -31,13 +31,15 @@ from core.constants import PURPOSE_SET_EMAIL
 
 
 class ConfirmationQuerySet(QuerySet):
+    @property
+    def timestamp(self):
+        return pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
+
     def valid(self):
-        timestamp = pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
-        return self.filter(created__gt=timestamp)
+        return self.filter(created__gt=self.timestamp)
 
     def expired(self):
-        timestamp = pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
-        return self.filter(created__lt=timestamp)
+        return self.filter(created__lt=self.timestamp)
 
     def registrations(self):
         return self.filter(purpose=PURPOSE_REGISTER)

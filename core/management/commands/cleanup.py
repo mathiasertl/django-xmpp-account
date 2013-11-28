@@ -38,5 +38,4 @@ class Command(BaseCommand):
         UserAddresses.objects.filter(timestamp__lt=stamp).delete()
 
         # delete old confirmation keys:
-        stamp = now - timedelta(hours=24)
-        Confirmation.objects.filter(created__lt=now).delete()
+        Confirmation.objects.expired().delete()
