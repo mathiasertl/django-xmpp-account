@@ -3,4 +3,5 @@ South==0.8.4
 Sphinx==1.2b3
 django-brake==1.2.4
 django-recaptcha-field==1.0b2
+pytz==2013.8
 recaptcha==1.0rc1
