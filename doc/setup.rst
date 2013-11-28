@@ -5,7 +5,7 @@ _____
 requires:
 
 * `Python`_ 2.6 or later (tested only with Python 2.7)
-* `Django`_ 1.5 or later
+* `Django`_ 1.6 or later
 * `South`_  0.8.2 or later
 * `django-brake`_
 
@@ -14,6 +14,15 @@ requires:
 .. _South: http://south.aeracode.org/
 .. _django-brake: https://github.com/gmcquillan/django-brake
 
+Add user
+--------
+
+As a WSGI application, **django-xmpp-account** runs as its own system user. The
+source code does not have to belong to that user, it only has to be readable.
+On Linux/Unix systems, add a user with::
+
+   adduser --system --group --home=/home/account/ --disabled-login account
+
 Download
 --------
 
@@ -21,7 +30,7 @@ The code of **django-xmpp-account** is managed in a `git repository
 <https://git.fsinf.at/mati/django-xmpp-account>`_. To download
 the source, simply do::
 
-   git clone https://git.fsinf.at/mati/django-xmpp-account.git
+   cd /home/account/ && git clone https://git.fsinf.at/mati/django-xmpp-account.git
 
 Setup virtualenv
 ----------------
@@ -112,7 +121,19 @@ Here is what we do using Apache and mod_wsgi:
 
       # NOTE: wee add the virtualenv path and the project itself to the
       # pythonpath, this way we don't have to modify the wsgi file.
-      # "account" is a normal system user/group.
+      # "account" is the normal system user/group added above.
       WSGIDaemonProcess account user=account group=account threads=1 python-path=/home/account/django-xmpp-account/:/home/account/django-xmpp-account/lib/python2.7/site-packages
       WSGIProcessGroup account
    </VirtualHost>
+
+Periodic tasks
+--------------
+
+The ``cleanup`` management command cleans outdated confirmation keys as well as
+old activities by IP addresses. Make sure you execute this command daily or so
+to ensure you don't have to much IP address data stored.
+
+If you use a Linux server and virtualenv, you could add
+:file:`/etc/cron.d/accounts.jabber.at` with these contents::
+
+   25 6    * * *   account    cd /home/account/django-xmpp-account && bin/python manage.py cleanup
