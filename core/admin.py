@@ -27,7 +27,7 @@ from core.models import UserAddresses
 from core.models import RegistrationUser
 
 class UserAddressAdmin(admin.ModelAdmin):
-    list_display = ['purpose', 'address', 'user', ]
+    list_display = ['purpose', 'address', 'user', 'timestamp', ]
     list_select_related = ('address', 'user', )
     search_fields = ('address__address', 'user__email', 'user__username')
 
