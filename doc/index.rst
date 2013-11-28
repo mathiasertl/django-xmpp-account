@@ -7,7 +7,7 @@ Welcome to xmppregister's documentation!
 ========================================
 
 This is the still somewhat spartanious documentation for
-**django-xmpp-register**. This documentation will improve very soon.
+**django-xmpp-account**. This documentation will improve very soon.
 
 Contents:
 
