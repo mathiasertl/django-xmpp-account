@@ -26,6 +26,12 @@ from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
 
+class UserAddressAdmin(admin.ModelAdmin):
+    list_display = ['purpose', 'address', 'user', ]
+    list_select_related = ('address', 'user', )
+    search_fields = ('address__address', 'user__email', 'user__username')
+
+
 class AddressAdmin(admin.ModelAdmin):
     list_display = ['address', 'count_activities', 'timerange' ]
 
@@ -57,6 +63,6 @@ class AddressAdmin(admin.ModelAdmin):
 
 admin.site.register(Confirmation)
 admin.site.register(Address, AddressAdmin)
-admin.site.register(UserAddresses)
+admin.site.register(UserAddresses, UserAddressAdmin)
 admin.site.register(RegistrationUser)
 admin.site.unregister(Group)
