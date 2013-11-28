@@ -4,6 +4,7 @@
 /local/
 /share/
 /man/
+/build/
 localsettings.py
 *.py[oc]
 *.sw[po]
