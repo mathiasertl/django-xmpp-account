@@ -38,7 +38,6 @@ class DummyBackend(XmppBackendBase):
     `Django's cache framework <https://docs.djangoproject.com/en/dev/topics/cache/>`_
     for details.
     """
-    _users = {}
 
     def create(self, username, domain, password, email):
         if password is None:
