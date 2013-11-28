@@ -17,6 +17,12 @@
 
 from __future__ import unicode_literals
 
+from datetime import datetime
+
+from django.conf import settings
+
+import pytz
+
 from django.db.models.query import QuerySet
 
 from core.constants import PURPOSE_REGISTER
@@ -25,6 +31,10 @@ from core.constants import PURPOSE_SET_EMAIL
 
 
 class ConfirmationQuerySet(QuerySet):
+    def valid(self):
+        timestamp = pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
+        return self.filter(created__gt=timestamp)
+
     def registrations(self):
         return self.filter(purpose=PURPOSE_REGISTER)
 
