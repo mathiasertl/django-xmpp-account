@@ -17,11 +17,6 @@
 
 from __future__ import unicode_literals
 
-from datetime import datetime
-
-import pytz
-
-from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
 from django.utils.crypto import salted_hmac
@@ -52,8 +47,7 @@ class RegistrationUserManager(BaseUserManager):
 
 class ConfirmationManager(models.Manager):
     def get_query_set(self):
-        timestamp = pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
-        return ConfirmationQuerySet(self.model).filter(created__gt=timestamp)
+        return ConfirmationQuerySet(self.model)
 
     def create(self, user, purpose, key=None, **kwargs):
         if key is None:
@@ -62,6 +56,9 @@ class ConfirmationManager(models.Manager):
             key = salted_hmac(salt, value).hexdigest()
         return super(ConfirmationManager, self).create(
             user=user, purpose=purpose, key=key, **kwargs)
+
+    def valid(self):
+        return self.get_query_set().valid()
 
     def registrations(self):
         return self.get_query_set().registrations()

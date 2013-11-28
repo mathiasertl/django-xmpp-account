@@ -125,7 +125,7 @@ class ConfirmedView(AntiSpamFormView):
 
     def form_valid(self, form):
         try:
-            key = Confirmation.objects.filter(
+            key = Confirmation.objects.valid().filter(
                 purpose=self.purpose).get(key=self.kwargs['key'])
         except Confirmation.DoesNotExist:
             raise Http404
