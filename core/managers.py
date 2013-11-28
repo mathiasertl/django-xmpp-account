@@ -19,6 +19,8 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
+import pytz
+
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
@@ -50,7 +52,7 @@ class RegistrationUserManager(BaseUserManager):
 
 class ConfirmationManager(models.Manager):
     def get_query_set(self):
-        timestamp = datetime.now() - settings.CONFIRMATION_TIMEOUT
+        timestamp = pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
         return ConfirmationQuerySet(self.model).filter(created__gt=timestamp)
 
     def create(self, user, purpose, key=None, **kwargs):
