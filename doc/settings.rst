@@ -1,6 +1,18 @@
 Settings
 --------
 
+As a Django project, this project is configured via a file called
+:file:`settings.py`. You should not edit this file yourself (it's in the git
+repository to provide defaults), but edit the
+:file:`xmppaccount/localsettings.py` instead.  If you haven't already, copy the
+file :file:`localsettings.py.example` in the same directory and start from
+there.
+
+This page documents custom settings used by this project, for all other
+available settings, please see `Django settings`_.
+
+.. _Django settings: https://docs.djangoproject.com/en/dev/ref/settings/
+
 .. _settings-BLOCKED_EMAIL_TLDS:
 
 BLOCKED_EMAIL_TLDS
