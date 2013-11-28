@@ -134,6 +134,6 @@ old activities by IP addresses. Make sure you execute this command daily or so
 to ensure you don't have to much IP address data stored.
 
 If you use a Linux server and virtualenv, you could add
-:file:`/etc/cron.d/accounts.jabber.at` with these contents::
+:file:`/etc/cron.d/accounts.example.com` with these contents::
 
    25 6    * * *   account    cd /home/account/django-xmpp-account && bin/python manage.py cleanup
