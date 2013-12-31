@@ -12,3 +12,9 @@ this is what [we](https://jabber.at) run. But it is written in a way that you
 just have to implement a certain subclass to make it communicate with other
 servers. Please feel free to contribute additional backends to this project via
 a merge request!
+
+Documentation
+-------------
+
+Please see [account.jabber.at/doc](https://account.jabber.at/doc) for the most
+recent documentation.
