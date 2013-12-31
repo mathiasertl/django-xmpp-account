@@ -31,6 +31,7 @@ from django.contrib.auth.models import AbstractBaseUser
 
 from core.managers import ConfirmationManager
 from core.managers import RegistrationUserManager
+from core.constants import PURPOSE_DELETE
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
@@ -42,6 +43,7 @@ PURPOSE_CHOICES = (
     (PURPOSE_REGISTER, 'registration'),
     (PURPOSE_SET_PASSWORD, 'set password'),
     (PURPOSE_SET_EMAIL, 'set email'),
+    (PURPOSE_DELETE, 'delete'),
 )
 PURPOSE_DICT = dict(PURPOSE_CHOICES)
 
