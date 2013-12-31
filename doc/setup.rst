@@ -27,10 +27,10 @@ Download
 --------
 
 The code of **django-xmpp-account** is managed in a `git repository
-<https://git.fsinf.at/mati/django-xmpp-account>`_. To download
+<https://github.com/mathiasertl/django-xmpp-account>`_. To download
 the source, simply do::
 
-   cd /home/account/ && git clone https://git.fsinf.at/mati/django-xmpp-account.git
+   cd /home/account/ && git clone https://github.com/mathiasertl/django-xmpp-account.git
 
 Setup virtualenv
 ----------------
