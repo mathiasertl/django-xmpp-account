@@ -20,84 +20,84 @@ msgstr ""
 
 #: forms.py:49
 msgid "This page has expired. Reload and try again."
-msgstr ""
+msgstr "Diese Seite ist abgelaufen. Bitte lade sie neu und versuche es erneut."
 
 #: forms.py:97
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: forms.py:103
 msgid "The two password fields didn't match."
-msgstr ""
+msgstr "Die beiden Passwörter stimmen nicht miteinander überein."
 
 #: forms.py:107
 msgid "Confirm"
-msgstr ""
+msgstr "Bestätigen"
 
 #: forms.py:108
 msgid "Enter the same password as above, for verification."
-msgstr ""
+msgstr "Das selbe Passwort wie oben, zur Verifikation."
 
 #: forms.py:123
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 #: forms.py:126
 msgid "This value may contain only letters, numbers and @/./+/-/_ characters."
-msgstr ""
+msgstr "Dieser Wert sollte nur Buchstaben, Zahlen und @/./+/-/_ enthalten."
 
 #: forms.py:143
 msgid "Unknown domain given"
-msgstr ""
+msgstr "Unbekannte Domain angegeben"
 
 #: forms.py:156
 #, python-format
 msgid "Username must not be longer then %s characters."
-msgstr ""
+msgstr "Name darf nicht länger als %s Zeichen sein."
 
 #: forms.py:160
 #, python-format
 msgid "Username must not be shorter then %s characters."
-msgstr ""
+msgstr "Benutzername muss mindestens %s Zeichen haben."
 
 #: forms.py:166
 msgid "Username is not a valid XMPP username."
-msgstr ""
+msgstr "Benutzername ist kein valider XMPP Benutzername."
 
 #: forms.py:174
 msgid "Required, a confirmation email will be sent to this address."
-msgstr ""
+msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 
 #: forms.py:178
 msgid ""
 "This Jabber host does not provide email addresses. You're meant to give your "
 "own Email address."
-msgstr ""
+msgstr "Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte gib deine eigene Adresse an!"
 
 #: forms.py:182
 msgid ""
 "Email addresses with this domain are blocked and cannot be used on this site."
-msgstr ""
+msgstr "E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet werden."
 
 #: views.py:85
 msgid "User not found (or false password provided)!"
-msgstr ""
+msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
 #: views.py:90
 msgid "User already exists."
-msgstr ""
+msgstr "Benutzer existiert bereits."
 
 #: views.py:141
 msgid "User not found!"
-msgstr ""
+msgstr "Benutzer nicht gefunden!"
 
 #: views.py:146
 msgid "User already exists!"
-msgstr ""
+msgstr "Benutzer existiert bereits!"
 
 #: widgets.py:26
 msgid "Enter Email"
-msgstr ""
+msgstr "E-Mail-Adresse eingeben"
 
 #: templates/base.html:33
 msgid "© 2013, Mathias Ertl unless otherwise noted."
@@ -132,20 +132,20 @@ msgstr ""
 msgid ""
 "<strong>Error:</strong> There have been errors with your submission. Please "
 "see the errors below."
-msgstr ""
+msgstr "<strong>Fehler:</strong> Es gibt Probleme mit den angegebenen Daten. Bitte siehe dir die Fehler unten an."
 
 #: templates/core/includes/navbar.html:17
 msgid "Register"
-msgstr ""
+msgstr "Registrieren"
 
 #: templates/core/includes/navbar.html:18
 msgid "Set password"
-msgstr ""
+msgstr "Passwort setzen"
 
 #: templates/core/includes/navbar.html:19
 msgid "Set Email"
-msgstr ""
+msgstr "E-Mail setzen"
 
 #: templates/core/includes/navbar.html:20
 msgid "Delete account"
-msgstr ""
+msgstr "Konto löschen"
