@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-04 23:52+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:40
+#, python-format
+msgid ""
+"A minimum of %(min)s and a maximum of %(max)s characters. No \"@\" "
+"characters or spaces."
+msgstr ""
+"Mindestens %(min)s, maximal %(max)s Zeichen. Keine \"@\" Zeichen oder "
+"Leerzeichen."
+
+#: views.py:45
+#, python-format
+msgid "Your new account on %(domain)s"
+msgstr "Registrierung auf %(domain)s"
+
+#: templates/register/confirm.html:5
+msgid "Confirm Registration"
+msgstr "Registrierung bestätigen"
+
+#: templates/register/confirm.html:9
+msgid "Registration successful!"
+msgstr "Registrierung erfolgreich!"
+
+#: templates/register/confirm.html:10
+#, python-format
+msgid ""
+"\n"
+"    Your registration is now complete.  Your full Jabber address is\n"
+"    <strong>%(jid)s</strong>. Note that some clients require you to enter "
+"your\n"
+"    username (<strong>%(username)s</strong>) and the jabber server\n"
+"    (<strong>%(domain)s</strong>) separately.\n"
+"    "
+msgstr ""
+"Registrierung abgeschlossen. Die vollständige Jabber-Adresse ist<strong>"
+"%(jid)s</strong>. Achtung: In einigen Clients müssen derBenutzername "
+"(<strong>%(username)s</strong>) und der Jabber-Server(<strong>%(domain)s</"
+"strong>) separat angegeben werden."
+
+#: templates/register/confirm.html:40
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: templates/register/create.html:6
+msgid "Account registration"
+msgstr "Konto registrieren"
+
+#: templates/register/create.html:11
+msgid "Thanks for your registration!"
+msgstr "Danke für die Registrierung!"
+
+#: templates/register/create.html:12
+#, python-format
+msgid ""
+"\n"
+"        Please click at the confirmation link you have recieved at %(email)s "
+"to complete your registration.\n"
+"    "
+msgstr ""
+"Bitte klicken sie auf den Link, den sie in der E-Mail an %(email)s erhalten "
+"haben, um ihr Konto zu bestätigen."
+
+#: templates/register/create.html:18
+msgid ""
+"\n"
+"Please provide the required information below and you will receive a\n"
+"confirmation Email to the given address. Click on the link in the E-mail to\n"
+"complete your registration.\n"
+msgstr ""
+"Bitte vervollständigen sie das Formular unten und klicken sie auf den Link, "
+"den sie in der E-Mail an die angegebene Adresse erhalten. Erst nach dem sie "
+"auf den Link geklickt haben, ist ihre Registrierung abgeschlossen."
+
+#: templates/register/create.html:45
+msgid "Register"
+msgstr "Registrieren"
+
+#: templates/register/mail.html:5 templates/register/mail.txt:1
+#, python-format
+msgid "Dear %(username)s,"
+msgstr "Sehr geehrter %(username)s!"
+
+#: templates/register/mail.html:7
+#, python-format
+msgid ""
+"You have registered the account %(jid)s with this email address.\n"
+"To complete your registration, please <a href=\"%(uri)s\">click here</a> "
+"and\n"
+"provide a password for your new account."
+msgstr ""
+"Sie haben das Konto %(jid)s mit dieser E-Mail Adresse registriert.\n"
+"Um die Registrierung abzuschließen, <a href=\"%(uri)s\">klicken sie bitte "
+"hier</a>. Mit dem Passwort, dass sie dort angeben, können sie sich "
+"anschließend einloggen."
+
+#: templates/register/mail.html:12 templates/register/mail.txt:9
+msgid ""
+"Please note that this server stores passwords as plain text. We can only\n"
+"encourage you to choose a safe password you use nowhere else."
+msgstr ""
+"Bitte beachten sie, dass dieser Server Passwörter im Klartext speichert.\n"
+"Wir empfehlen, ihr Passwort nur für dieses Konto zu benutzen."
+
+#: templates/register/mail.html:16 templates/register/mail.txt:12
+msgid ""
+"If you haven't registered for an account, you can simply disregard this\n"
+"Email."
+msgstr ""
+"Falls sie kein Konto registriert haben, können sie diese E-Mail ignorieren."
+
+#: templates/register/mail.html:19 templates/register/mail.txt:15
+msgid "greetings,"
+msgstr "Alles liebe,"
+
+#: templates/register/mail.txt:3
+#, python-format
+msgid ""
+"You have registered the account %(jid)s with this email address.\n"
+"To complete your registration, please click on the following link and\n"
+"provide a password for your new account:"
+msgstr ""
+"Sie haben das Konto %(jid)s mit dieser E-Mail Adresse registriert.\n"
+"Um die Registrierung abzuschließen, Bitte sie auf den unten stehenden Link\n"
+"und geben ein Passwort an. Mit dem Passwort, dass sie dort angeben, können\n"
+"sie sich anschließend einloggen."
