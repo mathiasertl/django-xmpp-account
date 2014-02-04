@@ -9,17 +9,15 @@
 {% if form.is_valid %}{# successfull registration - don't display form! #}
 <div class="alert alert-success">
     <p><strong>{% trans "Thanks for your registration!" %}</strong></p>
-    <p>{% blocktrans with email=form.email.value %}
-        Please click at the confirmation link you have recieved at {{ email }} to complete your registration.
-    {% endblocktrans %}</p>
+    <p>{% blocktrans with email=form.email.value %}Please click at the
+    confirmation link you have recieved at {{ email }} to complete your
+    registration.{% endblocktrans %}</p>
 </div>
 {% else %}
 
-<p>{% blocktrans %}
-Please provide the required information below and you will receive a
-confirmation Email to the given address. Click on the link in the E-mail to
-complete your registration.
-{% endblocktrans %}</p>
+<p>{% blocktrans %}Please provide the required information below and you will
+receive a confirmation Email to the given address. Click on the link in the
+E-mail to complete your registration.{% endblocktrans %}</p>
 
 {% include "core/forms/errors.html" %}
 

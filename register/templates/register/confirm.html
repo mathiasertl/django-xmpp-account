@@ -7,12 +7,12 @@
 {% if form.is_valid %}
 <div class="alert alert-success">
     <p><strong>{% trans "Registration successful!" %}</strong></p>
-    <p>{% blocktrans with jid=jid username=username domain=domain %}
-    Your registration is now complete.  Your full Jabber address is
-    <strong>{{ jid }}</strong>. Note that some clients require you to enter your
-    username (<strong>{{ username }}</strong>) and the jabber server
-    (<strong>{{ domain }}</strong>) separately.
-    {% endblocktrans %}</p>
+    <p>{% blocktrans with jid=jid username=username domain=domain %}Your
+      registration is now complete.  Your full Jabber address is
+      <strong>{{ jid }}</strong>. Note that some clients require you to enter
+      your username (<strong>{{ username }}</strong>) and the jabber server
+      (<strong>{{ domain }}</strong>) separately.{% endblocktrans %}
+    </p>
 </div>
 {% else %}
 
