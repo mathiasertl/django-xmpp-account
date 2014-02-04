@@ -118,13 +118,9 @@ class PasswordConfirmationMixin(PasswordMixin):
 
 
 class JidMixin(object):
-#TODO: Update error messages, update max_length
     USERNAME_FIELD = forms.CharField(
         label=_("Username"), max_length=settings.MAX_USERNAME_LENGTH,
         widget=TextWidget,
-        error_messages={
-            'invalid': _("This value may contain only letters, numbers and "
-                         "@/./+/-/_ characters.")}
     )
     DOMAIN_FIELD = forms.ChoiceField(
         widget=SelectWidget,
