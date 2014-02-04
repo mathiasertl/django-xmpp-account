@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-04 22:25+0100\n"
+"POT-Creation-Date: 2014-02-04 22:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,37 +38,33 @@ msgstr "Bestätigen"
 msgid "Enter the same password as above, for verification."
 msgstr "Das selbe Passwort wie oben, zur Verifikation."
 
-#: forms.py:123
+#: forms.py:122
 msgid "Username"
 msgstr "Benutzername"
 
-#: forms.py:126
-msgid "This value may contain only letters, numbers and @/./+/-/_ characters."
-msgstr "Dieser Wert sollte nur Buchstaben, Zahlen und @/./+/-/_ enthalten."
-
-#: forms.py:143
+#: forms.py:139
 msgid "Unknown domain given"
 msgstr "Unbekannte Domain angegeben"
 
-#: forms.py:156
+#: forms.py:152
 #, python-format
 msgid "Username must not be longer then %s characters."
 msgstr "Name darf nicht länger als %s Zeichen sein."
 
-#: forms.py:160
+#: forms.py:156
 #, python-format
 msgid "Username must not be shorter then %s characters."
 msgstr "Benutzername muss mindestens %s Zeichen haben."
 
-#: forms.py:166
+#: forms.py:162
 msgid "Username is not a valid XMPP username."
 msgstr "Benutzername ist kein valider XMPP Benutzername."
 
-#: forms.py:174
+#: forms.py:170
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 
-#: forms.py:178
+#: forms.py:174
 msgid ""
 "This Jabber host does not provide email addresses. You're supposed to give "
 "your own Email address."
@@ -76,7 +72,7 @@ msgstr ""
 "Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte gib "
 "deine eigene Adresse an!"
 
-#: forms.py:182
+#: forms.py:178
 msgid ""
 "Email addresses with this domain are blocked and cannot be used on this site."
 msgstr ""
