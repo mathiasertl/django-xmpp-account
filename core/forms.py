@@ -176,7 +176,7 @@ class EmailMixin(object):
     EMAIL_ERROR_MESSAGES = {
         'own-domain': _(
             "This Jabber host does not provide email addresses. "
-            "You're meant to give your own Email address."
+            "You're supposed to give your own Email address."
         ),
         'blocked-domain': _(
             "Email addresses with this domain are blocked and cannot be used "
