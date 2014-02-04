@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Mathias Ertl <mati@er.tl>, 2014
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-14 22:59+0100\n"
+"POT-Creation-Date: 2014-02-04 22:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,12 +72,16 @@ msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 msgid ""
 "This Jabber host does not provide email addresses. You're meant to give your "
 "own Email address."
-msgstr "Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte gib deine eigene Adresse an!"
+msgstr ""
+"Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte gib "
+"deine eigene Adresse an!"
 
 #: forms.py:182
 msgid ""
 "Email addresses with this domain are blocked and cannot be used on this site."
-msgstr "E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet werden."
+msgstr ""
+"E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet "
+"werden."
 
 #: views.py:85
 msgid "User not found (or false password provided)!"
@@ -96,7 +100,7 @@ msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
 
 #: widgets.py:26
-msgid "Enter Email"
+msgid "Enter email"
 msgstr "E-Mail-Adresse eingeben"
 
 #: templates/base.html:33
@@ -112,9 +116,10 @@ msgid ""
 "                See the <a href=\"https://account.jabber.at/doc"
 "\">documentation</a> for more details."
 msgstr ""
-"Dieses Projekt basiert auf <a href=\"https://www.djangoproject.com\">Django</a>, "
-"der Quellcode ist <a href=\"https://github.com/mathiasertl/django-xmpp-account\">auf GitHub</a> verfügbar."
-"Die <a href=\"https://account.jabber.at/doc\">Dokumentation</a> beinhaltet weitere Informationen."
+"Dieses Projekt basiert auf <a href=\"https://www.djangoproject.com\">Django</"
+"a>, der Quellcode ist <a href=\"https://github.com/mathiasertl/django-xmpp-"
+"account\">auf GitHub</a> verfügbar.Die <a href=\"https://account.jabber.at/"
+"doc\">Dokumentation</a> beinhaltet weitere Informationen."
 
 #: templates/core/rate.html:5
 msgid "Rate exceeded!"
@@ -132,7 +137,9 @@ msgstr ""
 msgid ""
 "<strong>Error:</strong> There have been errors with your submission. Please "
 "see the errors below."
-msgstr "<strong>Fehler:</strong> Es gibt Probleme mit den angegebenen Daten. Bitte siehe dir die Fehler unten an."
+msgstr ""
+"<strong>Fehler:</strong> Es gibt Probleme mit den angegebenen Daten. Bitte "
+"siehe dir die Fehler unten an."
 
 #: templates/core/includes/navbar.html:17
 msgid "Register"
@@ -143,7 +150,7 @@ msgid "Set password"
 msgstr "Passwort setzen"
 
 #: templates/core/includes/navbar.html:19
-msgid "Set Email"
+msgid "Set email"
 msgstr "E-Mail setzen"
 
 #: templates/core/includes/navbar.html:20
