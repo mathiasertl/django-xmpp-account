@@ -2,6 +2,8 @@ Django==1.6.2
 South==0.8.4
 Sphinx==1.2.2
 django-brake==1.3.0
+Sphinx==1.2.1
+django-brake==1.2.4
 django-recaptcha-field==1.0b2
 dnspython==1.11.1
 pytz==2014.1
