@@ -16,12 +16,20 @@
 
 from __future__ import unicode_literals
 
+import re
 import sys
+import time
+
+from datetime import datetime
 
 import sleekxmpp
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+
+from core.models import Address
+from core.models import RegistrationUser
+from core.models import UserAddress
 
 # Python versions before 3.0 do not use UTF-8 encoding
 # by default. To ensure that Unicode is handled properly
@@ -33,13 +41,14 @@ if sys.version_info < (3, 0):
 else:
     raw_input = input
 
+REGEX = '\[([^\]]*)\]\s*([^@]*)@([^\s]*) was registered from IP address ([^\s]*)'
 
 class EjabberdClient(sleekxmpp.ClientXMPP):
     """
     Example messages::
 
-        [2014-03-16 16:52:29] username@jabber.at was registered from IP address ::FFFF:1.2.3.4 on node ejabberd@host using mod_register.
-        [2014-03-16 16:52:29] username@jabber.at was registered from IP address 2001::1 on node ejabberd@host using mod_register.
+        [2014-03-16 16:52:29] username@host was registered from IP address ::FFFF:1.2.3.4 on node ejabberd@host using mod_register.
+        [2014-03-16 16:52:29] username@host was registered from IP address 2001::1 on node ejabberd@host using mod_register.
     """
 
     def __init__(self, jid, password):
@@ -53,10 +62,7 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
         self.get_roster()
 
     def message(self, msg):
-        print(msg)
-        if msg['type'] in ('chat', 'normal'):
-            msg.reply("Thanks for sending\n%(body)s" % msg).send()
-
+        timestamp, user, host, ip = re.match(REGEX, msg['body'])
 
 
 class Command(BaseCommand):
@@ -66,5 +72,7 @@ class Command(BaseCommand):
 
         if bot.connect():
             bot.process(block=False)
+            time.sleep(5)
+            bot.disconnect(wait=True)
         else:
             print('unable to connect')
