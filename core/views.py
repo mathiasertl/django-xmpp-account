@@ -31,6 +31,7 @@ from brake.decorators import ratelimit
 from backends.base import UserExists
 from backends.base import UserNotFound
 
+from core.exceptions import SpamException
 from core.exceptions import RateException
 from core.models import Confirmation
 from core.models import Address
@@ -51,7 +52,11 @@ class AntiSpamFormView(FormView):
 
         if getattr(request, 'limited', False):
             raise RateException()
-        return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
+
+        try:
+            return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
+        except KeyError as e:
+            raise SpamException()
 
     def get_form_kwargs(self):
         kwargs = super(AntiSpamFormView, self).get_form_kwargs()
