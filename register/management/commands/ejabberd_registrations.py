@@ -64,23 +64,29 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
 
     def start(self, event):
         self.send_presence()
-        self.get_roster()
 
     def message(self, msg):
         try:
             timestamp, username, domain, ip = re.match(REGEX, msg['body']).groups()
+
+            if domain != msg['from'].full:
+                self.stderr.write('Received message from %s, only %s is authorized.'
+                                  % (msg['from'].full, domain))
+                return
+
             timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
             address = Address.objects.get_or_create(address=ip)[0]
 
             try:
                 user = User.objects.get(username=username, domain=domain)
-                self.stderr.write('User exists: %s@%s', (username, domain))
+                self.stderr.write('User exists: %s@%s' % (username, domain))
                 return
             except User.DoesNotExist:
-                self.stdout.err('Creating new user: %s@%s' % (username, domain))
+                self.stdout.write('Creating new user: %s@%s' % (username, domain))
                 user = User.objects.create(username=username, domain=domain)
 
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
+            self.stdout.write('Added registration for %s@%s' % (username, domain))
         except Exception as e:
             self.stderr.write('%s: %s' % (type(e).__name__, e))
             return
