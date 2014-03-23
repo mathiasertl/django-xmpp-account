@@ -67,7 +67,7 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
     def message(self, msg):
         try:
             timestamp, username, domain, ip = re.match(REGEX, msg['body']).groups()
-            if ip.startswith('::ffff:'):
+            if ip.lower().startswith('::ffff:'):
                 ip = ip[7:]
 
             if domain != msg['from'].full:
