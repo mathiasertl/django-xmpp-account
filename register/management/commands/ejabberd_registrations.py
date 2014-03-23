@@ -30,7 +30,6 @@ from django.core.management.base import BaseCommand
 
 from core.constants import PURPOSE_REGISTER
 from core.models import Address
-from core.models import RegistrationUser
 from core.models import UserAddresses
 
 # Python versions before 3.0 do not use UTF-8 encoding
