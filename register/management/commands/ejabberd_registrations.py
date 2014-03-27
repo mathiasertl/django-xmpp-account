@@ -83,11 +83,9 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 self.stderr.write('User exists: %s@%s' % (username, domain))
                 return
             except User.DoesNotExist:
-                self.stdout.write('Creating new user: %s@%s' % (username, domain))
                 user = User.objects.create(username=username, domain=domain)
 
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
-            self.stdout.write('Added registration for %s@%s' % (username, domain))
         except Exception as e:
             self.stderr.write('%s: %s' % (type(e).__name__, e))
             return
