@@ -165,7 +165,7 @@ class JidMixin(object):
 
 class EmailMixin(object):
     EMAIL_FIELD = forms.EmailField(
-        max_length=30, widget=EmailWidget,
+        max_length=50, widget=EmailWidget,
         help_text=_(
             'Required, a confirmation email will be sent to this address.')
     )
