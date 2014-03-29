@@ -88,6 +88,7 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 user = User.objects.create(username=username, domain=domain)
 
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
+            self.stdout.write('    --> saved.')
         except Exception as e:
             self.stderr.write('%s: %s' % (type(e).__name__, e))
             return
