@@ -62,12 +62,31 @@ class AddressAdmin(admin.ModelAdmin):
     count_activities.admin_order_field = 'count_activities'
 
 
+class RegistrationMethodListFilter(admin.SimpleListFilter):
+    title = _('Registration method')
+    parameter_name = 'method'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('ibr', _('In-Band registration')),
+            ('site', _('This website')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'ibr':
+            return queryset.filter(email__isnull=True)
+        elif self.value() == 'site':
+            return queryset.filter(email__isnull=False)
+        return queryset
+
 class RegistrationUserAdmin(admin.ModelAdmin):
-    list_display = ['jid', 'email', 'registered']
-    search_fields = ('username', 'email')
+    list_display = ['jid', 'email', 'registered', ]
+    search_fields = ('username', 'email', )
+    list_filter = (RegistrationMethodListFilter, )
 
     def jid(self, obj):
         return '%s@%s' % (obj.username, obj.domain)
+
 
 admin.site.register(Confirmation)
 admin.site.register(Address, AddressAdmin)
