@@ -65,8 +65,10 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
         self.send_presence()
 
     def message(self, msg):
+        self.stdout.write(msg['body'])
         try:
             timestamp, username, domain, ip = re.match(REGEX, msg['body']).groups()
+            self.stdout.write('    --> %s@%s from %s' % (username, domain, ip))
             if ip.lower().startswith('::ffff:'):
                 ip = ip[7:]
 
