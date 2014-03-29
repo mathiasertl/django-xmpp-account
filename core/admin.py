@@ -61,8 +61,16 @@ class AddressAdmin(admin.ModelAdmin):
     count_activities.short_description = 'Number of activities'
     count_activities.admin_order_field = 'count_activities'
 
+
+class RegistrationUserAdmin(admin.ModelAdmin):
+    list_display = ['jid', 'email', 'registered']
+    search_fields = ('username', 'email')
+
+    def jid(self, obj):
+        return '%s@%s' % (obj.username, obj.domain)
+
 admin.site.register(Confirmation)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(UserAddresses, UserAddressAdmin)
-admin.site.register(RegistrationUser)
+admin.site.register(RegistrationUser, RegistrationUserAdmin)
 admin.site.unregister(Group)
