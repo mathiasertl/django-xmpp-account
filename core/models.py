@@ -174,8 +174,8 @@ class UserAddresses(models.Model):
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
 
     class Meta:
-        verbose_name = _('Address Activity')
-        verbose_name_plural = _('Address Activities')
+        verbose_name = _('IP-Address Activity')
+        verbose_name_plural = _('IP-Address Activities')
 
 
     def __str__(self):
