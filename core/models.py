@@ -26,6 +26,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext as _
 
 from django.contrib.auth.models import AbstractBaseUser
 
@@ -71,6 +72,7 @@ class RegistrationUser(AbstractBaseUser):
     REQUIRED_FIELDS = ['username', 'domain', ]
 
     class Meta:
+        verbose_name = _('User')
         unique_together = (
             ('username', 'domain', ),
         )
