@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from core.models import Confirmation
 from core.models import Address
