@@ -157,6 +157,10 @@ class Address(models.Model):
     address = models.GenericIPAddressField()
     activities = models.ManyToManyField(settings.AUTH_USER_MODEL, through='UserAddresses')
 
+    class Meta:
+        verbose_name = _('IP-Address')
+        verbose_name_plural = _('IP-Addresses')
+
     def __str__(self):
         return self.address
 
@@ -168,6 +172,11 @@ class UserAddresses(models.Model):
 
     timestamp = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
+
+    class Meta:
+        verbose_name = _('Address Activity')
+        verbose_name_plural = _('Address Activities')
+
 
     def __str__(self):
         return '%s: %s/%s' % (PURPOSE_DICT[self.purpose], self.address.address,
