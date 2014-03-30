@@ -80,7 +80,8 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                                   % (msg['from'].full, domain))
                 return
 
-            timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S').replace(tzinfo=tzinfo)
+            timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
+            timestamp = tzinfo.localize(timestamp, is_dst=None)
             address = Address.objects.get_or_create(address=ip)[0]
 
             try:
