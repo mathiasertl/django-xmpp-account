@@ -4,6 +4,6 @@ Sphinx==1.2.2
 django-brake==1.2.4
 django-recaptcha-field==1.0b2
 dnspython==1.11.1
-pytz==2014.1
+pytz==2014.2
 recaptcha==1.0rc1
 sleekxmpp==1.2.4
