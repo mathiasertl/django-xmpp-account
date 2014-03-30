@@ -22,6 +22,7 @@ import time
 
 from datetime import datetime
 
+import pytz
 import sleekxmpp
 
 from django.conf import settings
@@ -44,6 +45,8 @@ else:
 
 User = get_user_model()
 REGEX = '\[([^\]]*)\]\s*The account ([^@]*)@([^\s]*) was registered from IP address ([^\s]*)'
+
+tzinfo = pytz.timezone(settings.TIME_ZONE)
 
 
 class EjabberdClient(sleekxmpp.ClientXMPP):
@@ -77,7 +80,7 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                                   % (msg['from'].full, domain))
                 return
 
-            timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
+            timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S').replace(tzinfo=tzinfo)
             address = Address.objects.get_or_create(address=ip)[0]
 
             try:
@@ -85,7 +88,9 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 self.stderr.write('User exists: %s@%s' % (username, domain))
                 return
             except User.DoesNotExist:
-                user = User.objects.create(username=username, domain=domain, registered=timestamp)
+                user = User.objects.create(username=username, domain=domain)
+                user.registered = timestamp
+                user.save()
 
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
             self.stdout.write('    --> saved.')
