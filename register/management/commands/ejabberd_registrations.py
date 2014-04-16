@@ -68,10 +68,8 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
         self.send_presence()
 
     def message(self, msg):
-        self.stdout.write(msg['body'])
         try:
             timestamp, username, domain, ip = re.match(REGEX, msg['body']).groups()
-            self.stdout.write('    --> %s@%s from %s' % (username, domain, ip))
             if ip.lower().startswith('::ffff:'):
                 ip = ip[7:]
 
@@ -94,7 +92,6 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 user.save()
 
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
-            self.stdout.write('    --> saved.')
         except Exception as e:
             self.stderr.write('%s: %s' % (type(e).__name__, e))
             return
