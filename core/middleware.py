@@ -35,13 +35,16 @@ class AntiSpamMiddleware(object):
 
     def process_exception(self, request, exception):
         host = request.get_host()
+        context = {
+            'EXCEPTION': exception.message,
+        }
 
         if isinstance(exception, SpamException):
             cache.set('spamblock-%s' % host, True, settings.SPAM_BLOCK_TIME)
-            return render(request, 'core/spambot.html')
+            return render(request, 'core/spambot.html', context)
         elif isinstance(exception, RegistrationRateException):
-            return render(request, 'core/registration_rate.html')
+            return render(request, 'core/registration_rate.html', context)
         elif isinstance(exception, RateException):
-            return render(request, 'core/rate.html')
+            return render(request, 'core/rate.html', context)
         elif isinstance(exception, TemporaryError):
-            return render(request, 'core/temporary_error.html')
+            return render(request, 'core/temporary_error.html', context)
