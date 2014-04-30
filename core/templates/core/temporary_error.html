@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% block title %}{% trans "Temporary Error" %}{% endblock title %}</h1>
+
+<p>{% blocktrans %}It seems this site is experiencing a temporary error. Please try again later.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}If this error persists, please <a href="{{ CONTACT_URL }}">contact us<a>.{% endblocktrans %}</p>
+
+{% endblock content %}
