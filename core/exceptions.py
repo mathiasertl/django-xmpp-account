@@ -28,5 +28,10 @@ class RateException(Exception):
     pass
 
 
+class TemporaryError(Exception):
+    """Raised when a temporary error occurs."""
+    pass
+
+
 class RegistrationRateException(RateException):
     """Raised when the user exceeds rate for registrations."""
