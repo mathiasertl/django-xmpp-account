@@ -24,6 +24,7 @@ from django.shortcuts import render
 from core.exceptions import RateException
 from core.exceptions import RegistrationRateException
 from core.exceptions import SpamException
+from core.exceptions import TemporaryError
 
 
 class AntiSpamMiddleware(object):
@@ -42,3 +43,5 @@ class AntiSpamMiddleware(object):
             return render(request, 'core/registration_rate.html')
         elif isinstance(exception, RateException):
             return render(request, 'core/rate.html')
+        elif isinstance(exception, TemporaryError):
+            return render(request, 'core/temporary_error.html')
