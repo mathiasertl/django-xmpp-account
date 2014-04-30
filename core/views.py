@@ -28,13 +28,16 @@ from django.views.generic import FormView
 
 from brake.decorators import ratelimit
 
+from recaptcha import RecaptchaUnreachableError
+
 from backends.base import UserExists
 from backends.base import UserNotFound
 
-from core.exceptions import SpamException
 from core.exceptions import RateException
-from core.models import Confirmation
+from core.exceptions import SpamException
+from core.exceptions import TemporaryError
 from core.models import Address
+from core.models import Confirmation
 from core.models import UserAddresses
 
 User = get_user_model()
@@ -55,6 +58,8 @@ class AntiSpamFormView(FormView):
 
         try:
             return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
+        except RecaptchaUnreachableError as e:
+            raise TemporaryError("The ReCAPTCHA server was unreacheable.")
         except KeyError as e:
             raise SpamException()
 
