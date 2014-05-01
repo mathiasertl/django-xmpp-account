@@ -37,10 +37,7 @@ class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
     domain = JidMixin.DOMAIN_FIELD
 
     username.help_text = _(
-        'A minimum of %(min)s and a maximum of %(max)s characters. No "@" characters or spaces.') % {
-            'min': settings.MIN_USERNAME_LENGTH,
-            'max': settings.MAX_USERNAME_LENGTH,
-        }
+        'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.')
 
 
 class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
