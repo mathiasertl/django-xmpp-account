@@ -3,13 +3,13 @@
 
 {% block content %}
 <div class="page-header">
-    <h1>{% block title %}{% trans "Confirm new Email address" %}{% endblock title %}</h1>
+    <h1>{% block title %}{% trans "Confirm new email address" %}{% endblock title %}</h1>
 </div>
 
 {% if form.is_valid %}
 <div class="alert alert-success">
         <p><strong>{% trans "Change successful!" %}</strong></p>
-        <p>{% blocktrans %}You have successfully set your new Email address.{% endblocktrans %}</p>
+        <p>{% trans "You have successfully set your new email address." %}</p>
 </div>
 {% else %}
 

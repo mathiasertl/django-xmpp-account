@@ -73,7 +73,7 @@ msgid ""
 "confirm your request.  It contains a link you have to click to complete\n"
 "your registration."
 msgstr ""
-"Danke für ihre Registrierung. Zur Bestätigung ihrer Registrierung erhalten\n"
+"Vielen Dank für ihre Registrierung. Zur Bestätigung ihrer Registrierung erhalten\n"
 "sie eine E-Mail an %(email)s. Bitte klicken sie auf den Link in der E-Mail\n"
 "um ihre Registrierung abzuschließen."
 

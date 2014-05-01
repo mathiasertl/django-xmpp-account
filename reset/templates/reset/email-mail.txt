@@ -1,11 +1,11 @@
 {% load i18n %}{% language lang %}{% blocktrans %}Dear {{ username }},{% endblocktrans %}
 
-{% blocktrans %}You have changed the Email address for your Jabber account {{ jid }}.
+{% blocktrans %}You have changed the email address for your Jabber account {{ jid }}.
 To complete the change, please go to this address:{% endblocktrans %}
 
     {{ uri }}
 
-{% trans "If you haven't sent this request, you can simply disregard this Email." %}
+{% trans "If you haven't made this change, simply disregard this email." %}
 
 {% trans "greetings," %}
     {{ domain }}{% endlanguage %}
