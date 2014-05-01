@@ -118,10 +118,9 @@ class PasswordConfirmationMixin(PasswordMixin):
 
 
 class JidMixin(object):
-    USERNAME_FIELD = forms.CharField(
-        label=_("Username"), max_length=settings.MAX_USERNAME_LENGTH,
-        widget=TextWidget,
-    )
+    USERNAME_FIELD = forms.CharField(label=_("Username"), max_length=settings.MAX_USERNAME_LENGTH,
+                                     widget=TextWidget)
+
     DOMAIN_FIELD = forms.ChoiceField(
         widget=SelectWidget,
         initial=settings.DEFAULT_XMPP_HOST,
@@ -165,18 +164,17 @@ class JidMixin(object):
 
 class EmailMixin(object):
     EMAIL_FIELD = forms.EmailField(
-        max_length=50, widget=EmailWidget,
+        label=_("email"), max_length=50, widget=EmailWidget,
         help_text=_(
             'Required, a confirmation email will be sent to this address.')
     )
     EMAIL_ERROR_MESSAGES = {
         'own-domain': _(
-            "This Jabber host does not provide email addresses. "
-            "You're supposed to give your own Email address."
+            "This Jabber host does not provide email addresses. You're supposed to give your own "
+            "email address."
         ),
         'blocked-domain': _(
-            "Email addresses with this domain are blocked and cannot be used "
-            "on this site."
+            "Email addresses with this domain are blocked and cannot be used on this site."
         ),
     }
 
