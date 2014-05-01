@@ -50,8 +50,8 @@ class RegistrationView(ConfirmationView):
         context = super(RegistrationView, self).get_context_data(**kwargs)
         context['menuitem'] = 'register'
         context['username_help_text'] = context['form'].fields['username'].help_text % {
-            'min': settings.MIN_USERNAME_LENGTH,
-            'max': settings.MAX_USERNAME_LENGTH,
+            'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
+            'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
         }
         return context
 
