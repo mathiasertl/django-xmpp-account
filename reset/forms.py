@@ -47,7 +47,7 @@ class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailBlockedMixin):
     domain = JidMixin.ALL_DOMAINS_FIELD
     email = copy(EmailBlockedMixin.EMAIL_FIELD)
     password = PasswordMixin.PASSWORD_FIELD
-    email.label = _("New Email")
+    email.label = _("New email address")
 
 
 class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
