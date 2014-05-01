@@ -70,7 +70,7 @@ msgstr "Benutzername muss mindestens %s Zeichen haben."
 
 #: forms.py:168
 msgid "Username is not a valid XMPP username."
-msgstr "Benutzername ist kein valider XMPP Benutzername."
+msgstr "Benutzername ist kein valider XMPP-Benutzername."
 
 #: forms.py:174
 msgid "email"
@@ -81,13 +81,12 @@ msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 
 #: forms.py:180
-#, fuzzy
 msgid ""
 "This Jabber host does not provide email addresses. You're supposed to give "
 "your own email address."
 msgstr ""
-"Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte gib "
-"deine eigene Adresse an!"
+"Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte geben "
+"sie ihre eigene Adresse an!"
 
 #: forms.py:184
 msgid ""
@@ -165,31 +164,33 @@ msgstr ""
 
 #: templates/core/temporary_error.html:5
 msgid "Temporary Error"
-msgstr ""
+msgstr "Vorübergehender Fehler"
 
 #: templates/core/temporary_error.html:7
 msgid ""
 "It seems this site is experiencing a temporary error. Please try again later."
-msgstr ""
+msgstr "Diese Seite hat vorübergehende Probleme. Bitte versuchen sie es später "
+"erneut."
 
 #: templates/core/temporary_error.html:9
 #, python-format
 msgid ""
 "If this error persists, please <a href=\"%(CONTACT_URL)s\">contact us</a>."
-msgstr ""
+msgstr "Falls diese Fehlermeldung nicht von alleine verschwindet, "
+"<a href=\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte."
 
 #: templates/core/temporary_error.html:11
 #, python-format
 msgid "The error message given, was: %(EXCEPTION)s"
-msgstr ""
+msgstr "Die interne Fehlermeldung lautet: %(EXCEPTION)s"
 
 #: templates/core/forms/errors.html:4
 msgid ""
 "<strong>Error:</strong> There have been errors with your submission. Please "
 "see the errors below."
 msgstr ""
-"<strong>Fehler:</strong> Es gibt Probleme mit den angegebenen Daten. Bitte "
-"siehe dir die Fehler unten an."
+"<strong>Fehler:</strong> Die angegebenen Daten sind leider nicht korrekt. "
+"Bitte beheben sie die Fehler und versuchen es erneut."
 
 #: templates/core/includes/navbar.html:17
 msgid "Register"
