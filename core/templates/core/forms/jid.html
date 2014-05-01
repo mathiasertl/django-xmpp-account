@@ -21,7 +21,11 @@
     <div class="row">
         <div class="col-lg-5 {% if username.errors or domain.errors %}has-error{% endif %}">
             <div class="help-block">
-                {{ username.help_text }}
+                {% if username_help_text %}
+                    {{ username_help_text }}
+                {% elif username.help_text %}
+                    {{ username.help_text }}
+                {% endif %}
                 {{ username.errors }}
                 {{ domain.errors }}
             </div>
