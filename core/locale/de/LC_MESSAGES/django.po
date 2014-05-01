@@ -73,9 +73,8 @@ msgid "Username is not a valid XMPP username."
 msgstr "Benutzername ist kein valider XMPP Benutzername."
 
 #: forms.py:174
-#, fuzzy
 msgid "email"
-msgstr "E-Mail setzen"
+msgstr "E-Mail"
 
 #: forms.py:176
 msgid "Required, a confirmation email will be sent to this address."
@@ -133,10 +132,6 @@ msgstr "Benutzer nicht gefunden!"
 #: views.py:156
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
-
-#: widgets.py:26
-msgid "Enter email"
-msgstr "E-Mail-Adresse eingeben"
 
 #: templates/base.html:33
 msgid "© 2013, Mathias Ertl unless otherwise noted."
