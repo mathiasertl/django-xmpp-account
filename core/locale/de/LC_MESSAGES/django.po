@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-04 22:39+0100\n"
+"POT-Creation-Date: 2014-05-01 11:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.py:67
+msgid "Registration method"
+msgstr ""
+
+#: admin.py:72
+msgid "In-Band registration"
+msgstr ""
+
+#: admin.py:73
+msgid "This website"
+msgstr ""
 
 #: forms.py:49
 msgid "This page has expired. Reload and try again."
@@ -42,56 +54,83 @@ msgstr "Das selbe Passwort wie oben, zur Verifikation."
 msgid "Username"
 msgstr "Benutzername"
 
-#: forms.py:139
+#: forms.py:145
 msgid "Unknown domain given"
 msgstr "Unbekannte Domain angegeben"
 
-#: forms.py:152
+#: forms.py:158
 #, python-format
 msgid "Username must not be longer then %s characters."
 msgstr "Name darf nicht länger als %s Zeichen sein."
 
-#: forms.py:156
+#: forms.py:162
 #, python-format
 msgid "Username must not be shorter then %s characters."
 msgstr "Benutzername muss mindestens %s Zeichen haben."
 
-#: forms.py:162
+#: forms.py:168
 msgid "Username is not a valid XMPP username."
 msgstr "Benutzername ist kein valider XMPP Benutzername."
 
-#: forms.py:170
+#: forms.py:174
+#, fuzzy
+msgid "email"
+msgstr "E-Mail setzen"
+
+#: forms.py:176
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 
-#: forms.py:174
+#: forms.py:180
+#, fuzzy
 msgid ""
 "This Jabber host does not provide email addresses. You're supposed to give "
-"your own Email address."
+"your own email address."
 msgstr ""
 "Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte gib "
 "deine eigene Adresse an!"
 
-#: forms.py:178
+#: forms.py:184
 msgid ""
 "Email addresses with this domain are blocked and cannot be used on this site."
 msgstr ""
 "E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet "
 "werden."
 
-#: views.py:85
+#: models.py:75
+#, fuzzy
+msgid "User"
+msgstr "Benutzername"
+
+#: models.py:161
+msgid "IP-Address"
+msgstr ""
+
+#: models.py:162
+msgid "IP-Addresses"
+msgstr ""
+
+#: models.py:177
+msgid "IP-Address Activity"
+msgstr ""
+
+#: models.py:178
+msgid "IP-Address Activities"
+msgstr ""
+
+#: views.py:95
 msgid "User not found (or false password provided)!"
 msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
-#: views.py:90
+#: views.py:100
 msgid "User already exists."
 msgstr "Benutzer existiert bereits."
 
-#: views.py:141
+#: views.py:151
 msgid "User not found!"
 msgstr "Benutzer nicht gefunden!"
 
-#: views.py:146
+#: views.py:156
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
 
@@ -127,6 +166,26 @@ msgstr ""
 
 #: templates/core/spambot.html:5
 msgid "Spambots vanish!"
+msgstr ""
+
+#: templates/core/temporary_error.html:5
+msgid "Temporary Error"
+msgstr ""
+
+#: templates/core/temporary_error.html:7
+msgid ""
+"It seems this site is experiencing a temporary error. Please try again later."
+msgstr ""
+
+#: templates/core/temporary_error.html:9
+#, python-format
+msgid ""
+"If this error persists, please <a href=\"%(CONTACT_URL)s\">contact us</a>."
+msgstr ""
+
+#: templates/core/temporary_error.html:11
+#, python-format
+msgid "The error message given, was: %(EXCEPTION)s"
 msgstr ""
 
 #: templates/core/forms/errors.html:4
