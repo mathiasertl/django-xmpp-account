@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-01 11:22+0200\n"
+"POT-Creation-Date: 2014-05-01 12:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,10 +21,10 @@ msgstr ""
 #: forms.py:40
 #, python-format
 msgid ""
-"A minimum of %(min)s and a maximum of %(max)s characters. No \"@\" "
-"characters or spaces."
+"At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No \"@\" or "
+"spaces."
 msgstr ""
-"Mindestens %(min)s, maximal %(max)s Zeichen. Keine \"@\" Zeichen oder "
+"Mindestes %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" oder "
 "Leerzeichen."
 
 #: views.py:45
