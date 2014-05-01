@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-01 13:24+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: views.py:42
+#, python-format
+msgid "Delete your account on %(domain)s"
+msgstr ""
+
+#: templates/delete/delete-confirm.html:6
+msgid "Confirm account deletion"
+msgstr ""
+
+#: templates/delete/delete-confirm.html:11
+msgid "Account deleted."
+msgstr ""
+
+#: templates/delete/delete-confirm.html:12
+msgid ""
+"\n"
+"        Your account has been removed. Thanks and good bye.\n"
+"    "
+msgstr ""
+
+#: templates/delete/delete-confirm.html:18 templates/delete/delete.html:24
+msgid "Warning!"
+msgstr ""
+
+#: templates/delete/delete-confirm.html:19
+msgid ""
+"If you type in your correct password here, your account is\n"
+"gone forever! There is no way to restore your contacts or any other "
+"information\n"
+"related to your account."
+msgstr ""
+
+#: templates/delete/delete-confirm.html:41
+msgid "Yes, really delete my account!"
+msgstr ""
+
+#: templates/delete/delete.html:6 templates/delete/delete.html.py:51
+msgid "Delete account"
+msgstr ""
+
+#: templates/delete/delete.html:12
+msgid "Delete your account"
+msgstr ""
+
+#: templates/delete/delete.html:13
+#, python-format
+msgid ""
+"\n"
+"        Please click at the confirmation link you have recieved at %(email)s "
+"to finally delete your account.\n"
+"    "
+msgstr ""
+
+#: templates/delete/delete.html:19
+msgid ""
+"\n"
+"If you want to delete your account, you can do so here. You will receive a\n"
+"confirmation email to verify your request.\n"
+msgstr ""
+
+#: templates/delete/delete.html:25
+msgid ""
+"If you delete your account, it's gone forever. There is no\n"
+"way to restore your account!\n"
+msgstr ""
+
+#: templates/delete/mail.html:5 templates/delete/mail.txt:1
+#, python-format
+msgid "Dear %(username)s,"
+msgstr ""
+
+#: templates/delete/mail.html:7
+#, python-format
+msgid ""
+"You wanted to delete your Jabber account %(jid)s.\n"
+"To completely delete your account, please <a href=\"%(uri)s\">click here</a>."
+msgstr ""
+
+#: templates/delete/mail.html:10 templates/delete/mail.txt:8
+msgid ""
+"If you no longer want to delete the account, simply disregard this email."
+msgstr ""
+
+#: templates/delete/mail.html:12 templates/delete/mail.txt:10
+msgid "greetings,"
+msgstr ""
+
+#: templates/delete/mail.txt:3
+#, python-format
+msgid ""
+"You wanted to delete your Jabber account %(jid)s.\n"
+"To completely delete your account, please go to this address:"
+msgstr ""

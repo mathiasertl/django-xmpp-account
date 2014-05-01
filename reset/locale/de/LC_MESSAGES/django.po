@@ -1,0 +1,186 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-01 13:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:50
+msgid "New email address"
+msgstr "Neue E-Mail-Adresse"
+
+#: views.py:47
+#, python-format
+msgid "Reset the password for your %(domain)s account"
+msgstr "Passwort für ihr %(domain)s-Konto neu setzen"
+
+#: views.py:80
+#, python-format
+msgid "Confirm the email address for your %(domain)s account"
+msgstr "Bestätigen sie die E-Mail-Adresse für ihr %(domain)s-Konto"
+
+#: templates/reset/email-confirm.html:6
+msgid "Confirm new email address"
+msgstr "Neue E-Mail-Adresse"
+
+#: templates/reset/email-confirm.html:11 templates/reset/email.html:11
+#: templates/reset/password.html:11
+msgid "Change successful!"
+msgstr "Änderung erfolgreich!"
+
+#: templates/reset/email-confirm.html:12
+msgid "You have successfully set your new email address."
+msgstr "Sie haben erfolgreich ihre neue E-Mail-Adresse gesetzt."
+
+#: templates/reset/email-confirm.html:17
+msgid ""
+"Please give your password again to make sure you are really authorized to\n"
+"make this change."
+msgstr ""
+"Bitte geben sie ihr Passwort erneut an, um sicher zu stellen, dass\n"
+"sich niemand unbefugt Zutritt zu ihrem Konto verschaffen kann."
+
+#: templates/reset/email-confirm.html:37
+#: templates/reset/password-confirm.html:38
+msgid "Submit"
+msgstr "Bestätigen"
+
+#: templates/reset/email-mail.html:5 templates/reset/email-mail.txt:1
+#: templates/reset/password-mail.html:5 templates/reset/password-mail.txt:1
+#, python-format
+msgid "Dear %(username)s,"
+msgstr "Sehr geehrte/geehrter %(username)s"
+
+#: templates/reset/email-mail.html:7
+#, python-format
+msgid ""
+"You have changed the email address for your Jabber account %(jid)s.\n"
+"To complete the change, please <a href=\"%(uri)s\">click here</a>."
+msgstr ""
+
+#: templates/reset/email-mail.html:10 templates/reset/email-mail.txt:8
+#: templates/reset/password-mail.html:10 templates/reset/password-mail.txt:11
+msgid "If you haven't made this change, simply disregard this email."
+msgstr ""
+"Falls sie diese Änderung nicht veranlasst haben, ignorieren sie einfach "
+"diese E-Mail."
+
+#: templates/reset/email-mail.html:12 templates/reset/email-mail.txt:10
+#: templates/reset/password-mail.html:13 templates/reset/password-mail.txt:13
+msgid "greetings,"
+msgstr "mit freundlichen Grüßen,"
+
+#: templates/reset/email-mail.txt:3
+#, python-format
+msgid ""
+"You have changed the email address for your Jabber account %(jid)s.\n"
+"To complete the change, please go to this address:"
+msgstr ""
+
+#: templates/reset/email.html:6 templates/reset/email.html.py:51
+msgid "Set email"
+msgstr "E-Mail setzen"
+
+#: templates/reset/email.html:12
+msgid ""
+"Thank you for your request. You have received an email to confirm your\n"
+"request. It contains a link you have to click to complete your request."
+msgstr ""
+"Vielen Dank für ihre Anfrage. Sie haben eine E-Mail erhalten, um die "
+"Änderung zu bestätigen. Sie enthält einen Link, den sie klicken müssen, um "
+"die Änderung abzuschließen."
+
+#: templates/reset/email.html:19
+msgid ""
+"\n"
+"If you want to change your email address (or initially set it, if you have\n"
+"registered via other means), you can set it here. You will receive an email "
+"at\n"
+"the new address containing a confirmation link that you must click in order "
+"to\n"
+"complete the change.\n"
+msgstr ""
+
+#: templates/reset/password-confirm.html:6
+msgid "Reset password"
+msgstr "Passwort neu setzen"
+
+#: templates/reset/password-confirm.html:11
+msgid "Success!"
+msgstr "Erfolgreich!"
+
+#: templates/reset/password-confirm.html:12
+msgid ""
+"You have successfully set a new password for your account.\n"
+"You can use it immediately."
+msgstr ""
+
+#: templates/reset/password-mail.html:7
+#, python-format
+msgid ""
+"You attempted to change the password for your Jabber account %(jid)s.\n"
+"To complete the change, please <a href=\"%(uri)s\">click here</a>."
+msgstr ""
+
+#: templates/reset/password-mail.txt:3
+#, python-format
+msgid ""
+"You attempted to change the password for your Jabber account %(jid)s.\n"
+"To complete the change, please go to this address:"
+msgstr ""
+
+#: templates/reset/password-mail.txt:8
+msgid ""
+"Please note that this server stores passwords as plain text. We can only\n"
+"encourage you to choose a safe password you use nowhere else."
+msgstr ""
+"Bitte beachten sie, dass dieser server Passwörter im Klartext abspeichert. "
+"Wir raten ihnen daher, ein sicheres Passwort zu verwenden, das sie nirgends "
+"sonst benutzen."
+
+#: templates/reset/password.html:6 templates/reset/password.html.py:45
+msgid "Set password"
+msgstr "Passwort setzen"
+
+#: templates/reset/password.html:12
+msgid ""
+"Thank you for your request. You have received an email to confirm your\n"
+"request. It contains a link to a page where you can reset your password."
+msgstr ""
+"Sie haben eine E-Mail erhalten, um ihre Änderung zu bestätigen. Sie enthält "
+"einen Link zu einer Seite, auf der sie ihr Passwort ändern können."
+
+#: templates/reset/password.html:18
+msgid ""
+"If you have forgotten your password, you can reset it here. Please give\n"
+"your Jabber address and the email address you have used for registration.\n"
+"You will receive an email with a link to a page that allows you to reset\n"
+"your password."
+msgstr ""
+"Falls sie ihr Passwort vergessen haben, können sie es hier neu setzen. Bitte "
+"geben sie ihre Jabber-Adresse und die E-Mail-Adresse, die sie für die "
+"Registrierung verwendet haben, an. Sie erhalten anschließend eine E-Mail mit "
+"einem Link zu einer Seite, auf der sie ihr Passwort neu setzen können."
+
+#: templates/reset/password.html:24
+#, python-format
+msgid ""
+"<strong>Please note:</strong> You can only reset your password here if you\n"
+"have registered via this site (or <a href=\"%(url)s\">set your email</a>)."
+msgstr ""
+"<strong>Achtung:</strong> Sie können ihr Passwort hier nur dann neu setzen, "
+"wenn sie sich auch über diese Seite registriert haben (oder sie nachträglich "
+"ihr <a href=\"%(url)s\">Passwort neu gesetzt</a> haben)."
