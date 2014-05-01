@@ -23,7 +23,6 @@ from django.utils.translation import ugettext_lazy as _
 _fieldattrs = {'class': 'form-control', 'maxlength': 30, }
 _emailattrs = _fieldattrs.copy()
 _emailattrs['type'] = 'email'
-_emailattrs['placeholder'] = _("Enter email")
 _selectattrs = _fieldattrs.copy()
 
 TextWidget = forms.TextInput(attrs=_fieldattrs)
