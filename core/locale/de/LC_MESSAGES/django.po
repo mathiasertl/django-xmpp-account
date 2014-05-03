@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-03 12:50+0200\n"
+"POT-Creation-Date: 2014-05-03 15:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -159,11 +159,11 @@ msgstr "Benutzer nicht gefunden!"
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
 
-#: templates/base.html:33
+#: templates/base.html:31
 msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
 msgstr "© 2013 - 2014, Mathias Ertl falls nicht anders angegeben."
 
-#: templates/base.html:34
+#: templates/base.html:32
 msgid ""
 "This project is powered by <a href=\"https://www.djangoproject.com\">Django</"
 "a>.\n"
@@ -174,12 +174,12 @@ msgid ""
 msgstr ""
 "Dieses Projekt basiert auf <a href=\"https://www.djangoproject.com\">Django</"
 "a>, der Quellcode ist <a href=\"https://github.com/mathiasertl/django-xmpp-"
-"account\">auf GitHub</a> verfügbar.Die <a href=\"https://account.jabber.at/"
+"account\">auf GitHub</a> verfügbar. Die <a href=\"https://account.jabber.at/"
 "doc\">Dokumentation</a> beinhaltet weitere Informationen."
 
 #: templates/core/rate.html:5
-msgid "Too manz page views!"
-msgstr ""
+msgid "Too many page views!"
+msgstr "Zu viele Seitenaufrufe!"
 
 #: templates/core/rate.html:7
 msgid ""
@@ -208,9 +208,10 @@ msgid ""
 "If you need to do bulk registrations, e.g. if you want to deploy Jabber in\n"
 "your company/school etc., feel free to <a href=\"%(CONTACT_URL)s\">contact\n"
 "us</a>."
-msgstr "Falls sie viele Registrierungen auf einmal vornehmen möchten, z.B. "
-"um Jabber in ihrer Firma/Schule/... einzuführen, können sie uns gerne "
-"<a href=\"%(CONTACT_URL)s\">kontaktieren</a>."
+msgstr ""
+"Falls sie viele Registrierungen auf einmal vornehmen möchten, z.B. um Jabber "
+"in ihrer Firma/Schule/... einzuführen, können sie uns gerne <a href="
+"\"%(CONTACT_URL)s\">kontaktieren</a>."
 
 #: templates/core/spambot.html:5
 msgid "Spambots vanish!"
@@ -222,9 +223,10 @@ msgid ""
 "You have engaged in behaviour that looks very much like you are a spambot.\n"
 "If you are not a spambot, please <a href=\"%(CONTACT_URL)s\">contact us</a>\n"
 "with the error message below."
-msgstr "Ihr Verhalten gleicht dem eines Spambots. Falls sie kein Spambot "
-"sind, <a href=\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte "
-"und geben sie folgende Fehlermeldung an."
+msgstr ""
+"Ihr Verhalten gleicht dem eines Spambots. Falls sie kein Spambot sind, <a "
+"href=\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte und geben sie "
+"folgende Fehlermeldung an."
 
 #: templates/core/spambot.html:10
 #, python-format
