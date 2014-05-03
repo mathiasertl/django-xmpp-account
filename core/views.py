@@ -34,7 +34,6 @@ from backends.base import UserExists
 from backends.base import UserNotFound
 
 from core.exceptions import RateException
-from core.exceptions import SpamException
 from core.exceptions import TemporaryError
 from core.models import Address
 from core.models import Confirmation
