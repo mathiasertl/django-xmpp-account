@@ -59,9 +59,9 @@ class AntiSpamFormView(FormView):
         try:
             return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
         except RecaptchaUnreachableError as e:
-            raise TemporaryError("The ReCAPTCHA server was unreacheable.")
+            raise TemporaryError(_("The ReCAPTCHA server was unreacheable."))
         except KeyError as e:
-            raise SpamException()
+            raise TemporaryError(_("The ReCAPTCHA didn't work properly."))
 
     def get_form_kwargs(self):
         kwargs = super(AntiSpamFormView, self).get_form_kwargs()
