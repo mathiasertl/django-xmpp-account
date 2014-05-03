@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-01 11:48+0200\n"
+"POT-Creation-Date: 2014-05-03 11:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,37 +50,37 @@ msgstr "Bestätigen"
 msgid "Enter the same password as above, for verification."
 msgstr "Das selbe Passwort wie oben, zur Verifikation."
 
-#: forms.py:122
+#: forms.py:121
 msgid "Username"
 msgstr "Benutzername"
 
-#: forms.py:145
+#: forms.py:138
 msgid "Unknown domain given"
 msgstr "Unbekannte Domain angegeben"
 
-#: forms.py:158
+#: forms.py:151
 #, python-format
 msgid "Username must not be longer then %s characters."
 msgstr "Name darf nicht länger als %s Zeichen sein."
 
-#: forms.py:162
+#: forms.py:155
 #, python-format
 msgid "Username must not be shorter then %s characters."
 msgstr "Benutzername muss mindestens %s Zeichen haben."
 
-#: forms.py:168
+#: forms.py:161
 msgid "Username is not a valid XMPP username."
 msgstr "Benutzername ist kein valider XMPP-Benutzername."
 
-#: forms.py:174
+#: forms.py:167
 msgid "email"
 msgstr "E-Mail"
 
-#: forms.py:176
+#: forms.py:169
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 
-#: forms.py:180
+#: forms.py:173
 msgid ""
 "This Jabber host does not provide email addresses. You're supposed to give "
 "your own email address."
@@ -88,7 +88,7 @@ msgstr ""
 "Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte geben "
 "sie ihre eigene Adresse an!"
 
-#: forms.py:184
+#: forms.py:177
 msgid ""
 "Email addresses with this domain are blocked and cannot be used on this site."
 msgstr ""
@@ -102,19 +102,19 @@ msgstr "Benutzername"
 
 #: models.py:161
 msgid "IP-Address"
-msgstr ""
+msgstr "IP-Adresse"
 
 #: models.py:162
 msgid "IP-Addresses"
-msgstr ""
+msgstr "IP-Adressen"
 
 #: models.py:177
 msgid "IP-Address Activity"
-msgstr ""
+msgstr "Aktivität"
 
 #: models.py:178
 msgid "IP-Address Activities"
-msgstr ""
+msgstr "Aktivitäten"
 
 #: views.py:95
 msgid "User not found (or false password provided)!"
@@ -133,8 +133,8 @@ msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
 
 #: templates/base.html:33
-msgid "© 2013, Mathias Ertl unless otherwise noted."
-msgstr "© 2013, Mathias Ertl falls nicht anders angegeben."
+msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
+msgstr "© 2013 - 2014, Mathias Ertl falls nicht anders angegeben."
 
 #: templates/base.html:34
 msgid ""
@@ -169,15 +169,17 @@ msgstr "Vorübergehender Fehler"
 #: templates/core/temporary_error.html:7
 msgid ""
 "It seems this site is experiencing a temporary error. Please try again later."
-msgstr "Diese Seite hat vorübergehende Probleme. Bitte versuchen sie es später "
+msgstr ""
+"Diese Seite hat vorübergehende Probleme. Bitte versuchen sie es später "
 "erneut."
 
 #: templates/core/temporary_error.html:9
 #, python-format
 msgid ""
 "If this error persists, please <a href=\"%(CONTACT_URL)s\">contact us</a>."
-msgstr "Falls diese Fehlermeldung nicht von alleine verschwindet, "
-"<a href=\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte."
+msgstr ""
+"Falls diese Fehlermeldung nicht von alleine verschwindet, <a href="
+"\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte."
 
 #: templates/core/temporary_error.html:11
 #, python-format
