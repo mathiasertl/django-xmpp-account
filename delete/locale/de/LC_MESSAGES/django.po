@@ -6,13 +6,13 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-01 13:24+0200\n"
+"POT-Creation-Date: 2014-05-03 11:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Last-Translator: Mathias Ertl <mati@jabber.at>\n"
+"Language-Team: jabber.at <jabber@jabber.at>\n"
+"Language: Deutsch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,73 +21,72 @@ msgstr ""
 #: views.py:42
 #, python-format
 msgid "Delete your account on %(domain)s"
-msgstr ""
+msgstr "Löschen ihres Kontos auf %(domain)s"
 
 #: templates/delete/delete-confirm.html:6
 msgid "Confirm account deletion"
-msgstr ""
+msgstr "Konto-Löschung bestätigen"
 
 #: templates/delete/delete-confirm.html:11
 msgid "Account deleted."
-msgstr ""
+msgstr "Konto gelöscht."
 
 #: templates/delete/delete-confirm.html:12
-msgid ""
-"\n"
-"        Your account has been removed. Thanks and good bye.\n"
-"    "
-msgstr ""
+msgid "Your account has been removed. Thanks and good bye."
+msgstr "Ihr Konto wurde gelöscht. Danke und auf Wiedersehen."
 
-#: templates/delete/delete-confirm.html:18 templates/delete/delete.html:24
+#: templates/delete/delete-confirm.html:16 templates/delete/delete.html:21
 msgid "Warning!"
-msgstr ""
+msgstr "Warnung!"
 
-#: templates/delete/delete-confirm.html:19
+#: templates/delete/delete-confirm.html:17
 msgid ""
-"If you type in your correct password here, your account is\n"
-"gone forever! There is no way to restore your contacts or any other "
-"information\n"
-"related to your account."
+"If you type in your correct password here, your account is gone forever!\n"
+"There is no way to restore your contacts or any other information related\n"
+"to your account."
 msgstr ""
+"Wenn sie ihr Passwort hier eingeben, ist ihr Konto für immer gelöscht! Es "
+"gibt keinen Weg, ihr Konto, gespeicherte Kontakte oder sonst irgendwelche "
+"Informationen über ihr Konto wiederherzustellen."
 
-#: templates/delete/delete-confirm.html:41
+#: templates/delete/delete-confirm.html:39
 msgid "Yes, really delete my account!"
-msgstr ""
+msgstr "Ja, mein Konto wirklich löschen!"
 
-#: templates/delete/delete.html:6 templates/delete/delete.html.py:51
+#: templates/delete/delete.html:6 templates/delete/delete.html.py:12
+#: templates/delete/delete.html:47
 msgid "Delete account"
-msgstr ""
-
-#: templates/delete/delete.html:12
-msgid "Delete your account"
-msgstr ""
+msgstr "Konto löschen"
 
 #: templates/delete/delete.html:13
 #, python-format
 msgid ""
-"\n"
-"        Please click at the confirmation link you have recieved at %(email)s "
-"to finally delete your account.\n"
-"    "
+"Please click at the confirmation link you have recieved at %(email)s to\n"
+"finally delete your account."
 msgstr ""
+"Bitte klicken sie den Bestätigungs-Link den sie auf %(email)s erhalten "
+"haben, um ihr Konto endgültig zu löschen."
 
-#: templates/delete/delete.html:19
+#: templates/delete/delete.html:18
 msgid ""
-"\n"
 "If you want to delete your account, you can do so here. You will receive a\n"
-"confirmation email to verify your request.\n"
+"confirmation email to verify your request."
 msgstr ""
+"Wenn sie ihr Konto löschen wollen, können sie das hier tun. Sie erhalten "
+"eine E-Mail um die Kontolöschung zu bestätigen."
 
-#: templates/delete/delete.html:25
+#: templates/delete/delete.html:22
 msgid ""
 "If you delete your account, it's gone forever. There is no\n"
-"way to restore your account!\n"
+"way to restore your account!"
 msgstr ""
+"Wenn sie ihr Konto löschen, ist er für immer weg. Es gibt keinen Weg, ihr "
+"Konto wiederherzustellen."
 
 #: templates/delete/mail.html:5 templates/delete/mail.txt:1
 #, python-format
 msgid "Dear %(username)s,"
-msgstr ""
+msgstr "Sehr geehrte/geehrter %(username)s,"
 
 #: templates/delete/mail.html:7
 #, python-format
@@ -95,19 +94,23 @@ msgid ""
 "You wanted to delete your Jabber account %(jid)s.\n"
 "To completely delete your account, please <a href=\"%(uri)s\">click here</a>."
 msgstr ""
+"Sie wollten ihren Jabber-Account %(jid)s löschen. Um ihr Konto komplett zu "
+"löschen, klicken sie bitte <a href=\"%(uri)s\">hier</a>."
 
 #: templates/delete/mail.html:10 templates/delete/mail.txt:8
 msgid ""
 "If you no longer want to delete the account, simply disregard this email."
-msgstr ""
+msgstr "Falls sie ihr Konto doch nicht löschen wollen, ignorieren sie einfach\n"
+"diese E-Mail."
 
 #: templates/delete/mail.html:12 templates/delete/mail.txt:10
 msgid "greetings,"
-msgstr ""
+msgstr "mit freundlichen Grüßen,"
 
 #: templates/delete/mail.txt:3
 #, python-format
 msgid ""
 "You wanted to delete your Jabber account %(jid)s.\n"
 "To completely delete your account, please go to this address:"
-msgstr ""
+msgstr "Sie wollten ihren Jabber-Account %(jid)s löschen. Um ihr Konto komplett\n"
+"zu löschen, klicken sie bitte hier:"

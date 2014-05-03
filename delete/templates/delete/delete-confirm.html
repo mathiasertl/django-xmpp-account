@@ -9,16 +9,14 @@
 {% if form.is_valid %}{# successfull registration - don't display form! #}
 <div class="alert alert-success">
     <p><strong>{% trans "Account deleted." %}</strong></p>
-    <p>{% blocktrans with email=form.email.value %}
-        Your account has been removed. Thanks and good bye.
-    {% endblocktrans %}</p>
+    <p>{% blocktrans with email=form.email.value %}Your account has been removed. Thanks and good bye.{% endblocktrans %}</p>
 </div>
 {% else %}
 
 <div class="alert alert-warning"><p><strong>{% trans "Warning!" %}</strong></p>
-<p>{% blocktrans %}If you type in your correct password here, your account is
-gone forever! There is no way to restore your contacts or any other information
-related to your account.{% endblocktrans %}</p>
+<p>{% blocktrans %}If you type in your correct password here, your account is gone forever!
+There is no way to restore your contacts or any other information related
+to your account.{% endblocktrans %}</p>
 </div>
 
 {% include "core/forms/errors.html" %}

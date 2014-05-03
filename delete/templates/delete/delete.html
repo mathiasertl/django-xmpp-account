@@ -9,22 +9,18 @@
 
 {% if form.is_valid %}{# successfull registration - don't display form! #}
 <div class="alert alert-success">
-    <p><strong>{% trans "Delete your account" %}</strong></p>
-    <p>{% blocktrans with email=form.email.value %}
-        Please click at the confirmation link you have recieved at {{ email }} to finally delete your account.
-    {% endblocktrans %}</p>
+    <p><strong>{% trans "Delete account" %}</strong></p>
+    <p>{% blocktrans with email=form.email.value %}Please click at the confirmation link you have recieved at {{ email }} to
+finally delete your account.{% endblocktrans %}</p>
 </div>
 {% else %}
 
-<p>{% blocktrans %}
-If you want to delete your account, you can do so here. You will receive a
-confirmation email to verify your request.
-{% endblocktrans %}</p>
+<p>{% blocktrans %}If you want to delete your account, you can do so here. You will receive a
+confirmation email to verify your request.{% endblocktrans %}</p>
 
 <div class="alert alert-warning"><p><strong>{% trans "Warning!" %}</strong></p>
 <p>{% blocktrans %}If you delete your account, it's gone forever. There is no
-way to restore your account!
-{% endblocktrans %}</p>
+way to restore your account!{% endblocktrans %}</p>
 </div>
 
 {% include "core/forms/errors.html" %}
