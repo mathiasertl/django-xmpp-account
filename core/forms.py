@@ -65,10 +65,10 @@ class AntiSpamBase(object):
         now = time.time()
         timestamp = self.cleaned_data.get("timestamp")
         if timestamp is None:
-            raise SpamException()
+            raise SpamException(_("Missing form-field."))
 
         if now - 1 < timestamp:  # MUCH to fast - definetly spam
-            raise SpamException()
+            raise SpamException(_("Form submitted within one second."))
         elif now - 3 < timestamp:  # submit is to fast.
             raise RateException()
         elif now - (settings.FORM_TIMEOUT) > timestamp:
@@ -80,16 +80,16 @@ class AntiSpamBase(object):
                                   self.data.get("token", ''))
         received = self.cleaned_data.get('security_hash')
         if received is None:
-            raise SpamException()
+            raise SpamException(_("No security hash"))
         if received != good:
-            raise SpamException()
+            raise SpamException(_("Wrong security hash"))
         return received
 
     def clean_value(self):
         value = self.cleaned_data["value"]
 
         if value:
-            raise SpamException()
+            raise SpamException(_("Wrong value"))
         return value
 
 
