@@ -30,17 +30,22 @@ from core.exceptions import TemporaryError
 class AntiSpamMiddleware(object):
     def process_request(self, request):
         host = request.get_host()
-        if cache.get('spamblock-%s' % host):
-            return render(request, 'core/spambot.html')
+
+        message = cache.get('spamblock-%s' % host)  # Added by previous SpamException
+        if message:
+            context = {
+                'EXCEPTION': '%s: %s' % (host, message),
+            }
+            return render(request, 'core/spambot.html', context)
 
     def process_exception(self, request, exception):
         host = request.get_host()
         context = {
-            'EXCEPTION': exception.message,
+            'EXCEPTION': exception.message or 'UNKNOWN REASON',
         }
 
         if isinstance(exception, SpamException):
-            cache.set('spamblock-%s' % host, True, settings.SPAM_BLOCK_TIME)
+            cache.set('spamblock-%s' % host, context['EXCEPTION'], settings.SPAM_BLOCK_TIME)
             return render(request, 'core/spambot.html', context)
         elif isinstance(exception, RegistrationRateException):
             return render(request, 'core/registration_rate.html', context)
