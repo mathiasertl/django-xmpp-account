@@ -3,4 +3,12 @@
 
 {% block content %}
 <h1>{% block title %}{% trans "Registration rate exceeded!" %}{% endblock title %}</h1>
+
+<p>{% blocktrans %}To combat automated registrations, the rate of registrations is strictly
+limited. Please wait for a while before trying again.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}
+If you need to do bulk registrations, e.g. if you want to deploy Jabber in
+your company/school etc., feel free to <a href="{{ CONTACT_URL }}">contact
+us</a>.{% endblocktrans %}
 {% endblock content %}
