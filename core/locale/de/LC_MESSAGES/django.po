@@ -6,13 +6,13 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-03 11:35+0200\n"
+"POT-Creation-Date: 2014-05-03 12:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Last-Translator: Mathias Ertl <mati@jabber.at>\n"
+"Language-Team: jabber.at <jabber@jabber.at>\n"
+"Language: Deutsch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,6 +33,26 @@ msgstr ""
 #: forms.py:49
 msgid "This page has expired. Reload and try again."
 msgstr "Diese Seite ist abgelaufen. Bitte lade sie neu und versuche es erneut."
+
+#: forms.py:68
+msgid "Missing form-field."
+msgstr "Fehlendes Formularfeld."
+
+#: forms.py:71
+msgid "Form submitted within one second."
+msgstr "Formular innerhalb einer Sekunde abgeschickt."
+
+#: forms.py:83
+msgid "No security hash"
+msgstr "Kein Sicherheits-Hash."
+
+#: forms.py:85
+msgid "Wrong security hash"
+msgstr "Falscher Sicherheits-Hash."
+
+#: forms.py:92
+msgid "Wrong value"
+msgstr "Falscher Wert"
 
 #: forms.py:97
 msgid "Password"
@@ -96,7 +116,6 @@ msgstr ""
 "werden."
 
 #: models.py:75
-#, fuzzy
 msgid "User"
 msgstr "Benutzername"
 
@@ -116,19 +135,27 @@ msgstr "Aktivität"
 msgid "IP-Address Activities"
 msgstr "Aktivitäten"
 
-#: views.py:95
+#: views.py:61
+msgid "The ReCAPTCHA server was unreacheable."
+msgstr "Der ReCAPTCHA-Server ist nicht erreichbar."
+
+#: views.py:63
+msgid "The ReCAPTCHA didn't work properly."
+msgstr "ReCAPTCHA funktionierte nicht richtig."
+
+#: views.py:94
 msgid "User not found (or false password provided)!"
 msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
-#: views.py:100
+#: views.py:99
 msgid "User already exists."
 msgstr "Benutzer existiert bereits."
 
-#: views.py:151
+#: views.py:150
 msgid "User not found!"
 msgstr "Benutzer nicht gefunden!"
 
-#: views.py:156
+#: views.py:155
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
 
@@ -151,16 +178,58 @@ msgstr ""
 "doc\">Dokumentation</a> beinhaltet weitere Informationen."
 
 #: templates/core/rate.html:5
-msgid "Rate exceeded!"
+msgid "Too manz page views!"
 msgstr ""
+
+#: templates/core/rate.html:7
+msgid ""
+"To combat automated registration, viewing this page is rate limited. Please\n"
+"wait a couple of minutes before trying again."
+msgstr ""
+"Um automatisierte Registrierungen zu bekämpfen, kann diese Seite nicht "
+"beliebig oft aufgerufen werden. Bitte versuchen sie es in einigen Minuten "
+"wieder."
 
 #: templates/core/registration_rate.html:5
 msgid "Registration rate exceeded!"
+msgstr "Registrierungsrate überschritten!"
+
+#: templates/core/registration_rate.html:7
+msgid ""
+"To combat automated registrations, the rate of registrations is strictly\n"
+"limited. Please wait for a while before trying again."
 msgstr ""
+"Um automatisierte Registrierungen zu bekämpfen, ist die Anzahl der neuen "
+"Konto-Registrierugen pro IP-Adresse streng limitiert."
+
+#: templates/core/registration_rate.html:10
+#, python-format
+msgid ""
+"If you need to do bulk registrations, e.g. if you want to deploy Jabber in\n"
+"your company/school etc., feel free to <a href=\"%(CONTACT_URL)s\">contact\n"
+"us</a>."
+msgstr "Falls sie viele Registrierungen auf einmal vornehmen möchten, z.B. "
+"um Jabber in ihrer Firma/Schule/... einzuführen, können sie uns gerne "
+"<a href=\"%(CONTACT_URL)s\">kontaktieren</a>."
 
 #: templates/core/spambot.html:5
 msgid "Spambots vanish!"
-msgstr ""
+msgstr "Nieder mit den Spambots!"
+
+#: templates/core/spambot.html:6
+#, python-format
+msgid ""
+"You have engaged in behaviour that looks very much like you are a spambot.\n"
+"If you are not a spambot, please <a href=\"%(CONTACT_URL)s\">contact us</a>\n"
+"with the error message below."
+msgstr "Ihr Verhalten gleicht dem eines Spambots. Falls sie kein Spambot "
+"sind, <a href=\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte "
+"und geben sie folgende Fehlermeldung an."
+
+#: templates/core/spambot.html:10
+#, python-format
+msgid "Spammy behaviour: %(EXCEPTION)s"
+msgstr "Spammiges Verhalten: %(EXCEPTION)s"
 
 #: templates/core/temporary_error.html:5
 msgid "Temporary Error"
