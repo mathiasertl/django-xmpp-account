@@ -22,5 +22,6 @@ from django.conf import settings
 
 def xmppaccount(request):
     return {
+        'BRAND': settings.BRAND,
         'CONTACT_URL': settings.CONTACT_URL,
     }

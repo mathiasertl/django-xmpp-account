@@ -8,7 +8,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="#">{% include "site/brand.html" %}</a>
+    {% if BRAND %}<a class="navbar-brand" href="#">{{ BRAND }}</a>{% endif %}
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->

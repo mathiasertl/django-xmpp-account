@@ -193,6 +193,8 @@ BLOCKED_EMAIL_TLDS = set()
 
 RECAPTCHA_PRIVATE_KEY = None
 RECAPTCHA_PUBLIC_KEY = None
+BRAND = ""
+CONTACT_URL = ""
 
 try:
     from localsettings import *
