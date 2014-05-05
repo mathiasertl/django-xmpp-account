@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="{% static "css/lib/bootstrap-3.1.1.min.css" %}">
     <link rel="stylesheet" href="{% static "css/lib/bootstrap-theme-3.1.1.min.css" %}">
     <script src="{% static "js/lib/bootstrap-3.1.1.min.js" %}"></script>
+    <script>
+        var MIN_USERNAME_LENGTH = {{ MIN_USERNAME_LENGTH }};
+        var MAX_USERNAME_LENGTH = {{ MAX_USERNAME_LENGTH }};
+    </script>
 
     <!-- custom code -->
     <script src="{% static "js/base.js" %}"></script>
