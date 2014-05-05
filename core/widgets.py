@@ -20,12 +20,15 @@ from __future__ import unicode_literals
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-_fieldattrs = {'class': 'form-control', 'maxlength': 30, }
+_fieldattrs = {'class': 'form-control', 'maxlength': 30}
+_inputattrs = _fieldattrs.copy()
+_inputattrs['autocomplete'] = 'off'
 _emailattrs = _fieldattrs.copy()
+_emailattrs['autocomplete'] = 'off'
 _emailattrs['type'] = 'email'
 _selectattrs = _fieldattrs.copy()
 
-TextWidget = forms.TextInput(attrs=_fieldattrs)
-PasswordWidget = forms.PasswordInput(attrs=_fieldattrs)
+TextWidget = forms.TextInput(attrs=_inputattrs)
+PasswordWidget = forms.PasswordInput(attrs=_inputattrs)
 EmailWidget = forms.TextInput(attrs=_emailattrs)
 SelectWidget = forms.Select(attrs=_selectattrs)
