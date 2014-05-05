@@ -39,7 +39,7 @@ from core.widgets import TextWidget
 
 
 class AntiSpamBase(object):
-    VALUE = forms.CharField(required=False)
+    VALUE = forms.CharField(required=False, widget=TextWidget)
     TIMESTAMP = forms.IntegerField(widget=forms.HiddenInput, required=True)
     TOKEN = forms.CharField(widget=forms.HiddenInput, required=True)
     SECURITY_HASH = forms.CharField(min_length=40, max_length=40,
