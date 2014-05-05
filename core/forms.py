@@ -89,7 +89,7 @@ class AntiSpamBase(object):
         value = self.cleaned_data["value"]
 
         if value:
-            raise SpamException(_("Wrong value"))
+            raise SpamException(_("Wrong value: \"%s\"") % value)
         return value
 
 
