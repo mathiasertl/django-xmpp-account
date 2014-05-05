@@ -34,7 +34,8 @@ class AntiSpamMiddleware(object):
         message = cache.get('spamblock-%s' % host)  # Added by previous SpamException
         if message:
             context = {
-                'EXCEPTION': '%s: %s' % (host, message),
+                'EXCEPTION': message,
+                'HOST': host,
             }
             return render(request, 'core/spambot.html', context)
 
@@ -42,6 +43,7 @@ class AntiSpamMiddleware(object):
         host = request.get_host()
         context = {
             'EXCEPTION': exception.message or 'UNKNOWN REASON',
+            'HOST': host,
         }
 
         if isinstance(exception, SpamException):
