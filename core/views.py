@@ -49,8 +49,8 @@ class AntiSpamFormView(FormView):
         def func(request):
             pass
         func.__name__ = str('%s_dispatch' % self.__class__.__name__)
-        func = ratelimit(method='POST', rate='5/m')(func)
-        ratelimit(method='GET', rate='15/m')(func)(request)
+        func = ratelimit(method='POST', rate='10/m')(func)
+        ratelimit(method='GET', rate='30/m')(func)(request)
 
         if getattr(request, 'limited', False):
             raise RateException()
