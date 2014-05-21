@@ -42,7 +42,7 @@ will install all dependencies you need::
    cd django-xmpp-account
    virtualenv .
    source bin/activate
-   pip install -U -r requirements.txt
+   pip install -r requirements.txt
 
 .. NOTE:: virtualenv is not installed by default on many systems. In
    Debian/Ubuntu, the package is called ``python-virtualenv``.
