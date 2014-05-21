@@ -31,6 +31,8 @@ from django.core.management import call_command
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
+        os.chdir(settings.PROJECT_ROOT)
+
         call_command('syncdb', noinput=True, migrate=True)
         if settings.STATIC_ROOT:
             call_command('collectstatic', interactive=False)
