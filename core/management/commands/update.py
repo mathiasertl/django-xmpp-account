@@ -33,7 +33,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         call_command('syncdb', noinput=True, migrate=True)
         if settings.STATIC_ROOT:
-            call_command('collectstatic', noinput=True)
+            call_command('collectstatic', interactive=False)
 
         for app in ['core', 'register', 'reset', 'delete']:
             curdir = os.path.abspath(os.getcwd())
