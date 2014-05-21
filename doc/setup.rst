@@ -60,17 +60,6 @@ details to get started super-fast.
 
 .. _Django settings: https://docs.djangoproject.com/en/dev/ref/settings/
 
-Generate translations
----------------------
-
-German translations are available. They should be used automatically once
-you've generated them::
-
-   cd core && django-admin.py compilemessages
-   cd ../register && sudo django-admin.py compilemessages
-   cd ../reset && sudo django-admin.py compilemessages
-   cd ../delete && sudo django-admin.py compilemessages
-
 Create database
 ---------------
 
@@ -92,15 +81,19 @@ PostgreSQL
 Since the author has no PostgreSQL setup, no instructions are provided. If you
 can give some, please :doc:`contribute`.
 
-Initialize database
--------------------
+Initialize project
+------------------
 
-After your database is created, you need to initialize the database::
+There is a simple manage.py task that initializes the database, collects static
+files and updates translations. If you have correctly configured
+`STATIC_ROOT`_ and `DATABASES`_, this should work just fine::
 
    source bin/activate
-   python manage.py syncdb --noinput --migrate
+   python manage.py update
+
 
 .. _DATABASES: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+.. _DATABASES: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-STATIC_ROOT
 
 Webserver
 ---------
