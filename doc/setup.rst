@@ -60,6 +60,17 @@ details to get started super-fast.
 
 .. _Django settings: https://docs.djangoproject.com/en/dev/ref/settings/
 
+Generate translations
+---------------------
+
+German translations are available. They should be used automatically once
+you've generated them::
+
+   cd core && django-admin.py compilemessages
+   cd ../register && sudo django-admin.py compilemessages
+   cd ../reset && sudo django-admin.py compilemessages
+   cd ../delete && sudo django-admin.py compilemessages
+
 Create database
 ---------------
 
