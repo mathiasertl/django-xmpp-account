@@ -15,11 +15,14 @@
 # You should have received a copy of the GNU General Public License along with
 # django-xmpp-register.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+
 from datetime import timedelta
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 RECAPTCHA_CLIENT = None
+PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
