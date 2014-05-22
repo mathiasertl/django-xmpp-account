@@ -83,6 +83,8 @@ XMPP_HOSTS = {
         'RESERVATION': True,
     },
 }
+# preselected in the registration form:
+DEFAULT_XMPP_HOST = 'example.com'
 
 # Backend to communicate with our XMPP hosts:
 XMPP_BACKENDS = {

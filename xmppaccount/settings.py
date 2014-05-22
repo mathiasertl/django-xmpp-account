@@ -179,6 +179,7 @@ AUTH_USER_MODEL = 'core.RegistrationUser'
 
 # custom settings defaults
 XMPP_HOSTS = {}
+DEFAULT_XMPP_HOST = None
 MIN_USERNAME_LENGTH = 3
 MAX_USERNAME_LENGTH = 32
 
@@ -214,6 +215,9 @@ BLOCKED_EMAIL_TLDS.update(NO_EMAIL_HOSTS)
 
 if MAX_USERNAME_LENGTH > 255:
     MAX_USERNAME_LENGTH = 255
+
+if DEFAULT_XMPP_HOST is None:
+    DEFAULT_XMPP_HOST = XMPP_HOSTS.values()[0]
 
 if RECAPTCHA_PRIVATE_KEY and RECAPTCHA_PUBLIC_KEY:
     from recaptcha import RecaptchaClient
