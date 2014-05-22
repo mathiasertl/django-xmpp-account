@@ -26,6 +26,16 @@ registration or as a new Email address for an existing user.
 Domains from the :ref:`settings-XMPP_HOSTS` setting that don't have their
 ``EMAIL`` key set to ``True`` will be automatically be included in this list.
 
+.. _settings-BRAND:
+
+BRAND
+_____
+
+Default: ``''`` (Empty string)
+
+If set, this string will be displayed on the left of the navigation bar on
+top.
+
 .. _settings-CLEARTEXT_PASSWORDS:
 
 CLEARTEXT_PASSWORDS
@@ -47,6 +57,17 @@ Default:: ``timedelta(hours=24)`` (24 hours)
 Every action requires an Email confirmation: The user receives an Email, and
 only if he clicks the link provided there, he can actually do anything. This
 setting configures the time the links in the comfirmation Emails stay valid.
+
+.. _settings-DEFAULT_XMPP_HOST:
+
+DEFAULT_XMPP_HOST
+_________________
+
+Default:: see text
+
+The host that is preselected in the dropdown of the registration form. This
+setting of course has an effect if you have more then one server. If you do not
+specify it yourself, an arbitrary host will be selected on application startup.
 
 .. _settings-FORM_TIMEOUT:
 
