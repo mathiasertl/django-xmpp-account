@@ -69,6 +69,14 @@ The host that is preselected in the dropdown of the registration form. This
 setting of course has an effect if you have more then one server. If you do not
 specify it yourself, an arbitrary host will be selected on application startup.
 
+.. _settings-EJABBERD_REGISTRATION_BOT:
+
+EJABBERD_REGISTRATION_BOT
+_________________________
+
+Bot configuration for import of new registrations from ejabberd. See the
+:ref:`ejabberd_registrations` management command for more information.
+
 .. _settings-FORM_TIMEOUT:
 
 FORM_TIMEOUT

@@ -140,15 +140,3 @@ Here is what we do using Apache and mod_wsgi:
           Allow from all
       </Directory>
    </VirtualHost>
-
-Periodic tasks
---------------
-
-The ``cleanup`` management command cleans outdated confirmation keys as well as
-old activities by IP addresses. Make sure you execute this command daily or so
-to ensure you don't have to much IP address data stored.
-
-If you use a Linux server and virtualenv, you could add
-:file:`/etc/cron.d/accounts.example.com` with these contents::
-
-   25 6    * * *   account    cd /home/account/django-xmpp-account && bin/python manage.py cleanup

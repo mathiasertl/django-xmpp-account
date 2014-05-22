@@ -16,6 +16,7 @@ Contents:
 
    setup
    settings
+   management
    backends
 
 
