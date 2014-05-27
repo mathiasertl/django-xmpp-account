@@ -9,6 +9,12 @@ requires:
 * `South`_  0.8.2 or later
 * `django-brake`_
 
+The project is carefully written to support any XMPP server but at present,
+only ejabberd_ integration is implemented. If you care to implement support for
+Prosody_ please don't hesitate to do a merge request on github.
+
+When you use ejabberd_, you also need mod_admin_extra installed.
+
 .. _Python: http://www.python.org
 .. _Django: https://www.djangoproject.com
 .. _South: http://south.aeracode.org/

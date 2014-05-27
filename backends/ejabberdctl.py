@@ -32,6 +32,8 @@ from backends.base import XmppBackendBase
 class EjabberdctlBackend(XmppBackendBase):
     """This backend uses the ejabberdctl command line utility.
 
+    This backend requires ejabberd mod_admin_extra to be installed.
+
     Example::
 
         XMPP_BACKENDS = {

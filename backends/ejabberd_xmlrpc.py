@@ -30,6 +30,8 @@ from backends.base import UserExists
 class EjabberdXMLRPCBackend(XmppBackendBase):
     """This backend uses the Ejabberd XMLRPC interface.
 
+    This backend requires ejabberd mod_admin_extra to be installed.
+
     Example::
 
         XMPP_BACKENDS = {
