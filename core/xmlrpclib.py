@@ -2,6 +2,12 @@
 # XML-RPC CLIENT LIBRARY
 # $Id$
 #
+# This is a copy of the xmlrpclib library shipping with Python 2.7.
+# It is modified to encode unicode characters in a way compatible with
+# what ejabberd mod_xmlrpc does, see the escape() function.
+#
+#
+#
 # an XML-RPC client interface for Python.
 #
 # the marshalling and response parser code can also be used to
@@ -172,9 +178,19 @@ def _decode(data, encoding, is8bit=re.compile("[\x80-\xff]").search):
     return data
 
 def escape(s, replace=string.replace):
-    s = replace(s, "&", "&amp;")
-    s = replace(s, "<", "&lt;")
-    return replace(s, ">", "&gt;",)
+    encoded = ''
+    for char in s:
+        if ord(char) >= 128:
+            encoded += ''.join(['&#%s;' % ord(c) for c in char.encode('utf-8')])
+        elif char == '&':
+            encoded += '&amp;'
+        elif char == '<':
+            encoded += '&lt;'
+        elif char == '>':
+            encoded += '&gt;'
+        else:
+            encoded += char
+    return encoded
 
 if unicode:
     def _stringify(string):
