@@ -8,7 +8,10 @@ Replace this with more appropriate tests for your application.
 
 from __future__ import unicode_literals
 
+import unittest
+
 from django.test import TestCase
+from django.utils import six
 
 from core.xmlrpclib import escape
 
@@ -34,3 +37,10 @@ class XmlrpclibTest(TestCase):
 
     def test_tricks(self):
         self.assertEqual(escape('&amp;'), '&amp;amp;')
+
+    @unittest.skipUnless(six.PY2, "python2 encoded strings")
+    def test_py2_str(self):
+        self.assertEqual(escape('ъ'.encode('utf-8')), '&#209;&#138;')
+        self.assertEqual(escape('Д'.encode('utf-8')), '&#208;&#148;')
+        self.assertEqual(escape('茶'.encode('utf-8')), '&#232;&#140;&#182;')
+        self.assertEqual(escape('Λ'.encode('utf-8')), '&#206;&#155;')

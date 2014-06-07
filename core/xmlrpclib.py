@@ -153,6 +153,8 @@ try:
 except ImportError:
     gzip = None #python can be built without zlib/gzip support
 
+from django.utils import six
+
 # --------------------------------------------------------------------
 # Internal stuff
 
@@ -179,9 +181,16 @@ def _decode(data, encoding, is8bit=re.compile("[\x80-\xff]").search):
 
 def escape(s, replace=string.replace):
     encoded = ''
+    if six.PY3:
+        _encode = lambda char: ''.join(['&#%s;' % b for b in char.encode('utf-8')])
+    if six.PY2 and isinstance(s, six.text_type):  # py2 and unicode
+        _encode = lambda char: ''.join(['&#%s;' % ord(b) for b in char.encode('utf-8')])
+    else:  # py2 str
+        _encode = lambda char: ''.join(['&#%s;' % ord(b) for b in char])
+
     for char in s:
         if ord(char) >= 128:
-            encoded += ''.join(['&#%s;' % ord(c) for c in char.encode('utf-8')])
+            encoded += _encode(char)
         elif char == '&':
             encoded += '&amp;'
         elif char == '<':
