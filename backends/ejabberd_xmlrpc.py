@@ -18,9 +18,10 @@
 from __future__ import unicode_literals
 
 import time
-import xmlrpclib
 
 from django.conf import settings
+
+from core import xmlrpclib
 
 from backends.base import XmppBackendBase
 from backends.base import BackendError
