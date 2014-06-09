@@ -53,12 +53,9 @@ class DeleteView(ConfirmationView):
 
         try:
             user = User.objects.get(username=data['username'], domain=data['domain'])
+            user.has_email()
         except User.DoesNotExist:
             raise UserNotFound()
-
-        if not user.email or not user.confirmed:
-            raise UserNotFound(_(
-                "You have either not yet set your email address or have not confirmed it yet."))
 
         if not backend.check_password(username=username, domain=domain, password=data['password']):
            raise UserNotFound()
