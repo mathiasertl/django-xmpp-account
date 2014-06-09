@@ -88,10 +88,13 @@ class ConfirmationView(AntiSpamFormView):
         try:
             user = self.get_user(form.cleaned_data)
             self.handle_valid(form, user)
-        except (User.DoesNotExist, UserNotFound):
+        except (User.DoesNotExist, UserNotFound) as e:
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
                                              ErrorList())
-            errors.append(_("User not found (or false password provided)!"))
+            if str(e):
+                errors.append(str(e))
+            else:
+                errors.append(_("User not found (or false password provided)!"))
             return self.form_invalid(form)
         except (IntegrityError, UserExists):
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
