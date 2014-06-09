@@ -95,7 +95,7 @@ class ConfirmationView(AntiSpamFormView):
             return self.form_invalid(form)
         except UserNotFound as e:
             errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
-            if e.args[0]:
+            if e.args and e.args[0]:
                 errors.append(e.args[0].encode('utf-8'))
             else:
                 errors.append(default_error)
