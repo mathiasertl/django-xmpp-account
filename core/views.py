@@ -106,10 +106,8 @@ class ConfirmationView(AntiSpamFormView):
             return self.form_invalid(form)
 
         # log user address:
-        address = Address.objects.get_or_create(
-            address=self.request.META['REMOTE_ADDR'])[0]
-        UserAddresses.objects.create(
-            address=address, user=user, purpose=self.purpose)
+        address = Address.objects.get_or_create(address=self.request.META['REMOTE_ADDR'])[0]
+        UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
         # create a confirmation key before returning the response
         key = Confirmation.objects.create(user=user, purpose=self.purpose)
@@ -149,13 +147,11 @@ class ConfirmedView(AntiSpamFormView):
             key.delete()
             self.after_delete(form.cleaned_data)
         except UserNotFound:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
-                                             ErrorList())
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
             errors.append(_("User not found!"))
             return self.form_invalid(form)
         except UserExists:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
-                                             ErrorList())
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
             errors.append(_("User already exists!"))
             return self.form_invalid(form)
 
