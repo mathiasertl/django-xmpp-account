@@ -38,6 +38,7 @@ from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
 
 from backends import backend
+from backends.base import UserNotFound
 
 PASSWORD_CHARS = string.ascii_letters + string.digits
 PURPOSE_CHOICES = (
@@ -80,6 +81,12 @@ class RegistrationUser(AbstractBaseUser):
     @property
     def jid(self):
         return '%s@%s' % (self.username, self.domain)
+
+    def has_email(self):
+        if not self.email or not self.confirmed:
+            raise UserNotFound(
+                _("You have either not yet set your email address or have not confirmed it yet."))
+        return True
 
     def set_password(self, raw_password):
         if raw_password is None:
