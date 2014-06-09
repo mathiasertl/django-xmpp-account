@@ -20,8 +20,10 @@ from __future__ import unicode_literals
 import time
 
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from core import xmlrpclib
+from core.exceptions import TemporaryError
 
 from backends.base import XmppBackendBase
 from backends.base import BackendError
@@ -77,10 +79,14 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
 
     def rpc(self, cmd, **kwargs):
         func = getattr(self.client, cmd)
-        if self.credentials is None:
-            return func(kwargs)
-        else:
-            return func(self.credentials, kwargs)
+        try:
+            if self.credentials is None:
+                return func(kwargs)
+            else:
+                return func(self.credentials, kwargs)
+        except xmlrcp.ProtocolError:
+            raise TemporaryError(_("Our server is experiencing temporary difficulties. "
+                                   "Please try again later."))
 
     def create(self, username, domain, password, email):
         if password is None:
