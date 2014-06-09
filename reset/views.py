@@ -53,8 +53,7 @@ class ResetPasswordView(ConfirmationView):
         return context
 
     def get_user(self, data):
-        return User.objects.get(username=data['username'],
-                                domain=data['domain'])
+        return User.objects.get(username=data['username'], domain=data['domain'])
 
 
 class ResetPasswordConfirmationView(ConfirmedView):
@@ -63,9 +62,8 @@ class ResetPasswordConfirmationView(ConfirmedView):
     purpose = PURPOSE_SET_PASSWORD
 
     def handle_key(self, key, form):
-        backend.set_password(
-            username=key.user.username, domain=key.user.domain,
-            password=form.cleaned_data['password'])
+        backend.set_password(username=key.user.username, domain=key.user.domain,
+                             password=form.cleaned_data['password'])
         key.user.email_confirmed = True
         key.user.save()
 
@@ -91,13 +89,11 @@ class ResetEmailView(ConfirmationView):
         domain = data['domain']
         password = data['password']
 
-        if not backend.check_password(username=username,
-                                      domain=domain, password=password):
+        if not backend.check_password(username=username, domain=domain, password=password):
             raise UserNotFound()
 
         user, created = User.objects.get_or_create(
-            username=data['username'], domain=data['domain'],
-            defaults={'email': data['email']})
+            username=data['username'], domain=data['domain'], defaults={'email': data['email']})
 
         if not created:
             user.email = data['email']
@@ -113,11 +109,9 @@ class ResetEmailConfirmationView(ConfirmedView):
     purpose = PURPOSE_SET_EMAIL
 
     def handle_key(self, key, form):
-        if not backend.check_password(username=key.user.username,
-                                      domain=key.user.domain,
+        if not backend.check_password(username=key.user.username, domain=key.user.domain,
                                       password=form.cleaned_data['password']):
             raise UserNotFound()
         key.user.email_confirmed = True
         key.user.save()
-        backend.set_email(username=key.user.username, domain=key.user.domain,
-                          email=key.user.email)
+        backend.set_email(username=key.user.username, domain=key.user.domain, email=key.user.email)
