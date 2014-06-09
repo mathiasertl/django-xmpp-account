@@ -94,7 +94,7 @@ class RegistrationConfirmationView(ConfirmedView):
     purpose = PURPOSE_REGISTER
 
     def handle_key(self, key, form):
-        key.user.email_confirmed = True
+        key.user.confirmed = True
         key.user.save()
 
         backend.create(username=key.user.username, domain=key.user.domain,
