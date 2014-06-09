@@ -85,24 +85,25 @@ class ConfirmationView(AntiSpamFormView):
         pass
 
     def form_valid(self, form):
+        default_error = _("User not found (or false password provided)!")
         try:
             user = self.get_user(form.cleaned_data)
             self.handle_valid(form, user)
-        except (User.DoesNotExist, UserNotFound) as e:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
-                                             ErrorList())
+        except User.DoesNotExist:
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
+            errors.append(default_error)
+            return self.form_invalid(form)
+        except UserNotFound as e:
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
             if str(e):
                 errors.append(str(e))
             else:
-                errors.append(_("User not found (or false password provided)!"))
+                errors.append(default_error)
             return self.form_invalid(form)
         except (IntegrityError, UserExists):
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS,
-                                             ErrorList())
+            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
             errors.append(_("User already exists."))
             return self.form_invalid(form)
-
-#TODO: Handle case were user already exists
 
         # log user address:
         address = Address.objects.get_or_create(
