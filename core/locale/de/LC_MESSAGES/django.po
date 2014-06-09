@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-03 15:07+0200\n"
+"POT-Creation-Date: 2014-06-09 16:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -51,7 +51,8 @@ msgid "Wrong security hash"
 msgstr "Falscher Sicherheits-Hash."
 
 #: forms.py:92
-msgid "Wrong value"
+#, python-format
+msgid "Wrong value: \"%s\""
 msgstr "Falscher Wert"
 
 #: forms.py:97
@@ -115,23 +116,28 @@ msgstr ""
 "E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet "
 "werden."
 
-#: models.py:75
+#: models.py:76
 msgid "User"
 msgstr "Benutzername"
 
-#: models.py:161
+#: models.py:88
+msgid ""
+"You have either not yet set your email address or have not confirmed it yet."
+msgstr "Sie haben entweder ihre E-Mail-Adresse noch noch nicht gesetzt oder diese noch nicht bestätigt."
+
+#: models.py:168
 msgid "IP-Address"
 msgstr "IP-Adresse"
 
-#: models.py:162
+#: models.py:169
 msgid "IP-Addresses"
 msgstr "IP-Adressen"
 
-#: models.py:177
+#: models.py:184
 msgid "IP-Address Activity"
 msgstr "Aktivität"
 
-#: models.py:178
+#: models.py:185
 msgid "IP-Address Activities"
 msgstr "Aktivitäten"
 
@@ -143,15 +149,15 @@ msgstr "Der ReCAPTCHA-Server ist nicht erreichbar."
 msgid "The ReCAPTCHA didn't work properly."
 msgstr "ReCAPTCHA funktionierte nicht richtig."
 
-#: views.py:94
+#: views.py:88
 msgid "User not found (or false password provided)!"
 msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
-#: views.py:99
+#: views.py:105
 msgid "User already exists."
 msgstr "Benutzer existiert bereits."
 
-#: views.py:150
+#: views.py:151
 msgid "User not found!"
 msgstr "Benutzer nicht gefunden!"
 
@@ -159,11 +165,11 @@ msgstr "Benutzer nicht gefunden!"
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
 
-#: templates/base.html:31
+#: templates/base.html:35
 msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
 msgstr "© 2013 - 2014, Mathias Ertl falls nicht anders angegeben."
 
-#: templates/base.html:32
+#: templates/base.html:36
 msgid ""
 "This project is powered by <a href=\"https://www.djangoproject.com\">Django</"
 "a>.\n"
@@ -230,7 +236,7 @@ msgstr ""
 
 #: templates/core/spambot.html:10
 #, python-format
-msgid "Spammy behaviour: %(EXCEPTION)s"
+msgid "Spammy behaviour (host: %(HOST)s): %(EXCEPTION)s"
 msgstr "Spammiges Verhalten: %(EXCEPTION)s"
 
 #: templates/core/temporary_error.html:5
