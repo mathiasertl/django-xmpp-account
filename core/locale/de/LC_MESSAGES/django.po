@@ -237,7 +237,7 @@ msgstr ""
 #: templates/core/spambot.html:10
 #, python-format
 msgid "Spammy behaviour (host: %(HOST)s): %(EXCEPTION)s"
-msgstr "Spammiges Verhalten: %(EXCEPTION)s"
+msgstr "Spammiges Verhalten (host: %(HOST)s): %(EXCEPTION)s"
 
 #: templates/core/temporary_error.html:5
 msgid "Temporary Error"
