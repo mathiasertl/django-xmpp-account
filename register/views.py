@@ -22,6 +22,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from core.constants import PURPOSE_REGISTER
@@ -59,12 +60,12 @@ class RegistrationView(ConfirmationView):
         # Check for a registration rate
         cache_key = 'registration-%s' % self.request.get_host()
         registrations = cache.get(cache_key, set())
-        now = datetime.now()
+        _now = datetime.utcnow()
 
         for key, value in settings.REGISTRATION_RATE.items():
-            if len([s for s in registrations if s > now - key]) >= value:
+            if len([s for s in registrations if s > _now - key]) >= value:
                 raise RegistrationRateException()
-        registrations.add(now)
+        registrations.add(_now)
         cache.set(cache_key, registrations)
 
     def get_user(self, data):
@@ -94,7 +95,7 @@ class RegistrationConfirmationView(ConfirmedView):
     purpose = PURPOSE_REGISTER
 
     def handle_key(self, key, form):
-        key.user.confirmed = True
+        key.user.confirmed = now()
         key.user.save()
 
         backend.create(username=key.user.username, domain=key.user.domain,

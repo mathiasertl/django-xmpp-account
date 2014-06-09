@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
+from django.utils.timezone import now
 from django.utils.translation import ugettext as _
 
 from backends import backend
@@ -66,7 +67,7 @@ class ResetPasswordConfirmationView(ConfirmedView):
     def handle_key(self, key, form):
         backend.set_password(username=key.user.username, domain=key.user.domain,
                              password=form.cleaned_data['password'])
-        key.user.confirmed = True
+        key.user.confirmed = now()
         key.user.save()
 
 
@@ -99,7 +100,7 @@ class ResetEmailView(ConfirmationView):
 
         if not created:
             user.email = data['email']
-            user.confirmed = False
+            user.confirmed = None
             user.save()
 
         return user
@@ -114,6 +115,6 @@ class ResetEmailConfirmationView(ConfirmedView):
         if not backend.check_password(username=key.user.username, domain=key.user.domain,
                                       password=form.cleaned_data['password']):
             raise UserNotFound()
-        key.user.confirmed = True
+        key.user.confirmed = now()
         key.user.save()
         backend.set_email(username=key.user.username, domain=key.user.domain, email=key.user.email)
