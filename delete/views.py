@@ -56,7 +56,7 @@ class DeleteView(ConfirmationView):
         except User.DoesNotExist:
             raise UserNotFound()
 
-        if not self.email or not self.confirmed:
+        if not user.email or not user.confirmed:
             raise UserNotFound(_(
                 "You have either not yet set your email address or have not confirmed it yet."))
 
