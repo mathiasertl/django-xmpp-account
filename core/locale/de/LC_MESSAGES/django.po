@@ -53,7 +53,7 @@ msgstr "Falscher Sicherheits-Hash."
 #: forms.py:92
 #, python-format
 msgid "Wrong value: \"%s\""
-msgstr "Falscher Wert"
+msgstr "Falscher Wert: \"%s\""
 
 #: forms.py:97
 msgid "Password"
