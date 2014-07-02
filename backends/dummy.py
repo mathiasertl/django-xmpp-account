@@ -62,6 +62,7 @@ class DummyBackend(XmppBackendBase):
     def check_password(self, username, domain, password):
         user = '%s@%s' % (username, domain)
         log.debug('Check pass: %s -> %s', user, password)
+        return True
 
         data = cache.get(user)
         if data is None:

@@ -26,6 +26,8 @@ from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
+from register.views import RegistrationView
+
 
 class UserAddressAdmin(admin.ModelAdmin):
     list_display = ['purpose', 'address', 'user', 'timestamp', ]
@@ -84,6 +86,17 @@ class RegistrationUserAdmin(admin.ModelAdmin):
     list_display = ['jid', 'email', 'registered', ]
     search_fields = ('username', 'email', )
     list_filter = (RegistrationMethodListFilter, )
+    actions = ['resend_registration_email']
+
+    def resend_registration_email(self, request, queryset):
+        for user in queryset:
+            key = Confirmation.objects.create(user=user, purpose=RegistrationView.purpose)
+            key.send(
+                request=request, template_base=RegistrationView.email_template,
+                subject=RegistrationView.email_subject % {'domain': user.domain, },
+                confirm_url_name=RegistrationView.confirm_url_name
+            )
+    resend_registration_email.short_description = _("Resend registration email")
 
     def jid(self, obj):
         return '%s@%s' % (obj.username, obj.domain)
