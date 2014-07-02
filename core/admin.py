@@ -27,6 +27,8 @@ from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
 from register.views import RegistrationView
+from reset.views import ResetPasswordView
+from reset.views import ResetEmailView
 
 
 class UserAddressAdmin(admin.ModelAdmin):
@@ -86,9 +88,14 @@ class RegistrationUserAdmin(admin.ModelAdmin):
     list_display = ['jid', 'email', 'registered', ]
     search_fields = ('username', 'email', )
     list_filter = (RegistrationMethodListFilter, )
-    actions = ['resend_registration_email']
+    actions = (
+        'resend_registration',
+        'resend_password_reset',
+        'resend_email_reset',
+    )
 
-    def resend_registration_email(self, request, queryset):
+
+    def resend_registration(self, request, queryset):
         for user in queryset:
             key = Confirmation.objects.create(user=user, purpose=RegistrationView.purpose)
             key.send(
@@ -96,7 +103,27 @@ class RegistrationUserAdmin(admin.ModelAdmin):
                 subject=RegistrationView.email_subject % {'domain': user.domain, },
                 confirm_url_name=RegistrationView.confirm_url_name
             )
-    resend_registration_email.short_description = _("Resend registration email")
+    resend_registration.short_description = _("Resend registration email")
+
+    def resend_password_reset(self, request, queryset):
+        for user in queryset:
+            key = Confirmation.objects.create(user=user, purpose=ResetPasswordView.purpose)
+            key.send(
+                request=request, template_base=ResetPasswordView.email_template,
+                subject=ResetPasswordView.email_subject % {'domain': user.domain, },
+                confirm_url_name=ResetPasswordView.confirm_url_name
+            )
+    resend_password_reset.short_description = _("Resend password reset email")
+
+    def resend_email_reset(self, request, queryset):
+        for user in queryset:
+            key = Confirmation.objects.create(user=user, purpose=ResetEmailView.purpose)
+            key.send(
+                request=request, template_base=ResetEmailView.email_template,
+                subject=ResetEmailView.email_subject % {'domain': user.domain, },
+                confirm_url_name=ResetEmailView.confirm_url_name
+            )
+    resend_email_reset.short_description = _("Resend email reset email")
 
     def jid(self, obj):
         return '%s@%s' % (obj.username, obj.domain)
