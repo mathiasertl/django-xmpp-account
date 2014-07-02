@@ -29,7 +29,7 @@ from core.exceptions import TemporaryError
 
 class AntiSpamMiddleware(object):
     def process_request(self, request):
-        host = request.get_host()
+        host = request.META['REMOTE_ADDR']
 
         message = cache.get('spamblock-%s' % host)  # Added by previous SpamException
         if message:
@@ -40,7 +40,8 @@ class AntiSpamMiddleware(object):
             return render(request, 'core/spambot.html', context)
 
     def process_exception(self, request, exception):
-        host = request.get_host()
+        host = request.META['REMOTE_ADDR']
+
         context = {
             'EXCEPTION': exception.message or 'UNKNOWN REASON',
             'HOST': host,
