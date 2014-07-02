@@ -38,7 +38,7 @@ class UserAddressAdmin(admin.ModelAdmin):
 
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ['address', 'count_activities', 'timerange' ]
+    list_display = ['address', 'count_activities', 'timerange']
 
     def queryset(self, request):
         qs = super(AddressAdmin, self).queryset(request)
@@ -84,6 +84,7 @@ class RegistrationMethodListFilter(admin.SimpleListFilter):
             return queryset.filter(email__isnull=False)
         return queryset
 
+
 class RegistrationUserAdmin(admin.ModelAdmin):
     list_display = ['jid', 'email', 'registered', ]
     search_fields = ('username', 'email', )
@@ -93,7 +94,6 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         'resend_password_reset',
         'resend_email_reset',
     )
-
 
     def resend_registration(self, request, queryset):
         for user in queryset:
