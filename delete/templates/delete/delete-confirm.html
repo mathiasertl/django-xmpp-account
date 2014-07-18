@@ -21,7 +21,7 @@ to your account.{% endblocktrans %}</p>
 
 {% include "core/forms/errors.html" %}
 
-<form role="form" action="" method="post">{% csrf_token %}
+<form role="form" action="" method="post" autocomplete="off">{% csrf_token %}
     {% include "core/forms/head.html" %}
 
     {% with field=form.password %}
