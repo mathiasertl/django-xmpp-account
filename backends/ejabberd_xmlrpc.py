@@ -54,19 +54,18 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
     **HOST** (optional, default:: ``http:///127.0.0.1:4560``)
         The host to connect to.
     **USER** (optional)
-        The username of user used in the XMLRCP connection. Only use this
-        setting if you actually restricted access in the ejabberd config!
+        The username of user used in the XMLRCP connection. Only use this setting if you actually
+        restricted access in the ejabberd config!
     **SERVER** (optional)
-        The server of the user used in the XMLRPC connection. Only use this
-        setting if you actually restricted access in the ejabberd config!
+        The server of the user used in the XMLRPC connection. Only use this setting if you actually
+        restricted access in the ejabberd config!
     **PASSWORD** (optional)
-        The password of the user used in the XMLRPC connection. Only use this
-        setting if you actually restricted access in the ejabberd config!
+        The password of the user used in the XMLRPC connection. Only use this setting if you
+        actually restricted access in the ejabberd config!
     """
     credentials = None
 
-    def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None,
-                 PASSWORD=None):
+    def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None, PASSWORD=None):
         super(EjabberdXMLRPCBackend, self).__init__()
 
         self.client = xmlrpclib.ServerProxy(HOST)
@@ -97,13 +96,12 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             self.set_email(username, domain, email)
             return
 
-        result = self.rpc('register', user=username, host=domain,
-                          password=password)
+        result = self.rpc('register', user=username, host=domain, password=password)
         if result['res'] == 0:
-            # set last activity, so that no user has the activity 'Never'.
-            # this way the account isn't removed with delete_old_users.
-            self.rpc('set_last', user=username, host=domain,
-                     timestamp=int(time.time()), status='Registered')
+            # set last activity, so that no user has the activity 'Never'. This way the account
+            # isn't removed with delete_old_users.
+            self.rpc('set_last', user=username, host=domain, timestamp=int(time.time()),
+                     status='Registered')
 
             return
         elif result['res'] == 1:
@@ -112,8 +110,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             raise BackendError(result.get('text', 'Unknown Error'))
 
     def check_password(self, username, domain, password):
-        result = self.rpc('check_password', user=username, host=domain,
-                          password=password)
+        result = self.rpc('check_password', user=username, host=domain, password=password)
         if result['res'] == 0:
             return True
         elif result['res'] == 1:
@@ -122,8 +119,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             raise BackendError(result.get('text', 'Unknown Error'))
 
     def set_password(self, username, domain, password):
-        result = self.rpc('change_password', user=username, host=domain,
-                          newpass=password)
+        result = self.rpc('change_password', user=username, host=domain, newpass=password)
         if result['res'] == 0:
             return True
         else:
