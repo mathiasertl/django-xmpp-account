@@ -84,7 +84,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
                 return func(kwargs)
             else:
                 return func(self.credentials, kwargs)
-        except xmlrcp.ProtocolError:
+        except xmlrpclib.ProtocolError:
             raise TemporaryError(_("Our server is experiencing temporary difficulties. "
                                    "Please try again later."))
 
