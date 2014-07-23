@@ -87,7 +87,7 @@ class RegistrationMethodListFilter(admin.SimpleListFilter):
 
 class RegistrationUserAdmin(admin.ModelAdmin):
     list_display = ['jid', 'email', 'registered', 'confirmed']
-    ordering = ('registered', 'confirmed', )
+    ordering = ('-registered', '-confirmed', )
     search_fields = ('username', 'email', )
     list_filter = (RegistrationMethodListFilter, )
     actions = (
