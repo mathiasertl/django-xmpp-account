@@ -26,10 +26,6 @@ order to complete the change.{% endblocktrans %}</p>
 <form role="form" action="" method="post" autocomplete="off">{% csrf_token %}
     {% include "core/forms/head.html" %}
 
-    {% with field=form.value %}
-        {% include "core/forms/field.html" %}
-    {% endwith %}
-    
     {% with username=form.username domain=form.domain %}
         {% include "core/forms/jid.html" %}
     {% endwith %}

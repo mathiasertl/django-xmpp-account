@@ -39,7 +39,6 @@ from core.widgets import TextWidget
 
 
 class AntiSpamBase(object):
-    VALUE = forms.CharField(required=False, widget=TextWidget)
     TIMESTAMP = forms.IntegerField(widget=forms.HiddenInput, required=True)
     TOKEN = forms.CharField(widget=forms.HiddenInput, required=True)
     SECURITY_HASH = forms.CharField(min_length=40, max_length=40,
@@ -204,7 +203,6 @@ class EmailBlockedMixin(EmailMixin):
 
 
 class AntiSpamBaseForm(forms.Form, AntiSpamBase):
-    value = AntiSpamBase.VALUE
     timestamp = AntiSpamBase.TIMESTAMP
     token = AntiSpamBase.TOKEN
     security_hash = AntiSpamBase.SECURITY_HASH
@@ -215,7 +213,6 @@ class AntiSpamBaseForm(forms.Form, AntiSpamBase):
 
 
 class AntiSpamModelBaseForm(forms.ModelForm, AntiSpamBase):
-    value = AntiSpamBase.VALUE
     timestamp = AntiSpamBase.TIMESTAMP
     token = AntiSpamBase.TOKEN
     security_hash = AntiSpamBase.SECURITY_HASH

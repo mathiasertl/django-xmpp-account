@@ -26,10 +26,6 @@ make this change.{% endblocktrans %}</p>
         {% include "core/forms/field.html" %}
     {% endwith %}
 
-     {% with field=form.value %}
-        {% include "core/forms/field.html" %}
-    {% endwith %}
-
     {% with field=form.recaptcha %}
         {% include "core/forms/recaptcha.html" %}
     {% endwith %}

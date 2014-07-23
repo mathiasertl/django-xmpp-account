@@ -32,10 +32,6 @@ to your account.{% endblocktrans %}</p>
         {% include "core/forms/recaptcha.html" %}
     {% endwith %}
 
-    {% with field=form.value %}
-        {% include "core/forms/field.html" %}
-    {% endwith %}
-
     <button type="submit" class="btn btn-default">{% trans "Yes, really delete my account!" %}</button>
 </form>
 {% endif %}

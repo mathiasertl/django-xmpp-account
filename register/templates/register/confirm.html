@@ -21,10 +21,6 @@
 <form role="form" action="" method="post" autocomplete="off">{% csrf_token %}
     {% include "core/forms/head.html" %}
    
-    {% with field=form.value %}
-        {% include "core/forms/field.html" %}
-    {% endwith %}
-
     {% with field=form.password %}
         {% include "core/forms/field.html" %}
     {% endwith %}
