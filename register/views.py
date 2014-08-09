@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.utils.timezone import now
@@ -101,5 +102,20 @@ class RegistrationConfirmationView(ConfirmedView):
         backend.create(username=key.user.username, domain=key.user.domain,
                        email=key.user.email, password=form.cleaned_data['password'])
         if settings.WELCOME_MESSAGE is not None:
+            reset_pass_path = reverse('ResetPassword')
+            reset_mail_path = reverse('ResetEmail')
+            delete_path = reverse('Delete')
+
+            context = {
+                'username': key.user.username,
+                'domain': key.user.domain,
+                'email': key.user.email,
+                'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
+                'email_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
+                'delete_url': self.request.build_absolute_uri(location=reset_pass_path),
+                'contact_url': settings.CONTACT_URL,
+            }
+            subject = settings.WELCOME_MESSAGE['subject'].format(**context)
+            message = settings.WELCOME_MESSAGE['message'].format(**context)
             backend.send_message(username=key.user.username, domain=key.user.domain,
-                                 **settings.WELCOME_MESSAGE)
+                                 subject=subject, message=message)

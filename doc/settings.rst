@@ -36,6 +36,15 @@ Default: ``''`` (Empty string)
 If set, this string will be displayed on the left of the navigation bar on
 top.
 
+CONTACT_URL
+___________
+
+Default:: ``''`` (Empty string)
+
+A URL where the user may contact the server administrators. This URL is
+displayed e.g. if the registration fails, so the URL should provide at least
+some way to contact you **without** XMPP.
+
 .. _settings-CLEARTEXT_PASSWORDS:
 
 CLEARTEXT_PASSWORDS
@@ -180,9 +189,28 @@ If set to a dictionary, newly registered users will receive a welcome message
 via XMPP upon registration. Example::
 
    WELCOME_MESSAGE = {
-      'subject': "Welcome to jabber.at',
-      'message': "We hope you like our server!",
+      'subject': "Welcome to {domain}!',
+      'message': """Dear {username}@{domain},
+
+   We hope you like our server. If you ever loose your password, go to
+   {password_reset_url} and an email will be sent to {email}.
+
+   yours, the {domain} team""",
    }
+
+Standard formatting can be applied, as shown above. Availiabe keys are:
+
+================== =====================================================
+key
+================== =====================================================
+username           The username (excluding the domain).
+domain             The domain the user registered at.
+email              The email address he registered with.
+contact_url        URL defined by the ``CONTACT_URL`` setting.
+password_reset_url Full URL where the user can reset his/her password.
+email_reset_url    Full URL where the user reset the email address.
+delete_url         Full URL where the user can delete the account.
+================== =====================================================
 
 .. _settings-XMPP_BACKENDS:
 
