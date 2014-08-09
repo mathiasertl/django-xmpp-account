@@ -169,6 +169,20 @@ Clients are identified as spambots if:
 * some hidden form fields are given incorrectly
 * a form is submitted within one second
 
+.. _settings-WELCOME_MESSAGE:
+
+WELCOME_MESSAGE
+_______________
+
+Default:: ``None`` (No message will be sent).
+
+If set to a dictionary, newly registered users will receive a welcome message
+via XMPP upon registration. Example::
+
+   WELCOME_MESSAGE = {
+      'subject': "Welcome to jabber.at',
+      'message': "We hope you like our server!",
+   }
 
 .. _settings-XMPP_BACKENDS:
 
