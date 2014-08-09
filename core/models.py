@@ -18,6 +18,7 @@
 from __future__ import unicode_literals
 
 import random
+import smtplib
 import string
 
 from django.conf import settings
@@ -153,7 +154,10 @@ class Confirmation(models.Model):
         msg = EmailMultiAlternatives(
             subject, text, settings.DEFAULT_FROM_EMAIL, [self.user.email])
         msg.attach_alternative(html, 'text/html')
-        msg.send()
+        try:
+            msg.send()
+        except smtplib.SMTPRecipientsRefused:
+            pass
 
     def __str__(self):
         return '%s: %s' % (PURPOSE_DICT[self.purpose], self.user.jid)
