@@ -56,6 +56,12 @@ class AntiSpamFormView(FormView):
             raise RateException()
 
         try:
+            if settings.RECAPTCHA_CLIENT is not None and request.method == 'POST':
+                try:
+                    request.POST['recaptcha_response_field'].decode(settings.DEFAULT_CHARSET)
+                except UnicodeEncodeError:
+                    raise TemporaryError(_("Your CAPTCHA response contained invalid characters."))
+
             return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
         except RecaptchaUnreachableError as e:
             raise TemporaryError(_("The ReCAPTCHA server was unreacheable."))
