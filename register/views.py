@@ -100,3 +100,6 @@ class RegistrationConfirmationView(ConfirmedView):
 
         backend.create(username=key.user.username, domain=key.user.domain,
                        email=key.user.email, password=form.cleaned_data['password'])
+        if settings.WELCOME_MESSAGE is not None:
+            backend.send_message(username=key.user.username, domain=key.user.domain,
+                                 **settings.WELCOME_MESSAGE)

@@ -199,6 +199,7 @@ RECAPTCHA_PRIVATE_KEY = None
 RECAPTCHA_PUBLIC_KEY = None
 BRAND = ""
 CONTACT_URL = ""
+WELCOME_MESSAGE = None
 
 try:
     from localsettings import *
