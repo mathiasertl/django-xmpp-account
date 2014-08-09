@@ -117,5 +117,5 @@ class RegistrationConfirmationView(ConfirmedView):
             }
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)
-            backend.send_message(username=key.user.username, domain=key.user.domain,
+            backend.message(username=key.user.username, domain=key.user.domain,
                                  subject=subject, message=message)
