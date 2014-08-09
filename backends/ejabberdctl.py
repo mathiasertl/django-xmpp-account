@@ -25,7 +25,6 @@ from subprocess import PIPE
 from subprocess import Popen
 
 from backends.base import UserExists
-from backends.base import UserNotFound
 from backends.base import BackendError
 from backends.base import XmppBackendBase
 
@@ -117,6 +116,9 @@ class EjabberdctlBackend(XmppBackendBase):
     def check_email(self, username, domain, email):
         """Not yet implemented."""
         pass  # maybe as vcard field?
+
+    def message(self, username, domain, subject, message):
+        self.ctl('set_message_headline', domain, '%s@%s' % (username, domain), subject, message)
 
     def remove(self, username, domain):
         code, out, err = self.ctl('unregister', username, domain)
