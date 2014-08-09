@@ -55,7 +55,6 @@ class AntiSpamFormView(FormView):
         if getattr(request, 'limited', False):
             raise RateException()
 
-        raise UnicodeDecodeError
         try:
             if settings.RECAPTCHA_CLIENT is not None and request.method == 'POST':
                 try:
