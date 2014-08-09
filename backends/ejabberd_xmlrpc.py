@@ -137,13 +137,15 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         pass
 
     def message(self, username, domain, subject, message):
+        """Currently use send_message_chat and discard subject, because headline messages are not
+        stored by mod_offline."""
+
         kwargs = {
             'from': domain,
             'to': '%s@%s' % (username, domain),
-            'subject': subject,
             'body': message,
         }
-        self.rpc('send_message_headline', **kwargs)
+        self.rpc('send_message_chat', **kwargs)
 
     def remove(self, username, domain):
         result = self.rpc('unregister', user=username, host=domain)

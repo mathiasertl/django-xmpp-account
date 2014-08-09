@@ -118,7 +118,9 @@ class EjabberdctlBackend(XmppBackendBase):
         pass  # maybe as vcard field?
 
     def message(self, username, domain, subject, message):
-        self.ctl('set_message_headline', domain, '%s@%s' % (username, domain), subject, message)
+        """Currently use send_message_chat and discard subject, because headline messages are not
+        stored by mod_offline."""
+        self.ctl('send_message_chat', domain, '%s@%s' % (username, domain), message)
 
     def remove(self, username, domain):
         code, out, err = self.ctl('unregister', username, domain)
