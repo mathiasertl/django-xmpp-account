@@ -201,6 +201,10 @@ class XmppBackendBase(object):
         """
         self.remove(username, domain)
 
+    def message(self, username, domain, message):
+        """Send a message to the given user."""
+        pass
+
     def remove(self, username, domain):
         """Remove a user.
 
