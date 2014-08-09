@@ -137,7 +137,13 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         pass
 
     def message(self, username, domain, subject, message):
-        self.rpc('send_message_headline', domain, '%s@%s' % (username, domain), subject, message)
+        kwargs = {
+            'from': domain,
+            'to': '%s@%s' % (username, domain),
+            'subject': subject,
+            'body': message,
+        }
+        self.rpc('send_message_headline', **kwargs)
 
     def remove(self, username, domain):
         result = self.rpc('unregister', user=username, host=domain)
