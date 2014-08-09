@@ -136,6 +136,9 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         """Not yet implemented."""
         pass
 
+    def message(self, username, domain, subject, message):
+        self.rpc('send_message_headline', domain, '%s@%s' % (username, domain), subject, message)
+
     def remove(self, username, domain):
         result = self.rpc('unregister', user=username, host=domain)
         if result['res'] == 0:
