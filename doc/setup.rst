@@ -11,12 +11,10 @@ requires:
 
 The project is carefully written to support any XMPP server but at present,
 only ejabberd_ integration is implemented. If you care to implement support for
-Prosody_ please don't hesitate to do a merge request on github.
+Prosody_ please don't hesitate to do a merge request `on github <repository_>`_.
 
 When you use ejabberd_, you also need mod_admin_extra installed.
 
-.. _Python: http://www.python.org
-.. _Django: https://www.djangoproject.com
 .. _South: http://south.aeracode.org/
 .. _django-brake: https://github.com/gmcquillan/django-brake
 
@@ -75,6 +73,16 @@ database and grant the user permissions to it.
 MySQL
 ^^^^^
 
+If you want to use MySQL, you need ``MySQL-python`` installed. If you run the
+project inside a virtualenv, execute (with the virtualenv activated)::
+
+   pip install MySQL-python
+
+.. NOTE:: You need MySQLs development headers installed for this to work. On
+   Debian/Ubuntu based systems, install them with::
+
+      apt-get install libmysqlclient-dev
+
 At a MYSQL prompt, simply execute the following statements (fill in the details
 from the `DATABASES`_ setting as appropriate)::
 
@@ -85,7 +93,7 @@ PostgreSQL
 ^^^^^^^^^^
 
 Since the author has no PostgreSQL setup, no instructions are provided. If you
-can give some, please :doc:`contribute`.
+can give some, please `file an issue <issues_>`_.
 
 Initialize project
 ------------------
@@ -96,10 +104,6 @@ files and updates translations. If you have correctly configured
 
    source bin/activate
    python manage.py update
-
-
-.. _DATABASES: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-.. _DATABASES: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-STATIC_ROOT
 
 Webserver
 ---------
@@ -135,7 +139,7 @@ Here is what we do using Apache and mod_wsgi:
       WSGIDaemonProcess account user=account group=account threads=1 python-path=/home/account/django-xmpp-account/:/home/account/django-xmpp-account/lib/python2.7/site-packages
       WSGIProcessGroup account
 
-      # Fix static files. This means that you have the following in
+      # Configure static files. This means that you have the following in
       # localsettings.py:
       #
       # STATIC_ROOT = '/var/www/account.example.com/static/'

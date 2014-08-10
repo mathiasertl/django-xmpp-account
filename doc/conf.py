@@ -266,3 +266,15 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'http://docs.python.org/': None}
+
+rst_epilog = """
+.. _Python: http://www.python.org
+.. _Django: https://www.djangoproject.com
+.. _ejabberd: http://www.ejabberd.im/
+.. _Prosody: https://prosody.im
+.. _repository: https://github.com/mathiasertl/django-xmpp-account/
+.. _issues: https://github.com/mathiasertl/django-xmpp-account/issues/
+
+.. _DATABASES: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+.. _STATIC_ROOT: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-STATIC_ROOT
+"""
