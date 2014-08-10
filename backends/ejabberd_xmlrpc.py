@@ -62,6 +62,15 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
     **PASSWORD** (optional)
         The password of the user used in the XMLRPC connection. Only use this setting if you
         actually restricted access in the ejabberd config!
+
+    **ejabberd configuration:** The ``xmlrpc`` module is included with ejabberd_ since version
+    13.12. If you use an earlier version, please get and run the module from the
+    ``ejabberd-contrib`` repository. Configuring the interface is simple::
+
+        listen:
+            - ip: "127.0.0.1"
+              port: 4560
+              module: ejabberd_xmlrpc
     """
     credentials = None
 

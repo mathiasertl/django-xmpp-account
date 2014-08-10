@@ -150,3 +150,10 @@ Here is what we do using Apache and mod_wsgi:
           Allow from all
       </Directory>
    </VirtualHost>
+
+XMPP server
+-----------
+
+Configuration of your XMPP server depends on your server and the backend you
+want to use. Server-specific configuration instructions are included in
+:doc:`backends`.
