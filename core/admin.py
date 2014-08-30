@@ -18,10 +18,13 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from core.forms import UserCreationFormNoPassword
 from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
@@ -29,6 +32,8 @@ from core.models import RegistrationUser
 from register.views import RegistrationView
 from reset.views import ResetPasswordView
 from reset.views import ResetEmailView
+
+User = get_user_model()
 
 
 class UserAddressAdmin(admin.ModelAdmin):
@@ -130,8 +135,16 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         return '%s@%s' % (obj.username, obj.domain)
 
 
+class UserAdmin(UserAdminBase):
+    add_form = UserCreationFormNoPassword
+
+
 admin.site.register(Confirmation)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(UserAddresses, UserAddressAdmin)
 admin.site.register(RegistrationUser, RegistrationUserAdmin)
 admin.site.unregister(Group)
+
+# Replace core user admin UserAdmin:
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
