@@ -146,5 +146,5 @@ admin.site.register(RegistrationUser, RegistrationUserAdmin)
 admin.site.unregister(Group)
 
 # Replace core user admin UserAdmin:
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+#admin.site.unregister(User)
+#admin.site.register(User, UserAdmin)
