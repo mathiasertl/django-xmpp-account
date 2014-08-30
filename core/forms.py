@@ -49,8 +49,8 @@ class UserCreationFormNoPassword(UserCreationForm):
 class AntiSpamBase(object):
     TIMESTAMP = forms.IntegerField(widget=forms.HiddenInput, required=True)
     TOKEN = forms.CharField(widget=forms.HiddenInput, required=True)
-    SECURITY_HASH = forms.CharField(min_length=40, max_length=40,
-                                    required=True, widget=forms.HiddenInput)
+    SECURITY_HASH = forms.CharField(min_length=40, max_length=40, required=True,
+                                    widget=forms.HiddenInput)
 
     ANTI_SPAM_MESSAGES = {
         'too-slow': _("This page has expired. Reload and try again."),
@@ -83,8 +83,7 @@ class AntiSpamBase(object):
         return timestamp
 
     def clean_security_hash(self):
-        good = self.generate_hash(self.data.get("timestamp", ''),
-                                  self.data.get("token", ''))
+        good = self.generate_hash(self.data.get("timestamp", ''), self.data.get("token", ''))
         received = self.cleaned_data.get('security_hash')
         if received is None:
             raise SpamException(_("No security hash"))
@@ -101,8 +100,7 @@ class AntiSpamBase(object):
 
 
 class PasswordMixin(object):
-    PASSWORD_FIELD = forms.CharField(label=_("Password"), max_length=60,
-                                     widget=PasswordWidget)
+    PASSWORD_FIELD = forms.CharField(label=_("Password"), max_length=60, widget=PasswordWidget)
 
 
 class PasswordConfirmationMixin(PasswordMixin):
@@ -119,8 +117,7 @@ class PasswordConfirmationMixin(PasswordMixin):
         password2 = self.cleaned_data.get('password2')
         if password1 and password2:
             if password1 != password2:
-                raise forms.ValidationError(
-                    self.password_error_messages['password_mismatch'])
+                raise forms.ValidationError(self.password_error_messages['password_mismatch'])
         return password2
 
 
@@ -154,26 +151,22 @@ class JidMixin(object):
         if settings.MAX_USERNAME_LENGTH < max_length:
             max_length = settings.MAX_USERNAME_LENGTH
         if length > max_length:
-            raise forms.ValidationError(_(
-                "Username must not be longer then %s characters.") %
-                max_length)
+            raise forms.ValidationError(
+                _("Username must not be longer then %s characters.") % max_length)
         if length < settings.MIN_USERNAME_LENGTH:
             raise forms.ValidationError(_(
-                "Username must not be shorter then %s characters.") %
-                settings.MIN_USERNAME_LENGTH)
+                "Username must not be shorter then %s characters.") % settings.MIN_USERNAME_LENGTH)
 
         results = parse_jid('%s@example.com' % node)  # fake the server part
         if not results:
-            raise forms.ValidationError(_(
-                "Username is not a valid XMPP username."))
+            raise forms.ValidationError(_("Username is not a valid XMPP username."))
         return node
 
 
 class EmailMixin(object):
     EMAIL_FIELD = forms.EmailField(
         label=_("email"), max_length=50, widget=EmailWidget,
-        help_text=_(
-            'Required, a confirmation email will be sent to this address.')
+        help_text=_( 'Required, a confirmation email will be sent to this address.')
     )
     EMAIL_ERROR_MESSAGES = {
         'own-domain': _(
@@ -203,8 +196,7 @@ class EmailBlockedMixin(EmailMixin):
         try:
             hostname = email.rsplit('@', 1)[1]
             if hostname in settings.BLOCKED_EMAIL_TLDS:
-                raise forms.ValidationError(
-                    self.EMAIL_ERROR_MESSAGES['blocked-domain'])
+                raise forms.ValidationError(self.EMAIL_ERROR_MESSAGES['blocked-domain'])
         except IndexError:
             pass
         return email
@@ -232,10 +224,9 @@ class AntiSpamModelBaseForm(forms.ModelForm, AntiSpamBase):
 
 # dynamically make BaseForms to CAPTCHA forms if settings.RECAPTCHA_CLIENT
 if settings.RECAPTCHA_CLIENT is not None:
-    AntiSpamModelForm = create_form_subclass_with_recaptcha(
-        AntiSpamModelBaseForm, settings.RECAPTCHA_CLIENT)
-    AntiSpamForm = create_form_subclass_with_recaptcha(
-        AntiSpamBaseForm, settings.RECAPTCHA_CLIENT)
+    AntiSpamModelForm = create_form_subclass_with_recaptcha(AntiSpamModelBaseForm,
+                                                            settings.RECAPTCHA_CLIENT)
+    AntiSpamForm = create_form_subclass_with_recaptcha(AntiSpamBaseForm, settings.RECAPTCHA_CLIENT)
 else:
     AntiSpamModelForm = AntiSpamModelBaseForm
     AntiSpamForm = AntiSpamBaseForm
