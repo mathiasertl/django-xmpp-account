@@ -23,6 +23,7 @@ from copy import copy
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import salted_hmac
 from django_recaptcha_field import create_form_subclass_with_recaptcha
@@ -36,6 +37,13 @@ from core.widgets import EmailWidget
 from core.widgets import PasswordWidget
 from core.widgets import SelectWidget
 from core.widgets import TextWidget
+
+
+class UserCreationFormNoPassword(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserCreationFormNoPassword, self).__init__(*args, **kwargs)
+        del self.fields['password1']
+        del self.fields['password2']
 
 
 class AntiSpamBase(object):
