@@ -22,7 +22,6 @@ from django.conf import settings
 
 def xmppaccount(request):
     return {
-        'BRAND': settings.BRAND,
         'CONTACT_URL': settings.CONTACT_URL,
         'MIN_USERNAME_LENGTH': settings.MIN_USERNAME_LENGTH,
         'MAX_USERNAME_LENGTH': settings.MAX_USERNAME_LENGTH,
