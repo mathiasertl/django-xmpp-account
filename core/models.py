@@ -54,7 +54,7 @@ PURPOSE_DICT = dict(PURPOSE_CHOICES)
 @python_2_unicode_compatible
 class RegistrationUser(AbstractBaseUser):
     # NOTE: MySQL only allows a 255 character limit
-    username = models.CharField(max_length=255, unique=True)
+    username = models.CharField(max_length=255)
     domain = models.CharField(
         max_length=253, default=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
