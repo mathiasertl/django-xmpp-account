@@ -41,9 +41,8 @@ ___________
 
 Default:: ``''`` (Empty string)
 
-A URL where the user may contact the server administrators. This URL is
-displayed e.g. if the registration fails, so the URL should provide at least
-some way to contact you **without** XMPP.
+The default URL where the user may contact the server administrators. This URL is only used when
+:ref:`settings-XMPP_HOSTS` does not define a contact URL.
 
 .. _settings-CLEARTEXT_PASSWORDS:
 
@@ -289,7 +288,15 @@ in Email addresses with this domain in any form.
 
 Default:: :ref:`settings-BRAND` or :ref:`settings-DEFAULT_XMPP_HOST`
 
-If set, display this brand instead.
+If set, display this brand instead. If you do not want to use a brand, set this to an empty string.
+
+.. rubric:: CONTACT_URL
+
+Default:: :ref:`settings-CONTACT_URL`
+
+An URL where the user may contact the server administrators. This URL is displayed e.g. if the
+registration fails, so the URL should provide at least some way to contact you **without** XMPP.
+
 
 Example::
 

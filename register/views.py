@@ -113,7 +113,7 @@ class RegistrationConfirmationView(ConfirmedView):
                 'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
                 'email_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
                 'delete_url': self.request.build_absolute_uri(location=reset_pass_path),
-                'contact_url': settings.CONTACT_URL,
+                'contact_url': self.request.site['CONTACT_URL'],
             }
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)

@@ -36,6 +36,7 @@ class SiteMiddleware(object):
         else:
             request.site = settings.XMPP_HOSTS[mapped]
             request.site.setdefault('BRAND', settings.BRAND or mapped)
+        request.site.setdefault('CONTACT_URL', settings.CONTACT_URL)
 
 
 class AntiSpamMiddleware(object):
