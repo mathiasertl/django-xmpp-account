@@ -45,6 +45,7 @@ class RegistrationUserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
+
 class ConfirmationManager(models.Manager):
     def get_queryset(self):
         return ConfirmationQuerySet(self.model)
@@ -56,18 +57,3 @@ class ConfirmationManager(models.Manager):
             key = salted_hmac(salt, value).hexdigest()
         return super(ConfirmationManager, self).create(
             user=user, purpose=purpose, key=key, **kwargs)
-
-    def valid(self):
-        return self.get_queryset().valid()
-
-    def expired(self):
-        return self.get_queryset().expired()
-
-    def registrations(self):
-        return self.get_queryset().registrations()
-
-    def passwords(self):
-        return self.get_queryset().passwords()
-
-    def emails(self):
-        return self.get_queryset().emails()

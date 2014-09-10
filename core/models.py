@@ -37,6 +37,7 @@ from core.constants import PURPOSE_DELETE
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
+from core.querysets import ConfirmationQuerySet
 
 from backends import backend
 from backends.base import UserNotFound
@@ -131,7 +132,7 @@ class Confirmation(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
 
-    objects = ConfirmationManager()
+    objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
 
     def send(self, request, template_base, subject, confirm_url_name):
         path = reverse(confirm_url_name, kwargs={'key': self.key})
