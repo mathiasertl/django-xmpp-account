@@ -170,6 +170,7 @@ AUTH_USER_MODEL = 'core.RegistrationUser'
 
 # custom settings defaults
 XMPP_HOSTS = {}
+XMPP_HOSTS_MAPPING = {}
 DEFAULT_XMPP_HOST = None
 MIN_USERNAME_LENGTH = 3
 MAX_USERNAME_LENGTH = 32
