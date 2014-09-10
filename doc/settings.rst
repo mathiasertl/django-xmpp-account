@@ -285,6 +285,12 @@ Unfortunately people frequently try to give their full Jabber ID as their Email
 address. Unless you set this setting to ``True``, users will not be able to fill
 in Email addresses with this domain in any form.
 
+.. rubric:: BRAND
+
+Default:: :ref:`settings-BRAND` or :ref:`settings-DEFAULT_XMPP_HOST`
+
+If set, display this brand instead.
+
 Example::
 
    XMPP_HOSTS = {
