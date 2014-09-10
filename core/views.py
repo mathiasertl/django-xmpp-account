@@ -17,12 +17,10 @@
 
 from __future__ import unicode_literals
 
-from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.http import Http404
-from django.forms.util import ErrorList
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 
@@ -63,9 +61,9 @@ class AntiSpamFormView(FormView):
                     raise TemporaryError(_("Your CAPTCHA response contained invalid characters."))
 
             return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
-        except RecaptchaUnreachableError as e:
+        except RecaptchaUnreachableError:
             raise TemporaryError(_("The ReCAPTCHA server was unreacheable."))
-        except KeyError as e:
+        except KeyError:
             raise TemporaryError(_("The ReCAPTCHA didn't work properly."))
 
     def get_form_kwargs(self):
@@ -96,19 +94,16 @@ class ConfirmationView(AntiSpamFormView):
             user = self.get_user(form.cleaned_data)
             self.handle_valid(form, user)
         except User.DoesNotExist:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
-            errors.append(default_error)
+            form.add_error(None, default_error)
             return self.form_invalid(form)
         except UserNotFound as e:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
             if e.args and e.args[0]:
-                errors.append(e.args[0].encode('utf-8'))
+                form.add_error(None, e.args[0].encode('utf-8'))
             else:
-                errors.append(default_error)
+                form.add_error(None, default_error)
             return self.form_invalid(form)
         except (IntegrityError, UserExists):
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
-            errors.append(_("User already exists."))
+            form.add_error(None, _("User already exists."))
             return self.form_invalid(form)
 
         # log user address:
@@ -153,12 +148,10 @@ class ConfirmedView(AntiSpamFormView):
             key.delete()
             self.after_delete(form.cleaned_data)
         except UserNotFound:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
-            errors.append(_("User not found!"))
+            form.add_error(None, _("User not found!"))
             return self.form_invalid(form)
         except UserExists:
-            errors = form._errors.setdefault(forms.forms.NON_FIELD_ERRORS, ErrorList())
-            errors.append(_("User already exists!"))
+            form.add_error(None, _("User already exists!"))
             return self.form_invalid(form)
 
         return super(ConfirmedView, self).form_valid(form)
