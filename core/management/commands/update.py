@@ -19,11 +19,6 @@ from __future__ import unicode_literals
 
 import os
 
-from datetime import datetime
-from datetime import timedelta
-from subprocess import PIPE
-from subprocess import Popen
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
@@ -31,9 +26,9 @@ from django.core.management import call_command
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        os.chdir(settings.PROJECT_ROOT)
+        os.chdir(settings.BASE_DIR)
 
-        call_command('syncdb', noinput=True, migrate=True)
+        call_command('migrate', noinput=True)
         if settings.STATIC_ROOT:
             call_command('collectstatic', interactive=False)
 
