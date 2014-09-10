@@ -30,9 +30,11 @@ class SiteMiddleware(object):
         mapped = settings.XMPP_HOSTS_MAPPING.get(request.META['HTTP_HOST'])
         if mapped is None:
             request.site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+            request.site['DOMAIN'] = settings.DEFAULT_XMPP_HOST
             request.site.setdefault('BRAND', settings.BRAND or settings.DEFAULT_XMPP_HOST)
         else:
             request.site = settings.XMPP_HOSTS[mapped]
+            request.site['DOMAIN'] = mapped
             request.site.setdefault('BRAND', settings.BRAND or mapped)
         request.site.setdefault('CONTACT_URL', settings.CONTACT_URL)
 
