@@ -27,6 +27,17 @@ from core.exceptions import SpamException
 from core.exceptions import TemporaryError
 
 
+class SiteMiddleware(object):
+    def process_request(self, request):
+        mapped = settings.DEFAULT_HOST_MAPPING.get(request.META['HTTP_HOST'])
+        if mapped is None:
+            request.site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+            request.site.setdefault('brand', settings.DEFAULT_XMPP_HOST)
+        else:
+            request.site = settings.XMPP_HOSTS[mapped]
+            request.site.setdefault('brand', mapped)
+
+
 class AntiSpamMiddleware(object):
     def process_request(self, request):
         host = request.META['REMOTE_ADDR']
