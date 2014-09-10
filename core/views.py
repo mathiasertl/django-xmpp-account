@@ -70,6 +70,9 @@ class AntiSpamFormView(FormView):
         kwargs = super(AntiSpamFormView, self).get_form_kwargs()
         if settings.RECAPTCHA_CLIENT is not None:
             kwargs['request'] = self.request
+
+        if 'domain' in self.form_class.declared_fields:
+            kwargs['initial']['domain'] = self.request.site['DOMAIN']
         return kwargs
 
     def form_valid(self, form):
