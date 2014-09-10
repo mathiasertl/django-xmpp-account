@@ -33,8 +33,8 @@ _____
 
 Default: ``''`` (Empty string)
 
-If set, this string will be displayed on the left of the navigation bar on
-top.
+The default "brand" displayed on the left of the navigation bar. If not set, the hostname of the
+jabber-server (according to :ref:`settings-XMPP_HOSTS_MAPPING` is used instead.
 
 CONTACT_URL
 ___________
@@ -300,3 +300,24 @@ Example::
          'MANAGE': False,  # we used this many years back
       }
    }
+
+.. _settings-XMPP_HOSTS_MAPPING:
+
+XMPP_HOSTS_MAPPING
+__________________
+
+Default: ``{}``
+
+A mapping of XMPP hosts to HTTP hosts this page is available under. This will change the behaviour
+of your site depending on the hostname used. For example, if you use
+``https://register.example.com`` to register accounts for ``example.com`` and
+``https://account.example.org`` to register accounts for ``example.org``, use::
+
+   XMPP_HOSTS_MAPPING = {
+      'register.example.com': 'example.com',
+      'account.example.org': 'example.org',
+   }
+
+The values of the dictionary must match a host defined in :ref:`settings-XMPP_HOSTS`. If the site
+is viewed via an unknown domain (e.g. ``something-else.example.net`` in the above example, the
+:ref:`settings-DEFAULT_XMPP_HOST` will be used.
