@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 #
-# This file is part of django-xmpp-register (https://account.jabber.at/doc).
+# This file is part of django-xmpp-account (https://account.jabber.at/doc).
 #
-# django-xmpp-register is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by the Free
-# Software Foundation, either version 3 of the License, or (at your option) any
-# later version.
+# django-xmpp-account is free software: you can redistribute it and/or modify it under the terms of
+# the GNU General Public License as published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
 #
-# django-xmpp-register is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-# more details.
+# django-xmpp-account is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with
-# django-xmpp-register.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License along with django-xmpp-account.
+# If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
 
@@ -75,8 +73,7 @@ class RegistrationView(ConfirmationView):
 
     def handle_valid(self, form, user):
         if settings.XMPP_HOSTS[user.domain].get('RESERVE', False):
-            backend.reserve(username=user.username, domain=user.domain,
-                            email=user.email)
+            backend.reserve(username=user.username, domain=user.domain, email=user.email)
 
     def form_valid(self, form):
         self.registration_rate()
@@ -86,10 +83,9 @@ class RegistrationView(ConfirmationView):
 class RegistrationConfirmationView(ConfirmedView):
     """Confirm a registration.
 
-    .. NOTE:: This is deliberately not implemented as a generic view related
-       to the Confirmation object. We want to present the form unconditionally
-       and complain about a false key only when the user passed various
-       Anti-SPAM measures.
+    .. NOTE:: This is deliberately not implemented as a generic view related to the Confirmation
+       object. We want to present the form unconditionally and complain about a false key only when
+       the user passed various Anti-SPAM measures.
     """
     form_class = RegistrationConfirmationForm
     template_name = 'register/confirm.html'
@@ -99,8 +95,8 @@ class RegistrationConfirmationView(ConfirmedView):
         key.user.confirmed = now()
         key.user.save()
 
-        backend.create(username=key.user.username, domain=key.user.domain,
-                       email=key.user.email, password=form.cleaned_data['password'])
+        backend.create(username=key.user.username, domain=key.user.domain, email=key.user.email,
+                       password=form.cleaned_data['password'])
         if settings.WELCOME_MESSAGE is not None:
             reset_pass_path = reverse('ResetPassword')
             reset_mail_path = reverse('ResetEmail')
@@ -117,5 +113,5 @@ class RegistrationConfirmationView(ConfirmedView):
             }
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)
-            backend.message(username=key.user.username, domain=key.user.domain,
-                                 subject=subject, message=message)
+            backend.message(username=key.user.username, domain=key.user.domain, subject=subject,
+                            message=message)
