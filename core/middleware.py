@@ -32,10 +32,10 @@ class SiteMiddleware(object):
         mapped = settings.XMPP_HOSTS_MAPPING.get(request.META['HTTP_HOST'])
         if mapped is None:
             request.site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
-            request.site.setdefault('brand', settings.BRAND or settings.DEFAULT_XMPP_HOST)
+            request.site.setdefault('BRAND', settings.BRAND or settings.DEFAULT_XMPP_HOST)
         else:
             request.site = settings.XMPP_HOSTS[mapped]
-            request.site.setdefault('brand', settings.BRAND or mapped)
+            request.site.setdefault('BRAND', settings.BRAND or mapped)
 
 
 class AntiSpamMiddleware(object):
