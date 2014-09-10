@@ -157,7 +157,7 @@ class Confirmation(models.Model):
         html = render_to_string('%s.html' % template_base, context)
 
         msg = EmailMultiAlternatives(
-            subject, text, settings.DEFAULT_FROM_EMAIL, [self.user.email])
+            subject, text, request.site['FROM_EMAIL'], [self.user.email])
         msg.attach_alternative(html, 'text/html')
         try:
             msg.send()

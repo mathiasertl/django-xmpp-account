@@ -289,6 +289,12 @@ Default:: :ref:`settings-CONTACT_URL`
 An URL where the user may contact the server administrators. This URL is displayed e.g. if the
 registration fails, so the URL should provide at least some way to contact you **without** XMPP.
 
+..rubric:: FROM_EMAIL
+
+Default:: ``settings.DEFAULT_FROM_EMAIL``
+
+The email address used in the ``From:`` field fo emails sent on behalf of this site.
+
 
 Example::
 
