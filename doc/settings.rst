@@ -1,15 +1,13 @@
 Settings
 --------
 
-As a Django project, this project is configured via a file called
-:file:`settings.py`. You should not edit this file yourself (it's in the git
-repository to provide defaults), but edit the
-:file:`xmppaccount/localsettings.py` instead.  If you haven't already, copy the
-file :file:`localsettings.py.example` in the same directory and start from
-there.
+As a Django project, this project is configured via a file called :file:`settings.py`. You should
+not edit this file yourself (it's in the git repository to provide defaults), but edit the
+:file:`xmppaccount/localsettings.py` instead.  If you haven't already, copy the file
+:file:`localsettings.py.example` in the same directory and start from there.
 
-This page documents custom settings used by this project, for all other
-available settings, please see `Django settings`_.
+This page documents custom settings used by this project, for all other available settings, please
+see `Django settings`_.
 
 .. _Django settings: https://docs.djangoproject.com/en/dev/ref/settings/
 
@@ -20,11 +18,11 @@ __________________
 
 Default: ``set()`` (Empty set)
 
-A set of domains that are not allowed to be used in Email addresses during
-registration or as a new Email address for an existing user.
+A set of domains that are not allowed to be used in Email addresses during registration or as a new
+Email address for an existing user.
 
-Domains from the :ref:`settings-XMPP_HOSTS` setting that don't have their
-``EMAIL`` key set to ``True`` will be automatically be included in this list.
+Domains from the :ref:`settings-XMPP_HOSTS` setting that don't have their ``EMAIL`` key set to
+``True`` will be automatically be included in this list.
 
 .. _settings-BRAND:
 
@@ -51,9 +49,8 @@ ___________________
 
 Default:: ``True``
 
-Unless this setting is set to ``False``, the site will display a warning that
-passwords are stored in clear text whenever the user is prompted to enter a new
-password.
+Unless this setting is set to ``False``, the site will display a warning that passwords are stored
+in clear text whenever the user is prompted to enter a new password.
 
 .. _settings-CONFIRMATION_TIMEOUT:
 
@@ -62,9 +59,9 @@ ____________________
 
 Default:: ``timedelta(hours=24)`` (24 hours)
 
-Every action requires an Email confirmation: The user receives an Email, and
-only if he clicks the link provided there, he can actually do anything. This
-setting configures the time the links in the comfirmation Emails stay valid.
+Every action requires an Email confirmation: The user receives an Email, and only if he clicks the
+link provided there, he can actually do anything. This setting configures the time the links in the
+comfirmation Emails stay valid.
 
 .. _settings-DEFAULT_XMPP_HOST:
 
@@ -73,9 +70,9 @@ _________________
 
 Default:: see text
 
-The host that is preselected in the dropdown of the registration form. This
-setting of course has an effect if you have more then one server. If you do not
-specify it yourself, an arbitrary host will be selected on application startup.
+The host that is preselected in the dropdown of the registration form. This setting of course has
+an effect if you have more then one server. If you do not specify it yourself, an arbitrary host
+will be selected on application startup.
 
 .. _settings-EJABBERD_REGISTRATION_BOT:
 
@@ -92,8 +89,8 @@ ____________
 
 Default:: ``3600`` (1 hour)
 
-Maximum amount of time a form stays valid. If the user loads a page and submits
-it after this many seconds, he will have to reload the page to get a new form.
+Maximum amount of time a form stays valid. If the user loads a page and submits it after this many
+seconds, he will have to reload the page to get a new form.
 
 .. _settings-MIN_USERNAME_LENGTH:
 
@@ -111,8 +108,8 @@ ___________________
 
 Default:: ``32``
 
-Maximum characters allowed for the registration of a new username. If you
-provide a value greater then 255 characters, it will be capped to that value.
+Maximum characters allowed for the registration of a new username. If you provide a value greater
+then 255 characters, it will be capped to that value.
 
 .. _settings-RECAPTCHA_PRIVATE_KEY:
 
@@ -121,8 +118,8 @@ _____________________
 
 Default:: ``""`` (empty string)
 
-If you set both this setting and :ref:`settings-RECAPTCHA_PUBLIC_KEY`, every
-form will be protected by a CAPTCHA.
+If you set both this setting and :ref:`settings-RECAPTCHA_PUBLIC_KEY`, every form will be protected
+by a CAPTCHA.
 
 .. _settings-RECAPTCHA_PUBLIC_KEY:
 
@@ -131,8 +128,8 @@ ____________________
 
 Default:: ``""`` (empty string)
 
-If you set both this setting and :ref:`settings-RECAPTCHA_PRIVATE_KEY`, every
-form will be protected by a CAPTCHA.
+If you set both this setting and :ref:`settings-RECAPTCHA_PRIVATE_KEY`, every form will be
+protected by a CAPTCHA.
 
 .. _settings-REGISTRATION_RATE:
 
@@ -147,18 +144,16 @@ Default::
        timedelta(days=1): 5,
    }
 
-This configures how many accounts a single IP address can register within the
-given timeframes. Every restriction is added up, if any rate is exceeded, no
-registration is possible at the given time. The default means that an IP address
-can register at most:
+This configures how many accounts a single IP address can register within the given timeframes.
+Every restriction is added up, if any rate is exceeded, no registration is possible at the given
+time. The default means that an IP address can register at most:
 
 * once every two minutes
 * twice every hour
 * five times per day
 
-If you want to override this setting, make sure you have the
-``datetime.timedelta`` imported at the top of
-:file:`xmpplist/localsettings.py`::
+If you want to override this setting, make sure you have the ``datetime.timedelta`` imported at the
+top of :file:`xmpplist/localsettings.py`::
 
    from datetime import timedelta
 
@@ -169,8 +164,8 @@ _______________
 
 Default:: ``86400`` (24 hours)
 
-If the client shows behaviour that clearly identifies it as spambot, it will be
-blocked for this amount of seconds.
+If the client shows behaviour that clearly identifies it as spambot, it will be blocked for this
+amount of seconds.
 
 Clients are identified as spambots if:
 
@@ -184,8 +179,8 @@ _______________
 
 Default:: ``None`` (No message will be sent).
 
-If set to a dictionary, newly registered users will receive a welcome message
-via XMPP upon registration. Example::
+If set to a dictionary, newly registered users will receive a welcome message via XMPP upon
+registration. Example::
 
    WELCOME_MESSAGE = {
       'subject': "Welcome to {domain}!',
@@ -218,9 +213,9 @@ _____________
 
 Default:: ``{}`` (Empty dictionary, **required**)
 
-Configure XMPP backends for this site. See :doc:`backends <backends>` for a list of
-available backends and their settings. The only required setting is ``BACKEND``,
-which gives the Python path to the implementation. Example::
+Configure XMPP backends for this site. See :doc:`backends <backends>` for a list of available
+backends and their settings. The only required setting is ``BACKEND``, which gives the Python path
+to the implementation. Example::
 
    XMPP_BACKENDS = {
       'default': {
@@ -240,18 +235,16 @@ __________
 
 Default: ``{}`` (Empty dictionary, **required**)
 
-A dictionary of the hosts this installation is able to manage. This means that
-your backend (see :ref:`settings-XMPP_BACKENDS`) can handle each of these
-domains.
+A dictionary of the hosts this installation is able to manage. This means that your backend (see
+:ref:`settings-XMPP_BACKENDS`) can handle each of these domains.
 
-.. WARNING:: Never remove hosts from this setting entirely unless you have
-   (manually!) removed all users from this domain from the database.
+.. WARNING:: Never remove hosts from this setting entirely unless you have (manually!) removed all
+   users from this domain from the database.
 
-   If you want this site to stop managing a given host, set its ``MANAGE``
-   setting to ``False``.
+   If you want this site to stop managing a given host, set its ``MANAGE`` setting to ``False``.
 
-The value must be a dictionary, with the keys being domains and the values being
-dictionaries, with the following possible keys:
+The value must be a dictionary, with the keys being domains and the values being dictionaries, with
+the following possible keys:
 
 .. rubric:: REGISTRATION
 
@@ -263,26 +256,25 @@ A boolean ``True`` means that users should be able to register at this host.
 
 Default:: ``False``
 
-A boolean ``True`` means that the backend will reserve the username when the
-user first registers (when the confirmation Email is sent to the user). For most
-backends this means that the user is created with a randomly generated password
-and the real password is only set when the user provides a password at the Email
-confirmation page.
+A boolean ``True`` means that the backend will reserve the username when the user first registers
+(when the confirmation Email is sent to the user). For most backends this means that the user is
+created with a randomly generated password and the real password is only set when the user provides
+a password at the Email confirmation page.
 
 .. rubric:: MANAGE
 
 Default:: ``True``
 
-Set this value to ``False`` if you want to completely disable a domain but still
-have local users in the database.
+Set this value to ``False`` if you want to completely disable a domain but still have local users
+in the database.
 
 .. rubric:: EMAIL
 
 Default:: ``False``
 
-Unfortunately people frequently try to give their full Jabber ID as their Email
-address. Unless you set this setting to ``True``, users will not be able to fill
-in Email addresses with this domain in any form.
+Unfortunately people frequently try to give their full Jabber ID as their Email address. Unless you
+set this setting to ``True``, users will not be able to fill in Email addresses with this domain in
+any form.
 
 .. rubric:: BRAND
 
