@@ -124,6 +124,10 @@ class RegistrationUser(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    @is_staff.setter
+    def is_staff(self, value):
+        self.is_admin = value
+
 
 @python_2_unicode_compatible
 class Confirmation(models.Model):
