@@ -46,7 +46,7 @@ class RegistrationUserManager(BaseUserManager):
         return user
 
 class ConfirmationManager(models.Manager):
-    def get_query_set(self):
+    def get_queryset(self):
         return ConfirmationQuerySet(self.model)
 
     def create(self, user, purpose, key=None, **kwargs):
@@ -58,16 +58,16 @@ class ConfirmationManager(models.Manager):
             user=user, purpose=purpose, key=key, **kwargs)
 
     def valid(self):
-        return self.get_query_set().valid()
+        return self.get_queryset().valid()
 
     def expired(self):
-        return self.get_query_set().expired()
+        return self.get_queryset().expired()
 
     def registrations(self):
-        return self.get_query_set().registrations()
+        return self.get_queryset().registrations()
 
     def passwords(self):
-        return self.get_query_set().passwords()
+        return self.get_queryset().passwords()
 
     def emails(self):
-        return self.get_query_set().emails()
+        return self.get_queryset().emails()
