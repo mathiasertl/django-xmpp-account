@@ -25,7 +25,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 RECAPTCHA_CLIENT = None
-PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
