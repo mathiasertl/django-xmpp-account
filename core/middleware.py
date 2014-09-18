@@ -27,7 +27,8 @@ from core.exceptions import TemporaryError
 
 class SiteMiddleware(object):
     def process_request(self, request):
-        mapped = settings.XMPP_HOSTS_MAPPING.get(request.META['HTTP_HOST'])
+        host = request.META.get('HTTP_HOST', request.META.get('SERVER_NAME'))
+        mapped = settings.XMPP_HOSTS_MAPPING.get(host)
         if mapped is None:
             request.site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
             request.site['DOMAIN'] = settings.DEFAULT_XMPP_HOST
