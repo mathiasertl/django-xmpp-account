@@ -20,3 +20,14 @@ footer {
     padding-top: 5px;
     margin-top: 2em;
 }
+
+ul.arrow-list {
+    list-style: none inside none;
+    padding-left: 10px;
+}
+ul.arrow-list li {
+    background: url('/static/img/arrow-right-green.png');
+    background-repeat: no-repeat;
+    line-height: 20px;
+    padding-left: 24px;
+}
