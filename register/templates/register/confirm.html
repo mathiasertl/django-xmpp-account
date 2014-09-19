@@ -4,7 +4,7 @@
 {% block content %}
 <h1>{% block title %}{% trans "Confirm Registration" %}{% endblock title %}</h1>
 
-{% if form.is_valid %}
+{% if form.is_valid or SUBMIT %}
 <div class="alert alert-success">
     <p><strong>{% trans "Registration successful!" %}</strong></p>
     <p>{% blocktrans with jid=jid username=username domain=domain %}Your

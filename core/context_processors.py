@@ -21,8 +21,13 @@ from django.conf import settings
 
 
 def xmppaccount(request):
-    return {
+    submit = settings.DEBUG and request.GET.get('submit', '1')
+    context = {
         'MIN_USERNAME_LENGTH': settings.MIN_USERNAME_LENGTH,
         'MAX_USERNAME_LENGTH': settings.MAX_USERNAME_LENGTH,
         'SITE': request.site,
+        'SUBMIT': submit,
     }
+    if submit:
+        context.update({k: v for k, v in request.GET.items()})
+    return context
