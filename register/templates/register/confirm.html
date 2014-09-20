@@ -14,6 +14,35 @@
       (<strong>{{ domain }}</strong>) separately.{% endblocktrans %}
     </p>
 </div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-follow" data-href="https://facebook.com/jabber.at" data-colorscheme="light" data-layout="button" data-show-faces="false"></div>
+<div class="fb-like" data-href="https://facebook.com/jabber.at" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+<h2>{% trans "What's next?" %}</h2>
+<ul class="arrow-list">
+    <li>{% blocktrans %}Configure your account (<strong>{{ jid }}</strong> or username: <strong>{{ username }}</strong>, domain: <strong>{{ domain }}</strong>) you just created in any Jabber client of your choice.{% endblocktrans %}
+    <li>{% blocktrans %}If you are not sure what client to use, the XSF has an 
+<a href="http://xmpp.org/xmpp-software/clients/">extensive list of clients</a>
+and Wikipedia has a <a href="https://en.wikipedia.org/wiki/Comparison_of_XMPP_clients">
+list with feature comparisons</a>.{% endblocktrans %}</li>
+    <li>{% blocktrans %}Follow news about our server on <a href="{{ SITE.HOMEPAGE }}">our homepage</a>.{% endblocktrans %}
+    {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
+    <ul>
+    </ul>
+    {% endif %}
+    </li>
+{% if SITE.WEBCHAT %}
+    <li>{% blocktrans %}<a href="{{ SITE.WEBCHAT }}">Our webchat</a> allows you to login anywere without having to install a client.{% endblocktrans %}</li>
+{% endif %}
+</ul>
 {% else %}
 
 {% include "core/forms/errors.html" %}
