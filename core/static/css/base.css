@@ -28,6 +28,11 @@ ul.arrow-list {
 ul.arrow-list li {
     background: url('/static/img/arrow-right-green.png');
     background-repeat: no-repeat;
-    line-height: 20px;
+    background-position: 0px 2px
+    line-height: 22px;
     padding-left: 24px;
+}
+
+.twitter-follow-button {
+    vertical-align: bottom;
 }
