@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block description %}Register an account on {{ SITE.BRAND }}, a free and open Jabber/XMPP server.{% endblock description %}
+
 {% block content %}
 <div class="page-header">
     <h1>{% block title %}{% trans "Account registration" %}{% endblock title %}</h1>
