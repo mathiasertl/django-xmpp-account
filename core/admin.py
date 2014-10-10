@@ -94,7 +94,7 @@ class RegistrationUserAdmin(admin.ModelAdmin):
     list_display = ['jid', 'email', 'registered', 'confirmed']
     ordering = ('-registered', '-confirmed', )
     search_fields = ('username', 'email', )
-    list_filter = (RegistrationMethodListFilter, )
+    list_filter = ('domain', RegistrationMethodListFilter, )
     actions = (
         'resend_registration',
         'resend_password_reset',
