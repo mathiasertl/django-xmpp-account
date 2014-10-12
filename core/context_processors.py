@@ -21,7 +21,7 @@ from django.conf import settings
 
 
 def xmppaccount(request):
-    submit = settings.DEBUG and request.GET.get('submit', '1')
+    submit = settings.DEBUG and request.GET.get('submit')
     context = {
         'MIN_USERNAME_LENGTH': settings.MIN_USERNAME_LENGTH,
         'MAX_USERNAME_LENGTH': settings.MAX_USERNAME_LENGTH,
