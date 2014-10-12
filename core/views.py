@@ -20,7 +20,6 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
-from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 
@@ -143,7 +142,8 @@ class ConfirmedView(AntiSpamFormView):
             key = Confirmation.objects.valid().filter(
                 purpose=self.purpose).get(key=self.kwargs['key'])
         except Confirmation.DoesNotExist:
-            raise Http404
+            form.add_error(None, _("Key not found!"))
+            return self.form_invalid(form)
         self.user = key.user
 
         try:
