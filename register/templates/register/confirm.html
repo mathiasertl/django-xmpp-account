@@ -1,5 +1,5 @@
 {% extends "container.html" %}
-{% load i18n %}
+{% load i18n staticfiles %}
 
 {% block title %}{% trans "Confirm Registration" %}{% endblock title %}
 
@@ -27,9 +27,12 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
     {% blocktrans %}Or if you prefer social media:{% endblocktrans %}
     <ul class="arrow-list">
         {% if SITE.FACEBOOK %}
-        <li>{% trans "Facebook:" %}
-        <div class="fb-follow" data-href="https://facebook.com/{{ SITE.FACEBOOK }}" data-colorscheme="light" data-layout="button" data-show-faces="false"></div>
-<div class="fb-like" data-href="https://facebook.com/{{ SITE.FACEBOOK }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+        <li>{% blocktrans %}Our <a href="https://facebook.com/{{ SITE.FACEBOOK }}">Facebook page</a>:{% endblocktrans %}<br />
+            <div class="social-buttons inline">
+                <!-- todo: this should all be inline, follow-button integrated into two-click -->
+                <div class="fb-follow" data-href="https://facebook.com/{{ SITE.FACEBOOK }}" data-colorscheme="light" data-layout="button" data-show-faces="false"></div>
+                <div class="fblike"><img src="{% static 'img/fblike.png' %}"> ({% trans "Click twice for your privacy!" %})</div>
+            </div>
         </li>
         {% endif %}
         {% if SITE.TWITTER %}

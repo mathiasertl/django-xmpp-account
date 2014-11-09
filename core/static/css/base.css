@@ -43,3 +43,7 @@ ul.arrow-list li {
     margin-bottom: 1em;
     min-height: 26px;
 }
+.social-buttons.inline {
+    margin-top: 0;
+    margin-bottom: 0;
+}
