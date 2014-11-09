@@ -237,7 +237,7 @@ msgid ""
 msgstr ""
 "Falls sie viele Registrierungen auf einmal vornehmen möchten, z.B. um Jabber "
 "in ihrer Firma/Schule/... einzuführen, können sie uns gerne <a href="
-"\"%(CONTACT_URL)s\">kontaktieren</a>."
+"\"%(SITE.CONTACT_URL)s\">kontaktieren</a>."
 
 #: templates/core/spambot.html:4
 msgid "Spambots vanish!"
@@ -252,7 +252,7 @@ msgid ""
 "with the error message below."
 msgstr ""
 "Ihr Verhalten gleicht dem eines Spambots. Falls sie kein Spambot sind, <a "
-"href=\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte und geben sie "
+"href=\"%(SITE.CONTACT_URL)s\">kontaktieren sie uns</a> bitte und geben sie "
 "folgende Fehlermeldung an."
 
 #: templates/core/spambot.html:11
@@ -278,7 +278,7 @@ msgid ""
 "a>."
 msgstr ""
 "Falls diese Fehlermeldung nicht von alleine verschwindet, <a href="
-"\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte."
+"\"%(SITE.CONTACT_URL)s\">kontaktieren sie uns</a> bitte."
 
 #: templates/core/temporary_error.html:9
 #, python-format
