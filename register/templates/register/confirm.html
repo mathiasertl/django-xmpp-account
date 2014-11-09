@@ -29,8 +29,6 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
         {% if SITE.FACEBOOK %}
         <li>{% blocktrans %}Our <a href="https://facebook.com/{{ SITE.FACEBOOK }}">Facebook page</a>:{% endblocktrans %}<br />
             <div class="social-buttons inline">
-                <!-- todo: this should all be inline, follow-button integrated into two-click -->
-                <div class="fb-follow" data-href="https://facebook.com/{{ SITE.FACEBOOK }}" data-colorscheme="light" data-layout="button" data-show-faces="false"></div>
                 <div class="fblike"><img src="{% static 'img/fblike.png' %}"> ({% trans "Click twice for your privacy!" %})</div>
             </div>
         </li>
