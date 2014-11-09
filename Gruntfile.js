@@ -23,7 +23,7 @@ module.exports = function(grunt) {
           'core/static/js/lib/jquery-2.1.1.min.js',
           'core/static/js/lib/bootstrap-3.1.1.min.js',
         ],
-        dest: 'core/static/account.js',
+        dest: 'core/static/account.min.js',
       },
     },
     cssmin: {
