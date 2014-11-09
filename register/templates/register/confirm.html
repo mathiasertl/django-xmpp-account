@@ -28,13 +28,13 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
     <ul class="arrow-list">
         {% if SITE.FACEBOOK %}
         <li>{% trans "Facebook:" %}
-<div class="fb-follow" data-href="https://facebook.com/jabber.at" data-colorscheme="light" data-layout="button" data-show-faces="false"></div>
-<div class="fb-like" data-href="https://facebook.com/jabber.at" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+        <div class="fb-follow" data-href="https://facebook.com/{{ SITE.FACEBOOK }}" data-colorscheme="light" data-layout="button" data-show-faces="false"></div>
+<div class="fb-like" data-href="https://facebook.com/{{ SITE.FACEBOOK }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
         </li>
         {% endif %}
         {% if SITE.TWITTER %}
         <li>{% trans "Twitter:" %} <a class="twitter-follow-button"
-  href="https://twitter.com/jabber_at"
+            href="https://twitter.com/{{ SITE.TWITTER }}"
   data-show-count="false"
   data-lang="en">
 Follow @jabber_at
