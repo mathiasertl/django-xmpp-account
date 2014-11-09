@@ -1,8 +1,6 @@
 {% load staticfiles i18n %}
 <!DOCTYPE html>
-
-<html>
-<head>
+<html><head>
     <title>{{ request.site.DOMAIN }} | {% block title %}{% endblock title %}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,20 +13,16 @@
         var MIN_USERNAME_LENGTH = {{ MIN_USERNAME_LENGTH }};
         var MAX_USERNAME_LENGTH = {{ MAX_USERNAME_LENGTH }};
     </script>
-
     <!-- custom code -->
     <script src="{% static "js/base.js" %}"></script>
     <link rel="stylesheet" href="{% static "css/base.css" %}">
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="../../assets/js/html5shiv.js"></script>
       <script src="../../assets/js/respond.min.js"></script>
     <![endif]-->
-</head>
-<body>
-    <div class="container">
-        {% block container %}{% endblock container %}
-    </div>
-</body>
-</html>
+</head><body>
+<div class="container">
+{% block container %}{% endblock container %}
+</div>
+</body></html>
