@@ -1,12 +1,9 @@
-{% extends "base.html" %}
+{% extends "container.html" %}
 {% load i18n %}
 
-{% block content %}
-<div class="page-header">
-    <h1>{% block title %}{% trans "Delete account" %}{% endblock title %}</h1>
-</div>
+{% block title %}{% trans "Delete account" %}{% endblock title %}
 
-
+{% block body %}
 {% if form.is_valid %}{# successfull registration - don't display form! #}
 <div class="alert alert-success">
     <p><strong>{% trans "Delete account" %}</strong></p>
@@ -44,4 +41,4 @@ way to restore your account!{% endblocktrans %}</p>
 </form>
 
 {% endif %}
-{% endblock content %}
+{% endblock body %}

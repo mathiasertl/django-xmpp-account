@@ -1,11 +1,12 @@
-{% extends "base.html" %}
+{% extends "container.html" %}
 {% load i18n %}
 
-{% block content %}
-<h1>{% block title %}{% trans "Spambots vanish!" %}{% endblock title %}</h1>
+{% block title %}{% trans "Spambots vanish!" %}{% endblock title %}
+
+{% block body %}
 <p>{% blocktrans %}You have engaged in behaviour that looks very much like you are a spambot.
 If you are not a spambot, please <a href="{{ SITE.CONTACT_URL }}">contact us</a>
 with the error message below.{% endblocktrans %}</p>
 
 <p>{% blocktrans %}Spammy behaviour (host: {{ HOST }}): {{ EXCEPTION }}{% endblocktrans %}</p>
-{% endblock content %}
+{% endblock body %}
