@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "container.html" %}
 {% load i18n %}
 
-{% block content %}
-<h1>{% block title %}{% trans "Confirm Registration" %}{% endblock title %}</h1>
+{% block title %}{% trans "Confirm Registration" %}{% endblock title %}
 
+{% block body %}
 {% if form.is_valid or SUBMIT %}
 <div class="alert alert-success">
     <p><strong>{% trans "Registration successful!" %}</strong></p>
@@ -91,4 +91,4 @@ Follow @jabber_at
 
 
 {% endif %}
-{% endblock content %}
+{% endblock body %}
