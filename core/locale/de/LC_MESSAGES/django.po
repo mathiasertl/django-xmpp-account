@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-09 17:20+0100\n"
+"POT-Creation-Date: 2014-11-09 20:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -155,18 +155,23 @@ msgstr "Aktivität"
 msgid "IP-Address Activities"
 msgstr "Aktivitäten"
 
-#: templates/base.html:36
+#: templates/container.html:12
+msgid "Click twice for your privacy!"
+msgstr ""
+
+#: templates/container.html:18
 msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
 msgstr "© 2013 - 2014, Mathias Ertl falls nicht anders angegeben."
 
-#: templates/base.html:37
+#: templates/container.html:19
+#, fuzzy
 msgid ""
 "This project is powered by <a href=\"https://www.djangoproject.com\">Django</"
 "a>.\n"
-"                The source code is available <a href=\"https://github.com/"
-"mathiasertl/django-xmpp-account\">on GitHub</a>.\n"
-"                See the <a href=\"https://account.jabber.at/doc"
-"\">documentation</a> for more details."
+"    The source code is available <a href=\"https://github.com/mathiasertl/"
+"django-xmpp-account\">on GitHub</a>.\n"
+"    See the <a href=\"https://account.jabber.at/doc\">documentation</a> for "
+"more details."
 msgstr ""
 "Dieses Projekt basiert auf <a href=\"https://www.djangoproject.com\">Django</"
 "a>, der Quellcode ist <a href=\"https://github.com/mathiasertl/django-xmpp-"
@@ -197,7 +202,7 @@ msgstr "E-Mail setzen"
 msgid "Delete account"
 msgstr "Konto löschen"
 
-#: templates/core/rate.html:5
+#: templates/core/rate.html:4
 msgid "Too many page views!"
 msgstr "Zu viele Seitenaufrufe!"
 
@@ -210,7 +215,7 @@ msgstr ""
 "beliebig oft aufgerufen werden. Bitte versuchen sie es in einigen Minuten "
 "wieder."
 
-#: templates/core/registration_rate.html:5
+#: templates/core/registration_rate.html:4
 msgid "Registration rate exceeded!"
 msgstr "Registrierungsrate überschritten!"
 
@@ -223,13 +228,7 @@ msgstr ""
 "Konto-Registrierugen pro IP-Adresse streng limitiert."
 
 #: templates/core/registration_rate.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "If you need to do bulk registrations, e.g. if you want to deploy Jabber "
-#| "in\n"
-#| "your company/school etc., feel free to <a href=\"%(CONTACT_URL)s"
-#| "\">contact\n"
-#| "us</a>."
+#, python-format
 msgid ""
 "If you need to do bulk registrations, e.g. if you want to deploy Jabber in\n"
 "your company/school etc., feel free to <a href=\"%(SITE.CONTACT_URL)s"
@@ -240,18 +239,12 @@ msgstr ""
 "in ihrer Firma/Schule/... einzuführen, können sie uns gerne <a href="
 "\"%(CONTACT_URL)s\">kontaktieren</a>."
 
-#: templates/core/spambot.html:5
+#: templates/core/spambot.html:4
 msgid "Spambots vanish!"
 msgstr "Nieder mit den Spambots!"
 
-#: templates/core/spambot.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "You have engaged in behaviour that looks very much like you are a "
-#| "spambot.\n"
-#| "If you are not a spambot, please <a href=\"%(CONTACT_URL)s\">contact us</"
-#| "a>\n"
-#| "with the error message below."
+#: templates/core/spambot.html:7
+#, python-format
 msgid ""
 "You have engaged in behaviour that looks very much like you are a spambot.\n"
 "If you are not a spambot, please <a href=\"%(SITE.CONTACT_URL)s\">contact "
@@ -262,12 +255,12 @@ msgstr ""
 "href=\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte und geben sie "
 "folgende Fehlermeldung an."
 
-#: templates/core/spambot.html:10
+#: templates/core/spambot.html:11
 #, python-format
 msgid "Spammy behaviour (host: %(HOST)s): %(EXCEPTION)s"
 msgstr "Spammiges Verhalten (host: %(HOST)s): %(EXCEPTION)s"
 
-#: templates/core/temporary_error.html:5
+#: templates/core/temporary_error.html:4
 msgid "Temporary Error"
 msgstr "Vorübergehender Fehler"
 
@@ -278,10 +271,8 @@ msgstr ""
 "Diese Seite hat vorübergehende Probleme. Bitte versuchen sie es später "
 "erneut."
 
-#: templates/core/temporary_error.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "If this error persists, please <a href=\"%(CONTACT_URL)s\">contact us</a>."
+#: templates/core/temporary_error.html:8
+#, python-format
 msgid ""
 "If this error persists, please <a href=\"%(SITE.CONTACT_URL)s\">contact us</"
 "a>."
@@ -289,14 +280,14 @@ msgstr ""
 "Falls diese Fehlermeldung nicht von alleine verschwindet, <a href="
 "\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte."
 
-#: templates/core/temporary_error.html:11
+#: templates/core/temporary_error.html:9
 #, python-format
 msgid "The error message given, was: %(EXCEPTION)s"
 msgstr "Die interne Fehlermeldung lautet: %(EXCEPTION)s"
 
 #: views.py:60
 msgid "Your CAPTCHA response contained invalid characters."
-msgstr ""
+msgstr "Ihre Antwort auf das CAPTCHA ist inkorrekt."
 
 #: views.py:64
 msgid "The ReCAPTCHA server was unreacheable."
