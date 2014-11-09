@@ -164,7 +164,6 @@ msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
 msgstr "© 2013 - 2014, Mathias Ertl falls nicht anders angegeben."
 
 #: templates/container.html:19
-#, fuzzy
 msgid ""
 "This project is powered by <a href=\"https://www.djangoproject.com\">Django</"
 "a>.\n"
