@@ -10,5 +10,7 @@ localsettings.py
 *.sw[po]
 *.mo
 /doc/_build/
+/static/
+/node_modules/
 *.sqlite3
 Makefile
