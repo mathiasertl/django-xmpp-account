@@ -9,17 +9,18 @@
     <script src="{% static "js/lib/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "js/lib/bootstrap-3.1.1.min.js" %}"></script>
     <script src="{% static "js/base.js" %}"></script>
-{% else %}
-    <script src="{% static "account.js" %}"></script>
-{% endif %}
     <link rel="stylesheet" href="{% static "css/lib/bootstrap-3.1.1.min.css" %}">
     <link rel="stylesheet" href="{% static "css/lib/bootstrap-theme-3.1.1.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+{% else %}
+    <script src="{% static "account.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "account.min.css" %}">
+{% endif %}
     <script>
         var MIN_USERNAME_LENGTH = {{ MIN_USERNAME_LENGTH }};
         var MAX_USERNAME_LENGTH = {{ MAX_USERNAME_LENGTH }};
     </script>
     <!-- custom code -->
-    <link rel="stylesheet" href="{% static "css/base.css" %}">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="../../assets/js/html5shiv.js"></script>
