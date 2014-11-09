@@ -142,7 +142,7 @@ class ConfirmedView(AntiSpamFormView):
             key = Confirmation.objects.valid().filter(
                 purpose=self.purpose).get(key=self.kwargs['key'])
         except Confirmation.DoesNotExist:
-            form.add_error(None, _("Key not found!"))
+            form.add_error(None, _("Confirmation key expired or not found."))
             return self.form_invalid(form)
         self.user = key.user
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-09 16:35+0200\n"
+"POT-Creation-Date: 2014-11-09 17:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -18,90 +18,102 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:67
+#: admin.py:76
 msgid "Registration method"
 msgstr ""
 
-#: admin.py:72
+#: admin.py:81
 msgid "In-Band registration"
 msgstr ""
 
-#: admin.py:73
+#: admin.py:82
 msgid "This website"
 msgstr ""
 
-#: forms.py:49
+#: admin.py:112
+msgid "Resend registration email"
+msgstr ""
+
+#: admin.py:122
+msgid "Resend password reset email"
+msgstr ""
+
+#: admin.py:132
+msgid "Resend email reset email"
+msgstr ""
+
+#: forms.py:54
 msgid "This page has expired. Reload and try again."
 msgstr "Diese Seite ist abgelaufen. Bitte lade sie neu und versuche es erneut."
 
-#: forms.py:68
+#: forms.py:73
 msgid "Missing form-field."
 msgstr "Fehlendes Formularfeld."
 
-#: forms.py:71
+#: forms.py:76
 msgid "Form submitted within one second."
 msgstr "Formular innerhalb einer Sekunde abgeschickt."
 
-#: forms.py:83
+#: forms.py:87
 msgid "No security hash"
 msgstr "Kein Sicherheits-Hash."
 
-#: forms.py:85
+#: forms.py:89
 msgid "Wrong security hash"
 msgstr "Falscher Sicherheits-Hash."
 
-#: forms.py:92
+#: forms.py:96
 #, python-format
 msgid "Wrong value: \"%s\""
 msgstr "Falscher Wert: \"%s\""
 
-#: forms.py:97
+#: forms.py:101
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:103
+#: forms.py:106
 msgid "The two password fields didn't match."
 msgstr "Die beiden Passwörter stimmen nicht miteinander überein."
 
-#: forms.py:107
+#: forms.py:110
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: forms.py:108
+#: forms.py:111
 msgid "Enter the same password as above, for verification."
 msgstr "Das selbe Passwort wie oben, zur Verifikation."
 
-#: forms.py:121
+#: forms.py:123
 msgid "Username"
 msgstr "Benutzername"
 
-#: forms.py:138
+#: forms.py:140
 msgid "Unknown domain given"
 msgstr "Unbekannte Domain angegeben"
 
-#: forms.py:151
+#: forms.py:153
 #, python-format
 msgid "Username must not be longer then %s characters."
 msgstr "Name darf nicht länger als %s Zeichen sein."
 
-#: forms.py:155
+#: forms.py:156
 #, python-format
 msgid "Username must not be shorter then %s characters."
 msgstr "Benutzername muss mindestens %s Zeichen haben."
 
-#: forms.py:161
+#: forms.py:160
 msgid "Username is not a valid XMPP username."
 msgstr "Benutzername ist kein valider XMPP-Benutzername."
 
-#: forms.py:167
+#: forms.py:166
 msgid "email"
 msgstr "E-Mail"
 
-#: forms.py:169
+#: forms.py:167
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 
-#: forms.py:173
+#: forms.py:171
 msgid ""
 "This Jabber host does not provide email addresses. You're supposed to give "
 "your own email address."
@@ -109,67 +121,45 @@ msgstr ""
 "Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte geben "
 "sie ihre eigene Adresse an!"
 
-#: forms.py:177
+#: forms.py:175
 msgid ""
 "Email addresses with this domain are blocked and cannot be used on this site."
 msgstr ""
 "E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet "
 "werden."
 
-#: models.py:76
+#: models.py:78
 msgid "User"
 msgstr "Benutzername"
 
-#: models.py:88
+#: models.py:90
 msgid ""
 "You have either not yet set your email address or have not confirmed it yet."
-msgstr "Sie haben entweder ihre E-Mail-Adresse noch noch nicht gesetzt oder diese noch nicht bestätigt."
+msgstr ""
+"Sie haben entweder ihre E-Mail-Adresse noch noch nicht gesetzt oder diese "
+"noch nicht bestätigt."
 
-#: models.py:168
+#: models.py:177
 msgid "IP-Address"
 msgstr "IP-Adresse"
 
-#: models.py:169
+#: models.py:178
 msgid "IP-Addresses"
 msgstr "IP-Adressen"
 
-#: models.py:184
+#: models.py:193
 msgid "IP-Address Activity"
 msgstr "Aktivität"
 
-#: models.py:185
+#: models.py:194
 msgid "IP-Address Activities"
 msgstr "Aktivitäten"
 
-#: views.py:61
-msgid "The ReCAPTCHA server was unreacheable."
-msgstr "Der ReCAPTCHA-Server ist nicht erreichbar."
-
-#: views.py:63
-msgid "The ReCAPTCHA didn't work properly."
-msgstr "ReCAPTCHA funktionierte nicht richtig."
-
-#: views.py:88
-msgid "User not found (or false password provided)!"
-msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
-
-#: views.py:105
-msgid "User already exists."
-msgstr "Benutzer existiert bereits."
-
-#: views.py:151
-msgid "User not found!"
-msgstr "Benutzer nicht gefunden!"
-
-#: views.py:155
-msgid "User already exists!"
-msgstr "Benutzer existiert bereits!"
-
-#: templates/base.html:35
+#: templates/base.html:36
 msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
 msgstr "© 2013 - 2014, Mathias Ertl falls nicht anders angegeben."
 
-#: templates/base.html:36
+#: templates/base.html:37
 msgid ""
 "This project is powered by <a href=\"https://www.djangoproject.com\">Django</"
 "a>.\n"
@@ -182,6 +172,30 @@ msgstr ""
 "a>, der Quellcode ist <a href=\"https://github.com/mathiasertl/django-xmpp-"
 "account\">auf GitHub</a> verfügbar. Die <a href=\"https://account.jabber.at/"
 "doc\">Dokumentation</a> beinhaltet weitere Informationen."
+
+#: templates/core/forms/errors.html:4
+msgid ""
+"<strong>Error:</strong> There have been errors with your submission. Please "
+"see the errors below."
+msgstr ""
+"<strong>Fehler:</strong> Die angegebenen Daten sind leider nicht korrekt. "
+"Bitte beheben sie die Fehler und versuchen es erneut."
+
+#: templates/core/includes/navbar.html:17
+msgid "Register"
+msgstr "Registrieren"
+
+#: templates/core/includes/navbar.html:18
+msgid "Set password"
+msgstr "Passwort setzen"
+
+#: templates/core/includes/navbar.html:19
+msgid "Set email"
+msgstr "E-Mail setzen"
+
+#: templates/core/includes/navbar.html:20
+msgid "Delete account"
+msgstr "Konto löschen"
 
 #: templates/core/rate.html:5
 msgid "Too many page views!"
@@ -209,10 +223,17 @@ msgstr ""
 "Konto-Registrierugen pro IP-Adresse streng limitiert."
 
 #: templates/core/registration_rate.html:10
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "If you need to do bulk registrations, e.g. if you want to deploy Jabber "
+#| "in\n"
+#| "your company/school etc., feel free to <a href=\"%(CONTACT_URL)s"
+#| "\">contact\n"
+#| "us</a>."
 msgid ""
 "If you need to do bulk registrations, e.g. if you want to deploy Jabber in\n"
-"your company/school etc., feel free to <a href=\"%(CONTACT_URL)s\">contact\n"
+"your company/school etc., feel free to <a href=\"%(SITE.CONTACT_URL)s"
+"\">contact\n"
 "us</a>."
 msgstr ""
 "Falls sie viele Registrierungen auf einmal vornehmen möchten, z.B. um Jabber "
@@ -224,10 +245,17 @@ msgid "Spambots vanish!"
 msgstr "Nieder mit den Spambots!"
 
 #: templates/core/spambot.html:6
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "You have engaged in behaviour that looks very much like you are a "
+#| "spambot.\n"
+#| "If you are not a spambot, please <a href=\"%(CONTACT_URL)s\">contact us</"
+#| "a>\n"
+#| "with the error message below."
 msgid ""
 "You have engaged in behaviour that looks very much like you are a spambot.\n"
-"If you are not a spambot, please <a href=\"%(CONTACT_URL)s\">contact us</a>\n"
+"If you are not a spambot, please <a href=\"%(SITE.CONTACT_URL)s\">contact "
+"us</a>\n"
 "with the error message below."
 msgstr ""
 "Ihr Verhalten gleicht dem eines Spambots. Falls sie kein Spambot sind, <a "
@@ -251,9 +279,12 @@ msgstr ""
 "erneut."
 
 #: templates/core/temporary_error.html:9
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "If this error persists, please <a href=\"%(CONTACT_URL)s\">contact us</a>."
 msgid ""
-"If this error persists, please <a href=\"%(CONTACT_URL)s\">contact us</a>."
+"If this error persists, please <a href=\"%(SITE.CONTACT_URL)s\">contact us</"
+"a>."
 msgstr ""
 "Falls diese Fehlermeldung nicht von alleine verschwindet, <a href="
 "\"%(CONTACT_URL)s\">kontaktieren sie uns</a> bitte."
@@ -263,26 +294,34 @@ msgstr ""
 msgid "The error message given, was: %(EXCEPTION)s"
 msgstr "Die interne Fehlermeldung lautet: %(EXCEPTION)s"
 
-#: templates/core/forms/errors.html:4
-msgid ""
-"<strong>Error:</strong> There have been errors with your submission. Please "
-"see the errors below."
+#: views.py:60
+msgid "Your CAPTCHA response contained invalid characters."
 msgstr ""
-"<strong>Fehler:</strong> Die angegebenen Daten sind leider nicht korrekt. "
-"Bitte beheben sie die Fehler und versuchen es erneut."
 
-#: templates/core/includes/navbar.html:17
-msgid "Register"
-msgstr "Registrieren"
+#: views.py:64
+msgid "The ReCAPTCHA server was unreacheable."
+msgstr "Der ReCAPTCHA-Server ist nicht erreichbar."
 
-#: templates/core/includes/navbar.html:18
-msgid "Set password"
-msgstr "Passwort setzen"
+#: views.py:66
+msgid "The ReCAPTCHA didn't work properly."
+msgstr "ReCAPTCHA funktionierte nicht richtig."
 
-#: templates/core/includes/navbar.html:19
-msgid "Set email"
-msgstr "E-Mail setzen"
+#: views.py:94
+msgid "User not found (or false password provided)!"
+msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
-#: templates/core/includes/navbar.html:20
-msgid "Delete account"
-msgstr "Konto löschen"
+#: views.py:108
+msgid "User already exists."
+msgstr "Benutzer existiert bereits."
+
+#: views.py:145
+msgid "Confirmation key expired or not found."
+msgstr "Bestätigungscode abgelaufen oder nicht gefunden."
+
+#: views.py:154
+msgid "User not found!"
+msgstr "Benutzer nicht gefunden!"
+
+#: views.py:157
+msgid "User already exists!"
+msgstr "Benutzer existiert bereits!"
