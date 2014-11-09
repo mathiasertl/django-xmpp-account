@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         files: {
           'core/static/account.min.js': [
             'core/static/js/lib/jquery-2.1.1.min.js',
-            'core/static/js/lib/bootstrap-3.1.1.min.js',
+//            'core/static/js/lib/bootstrap-3.1.1.min.js',
             'core/static/js/base.js',
           ],
         }
