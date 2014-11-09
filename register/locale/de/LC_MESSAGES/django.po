@@ -44,7 +44,7 @@ msgid ""
 "      your username (<strong>%(username)s</strong>) and the jabber server\n"
 "      (<strong>%(domain)s</strong>) separately."
 msgstr ""
-"Registrierung abgeschlossen. Die vollständige Jabber-Adresse ist<strong>"
+"Registrierung abgeschlossen. Die vollständige Jabber-Adresse ist <strong>"
 "%(jid)s</strong>. Achtung: In einigen Clients müssen der Benutzername "
 "(<strong>%(username)s</strong>) und der Jabber-Server(<strong>%(domain)s</"
 "strong>) separat angegeben werden."
@@ -59,9 +59,9 @@ msgid ""
 "Configure your account (<strong>%(jid)s</strong> or username: <strong>"
 "%(username)s</strong>, domain: <strong>%(domain)s</strong>) you just created "
 "in any Jabber client of your choice."
-msgstr "Konfiguriere das Konto (<strong>%(jid)s</strong> oder Benutzername: <strong>"
-"%(username)s</strong>, domain: <strong>%(domain)s</strong>) das du gerade angelegt hast "
-"in einem beliebigen Jabber Client."
+msgstr "Konfigurieren sie ihr neues Konto (<strong>%(jid)s</strong> oder Benutzername: <strong>"
+"%(username)s</strong>, domain: <strong>%(domain)s</strong>) in einem "
+"beliebigen Jabber Client."
 
 #: templates/register/confirm.html:21
 msgid ""
@@ -71,42 +71,43 @@ msgid ""
 "and Wikipedia has a <a href=\"https://en.wikipedia.org/wiki/"
 "Comparison_of_XMPP_clients\">\n"
 "list with feature comparisons</a>."
-msgstr "Falls du nicht weißt, welchen Client du benutzen könntest, bietet die XSF "
-"eine <a href=\"http://xmpp.org/xmpp-software/clients/\">große Liste über Clients</a> "
+msgstr "Falls sie nicht wissen, welchen Client sie benutzen könnten, bietet die XSF "
+"eine <a href=\"http://xmpp.org/xmpp-software/clients/\">große Liste von Clients</a> "
 "und Wikipedia hat <a href=\"https://en.wikipedia.org/wiki/Comparison_of_XMPP_clients\"> "
-"eine Liste mit einem Feature-Vergleich</a>."
+"eine Liste inklusive einem Feature-Vergleich</a>."
 
 #: templates/register/confirm.html:25
 #, python-format
 msgid ""
 "Follow news about our server on <a href=\"%(SITE.HOMEPAGE)s\">our homepage</"
 "a>."
-msgstr ""
+msgstr "Bleiben sie über <a href=\"%(SITE.HOMEPAGE)s\">unsere Homepage</a> auf dem Laufenden."
 
 #: templates/register/confirm.html:27
 msgid "Or if you prefer social media:"
-msgstr ""
+msgstr "Oder wenn ihnen Social Media lieber ist:"
 
 #: templates/register/confirm.html:30
 #, python-format
 msgid ""
 "Our <a href=\"https://facebook.com/%(SITE.FACEBOOK)s\">Facebook page</a>:"
-msgstr ""
+msgstr "Unsere <a href=\"https://facebook.com/%(SITE.FACEBOOK)s\">Facebook page</a>:"
 
 #: templates/register/confirm.html:34
 msgid "Click twice for your privacy!"
-msgstr ""
+msgstr "Zwei mal klicken für ihre Privatsphäre!"
 
 #: templates/register/confirm.html:39
 msgid "Twitter:"
-msgstr ""
+msgstr "Twitter:"
 
 #: templates/register/confirm.html:51
 #, python-format
 msgid ""
 "<a href=\"%(SITE.WEBCHAT)s\">Our webchat</a> allows you to login anywere "
 "without having to install a client."
-msgstr ""
+msgstr "Mit <a href=\"%(SITE.WEBCHAT)s\">unserem Webchat</a> können sie sich "
+"von überall aus einloggen ohne einen Client installieren zu müssen."
 
 #: templates/register/confirm.html:73
 msgid "Confirm"
