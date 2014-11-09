@@ -8,23 +8,14 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'core/static/js/base.js',
-        dest: 'core/static/js/base.min.js'
+        files: {
+          'core/static/account.min.js': [
+            'core/static/js/lib/jquery-2.1.1.min.js',
+            'core/static/js/lib/bootstrap-3.1.1.min.js',
+            'core/static/js/base.js',
+          ],
+        }
       }
-    },
-    concat: {
-      options: {
-        separator: ';',
-        stripBanners: true,
-      },
-      dist: {
-        src: [
-          'core/static/js/base.min.js', 
-          'core/static/js/lib/jquery-2.1.1.min.js',
-          'core/static/js/lib/bootstrap-3.1.1.min.js',
-        ],
-        dest: 'core/static/account.min.js',
-      },
     },
     cssmin: {
       combine: {
@@ -33,9 +24,9 @@ module.exports = function(grunt) {
         },
         files: {
           'core/static/account.min.css': [
-            'core/static/css/base.css',
             'core/static/css/lib/bootstrap-3.1.1.min.css',
             'core/static/css/lib/bootstrap-theme-3.1.1.min.css',
+            'core/static/css/base.css',
           ],
         },
       },
