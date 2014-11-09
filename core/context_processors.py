@@ -25,7 +25,7 @@ def xmppaccount(request):
     context = {
         'MIN_USERNAME_LENGTH': settings.MIN_USERNAME_LENGTH,
         'MAX_USERNAME_LENGTH': settings.MAX_USERNAME_LENGTH,
-        'SITE': request.site,
+        'SITE': request.site,  # added by middleware, mappes to a host in XMPP_HOSTS
         'SUBMIT': submit,
     }
     if submit:
