@@ -46,7 +46,7 @@ msgid ""
 msgstr ""
 "Registrierung abgeschlossen. Die vollständige Jabber-Adresse ist <strong>"
 "%(jid)s</strong>. Achtung: In einigen Clients müssen der Benutzername "
-"(<strong>%(username)s</strong>) und der Jabber-Server(<strong>%(domain)s</"
+"(<strong>%(username)s</strong>) und der Jabber-Server (<strong>%(domain)s</"
 "strong>) separat angegeben werden."
 
 #: templates/register/confirm.html:18
