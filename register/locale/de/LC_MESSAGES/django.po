@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-01 12:28+0200\n"
+"POT-Creation-Date: 2014-11-09 20:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,15 +24,10 @@ msgid ""
 "At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No \"@\" or "
 "spaces."
 msgstr ""
-"Mindestes %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" oder "
-"Leerzeichen."
+"Mindestes %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" "
+"oder Leerzeichen."
 
-#: views.py:45
-#, python-format
-msgid "Your new account on %(domain)s"
-msgstr "Registrierung auf %(domain)s"
-
-#: templates/register/confirm.html:5
+#: templates/register/confirm.html:4
 msgid "Confirm Registration"
 msgstr "Registrierung bestätigen"
 
@@ -41,7 +36,7 @@ msgid "Registration successful!"
 msgstr "Registrierung erfolgreich!"
 
 #: templates/register/confirm.html:10
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Your\n"
 "      registration is now complete.  Your full Jabber address is\n"
@@ -50,11 +45,70 @@ msgid ""
 "      (<strong>%(domain)s</strong>) separately."
 msgstr ""
 "Registrierung abgeschlossen. Die vollständige Jabber-Adresse ist<strong>"
-"%(jid)s</strong>. Achtung: In einigen Clients müssen derBenutzername "
+"%(jid)s</strong>. Achtung: In einigen Clients müssen der Benutzername "
 "(<strong>%(username)s</strong>) und der Jabber-Server(<strong>%(domain)s</"
 "strong>) separat angegeben werden."
 
-#: templates/register/confirm.html:40
+#: templates/register/confirm.html:18
+msgid "What's next?"
+msgstr "Und jetzt?"
+
+#: templates/register/confirm.html:20
+#, python-format
+msgid ""
+"Configure your account (<strong>%(jid)s</strong> or username: <strong>"
+"%(username)s</strong>, domain: <strong>%(domain)s</strong>) you just created "
+"in any Jabber client of your choice."
+msgstr "Konfiguriere das Konto (<strong>%(jid)s</strong> oder Benutzername: <strong>"
+"%(username)s</strong>, domain: <strong>%(domain)s</strong>) das du gerade angelegt hast "
+"in einem beliebigen Jabber Client."
+
+#: templates/register/confirm.html:21
+msgid ""
+"If you are not sure what client to use, the XSF has an \n"
+"<a href=\"http://xmpp.org/xmpp-software/clients/\">extensive list of "
+"clients</a>\n"
+"and Wikipedia has a <a href=\"https://en.wikipedia.org/wiki/"
+"Comparison_of_XMPP_clients\">\n"
+"list with feature comparisons</a>."
+msgstr "Falls du nicht weißt, welchen Client du benutzen könntest, bietet die XSF "
+"eine <a href=\"http://xmpp.org/xmpp-software/clients/\">große Liste über Clients</a> "
+"und Wikipedia hat <a href=\"https://en.wikipedia.org/wiki/Comparison_of_XMPP_clients\"> "
+"eine Liste mit einem Feature-Vergleich</a>."
+
+#: templates/register/confirm.html:25
+#, python-format
+msgid ""
+"Follow news about our server on <a href=\"%(SITE.HOMEPAGE)s\">our homepage</"
+"a>."
+msgstr ""
+
+#: templates/register/confirm.html:27
+msgid "Or if you prefer social media:"
+msgstr ""
+
+#: templates/register/confirm.html:30
+#, python-format
+msgid ""
+"Our <a href=\"https://facebook.com/%(SITE.FACEBOOK)s\">Facebook page</a>:"
+msgstr ""
+
+#: templates/register/confirm.html:34
+msgid "Click twice for your privacy!"
+msgstr ""
+
+#: templates/register/confirm.html:39
+msgid "Twitter:"
+msgstr ""
+
+#: templates/register/confirm.html:51
+#, python-format
+msgid ""
+"<a href=\"%(SITE.WEBCHAT)s\">Our webchat</a> allows you to login anywere "
+"without having to install a client."
+msgstr ""
+
+#: templates/register/confirm.html:73
 msgid "Confirm"
 msgstr "Bestätigen"
 
@@ -73,7 +127,8 @@ msgid ""
 "confirm your request.  It contains a link you have to click to complete\n"
 "your registration."
 msgstr ""
-"Vielen Dank für ihre Registrierung. Zur Bestätigung ihrer Registrierung erhalten\n"
+"Vielen Dank für ihre Registrierung. Zur Bestätigung ihrer Registrierung "
+"erhalten\n"
 "sie eine E-Mail an %(email)s. Bitte klicken sie auf den Link in der E-Mail\n"
 "um ihre Registrierung abzuschließen."
 
@@ -87,7 +142,7 @@ msgstr ""
 "eine E-Mail um ihre Registrierung zu bestätigen. Klicken sie auf den Link\n"
 "in der E-Mail um ihre Registrierung abzuschließen."
 
-#: templates/register/create.html:43
+#: templates/register/create.html:39
 msgid "Register"
 msgstr "Registrieren"
 
@@ -139,3 +194,8 @@ msgstr ""
 "Um die Registrierung abzuschließen, Bitte sie auf den unten stehenden Link\n"
 "und geben ein Passwort an. Mit dem Passwort, dass sie dort angeben, können\n"
 "sie sich anschließend einloggen."
+
+#: views.py:45
+#, python-format
+msgid "Your new account on %(domain)s"
+msgstr "Registrierung auf %(domain)s"
