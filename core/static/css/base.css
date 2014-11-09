@@ -36,3 +36,10 @@ ul.arrow-list li {
 .twitter-follow-button {
     vertical-align: bottom;
 }
+
+.social-buttons {
+    margin-top: -10px;  /* decrease margin to page-header */
+    cursor: pointer;
+    margin-bottom: 1em;
+    min-height: 26px;
+}

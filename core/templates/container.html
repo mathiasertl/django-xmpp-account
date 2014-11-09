@@ -1,9 +1,14 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n staticfiles %}
 
 {% block container %}
 {% include "core/includes/navbar.html" %}
-<div class="page-header"><h1>{% block title %}{% endblock title %}</h1></div>
+<div class="page-header"><h1>{% block title %}{% endblock title %}
+
+</h1></div>
+<div class="social-buttons">
+<div class="fblike"><img src="{% static 'img/fblike.png' %}"> ({% trans "Click twice for your privacy!" %})</div>
+</div>
 {% block body %}{% endblock body %}
 <footer class="row"><div class="col-md-12">
     <p>{% trans "© 2013 - 2014, Mathias Ertl unless otherwise noted." %}</p>
