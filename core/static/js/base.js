@@ -27,8 +27,8 @@ $(document).ready(function() {
     $('.fblike').on('click', function(event) {
         // Generate a string containing the HTML to place in the element (for readability)
         var html = "<div id=\"fb-root\">\n";
-        html += "<div class=\"fb-follow\" data-href=\"https://www.facebook.com/jabber.at\" data-colorscheme=\"light\" data-layout=\"button\" data-show-faces=\"true\"></div>\n";
-        html += "<div class=\"fb-like\" data-href=\"https://facebook.com/jabber.at\" data-send=\"true\" data-layout=\"button_count\" data-width=\"100\" data-show-faces=\"false\" data-font=\"arial\">\n";
+        html += "<div class=\"fb-follow\" data-href=\"https://www.facebook.com/" + FACEBOOK_PAGE + "\" data-colorscheme=\"light\" data-layout=\"button\" data-show-faces=\"true\"></div>\n";
+        html += "<div class=\"fb-like\" data-href=\"https://facebook.com/" + FACEBOOK_PAGE + "\" data-send=\"true\" data-layout=\"button_count\" data-width=\"100\" data-show-faces=\"false\" data-font=\"arial\">\n";
         html += "</div>\n";
 
         // Replace the specified element's contents with the HTML necessary to display the
