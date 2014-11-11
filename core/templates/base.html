@@ -19,6 +19,9 @@
     <script>
         var MIN_USERNAME_LENGTH = {{ MIN_USERNAME_LENGTH }};
         var MAX_USERNAME_LENGTH = {{ MAX_USERNAME_LENGTH }};
+        {% if SITE.FACEBOOK %}var FACEBOOK_PAGE = "{{ SITE.FACEBOOK }}";{% endif %}
+        {% if SITE.TWITTER %}var TWITTER_PAGE = "{{ SITE.TWITTER }}";{% endif %}
+        {% if SITE.GPLUS %}var GPLUS_PAGE = "{{ SITE.GPLUS }}";{% endif %}
     </script>
     <!-- custom code -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
