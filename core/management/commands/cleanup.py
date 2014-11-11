@@ -20,10 +20,12 @@ from datetime import timedelta
 
 import pytz
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from core.models import Confirmation
 from core.models import UserAddresses
+from core.models import RegistrationUser
 
 
 class Command(BaseCommand):
@@ -36,3 +38,10 @@ class Command(BaseCommand):
 
         # delete old confirmation keys:
         Confirmation.objects.expired().delete()
+
+        for host, config in settings.XMPP_HOSTS.items():
+            if not config.get('RESERVE', False):
+                continue
+
+            users = RegistrationUser.objects.filter(email__isnull=False, confirmed__isnull=True,
+                                                    confirmation__isnull=True)
