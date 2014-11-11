@@ -138,7 +138,7 @@ class XmppBackendBase(object):
                         self.set_email(username, domain, email)
                         return  # our work is done
 
-                    # actually create teh user in the backend
+                    # actually create the user in the backend
                     self._really_create(username, domain, password, email)
 
         :param    username: The username of the new user.
