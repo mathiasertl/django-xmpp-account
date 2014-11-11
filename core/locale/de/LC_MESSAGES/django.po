@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-09 20:10+0100\n"
+"POT-Creation-Date: 2014-11-11 21:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -156,8 +156,8 @@ msgid "IP-Address Activities"
 msgstr "Aktivitäten"
 
 #: templates/container.html:12
-msgid "Click twice for your privacy!"
-msgstr ""
+msgid "(Click twice for privacy!)"
+msgstr "(2x klicken für Privatsphäre!)"
 
 #: templates/container.html:18
 msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
