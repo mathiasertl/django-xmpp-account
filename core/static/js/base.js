@@ -41,4 +41,9 @@ $(document).ready(function() {
           '//connect.facebook.net/en_US/all.js#xfbml=1';
         document.getElementById('fb-root').appendChild(e);
     });
+
+    $('.twitter-follow').on('click', function(event) {
+        var html = '<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=' + TWITTER_PAGE + '&show_count=false" style="width: 300px; height: 20px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
+        $('.twitter-follow').html(html);
+    });
 });
