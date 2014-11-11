@@ -9,7 +9,7 @@
 {% if SITE.FACEBOOK or SITE.TWITTER or SITE.GPLUS %}
 <div class="social-buttons">
 {% if SITE.FACEBOOK %}
-<div class="fblike"><img src="{% static 'img/fblike.png' %}"> (Click twice for privacy!)</div>
+<div class="fblike"><img src="{% static 'img/fblike.png' %}"> {% trans "(Click twice for privacy!)" %}</div>
 {% endif %}
 </div>
 {% endif %}
