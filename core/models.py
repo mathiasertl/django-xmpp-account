@@ -31,12 +31,15 @@ from django.utils.translation import ugettext as _
 
 from django.contrib.auth.models import AbstractBaseUser
 
-from core.managers import ConfirmationManager
-from core.managers import RegistrationUserManager
 from core.constants import PURPOSE_DELETE
 from core.constants import PURPOSE_REGISTER
-from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
+from core.constants import PURPOSE_SET_PASSWORD
+from core.constants import REGISTRATION_INBAND
+from core.constants import REGISTRATION_WEBSITE
+from core.constants import REGISTRATION_UNKNOWN
+from core.managers import ConfirmationManager
+from core.managers import RegistrationUserManager
 from core.querysets import ConfirmationQuerySet
 
 from backends import backend
@@ -51,6 +54,14 @@ PURPOSE_CHOICES = (
 )
 PURPOSE_DICT = dict(PURPOSE_CHOICES)
 
+REGISTRATION_CHOICES = (
+    (REGISTRATION_WEBSITE, 'Via Website'),
+    (REGISTRATION_INBAND, 'In-Band Registration'),
+    (REGISTRATION_UNKNOWN, 'Unknown'),
+)
+REGISTRATION_DICT = dict(REGISTRATION_CHOICES)
+
+
 @python_2_unicode_compatible
 class RegistrationUser(AbstractBaseUser):
     # NOTE: MySQL only allows a 255 character limit
@@ -63,6 +74,8 @@ class RegistrationUser(AbstractBaseUser):
 
     # when the account was first registered
     registered = models.DateTimeField(auto_now_add=True)
+    registration_method = models.SmallIntegerField(choices=REGISTRATION_CHOICES)
+
     # when the email was confirmed
     confirmed = models.DateTimeField(null=True, blank=True)
 
