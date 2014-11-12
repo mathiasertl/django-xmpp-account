@@ -30,6 +30,7 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
 from core.constants import PURPOSE_REGISTER
+from core.constants import REGISTRATION_INBAND
 from core.models import Address
 from core.models import UserAddresses
 
@@ -87,9 +88,9 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 self.stderr.write('User exists: %s@%s' % (username, domain))
                 return
             except User.DoesNotExist:
-                user = User.objects.create(username=username, domain=domain)
-                user.registered = timestamp
-                user.save()
+                user = User.objects.create(username=username, domain=domain,
+                                           registration_method=REGISTRATION_INBAND,
+                                           registered=timestamp)
 
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
         except Exception as e:

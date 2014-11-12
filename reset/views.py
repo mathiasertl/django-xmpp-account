@@ -27,6 +27,7 @@ from backends.base import UserNotFound
 
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
+from core.constants import REGISTRATION_INBAND
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
@@ -95,8 +96,15 @@ class ResetEmailView(ConfirmationView):
         if not backend.check_password(username=username, domain=domain, password=password):
             raise UserNotFound()
 
-        user, created = User.objects.get_or_create(
-            username=data['username'], domain=data['domain'], defaults={'email': data['email']})
+        # Defaults are only used for *new* User objects. If they aren't in the database already,
+        # it means they registered through InBand-Registration.
+        defaults = {
+            'email': data['email'],
+            'registration_method': REGISTRATION_INBAND,
+        }
+
+        user, created = User.objects.get_or_create(username=username, domain=domain,
+                                                   defaults=defaults)
 
         if not created:
             user.email = data['email']
