@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-11 21:48+0100\n"
+"POT-Creation-Date: 2014-11-12 19:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,11 +93,13 @@ msgid "Or if you prefer social media:"
 msgstr "Oder wenn ihnen Social Media lieber ist:"
 
 #: templates/register/confirm.html:30
+#, python-format
 msgid ""
-"Our Facebook page at <a href=\"https://facebook.com/%(SITE.FACEBOOK)s"
-"\">https://facebook.com/%(SITE.FACEBOOK)s</a>:"
+"Our Facebook page at <a href=\"https://facebook.com/%(site)s\">https://"
+"facebook.com/%(site)s</a>:"
 msgstr ""
-"Unsere Facebook-Seite unter <a href=\"https://facebook.com/%(SITE.FACEBOOK)s\">https://facebook.com/%(SITE.FACEBOOK)s</a>:"
+"Unsere Facebook-Seite unter <a href=\"https://facebook.com/%(site)s"
+"\">https://facebook.com/%(site)s</a>:"
 
 #: templates/register/confirm.html:33 templates/register/confirm.html.py:43
 msgid "(Click twice for privacy!)"
@@ -206,7 +208,7 @@ msgstr ""
 "und geben ein Passwort an. Mit dem Passwort, dass sie dort angeben, können\n"
 "sie sich anschließend einloggen."
 
-#: views.py:45
+#: views.py:46
 #, python-format
 msgid "Your new account on %(domain)s"
 msgstr "Registrierung auf %(domain)s"
