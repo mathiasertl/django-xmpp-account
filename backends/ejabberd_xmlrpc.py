@@ -157,7 +157,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         self.rpc('send_message_chat', **kwargs)
 
     def all_users(self, domain):
-        users = self.rpc('registered_users', domain)['users']
+        users = self.rpc('registered_users', host=domain)['users']
         return set([e['username'] for e in users])
 
     def remove(self, username, domain):
