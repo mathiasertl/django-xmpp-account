@@ -25,6 +25,7 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from core.constants import PURPOSE_REGISTER
+from core.constants import REGISTRATION_WEBSITE
 from core.exceptions import RegistrationRateException
 from core.views import ConfirmationView
 from core.views import ConfirmedView
@@ -75,8 +76,8 @@ class RegistrationView(ConfirmationView):
         return kwargs
 
     def get_user(self, data):
-        return User.objects.create(username=data['username'],
-                                   domain=data['domain'], email=data['email'])
+        return User.objects.create(username=data['username'], domain=data['domain'],
+                                   email=data['email'], registration_method=REGISTRATION_WEBSITE)
 
     def handle_valid(self, form, user):
         if settings.XMPP_HOSTS[user.domain].get('RESERVE', False):
