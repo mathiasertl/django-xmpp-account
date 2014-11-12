@@ -21,11 +21,15 @@ from datetime import timedelta
 import pytz
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
+from backends import backend
+from core.constants import REGISTRATION_WEBSITE
 from core.models import Confirmation
 from core.models import UserAddresses
-from core.models import RegistrationUser
+
+User = get_user_model()
 
 
 class Command(BaseCommand):
@@ -38,10 +42,20 @@ class Command(BaseCommand):
 
         # delete old confirmation keys:
         Confirmation.objects.expired().delete()
+        delete_unconfirmed_timestamp = datetime.now() - timedelta(days=3)
 
-        for host, config in settings.XMPP_HOSTS.items():
+        for domain, config in settings.XMPP_HOSTS.items():
+            existing_users = backend.all_users(domain)
+
+            for user in User.objects.filter(domain=domain):
+                if user.username not in existing_users:
+                    print('%s@%s: Removing (gone from ejabberd)' % (user.username, user.domain))
+
             if not config.get('RESERVE', False):
                 continue
 
-            users = RegistrationUser.objects.filter(email__isnull=False, confirmed__isnull=True,
-                                                    confirmation__isnull=True)
+            users = User.objects.filter(registration_method=REGISTRATION_WEBSITE,
+                                        confirmed__isnull=True,
+                                        registered__lt=delete_unconfirmed_timestamp)
+            for user in users:
+                print('%s@%s: Removing (registration expired).' % (user.username, user.domain))
