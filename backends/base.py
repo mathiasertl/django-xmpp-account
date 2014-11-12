@@ -191,6 +191,15 @@ class XmppBackendBase(object):
         """Send a message to the given user."""
         pass
 
+    def all_users(self, domain):
+        """Get all users for a given domain.
+
+        :param   domain: The selected domain, may be any domain provided
+                         in :ref:`settings-XMPP_HOSTS`.
+        :returns: A set of all users.
+        """
+        raise NotImplementedError
+
     def remove(self, username, domain):
         """Remove a user.
 

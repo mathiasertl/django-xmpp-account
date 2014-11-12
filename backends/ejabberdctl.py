@@ -122,6 +122,14 @@ class EjabberdctlBackend(XmppBackendBase):
         stored by mod_offline."""
         self.ctl('send_message_chat', domain, '%s@%s' % (username, domain), message)
 
+    def all_users(self, domain):
+        code, out, err = self.ctl('registered_users', domain)
+        if code != 0:
+            raise BackendError(code)
+
+        return set(out.splitlines())
+
+
     def remove(self, username, domain):
         code, out, err = self.ctl('unregister', username, domain)
         if code != 0:  # 0 is also returned if the user does not exist
