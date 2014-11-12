@@ -27,7 +27,7 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
     {% blocktrans %}Or if you prefer social media:{% endblocktrans %}
     <ul class="arrow-list">
         {% if SITE.FACEBOOK %}
-        <li>{% blocktrans %}Our Facebook page at <a href="https://facebook.com/{{ SITE.FACEBOOK }}">https://facebook.com/{{ SITE.FACEBOOK }}</a>:{% endblocktrans %}
+        <li>{% blocktrans with site=SITE.FACEBOOK %}Our Facebook page at <a href="https://facebook.com/{{ site }}">https://facebook.com/{{ site }}</a>:{% endblocktrans %}
             <div class="social-buttons inline">
                 <div class="fblike"><img src="{% static 'img/fblike.png' %}"> 
                     {% trans "(Click twice for privacy!)" %}
