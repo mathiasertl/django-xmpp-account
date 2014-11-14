@@ -50,16 +50,16 @@ class Command(BaseCommand):
 
         for domain, config in settings.XMPP_HOSTS.items():
             existing_users = backend.all_users(domain)
+            users = User.objects.filter(domain=domain)
 
-            for user in User.objects.filter(domain=domain):
+            for user in users:
                 if user.username not in existing_users:
                     print('%s@%s: Removing (gone from ejabberd)' % (user.username, user.domain))
 
             if not config.get('RESERVE', False):
                 continue
 
-            users = User.objects.filter(registration_method=REGISTRATION_WEBSITE,
-                                        confirmed__isnull=True,
-                                        registered__lt=delete_unconfirmed_timestamp)
+            users = users.filter(registration_method=REGISTRATION_WEBSITE, confirmed__isnull=True,
+                                 registered__lt=delete_unconfirmed_timestamp)
             for user in users:
                 print('%s@%s: Removing (registration expired).' % (user.username, user.domain))
