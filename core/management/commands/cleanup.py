@@ -59,10 +59,13 @@ class Command(BaseCommand):
 
             # only consider users that have no pending confirmation keys
             users = User.objects.filter(domain=domain, confirmation__isnull=True)
+            num_users = 0
 
             for user in sorted([u.username.lower() for u in users]):
                 if user not in existing_users:
+                    num_users += 1
                     user.delete()
+            print("Deleted %s users on %s." % (num_users, domain))
 
             if not config.get('RESERVE', False):
                 continue
