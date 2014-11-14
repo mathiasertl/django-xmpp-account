@@ -24,6 +24,7 @@ from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from backends import backend
 from core.forms import UserCreationFormNoPassword
 from core.models import Confirmation
 from core.models import Address
@@ -100,6 +101,16 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         'resend_password_reset',
         'resend_email_reset',
     )
+
+    def log_deletion(self, request, object, object_repr):
+        """Remove users from Jabber server before removing from database.
+
+        This is unfortunately the only good method to hook into.
+        """
+        username = object.username
+        domain = object.domain
+        super(RegistrationUserAdmin, self).log_deletion(request, object, object_repr)
+        backend.remove(username, domain)
 
     def resend_registration(self, request, queryset):
         for user in queryset:
