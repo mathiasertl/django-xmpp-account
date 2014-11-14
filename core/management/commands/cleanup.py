@@ -52,6 +52,11 @@ class Command(BaseCommand):
             # lowercase usernames from backend just to be sure
             existing_users = set([u.lower() for u in backend.all_users(domain)])
 
+            if len(existing_users) < 100:
+                # A silent safety check if the backend for some reason does not return any users
+                # and does not raise an exception.
+                continue
+
             # only consider users that have no pending confirmation keys
             users = User.objects.filter(domain=domain, confirmation__isnull=True)
 
