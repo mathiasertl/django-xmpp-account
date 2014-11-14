@@ -15,6 +15,9 @@
 
 from __future__ import unicode_literals
 
+import codecs
+import sys
+
 from datetime import datetime
 from datetime import timedelta
 
@@ -30,6 +33,7 @@ from core.models import Confirmation
 from core.models import UserAddresses
 
 User = get_user_model()
+sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 
 
 class Command(BaseCommand):
