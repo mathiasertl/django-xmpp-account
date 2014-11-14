@@ -55,7 +55,7 @@ class Command(BaseCommand):
             users = User.objects.filter(domain=domain, confirmation__isnull=True)
 
             for user in users:
-                if user.username not in existing_users:
+                if user.username.lower() not in existing_users:
                     print('%s@%s: Removing (gone from ejabberd)' % (user.username, user.domain))
 
             if not config.get('RESERVE', False):
@@ -64,4 +64,4 @@ class Command(BaseCommand):
             users = users.filter(registration_method=REGISTRATION_WEBSITE, confirmed__isnull=True,
                                  registered__lt=delete_unconfirmed_timestamp)
             for user in users:
-                print('%s@%s: Removing (registration expired).' % (user.username, user.domain))
+                print('%s@%s: Removing (registration expired).' % (user.username.lower(), user.domain))
