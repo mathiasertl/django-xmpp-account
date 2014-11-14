@@ -46,11 +46,13 @@ class Command(BaseCommand):
 
         # delete old confirmation keys:
         Confirmation.objects.expired().delete()
-        delete_unconfirmed_timestamp = datetime.now() - timedelta(days=3)
+        delete_unconfirmed_timestamp = datetime.now() - timedelta(days=1)
 
         for domain, config in settings.XMPP_HOSTS.items():
             existing_users = backend.all_users(domain)
-            users = User.objects.filter(domain=domain)
+
+            # only consider users that have no pending confirmation keys
+            users = User.objects.filter(domain=domain, confirmation__isnull=True)
 
             for user in users:
                 if user.username not in existing_users:
