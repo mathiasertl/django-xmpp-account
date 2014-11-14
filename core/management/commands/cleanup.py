@@ -49,14 +49,15 @@ class Command(BaseCommand):
         delete_unconfirmed_timestamp = datetime.now() - timedelta(days=3)
 
         for domain, config in settings.XMPP_HOSTS.items():
-            existing_users = backend.all_users(domain)
+            # lowercase usernames from backend just to be sure
+            existing_users = set([u.lower() for u in backend.all_users(domain)])
 
             # only consider users that have no pending confirmation keys
             users = User.objects.filter(domain=domain, confirmation__isnull=True)
 
             for user in sorted([u.username.lower() for u in users]):
                 if user not in existing_users:
-                    print('%s@%s: Removing (gone from ejabberd)' % (user, domain))
+                    user.delete()
 
             if not config.get('RESERVE', False):
                 continue
