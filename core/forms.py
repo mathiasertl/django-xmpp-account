@@ -141,7 +141,7 @@ class JidMixin(object):
         return domain
 
     def clean_username(self):
-        node = self.cleaned_data.get('username')
+        node = self.cleaned_data.get('username').lower()
 
         # validate minimum and maximum length
         length = len(node.encode('utf-8'))
