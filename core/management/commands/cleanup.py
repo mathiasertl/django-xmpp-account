@@ -66,7 +66,8 @@ class Command(BaseCommand):
                 if user.username.lower() not in existing_users:
                     num_users += 1
                     user.delete()
-            print("Deleted %s users on %s." % (num_users, domain))
+            if num_users > 0:
+                print("Deleted %s users on %s." % (num_users, domain))
 
             if not config.get('RESERVE', False):
                 continue
