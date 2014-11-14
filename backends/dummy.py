@@ -104,6 +104,6 @@ class DummyBackend(XmppBackendBase):
 
     def remove(self, username, domain):
         user = '%s@%s' % (username, domain)
-        log.debug('Remove: %s (%s)', user)
+        log.debug('Remove: %s', user)
 
         cache.delete(user)
