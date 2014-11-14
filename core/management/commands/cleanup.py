@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         # delete old confirmation keys:
         Confirmation.objects.expired().delete()
-        delete_unconfirmed_timestamp = datetime.now() - timedelta(days=1)
+        delete_unconfirmed_timestamp = datetime.now() - timedelta(days=3)
 
         for domain, config in settings.XMPP_HOSTS.items():
             existing_users = backend.all_users(domain)
