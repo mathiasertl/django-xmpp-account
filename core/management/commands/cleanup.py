@@ -54,9 +54,9 @@ class Command(BaseCommand):
             # only consider users that have no pending confirmation keys
             users = User.objects.filter(domain=domain, confirmation__isnull=True)
 
-            for user in users:
-                if user.username.lower() not in existing_users:
-                    print('%s@%s: Removing (gone from ejabberd)' % (user.username, user.domain))
+            for user in sorted([u.username.lower() for u in users]):
+                if user not in existing_users:
+                    print('%s@%s: Removing (gone from ejabberd)' % (user, domain))
 
             if not config.get('RESERVE', False):
                 continue
