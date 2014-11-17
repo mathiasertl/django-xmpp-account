@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         # delete old confirmation keys:
         Confirmation.objects.expired().delete()
-        delete_unconfirmed_timestamp = datetime.now() - timedelta(days=3)
+        expired_timestamp = datetime.now() - timedelta(days=3)
 
         for domain, config in settings.XMPP_HOSTS.items():
             # lowercase usernames from backend just to be sure
@@ -68,7 +68,9 @@ class Command(BaseCommand):
             if not config.get('RESERVE', False):
                 continue
 
-            users = users.filter(registration_method=REGISTRATION_WEBSITE, confirmed__isnull=True,
-                                 registered__lt=delete_unconfirmed_timestamp)
-            for user in users:
-                print('%s@%s: Removing (registration expired).' % (user.username.lower(), user.domain))
+            expired = users.filter(registration_method=REGISTRATION_WEBSITE,
+                                   confirmed__isnull=True, registered__lt=expired_timestamp)
+            for user in expired:
+                backend.remove(user.username.lower(), user.domain)
+            print('Removed %s users' % len(expired))
+            expired.delete()
