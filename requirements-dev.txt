@@ -1,2 +1,4 @@
+Fabric==1.10.0
+GitPython==0.3.2.1
 Sphinx==1.3b1
 iPython==2.3.1
