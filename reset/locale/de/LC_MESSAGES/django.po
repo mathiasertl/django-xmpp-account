@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-03 11:08+0200\n"
+"POT-Creation-Date: 2014-12-01 20:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -22,30 +22,20 @@ msgstr ""
 msgid "New email address"
 msgstr "Neue E-Mail-Adresse"
 
-#: views.py:47
-#, python-format
-msgid "Reset the password for your %(domain)s account"
-msgstr "Passwort für ihr %(domain)s-Konto neu setzen"
-
-#: views.py:80
-#, python-format
-msgid "Confirm the email address for your %(domain)s account"
-msgstr "Bestätigen sie die E-Mail-Adresse für ihr %(domain)s-Konto"
-
-#: templates/reset/email-confirm.html:6
+#: templates/reset/email-confirm.html:4
 msgid "Confirm new email address"
 msgstr "Neue E-Mail-Adresse"
 
-#: templates/reset/email-confirm.html:11 templates/reset/email.html:11
-#: templates/reset/password-confirm.html:11 templates/reset/password.html:11
+#: templates/reset/email-confirm.html:9 templates/reset/email.html:9
+#: templates/reset/password-confirm.html:9 templates/reset/password.html:11
 msgid "Change successful!"
 msgstr "Änderung erfolgreich!"
 
-#: templates/reset/email-confirm.html:12
+#: templates/reset/email-confirm.html:10
 msgid "You have successfully set your new email address."
 msgstr "Sie haben erfolgreich ihre neue E-Mail-Adresse gesetzt."
 
-#: templates/reset/email-confirm.html:17
+#: templates/reset/email-confirm.html:15
 msgid ""
 "Please give your password again to make sure you are really authorized to\n"
 "make this change."
@@ -53,8 +43,8 @@ msgstr ""
 "Bitte geben sie ihr Passwort erneut an, um sicher zu stellen, dass\n"
 "sich niemand unbefugt Zutritt zu ihrem Konto verschaffen kann."
 
-#: templates/reset/email-confirm.html:37
-#: templates/reset/password-confirm.html:38
+#: templates/reset/email-confirm.html:31
+#: templates/reset/password-confirm.html:32
 msgid "Submit"
 msgstr "Bestätigen"
 
@@ -94,11 +84,11 @@ msgstr ""
 "Sie haben ihre E-Mail-Adresse für ihren Jabber-Konto %(jid)s geändert. Um "
 "die Änderung abzuschließen, klicken sie bitte hier:"
 
-#: templates/reset/email.html:6 templates/reset/email.html.py:49
+#: templates/reset/email.html:4 templates/reset/email.html.py:43
 msgid "Set email"
 msgstr "E-Mail setzen"
 
-#: templates/reset/email.html:12
+#: templates/reset/email.html:10
 msgid ""
 "Thank you for your request. You have received an email to confirm your\n"
 "request. It contains a link you have to click to complete your request."
@@ -107,7 +97,7 @@ msgstr ""
 "Änderung zu bestätigen. Sie enthält einen Link, den sie klicken müssen, um "
 "die Änderung abzuschließen."
 
-#: templates/reset/email.html:19
+#: templates/reset/email.html:17
 msgid ""
 "If you want to change your email address (or initially set it, if you have\n"
 "registered via other means), you can set it here. You will receive an email\n"
@@ -119,11 +109,11 @@ msgstr ""
 "das hier tun. Sie erhalten eine E-Mail zur Bestätigung ihrer neuen Adresse. "
 "Sie müssen auf den Link in der E-Mail klicken, um die Änderung abzuschließen."
 
-#: templates/reset/password-confirm.html:6
+#: templates/reset/password-confirm.html:4
 msgid "Reset password"
 msgstr "Passwort neu setzen"
 
-#: templates/reset/password-confirm.html:12
+#: templates/reset/password-confirm.html:10
 msgid ""
 "You have successfully set a new password for your account.\n"
 "You can use it immediately."
@@ -158,7 +148,7 @@ msgstr ""
 "Sie möchten ein neues Passwort für ihren Jabber-Konto %(jid)s setzen.Um die "
 "Änderung abzuschließen, klicken sie bitte hier:"
 
-#: templates/reset/password.html:6 templates/reset/password.html.py:45
+#: templates/reset/password.html:6 templates/reset/password.html.py:41
 msgid "Set password"
 msgstr "Passwort setzen"
 
@@ -191,3 +181,17 @@ msgstr ""
 "<strong>Achtung:</strong> Sie können ihr Passwort hier nur dann neu setzen, "
 "wenn sie sich auch über diese Seite registriert haben (oder sie nachträglich "
 "ihr <a href=\"%(url)s\">Passwort neu gesetzt</a> haben)."
+
+#: views.py:49
+#, python-format
+msgid "Reset the password for your %(domain)s account"
+msgstr "Passwort für ihr %(domain)s-Konto neu setzen"
+
+#: views.py:52
+msgid "User not found."
+msgstr "Benutzer/Benutzerin nicht gefunden."
+
+#: views.py:84
+#, python-format
+msgid "Confirm the email address for your %(domain)s account"
+msgstr "Bestätigen sie die E-Mail-Adresse für ihr %(domain)s-Konto"
