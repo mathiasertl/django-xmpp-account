@@ -49,6 +49,8 @@ class ResetPasswordView(ConfirmationView):
     email_subject = _('Reset the password for your %(domain)s account')
     email_template = 'reset/password-mail'
 
+    user_not_found_error = _("User not found.")
+
     def get_context_data(self, **kwargs):
         context = super(ResetPasswordView, self).get_context_data(**kwargs)
         context['menuitem'] = 'password'
