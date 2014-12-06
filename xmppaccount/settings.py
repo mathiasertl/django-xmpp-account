@@ -259,6 +259,7 @@ LOGGING = {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'when': 'W5',
             'filename': os.path.join(LOGDIR, 'cleanup.log'),
+            'backupCount': 4,
             'formatter': 'verbose',
         },
     },
