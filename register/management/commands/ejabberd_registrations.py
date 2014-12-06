@@ -16,6 +16,7 @@
 
 from __future__ import unicode_literals
 
+import logging
 import re
 import sys
 import time
@@ -48,6 +49,7 @@ User = get_user_model()
 REGEX = '\[([^\]]*)\]\s*The account ([^@]*)@([^\s]*) was registered from IP address ([^\s]*)'
 
 tzinfo = pytz.timezone(settings.TIME_ZONE)
+log = logging.getLogger('import')
 
 
 class EjabberdClient(sleekxmpp.ClientXMPP):
@@ -58,12 +60,10 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
         [2014-03-16 16:52:29] The account username@host was registered from IP address 2001::1 on node ejabberd@host using mod_register.
     """
 
-    def __init__(self, jid, password, stdout, stderr):
+    def __init__(self, jid, password):
         sleekxmpp.ClientXMPP.__init__(self, jid, password)
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
-        self.stdout = stdout
-        self.stderr = stderr
 
     def start(self, event):
         self.send_presence()
@@ -75,8 +75,7 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 ip = ip[7:]
 
             if domain != msg['from'].full:
-                self.stderr.write('Received message from %s, only %s is authorized.'
-                                  % (msg['from'].full, domain))
+                log.error('Received message from unauthorized JID %s', msg['from'].full)
                 return
 
             timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
@@ -85,28 +84,28 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
 
             try:
                 user = User.objects.get(username=username, domain=domain)
-                self.stderr.write('User exists: %s@%s' % (username, domain))
+                log.error('User exists: %s@%s', username, domain)
                 return
             except User.DoesNotExist:
                 user = User.objects.create(username=username, domain=domain,
                                            registration_method=REGISTRATION_INBAND,
                                            registered=timestamp)
 
+            log.info('Imported user %s@%s (from %s)', username, domain, ip)
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
         except Exception as e:
-            self.stderr.write('%s: %s' % (type(e).__name__, e))
+            log.error('%s: %s', type(e).__name__, e)
             return
 
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         bot = EjabberdClient(settings.EJABBERD_REGISTRATION_BOT['jid'],
-                             settings.EJABBERD_REGISTRATION_BOT['password'],
-                             self.stdout, self.stderr)
+                             settings.EJABBERD_REGISTRATION_BOT['password'])
 
         if bot.connect():
             bot.process(block=False)
             time.sleep(5)
             bot.disconnect(wait=True)
         else:
-            print('unable to connect')
+            log.error('Unable to connect.')
