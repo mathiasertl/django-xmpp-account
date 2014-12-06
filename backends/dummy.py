@@ -102,6 +102,9 @@ class DummyBackend(XmppBackendBase):
             data['email'] = email
             cache.set(user, data)
 
+    def all_users(self, domain):
+        return set()
+
     def remove(self, username, domain):
         user = '%s@%s' % (username, domain)
         log.debug('Remove: %s', user)
