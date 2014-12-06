@@ -27,6 +27,7 @@ build_jquery = BuildJqueryTask(
     dest_dir='core/static/lib/jquery/'
 )
 build_bootstrap = BuildBootstrapTask(
+    config='core/static/bootstrap-config.json',
     dest_dir='core/static/lib/bootstrap/'
 )
 minify_css = MinifyCSSTask(files=[
