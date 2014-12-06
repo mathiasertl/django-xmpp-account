@@ -22,6 +22,7 @@ import sys
 import time
 
 from datetime import datetime
+from optparse import make_option
 
 import pytz
 import sleekxmpp
@@ -75,7 +76,7 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 ip = ip[7:]
 
             if domain != msg['from'].full:
-                log.error('Received message from unauthorized JID %s', msg['from'].full)
+                log.warn('Received message from unauthorized JID %s', msg['from'].full)
                 return
 
             timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S')
@@ -84,6 +85,7 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
 
             try:
                 user = User.objects.get(username=username, domain=domain)
+                # a user that already exists is a state that should not happen, hence log an error
                 log.error('User exists: %s@%s', username, domain)
                 return
             except User.DoesNotExist:
@@ -99,7 +101,15 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
 
 
 class Command(BaseCommand):
+    option_list = BaseCommand.option_list + (
+        make_option('-q', '--quiet', action='store_true', default=False,
+                    help="Do not output deleted users."),
+    )
+
     def handle(self, *args, **kwargs):
+        if kwargs.get('quiet'):
+            log.setLevel('WARN')
+
         bot = EjabberdClient(settings.EJABBERD_REGISTRATION_BOT['jid'],
                              settings.EJABBERD_REGISTRATION_BOT['password'])
 
