@@ -193,6 +193,9 @@ BRAND = ""
 CONTACT_URL = ""
 WELCOME_MESSAGE = None
 
+# logging
+LOGDIR = os.path.join(BASE_DIR, 'logs')
+
 try:
     from localsettings import *
 except ImportError:
@@ -216,6 +219,9 @@ if RECAPTCHA_PRIVATE_KEY and RECAPTCHA_PUBLIC_KEY:
     from recaptcha import RecaptchaClient
     RECAPTCHA_CLIENT = RecaptchaClient(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PUBLIC_KEY)
 
+if not os.path.exists(LOGDIR):
+    os.makedirs(LOGDIR)
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -233,6 +239,9 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)-8s %(message)s',
         },
+        'verbose': {
+            'format': '[%(asctime).19s] %(message)s',  # .19s = only first 19 chars
+        },
     },
     'handlers': {
         'mail_admins': {
@@ -245,6 +254,13 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
+        'cleanup': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'when': 'W5',
+            'filename': os.path.join(LOGDIR, 'cleanup.log'),
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         'django.request': {
@@ -255,6 +271,10 @@ LOGGING = {
         'backends': {
             'handlers': ['console', ],
             'level': 'DEBUG',
+        },
+        'cleanup': {
+            'handlers': ['cleanup', ],
+            'level': 'INFO',
         },
     },
 }
