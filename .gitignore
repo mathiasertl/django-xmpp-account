@@ -12,6 +12,7 @@ localsettings.py
 /doc/_build/
 /static/
 /node_modules/
+/logs/
 *.sqlite3
 Makefile
 wording.txt
