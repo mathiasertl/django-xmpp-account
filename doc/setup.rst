@@ -157,3 +157,23 @@ XMPP server
 Configuration of your XMPP server depends on your server and the backend you
 want to use. Server-specific configuration instructions are included in
 :doc:`backends`.
+
+
+.. _cron_jobs:
+
+Cron jobs
+---------
+
+Verious `manage.py` commands are intended to be run as cron jobs. Note that you
+should make sure that these jobs do not run in parallel::
+
+   # virtualenv config
+   HOME=/home/account/django-xmpp-account
+   PATH=/home/account/django-xmpp-account/bin
+
+   # m h   dom mon dow     user      command
+   # Remove users gone from the backend and expired registrations
+   22 *    * * *           account   python manage.py cleanup
+
+   # ejabberd only: Import users send to registration_watchers JID
+   */5 *   * * *           account   python manage.py ejabberd_registrations

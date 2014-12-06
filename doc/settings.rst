@@ -92,6 +92,14 @@ Default:: ``3600`` (1 hour)
 Maximum amount of time a form stays valid. If the user loads a page and submits it after this many
 seconds, he will have to reload the page to get a new form.
 
+LOGDIR
+______
+
+Default:: ``./logs/`` (from the same directory as ``manage.py``)
+
+Directory were some ``manage.py`` commands intended to be run as cron jobs will store their logs.
+See :ref:`cron_jobs` for more information.
+
 .. _settings-MIN_USERNAME_LENGTH:
 
 MIN_USERNAME_LENGTH
