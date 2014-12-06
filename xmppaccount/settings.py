@@ -239,7 +239,7 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)-8s %(message)s',
         },
-        'verbose': {
+        'cron': {
             'format': '[%(asctime).19s] %(message)s',  # .19s = only first 19 chars
         },
     },
@@ -254,13 +254,26 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
+        'cron-console': {  # always log error to stdout
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'cron',
+        },
         'cleanup': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'when': 'W5',
             'filename': os.path.join(LOGDIR, 'cleanup.log'),
             'backupCount': 4,
-            'formatter': 'verbose',
+            'formatter': 'cron',
+        },
+        'import': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'when': 'W5',
+            'filename': os.path.join(LOGDIR, 'import.log'),
+            'backupCount': 4,
+            'formatter': 'cron',
         },
     },
     'loggers': {
@@ -274,7 +287,11 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'cleanup': {
-            'handlers': ['cleanup', ],
+            'handlers': ['cleanup', 'cron-console'],
+            'level': 'INFO',
+        },
+        'import': {
+            'handlers': ['import', 'cron-console'],
             'level': 'INFO',
         },
     },
