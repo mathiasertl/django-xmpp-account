@@ -16,10 +16,12 @@
 from __future__ import unicode_literals
 
 import codecs
+import logging
 import sys
 
 from datetime import datetime
 from datetime import timedelta
+from optparse import make_option
 
 import pytz
 
@@ -34,10 +36,19 @@ from core.models import UserAddresses
 
 User = get_user_model()
 sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+log = logging.getLogger('cleanup')  # we log to a file
 
 
 class Command(BaseCommand):
+    option_list = BaseCommand.option_list + (
+        make_option('-q', '--quiet', action='store_true', default=False,
+                    help="Do not output deleted users."),
+    )
+
     def handle(self, *args, **kwargs):
+        if kwargs.get('quiet'):
+            log.setLevel('WARN')
+
         now = pytz.utc.localize(datetime.now())
 
         # delete old addresses:
@@ -55,14 +66,16 @@ class Command(BaseCommand):
             if len(existing_users) < 100:
                 # A silent safety check if the backend for some reason does not return any users
                 # and does not raise an exception.
+                log.warn('Skipping %s: Only %s users received.', domain, len(existing_users))
                 continue
 
             # only consider users that have no pending confirmation keys
             users = User.objects.filter(domain=domain, confirmation__isnull=True)
 
-            #for user in sorted([u.username.lower() for u in users]):
             for user in users:
-                if user.username.lower() not in existing_users:
+                username = user.username.lower()
+                if username not in existing_users:
+                    log.info('%s: Removed from database (gone from backend)', username)
                     user.delete()
 
             if not config.get('RESERVE', False):
@@ -71,8 +84,10 @@ class Command(BaseCommand):
             expired = users.filter(registration_method=REGISTRATION_WEBSITE,
                                    confirmed__isnull=True, registered__lt=expired_timestamp)
             for user in expired:
-                backend.remove(user.username.lower(), user.domain)
+                username = user.username.lower()
+                self.info('%s: Removed (registration expired)', username)
+                backend.remove(username, user.domain)
             if len(expired) > 10:
                 # warn, if many users were removed
-                print('Removed %s users' % len(expired))
+                log.warn('Removed %s users', len(expired))
             expired.delete()
