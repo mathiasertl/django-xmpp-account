@@ -1,5 +1,5 @@
 Fabric==1.10.0
 GitPython==0.3.2.1
-Sphinx==1.3b1
+Sphinx==1.3b2
 iPython==2.3.1
 fabric-webbuilders==0.1
