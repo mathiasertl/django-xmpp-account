@@ -31,7 +31,6 @@ build_bootstrap = BuildBootstrapTask(
 )
 minify_css = MinifyCSSTask(files=[
     'core/static/lib/bootstrap/css/bootstrap.min.css',
-    'core/static/lib/bootstrap/css/bootstrap-theme.min.css',
     'core/static/css/base.css',
 ], dest='core/static/account.min.css')
 minify_js = MinifyJSTask(files=[
