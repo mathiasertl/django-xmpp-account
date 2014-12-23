@@ -1590,7 +1590,7 @@ class ServerProxy:
         self.__encoding = encoding
         self.__verbose = verbose
         self.__allow_none = allow_none
-        self.__utf8_encoding = 'standard'
+        self.__utf8_encoding = utf8_encoding
 
     def __close(self):
         self.__transport.close()
