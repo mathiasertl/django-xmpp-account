@@ -724,7 +724,6 @@ class Marshaller:
 
     if unicode:
         def dump_unicode(self, value, write, utf8_encoding, escape=escape):
-            value = value.encode(self.encoding)
             write("<value><string>")
             write(escape(value, utf8_encoding=utf8_encoding))
             write("</string></value>\n")
