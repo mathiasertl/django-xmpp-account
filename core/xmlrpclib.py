@@ -625,11 +625,12 @@ class Marshaller:
     # by the way, if you don't understand what's going on in here,
     # that's perfectly ok.
 
-    def __init__(self, encoding=None, allow_none=0):
+    def __init__(self, encoding=None, allow_none=0, utf8_encoding='standard'):
         self.memo = {}
         self.data = None
         self.encoding = encoding
         self.allow_none = allow_none
+        self.utf8_encoding = utf8_encoding
 
     dispatch = {}
 
@@ -676,7 +677,7 @@ class Marshaller:
                 if type_ in self.dispatch.keys():
                     raise TypeError, "cannot marshal %s objects" % type(value)
             f = self.dispatch[InstanceType]
-        f(self, value, write)
+        f(self, value, write, utf8_encoding=self.utf8_encoding)
 
     def dump_nil (self, value, write):
         if not self.allow_none:
@@ -684,7 +685,7 @@ class Marshaller:
         write("<value><nil/></value>")
     dispatch[NoneType] = dump_nil
 
-    def dump_int(self, value, write):
+    def dump_int(self, value, write, utf8_encoding):
         # in case ints are > 32 bits
         if value > MAXINT or value < MININT:
             raise OverflowError, "int exceeds XML-RPC limits"
@@ -694,13 +695,13 @@ class Marshaller:
     dispatch[IntType] = dump_int
 
     if _bool_is_builtin:
-        def dump_bool(self, value, write):
+        def dump_bool(self, value, write, utf8_encoding):
             write("<value><boolean>")
             write(value and "1" or "0")
             write("</boolean></value>\n")
         dispatch[bool] = dump_bool
 
-    def dump_long(self, value, write):
+    def dump_long(self, value, write, utf8_encoding):
         if value > MAXINT or value < MININT:
             raise OverflowError, "long int exceeds XML-RPC limits"
         write("<value><int>")
@@ -708,27 +709,27 @@ class Marshaller:
         write("</int></value>\n")
     dispatch[LongType] = dump_long
 
-    def dump_double(self, value, write):
+    def dump_double(self, value, write, utf8_encoding):
         write("<value><double>")
         write(repr(value))
         write("</double></value>\n")
     dispatch[FloatType] = dump_double
 
-    def dump_string(self, value, write, escape=escape):
+    def dump_string(self, value, write, utf8_encoding, escape=escape):
         write("<value><string>")
         write(escape(value))
         write("</string></value>\n")
     dispatch[StringType] = dump_string
 
     if unicode:
-        def dump_unicode(self, value, write, escape=escape):
+        def dump_unicode(self, value, write, utf8_encoding, escape=escape):
             value = value.encode(self.encoding)
             write("<value><string>")
             write(escape(value))
             write("</string></value>\n")
         dispatch[UnicodeType] = dump_unicode
 
-    def dump_array(self, value, write):
+    def dump_array(self, value, write, utf8_encoding):
         i = id(value)
         if i in self.memo:
             raise TypeError, "cannot marshal recursive sequences"
@@ -742,7 +743,7 @@ class Marshaller:
     dispatch[TupleType] = dump_array
     dispatch[ListType] = dump_array
 
-    def dump_struct(self, value, write, escape=escape):
+    def dump_struct(self, value, write, utf8_encoding, escape=escape):
         i = id(value)
         if i in self.memo:
             raise TypeError, "cannot marshal recursive dictionaries"
@@ -764,13 +765,13 @@ class Marshaller:
     dispatch[DictType] = dump_struct
 
     if datetime:
-        def dump_datetime(self, value, write):
+        def dump_datetime(self, value, utf8_encoding, write):
             write("<value><dateTime.iso8601>")
             write(_strftime(value))
             write("</dateTime.iso8601></value>\n")
         dispatch[datetime.datetime] = dump_datetime
 
-    def dump_instance(self, value, write):
+    def dump_instance(self, value, utf8_encoding, write):
         # check for special wrappers
         if value.__class__ in WRAPPERS:
             self.write = write
@@ -1069,7 +1070,7 @@ def getparser(use_datetime=0):
 # @return A string containing marshalled data.
 
 def dumps(params, methodname=None, methodresponse=None, encoding=None,
-          allow_none=0):
+          allow_none=0, utf8_encoding='standard'):
     """data [,options] -> marshalled data
 
     Convert an argument tuple or a Fault instance to an XML-RPC
