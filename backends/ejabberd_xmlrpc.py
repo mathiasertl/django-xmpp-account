@@ -85,10 +85,11 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
                  UTF8_ENCODING='standard'):
         super(EjabberdXMLRPCBackend, self).__init__()
 
+        kwargs = {}
         if six.PY2:
-            self.client = xmlrpclib.ServerProxy(HOST, utf8_encoding=UTF8_ENCODING)
-        else:
-            self.client = xmlrpclib.ServerProxy(HOST)
+            kwargs['utf8_encoding'] = UTF8_ENCODING
+
+        self.client = xmlrpclib.ServerProxy(HOST, **kwargs)
         if USER is not None:
             self.credentials = {
                 'user': USER,
