@@ -183,10 +183,16 @@ def escape(s, replace=string.replace, utf8_encoding='standard'):
     encoded = ''
     if six.PY3:
         _encode = lambda char: ''.join(['&#%s;' % b for b in char.encode('utf-8')])
-    if six.PY2 and isinstance(s, six.text_type):  # py2 and unicode
-        _encode = lambda char: ''.join(['&#%s;' % ord(b) for b in char.encode('utf-8')])
-    else:  # py2 str
-        _encode = lambda char: ''.join(['&#%s;' % ord(b) for b in char])
+    else:
+        if utf8_encoding == 'php':
+            if six.PY2 and isinstance(s, six.text_type):  # py2 and unicode
+                _encode = lambda char: ''.join(['&#%s;' % ord(b) for b in char.encode('utf-8')])
+            else:  # py2 str
+                _encode = lambda char: ''.join(['&#%s;' % ord(b) for b in char])
+        elif utf8_encoding == 'standard':
+            _encode = lambda char: '&#%s;' % ord(char)
+        else:
+            raise AttributeError("Unknown utf8_encoding '%s'" % utf8_encoding)
 
     for char in s:
         if ord(char) >= 128:
