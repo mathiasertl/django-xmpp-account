@@ -1555,13 +1555,15 @@ class ServerProxy:
 
         transport: a transport factory
         encoding: the request encoding (default is UTF-8)
+        utf8_encoding: Way to encode UTF-8 characters. May currently be either
+            'standard' or 'php'.
 
     All 8-bit strings passed to the server proxy are assumed to use
     the given encoding.
     """
 
     def __init__(self, uri, transport=None, encoding=None, verbose=0,
-                 allow_none=0, use_datetime=0):
+                 allow_none=0, use_datetime=0, utf8_encoding='standard'):
         # establish a "logical" server connection
 
         if isinstance(uri, unicode):
@@ -1586,6 +1588,7 @@ class ServerProxy:
         self.__encoding = encoding
         self.__verbose = verbose
         self.__allow_none = allow_none
+        self.__utf8_encoding = 'standard'
 
     def __close(self):
         self.__transport.close()
