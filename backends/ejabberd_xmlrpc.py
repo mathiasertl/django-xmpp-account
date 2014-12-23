@@ -39,6 +39,9 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
 
     This backend requires ejabberd mod_admin_extra to be installed.
 
+    .. WARNING:: The encoding of UTF8 characters differs in ejabberd <= 14.07. Set the
+        `UTF8_ENCODING` option to `php` if you use any of these versions.
+
     Example::
 
         XMPP_BACKENDS = {
