@@ -179,7 +179,7 @@ def _decode(data, encoding, is8bit=re.compile("[\x80-\xff]").search):
         data = unicode(data, encoding)
     return data
 
-def escape(s, replace=string.replace):
+def escape(s, replace=string.replace, utf8_encoding='standard'):
     encoded = ''
     if six.PY3:
         _encode = lambda char: ''.join(['&#%s;' % b for b in char.encode('utf-8')])
@@ -717,7 +717,7 @@ class Marshaller:
 
     def dump_string(self, value, write, utf8_encoding, escape=escape):
         write("<value><string>")
-        write(escape(value))
+        write(escape(value, utf8_encoding=utf8_encoding))
         write("</string></value>\n")
     dispatch[StringType] = dump_string
 
@@ -725,7 +725,7 @@ class Marshaller:
         def dump_unicode(self, value, write, utf8_encoding, escape=escape):
             value = value.encode(self.encoding)
             write("<value><string>")
-            write(escape(value))
+            write(escape(value, utf8_encoding=utf8_encoding))
             write("</string></value>\n")
         dispatch[UnicodeType] = dump_unicode
 
