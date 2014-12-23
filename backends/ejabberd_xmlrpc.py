@@ -20,9 +20,13 @@ from __future__ import unicode_literals
 import time
 
 from django.conf import settings
+from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
-from core import xmlrpclib
+if six.PY2:
+    from core import xmlrpclib
+else:  # py3
+    from xmlrpc import client as xmlrpclib
 from core.exceptions import TemporaryError
 
 from backends.base import XmppBackendBase
@@ -62,6 +66,9 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
     **PASSWORD** (optional)
         The password of the user used in the XMLRPC connection. Only use this setting if you
         actually restricted access in the ejabberd config!
+    **UTF8_ENCODING** (optional)
+        How to encode UTF8 characters. Set to 'php' for ejabberd <= 14.05. Currently only used for
+        Python 2.
 
     **ejabberd configuration:** The ``xmlrpc`` module is included with ejabberd_ since version
     13.12. If you use an earlier version, please get and run the module from the
@@ -74,10 +81,14 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
     """
     credentials = None
 
-    def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None, PASSWORD=None):
+    def __init__(self, HOST='http://127.0.0.1:4560', USER=None, SERVER=None, PASSWORD=None,
+                 UTF8_ENCODING='standard'):
         super(EjabberdXMLRPCBackend, self).__init__()
 
-        self.client = xmlrpclib.ServerProxy(HOST)
+        if six.PY2:
+            self.client = xmlrpclib.ServerProxy(HOST, utf8_encoding=UTF8_ENCODING)
+        else:
+            self.client = xmlrpclib.ServerProxy(HOST)
         if USER is not None:
             self.credentials = {
                 'user': USER,
