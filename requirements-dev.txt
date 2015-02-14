@@ -3,3 +3,4 @@ GitPython==0.3.6
 Sphinx==1.3b2
 iPython==2.4.1
 fabric-webbuilders==0.2
+pip-tools==0.3.5
