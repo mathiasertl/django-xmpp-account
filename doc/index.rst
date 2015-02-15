@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to xmppregister's documentation!
-========================================
+Welcome to django-xmpp-account's documentation!
+===============================================
 
 This is the still somewhat spartanious documentation for
 **django-xmpp-account**. This documentation will improve very soon.
