@@ -1,3 +1,8 @@
+# django-xmpp-account
+
+[![Flattr this git
+repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=mathiasertl&url=https://github.com/mathiasertl/django-xmpp-account/&title=django-xmpp-account&language=&tags=github&category=software) 
+
 `django-xmpp-account` is a small stand-alone Django application that manages
 registrations to your Jabber/XMPP server. It was written for
 [account.jabber.at](https://account.jabber.at) but can be used for any
@@ -13,8 +18,7 @@ just have to implement a certain subclass to make it communicate with other
 servers. Please feel free to contribute additional backends to this project via
 a merge request!
 
-Documentation
--------------
+## Documentation
 
 Please see [account.jabber.at/doc](https://account.jabber.at/doc) for the most
 recent documentation.
