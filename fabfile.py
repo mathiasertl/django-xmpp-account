@@ -15,6 +15,14 @@
 
 from __future__ import unicode_literals
 
+import logging
+import os
+logging.basicConfig(level=logging.DEBUG)
+
+from fabric.api import env
+from fabric.api import local
+from fabric.context_managers import cd
+from fabric.tasks import Task
 
 from fabric_webbuilders import BuildBootstrapTask
 from fabric_webbuilders import BuildJqueryTask
@@ -39,3 +47,15 @@ minify_js = MinifyJSTask(files=[
     'core/static/js/base.js',
 ], dest='core/static/account.min.js')
 
+class DeployTask(Task):
+    def run(self, host='hyperion', dir='/usr/local/home/xmpp-account/django-xmpp-account/', group='xmpp-account'):
+        local('git push')
+        ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
+        ssh("git fetch")
+        ssh("git pull origin master")
+        ssh("../bin/pip install -r requirements.txt")
+        ssh("../bin/python manage.py update")
+        ssh("touch /etc/uwsgi-emperor/vassals/xmpp-account.ini")
+
+
+deploy = DeployTask()
