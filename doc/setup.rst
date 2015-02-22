@@ -177,3 +177,8 @@ should make sure that these jobs do not run in parallel::
 
    # ejabberd only: Import users send to registration_watchers JID
    */5 *   * * *           account   python manage.py ejabberd_registrations
+
+Logrotate
+---------
+
+TODO.
