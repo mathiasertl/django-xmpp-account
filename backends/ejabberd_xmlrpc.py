@@ -170,8 +170,10 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             'from': domain,
             'to': '%s@%s' % (username, domain),
             'body': message,
+            'type': 'normal',
+            'subject': subject,
         }
-        self.rpc('send_message_chat', **kwargs)
+        self.rpc('send_message', **kwargs)
 
     def all_users(self, domain):
         users = self.rpc('registered_users', host=domain)['users']
