@@ -167,11 +167,11 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         stored by mod_offline."""
 
         kwargs = {
-            'from': domain,
-            'to': '%s@%s' % (username, domain),
             'body': message,
-            'type': 'normal',
+            'from': domain,
             'subject': subject,
+            'to': '%s@%s' % (username, domain),
+            'type': 'normal',
         }
         self.rpc('send_message', **kwargs)
 
