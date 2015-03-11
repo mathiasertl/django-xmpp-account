@@ -81,6 +81,11 @@ class XmppBackendBase(object):
         """
         return random_string(length=length)
 
+    def exists(self, username, domain):
+        """Return True if the user exists, false otherwise."""
+
+        raise NotImplementedError
+
     def reserve(self, username, domain, email):
         """Reserve a new account.
 
