@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static "account.min.css" %}">
 {% endif %}
     <script>
+        var exists_url = "{% url 'ExistsView' %}";
         var MIN_USERNAME_LENGTH = {{ MIN_USERNAME_LENGTH }};
         var MAX_USERNAME_LENGTH = {{ MAX_USERNAME_LENGTH }};
         {% if SITE.FACEBOOK %}var FACEBOOK_PAGE = "{{ SITE.FACEBOOK }}";{% endif %}
