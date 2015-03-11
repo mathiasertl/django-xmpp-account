@@ -35,22 +35,26 @@ from core.exceptions import TemporaryError
 from core.models import Address
 from core.models import Confirmation
 from core.models import UserAddresses
+from core.utils import get_client_ip
 
 User = get_user_model()
 
 
 class AntiSpamFormView(FormView):
     def dispatch(self, request, *args, **kwargs):
-        # create a dummy function and dynamically set its name. This way,
-        # the ratelimit decorator is specific to the method in each class.
-        def func(request):
-            pass
-        func.__name__ = str('%s_dispatch' % self.__class__.__name__)
-        func = ratelimit(method='POST', rate='10/m')(func)
-        ratelimit(method='GET', rate='30/m')(func)(request)
+        remote_ip = get_client_ip(request)
 
-        if getattr(request, 'limited', False):
-            raise RateException()
+        if remote_ip not in settings.RATELIMIT_WHITELIST:
+            # create a dummy function and dynamically set its name. This way,
+            # the ratelimit decorator is specific to the method in each class.
+            def func(request):
+                pass
+            func.__name__ = str('%s_dispatch' % self.__class__.__name__)
+            func = ratelimit(method='POST', rate='10/m')(func)
+            ratelimit(method='GET', rate='30/m')(func)(request)
+
+            if getattr(request, 'limited', False):
+                raise RateException()
 
         try:
             if settings.RECAPTCHA_CLIENT is not None and request.method == 'POST':
