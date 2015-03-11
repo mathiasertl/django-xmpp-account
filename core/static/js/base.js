@@ -29,15 +29,15 @@ var exists = function() {
         $.post(exists_url, {
             username: username,
             domain: domain
-        }).done(function(data) {
-            form_group.removeClass('has-error');
-            statuscheck.find('span').hide();
-            statuscheck.find('#username-ok').show();
-        }).fail(function(data) {
+        }).done(function(data) { // user exists!
             form_group.addClass('has-error');
             statuscheck.find('span').hide();
+            statuscheck.find('#username-taken').show();
+        }).fail(function(data) { 
+            form_group.removeClass('has-error');
+            statuscheck.find('span').hide();
             if (data.status == 404) {
-                statuscheck.find('#username-taken').show();
+                statuscheck.find('#username-ok').show();
             } else {
                 statuscheck.find('#username-error').show();
             }
