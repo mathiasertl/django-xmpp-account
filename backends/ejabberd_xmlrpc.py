@@ -136,7 +136,13 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             raise BackendError(result.get('text', 'Unknown Error'))
 
     def exists(self, username, domain):
-        return self.rpc('check_account', user=username, host=domain)
+        result = self.rpc('check_account', user=username, host=domain)
+        if result['res'] == 0:
+            return True
+        elif result['res'] == 1:
+            return False
+        else:
+            raise BackendError(result.get('text', 'Unknown Error'))
 
     def check_password(self, username, domain, password):
         result = self.rpc('check_password', user=username, host=domain, password=password)
