@@ -170,7 +170,6 @@ class ConfirmedView(AntiSpamFormView):
 
 class ExistsView(View):
     def post(self, request):
-        print('check for existance: %s' % request.POST)
         if backend.exists(request.POST['username'], request.POST['domain']):
             return HttpResponse('')
         else:
