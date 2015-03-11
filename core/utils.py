@@ -22,5 +22,15 @@ import string
 
 SAFE_CHARS = string.ascii_letters + string.digits
 
+
 def random_string(length=32):
     return ''.join(random.choice(SAFE_CHARS) for x in range(length))
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
