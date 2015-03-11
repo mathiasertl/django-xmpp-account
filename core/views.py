@@ -20,13 +20,16 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
+from django.views.generic import View
 
 from brake.decorators import ratelimit
 
 from recaptcha import RecaptchaUnreachableError
 
+from backends import backend
 from backends.base import UserExists
 from backends.base import UserNotFound
 
@@ -163,3 +166,12 @@ class ConfirmedView(AntiSpamFormView):
             return self.form_invalid(form)
 
         return super(ConfirmedView, self).form_valid(form)
+
+
+class ExistsView(View):
+    def post(self, request):
+        print('check for existance: %s' % request.POST)
+        if backend.exists(request.POST['username'], request.POST['domain']):
+            return HttpResponse('')
+        else:
+            return HttpResponse('', status=404)
