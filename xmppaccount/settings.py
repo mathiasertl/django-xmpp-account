@@ -195,6 +195,7 @@ WELCOME_MESSAGE = None
 
 # logging
 LOGDIR = os.path.join(BASE_DIR, 'logs')
+RATELIMIT_WHITELIST = set()
 
 try:
     from localsettings import *
