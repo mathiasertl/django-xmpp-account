@@ -119,6 +119,15 @@ Default:: ``32``
 Maximum characters allowed for the registration of a new username. If you provide a value greater
 then 255 characters, it will be capped to that value.
 
+.. _settings-RATELIMIT_WHITELIST:
+
+RATELIMIT_WHITELIST
+___________________
+
+Default:: ``set()``
+
+A list of IP addresses not affected by ratelimiting.
+
 .. _settings-RECAPTCHA_PRIVATE_KEY:
 
 RECAPTCHA_PRIVATE_KEY
