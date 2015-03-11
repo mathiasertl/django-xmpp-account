@@ -49,7 +49,7 @@ ul.arrow-list li {
 }
 
 #status-check span {
-    /*display: none;*/
+    display: none;
 }
 #status-check span#default {
     display: inline;
