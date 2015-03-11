@@ -24,5 +24,5 @@ from core.views import ExistsView
 
 
 urlpatterns = patterns('',
-    url(r'^/exists/$', ExistsView.as_view(), name='ExistsView'),
+    url(r'exists/$', ExistsView.as_view(), name='ExistsView'),
 )
