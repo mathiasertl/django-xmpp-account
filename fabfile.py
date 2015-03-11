@@ -31,7 +31,7 @@ from fabric_webbuilders import MinifyJSTask
 
 
 build_jquery = BuildJqueryTask(
-    excludes='-ajax,-deprecated,-dimensions,-effects,-offset',
+    excludes='-deprecated,-dimensions,-effects,-offset',
     dest_dir='core/static/lib/jquery/'
 )
 build_bootstrap = BuildBootstrapTask(
