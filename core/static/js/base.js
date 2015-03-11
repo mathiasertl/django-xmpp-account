@@ -53,9 +53,13 @@ $(document).ready(function() {
         var status_check = $('#status-check')
         var val = $(this).val();
 
-        if (/[@\s]/.test(val) || val.length < MIN_USERNAME_LENGTH || val.length > MAX_USERNAME_LENGTH) {
+        if (val.length < MIN_USERNAME_LENGTH) {
             status_check.find('span').hide();
             status_check.find('#default').show();
+            form_group.addClass('has-error');
+        } else if (/[@\s]/.test(val) || val.length > MAX_USERNAME_LENGTH) {
+            status_check.find('span').hide();
+            status_check.find('#username-error').show();
             form_group.addClass('has-error');
         } else {
             exists();
