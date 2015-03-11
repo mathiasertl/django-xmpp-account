@@ -12,23 +12,20 @@ $.ajaxSetup({
 
 var exists_timeout;
 var exists = function() {
-    if (typeof exists_timeout === "undefined") {
+    if (typeof exists_timeout !== "undefined") {
         clearTimeout(exists_timeout)
     }
-    var username = $('input#id_username').val();
-    var statuscheck = $('#status-check')
-    var form_group = $('.form-group#fg_username');
-
     exists_timeout = setTimeout(function() {
+        var statuscheck = $('#status-check')
+        var form_group = $('.form-group#fg_username');
+
         var username = $('input#id_username').val();
         var domain = $('select#id_domain option:selected').text();
-        console.log('Check existence for ' + username + '@' + domain);
-        console.log('Calling ' + exists_url);
+
         $.post(exists_url, {
             username: username,
             domain: domain
         }).done(function(data) {
-            console.log('remove class!');
             form_group.removeClass('has-error');
             statuscheck.find('span').hide();
             statuscheck.find('#username-ok').show();
@@ -41,7 +38,7 @@ var exists = function() {
                 statuscheck.find('#username-error').show();
             }
         });
-    }, 100);
+    }, 300);
 }
 
 $(document).ready(function() {
