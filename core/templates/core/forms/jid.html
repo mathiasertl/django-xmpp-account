@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="form-group">
+<div class="form-group" id="fg_username">
     <label for="{{ username.id_for_label }}" class="control-label">
         {{ username.label }}
     </label>
@@ -30,11 +30,12 @@
                 {{ username.errors }}
                 {{ domain.errors }}
                 {% if menuitem == 'register' %}
-                <p>
+                <p id="status-check">
                     <span id="default">{% trans "Type at least three characters to check if the account already exists." %}</span>
                     <span id="checking">{% trans "Checking username..." %}</span>
                     <span id="username-ok">{% trans "Username is still available." %}</span>
-                    <span id="username-failed">{% trans "Username is already taken." %}</span>
+                    <span id="username-taken">{% trans "Username is already taken." %}</span>
+                    <span id="username-too-long">{% trans "Username is too long." %}</span>
                     <span id="username-error">{% trans "There was an error checking this username." %}</span>
                 </p>
                 {% endif %}
