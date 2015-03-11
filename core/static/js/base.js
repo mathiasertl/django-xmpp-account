@@ -15,8 +15,12 @@ var exists = function() {
     if (typeof exists_timeout !== "undefined") {
         clearTimeout(exists_timeout)
     }
+    var statuscheck = $('#status-check')
+    statuscheck.find('span[id!="checking"]').hide();
+    statuscheck.find('span#checking').show();
+
+    /** we use a timeout so that fast-typing users don't cause to many requests */
     exists_timeout = setTimeout(function() {
-        var statuscheck = $('#status-check')
         var form_group = $('.form-group#fg_username');
 
         var username = $('input#id_username').val();
@@ -38,7 +42,7 @@ var exists = function() {
                 statuscheck.find('#username-error').show();
             }
         });
-    }, 300);
+    }, 500);
 }
 
 $(document).ready(function() {
