@@ -15,6 +15,9 @@ var exists = function() {
     if (typeof exists_timeout === "undefined") {
         clearTimeout(exists_timeout)
     }
+    var username = $('input#id_username').val();
+    var statuscheck = $('#status-check')
+    var form_group = $('.form-group#fg_username');
 
     exists_timeout = setTimeout(function() {
         var username = $('input#id_username').val();
@@ -25,11 +28,18 @@ var exists = function() {
             username: username,
             domain: domain
         }).done(function(data) {
-            console.log('ok.');
+            console.log('remove class!');
+            form_group.removeClass('has-error');
+            statuscheck.find('span').hide();
+            statuscheck.find('#username-ok').show();
         }).fail(function(data) {
-            console.log('failed.');
-            console.log(data);
-            console.log(data.statusCode());
+            form_group.addClass('has-error');
+            statuscheck.find('span').hide();
+            if (data.status == 404) {
+                statuscheck.find('#username-taken').show();
+            } else {
+                statuscheck.find('#username-error').show();
+            }
         });
     }, 100);
 }
@@ -40,12 +50,15 @@ $(document).ready(function() {
     $('#id_username').keyup(function() {
         var input = $(this);
         var form_group = input.parents('div.form-group');
+        var status_check = $('#status-check')
         var val = $(this).val();
 
         if (/[@\s]/.test(val) || val.length < MIN_USERNAME_LENGTH || val.length > MAX_USERNAME_LENGTH) {
+            status_check.find('span').hide();
+            status_check.find('#default').show();
             form_group.addClass('has-error');
         } else {
-            form_group.removeClass('has-error');
+            exists();
         }
     });
 
@@ -81,10 +94,5 @@ $(document).ready(function() {
     $('.twitter-follow').on('click', function(event) {
         var html = '<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=' + TWITTER_PAGE + '&show_count=false&dnt=true" style="width: 300px; height: 20px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
         $('.twitter-follow').html(html);
-    });
-
-    $('input#id_username').keyup(function() {
-        console.log('keyup()');
-        exists();
     });
 });
