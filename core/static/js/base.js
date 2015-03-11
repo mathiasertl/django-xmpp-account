@@ -24,7 +24,7 @@ var exists = function() {
         var form_group = $('.form-group#fg_username');
 
         var username = $('input#id_username').val();
-        var domain = $('select#id_domain option:selected').text();
+        var domain = $('select#id_domain option:selected').val();
 
         $.post(exists_url, {
             username: username,
