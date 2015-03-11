@@ -47,3 +47,23 @@ ul.arrow-list li {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+#status-check span {
+    /*display: none;*/
+}
+#status-check span#default {
+    display: inline;
+    color: black;
+}
+#status-check span#username-ok {
+    color: green;
+}
+#status-check span#username-taken {
+    color: red;
+}
+#status-check span#username-error {
+    color: red;
+}
+#status-check span#username-too-long {
+    color: red;
+}
