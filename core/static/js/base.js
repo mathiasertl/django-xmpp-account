@@ -1,3 +1,39 @@
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+var exists_timeout;
+var exists = function() {
+    if (typeof exists_timeout === "undefined") {
+        clearTimeout(exists_timeout)
+    }
+
+    exists_timeout = setTimeout(function() {
+        var username = $('input#id_username').val();
+        var domain = $('select#id_domain option:selected').text();
+        console.log('Check existence for ' + username + '@' + domain);
+        console.log('Calling ' + exists_url);
+        $.post(exists_url, {
+            username: username,
+            domain: domain
+        }).done(function(data) {
+            console.log('ok.');
+        }).fail(function(data) {
+            console.log('failed.');
+            console.log(data);
+            console.log(data.statusCode());
+        });
+    }, 100);
+}
+
 $(document).ready(function() {
     $('label[for="id_value"]').parent().hide();
 
@@ -45,5 +81,10 @@ $(document).ready(function() {
     $('.twitter-follow').on('click', function(event) {
         var html = '<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=' + TWITTER_PAGE + '&show_count=false&dnt=true" style="width: 300px; height: 20px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
         $('.twitter-follow').html(html);
+    });
+
+    $('input#id_username').keyup(function() {
+        console.log('keyup()');
+        exists();
     });
 });
