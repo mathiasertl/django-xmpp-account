@@ -75,6 +75,11 @@ $(document).ready(function() {
             username_exists_check();
         }
     });
+    $('#id_domain').change(function() {
+        if (basic_username_check()) {
+            username_exists_check();
+        }
+    });
 
     $('#id_email').keypress(function() {
         if (data.which == 0) {  // 0 == tab
