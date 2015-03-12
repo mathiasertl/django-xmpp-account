@@ -63,12 +63,13 @@ var username_exists_check = function() {
             statuscheck.find('span').hide();
             statuscheck.find('#username-taken').show();
         }).fail(function(data) { 
-            form_group.removeClass('has-error');
             statuscheck.find('span').hide();
             if (data.status == 404) {
                 statuscheck.find('#username-ok').show();
+                form_group.removeClass('has-error');
             } else {
                 statuscheck.find('#username-error').show();
+                form_group.addClass('has-error');
             }
         });
     }, 500);
