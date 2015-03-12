@@ -34,6 +34,7 @@ var basic_username_check = function() {
     return true;
 }
 
+var ignored_keys = [0, 16, 17, 18, 20, 27, 33, 34, 35, 36, 45, 91, 144];
 var exists_timeout;
 var username_exists_check = function() {
     if ($('body.register').length == 0) {
@@ -76,8 +77,8 @@ var username_exists_check = function() {
 }
 
 $(document).ready(function() {
-    $('#id_username').keypress(function(data) {
-        if (data.which == 0) {  // 0 == tab
+    $('#id_username').keyup(function(data) {
+        if (ignored_keys.indexOf(data.which) !== -1) { 
             return;
         }
         if (basic_username_check()) {
@@ -90,8 +91,8 @@ $(document).ready(function() {
         }
     });
 
-    $('#id_email').keypress(function() {
-        if (data.which == 0) {  // 0 == tab
+    $('#id_email').keyup(function(data) {
+        if (ignored_keys.indexOf(data.which) !== -1) {
             return;
         }
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
