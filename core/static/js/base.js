@@ -67,8 +67,6 @@ var username_exists_check = function() {
 }
 
 $(document).ready(function() {
-    $('label[for="id_value"]').parent().hide();
-
     $('#id_username').keyup(function() {
         if (basic_username_check()) {
             username_exists_check();
