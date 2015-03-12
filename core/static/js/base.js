@@ -15,7 +15,12 @@ var basic_username_check = function() {
     var form_group = $('div#fg_username');
     var status_check = $('#status-check')
 
-    if (val.length < MIN_USERNAME_LENGTH) {
+    if (val.length == 0) {
+        status_check.find('span').hide();
+        status_check.find('#default').show();
+        form_group.removeClass('has-error');
+        return false;
+    } else if (val.length < MIN_USERNAME_LENGTH) {
         status_check.find('span').hide();
         status_check.find('#default').show();
         form_group.addClass('has-error');
