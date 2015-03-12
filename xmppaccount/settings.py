@@ -283,6 +283,10 @@ LOGGING = {
             'handlers': ['console', ],
             'level': 'DEBUG',
         },
+        'core': {
+            'handlers': ['console', ],
+            'level': 'DEBUG',
+        },
         'cleanup': {
             'handlers': ['cleanup', 'cron-console'],
             'level': 'INFO',
