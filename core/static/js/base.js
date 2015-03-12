@@ -67,13 +67,19 @@ var username_exists_check = function() {
 }
 
 $(document).ready(function() {
-    $('#id_username').keyup(function() {
+    $('#id_username').keypress(function(data) {
+        if (data.which == 0) {  // 0 == tab
+            return;
+        }
         if (basic_username_check()) {
             username_exists_check();
         }
     });
 
-    $('#id_email').keyup(function() {
+    $('#id_email').keypress(function() {
+        if (data.which == 0) {  // 0 == tab
+            return;
+        }
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var input = $(this);
         var form_group = input.parents('div.form-group');
