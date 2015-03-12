@@ -21,6 +21,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 from fabric.api import local
 from fabric.tasks import Task
+from fabric.context_managers import quiet
 
 from fabric_webbuilders import BuildBootstrapTask
 from fabric_webbuilders import BuildJqueryTask
@@ -55,7 +56,8 @@ class DeployTask(Task):
     def run(self, host='hyperion', dir='/usr/local/home/xmpp-account/django-xmpp-account/', group='xmpp-account'):
         minify_js.run()
         minify_css.run()
-        local('git commit core/static/account.min.js core/static/account.min.css -m "update minification"')
+        with quiet():
+            local('git commit core/static/account.min.js core/static/account.min.css -m "update minification"')
         local('git push')
         ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
         ssh("git fetch")
