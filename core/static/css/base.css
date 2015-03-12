@@ -58,12 +58,9 @@ ul.arrow-list li {
 #status-check span#username-ok {
     color: green;
 }
-#status-check span#username-taken {
-    color: red;
-}
-#status-check span#username-error {
-    color: red;
-}
-#status-check span#username-too-long {
-    color: red;
+#status-check span#username-taken,
+#status-check span#username-error,
+#status-check span#username-too-long 
+{
+    color: #A94442;
 }
