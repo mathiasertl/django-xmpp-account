@@ -17,6 +17,8 @@
 
 from __future__ import unicode_literals
 
+import logging
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
@@ -41,6 +43,7 @@ from core.models import UserAddresses
 from core.utils import get_client_ip
 
 User = get_user_model()
+log = logging.getLogger(__name__)
 
 
 class AntiSpamFormView(FormView):
@@ -170,7 +173,10 @@ class ConfirmedView(AntiSpamFormView):
 
 class ExistsView(View):
     def post(self, request):
-        if backend.exists(request.POST['username'], request.POST['domain']):
+        username = request.POST.get('username', '').strip().lower()
+        domain = request.POST.get('domain', '').strip().lower()
+        log.info('Checking %s@%s for existence.', username, domain)
+        if backend.exists(username, domain):
             return HttpResponse('')
         else:
             return HttpResponse('', status=404)
