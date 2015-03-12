@@ -10,8 +10,27 @@ $.ajaxSetup({
     }
 });
 
+var basic_username_check = function() {
+    var val = $('input#id_username').val();
+    var form_group = $('div#fg_username');
+    var status_check = $('#status-check')
+
+    if (val.length < MIN_USERNAME_LENGTH) {
+        status_check.find('span').hide();
+        status_check.find('#default').show();
+        form_group.addClass('has-error');
+        return false;
+    } else if (/[@\s]/.test(val) || val.length > MAX_USERNAME_LENGTH) {
+        status_check.find('span').hide();
+        status_check.find('#username-error').show();
+        form_group.addClass('has-error');
+        return false;
+    }
+    return true;
+}
+
 var exists_timeout;
-var exists = function() {
+var username_exists_check = function() {
     if (typeof exists_timeout !== "undefined") {
         clearTimeout(exists_timeout)
     }
@@ -21,8 +40,10 @@ var exists = function() {
 
     /** we use a timeout so that fast-typing users don't cause to many requests */
     exists_timeout = setTimeout(function() {
+        if (! basic_username_check()) {
+            return;
+        }
         var form_group = $('.form-group#fg_username');
-
         var username = $('input#id_username').val();
         var domain = $('select#id_domain option:selected').val();
 
@@ -49,21 +70,8 @@ $(document).ready(function() {
     $('label[for="id_value"]').parent().hide();
 
     $('#id_username').keyup(function() {
-        var input = $(this);
-        var form_group = input.parents('div.form-group');
-        var status_check = $('#status-check')
-        var val = $(this).val();
-
-        if (val.length < MIN_USERNAME_LENGTH) {
-            status_check.find('span').hide();
-            status_check.find('#default').show();
-            form_group.addClass('has-error');
-        } else if (/[@\s]/.test(val) || val.length > MAX_USERNAME_LENGTH) {
-            status_check.find('span').hide();
-            status_check.find('#username-error').show();
-            form_group.addClass('has-error');
-        } else {
-            exists();
+        if (basic_username_check()) {
+            username_exists_check();
         }
     });
 
