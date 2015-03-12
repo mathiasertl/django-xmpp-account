@@ -141,7 +141,7 @@ class JidMixin(object):
         return domain
 
     def clean_username(self):
-        node = self.cleaned_data.get('username').lower()
+        node = self.cleaned_data.get('username', '').lower().strip()
 
         # validate minimum and maximum length
         length = len(node.encode('utf-8'))
@@ -177,7 +177,7 @@ class EmailMixin(object):
     }
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
+        email = self.cleaned_data.get('email', '').strip().lower()
         try:
             hostname = email.rsplit('@', 1)[1]
             if hostname in settings.NO_EMAIL_HOSTS:
