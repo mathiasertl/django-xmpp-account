@@ -195,6 +195,7 @@ WELCOME_MESSAGE = None
 
 # logging
 LOGDIR = os.path.join(BASE_DIR, 'logs')
+LOG_LEVEL = 'WARNING'
 RATELIMIT_WHITELIST = set()
 
 try:
@@ -281,19 +282,19 @@ LOGGING = {
         },
         'backends': {
             'handlers': ['console', ],
-            'level': 'DEBUG',
+            'level': LOG_LEVEL,
         },
         'core': {
             'handlers': ['console', ],
-            'level': 'DEBUG',
+            'level': LOG_LEVEL,
         },
         'cleanup': {
             'handlers': ['cleanup', 'cron-console'],
-            'level': 'INFO',
+            'level': LOG_LEVEL,
         },
         'import': {
             'handlers': ['import', 'cron-console'],
-            'level': 'INFO',
+            'level': LOG_LEVEL,
         },
     },
 }
