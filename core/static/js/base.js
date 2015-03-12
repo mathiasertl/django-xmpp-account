@@ -31,6 +31,9 @@ var basic_username_check = function() {
 
 var exists_timeout;
 var username_exists_check = function() {
+    if ($('body.register').length == 0) {
+        return;  // only check username on registration page
+    }
     if (typeof exists_timeout !== "undefined") {
         clearTimeout(exists_timeout)
     }
