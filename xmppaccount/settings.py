@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License along with
 # django-xmpp-register.  If not, see <http://www.gnu.org/licenses/>.
 
+import gnupg
 import os
 
 from datetime import timedelta
@@ -198,6 +199,12 @@ LOGDIR = os.path.join(BASE_DIR, 'logs')
 LOG_LEVEL = 'WARNING'
 RATELIMIT_WHITELIST = set()
 
+# GPG config
+GNUPG = {
+    'gnupghome': os.path.join(BASE_DIR, '.gpg'),
+    'gpgbinary': '/usr/bin/gpg',
+}
+
 try:
     from localsettings import *
 except ImportError:
@@ -220,6 +227,14 @@ if DEFAULT_XMPP_HOST is None:
 if RECAPTCHA_PRIVATE_KEY and RECAPTCHA_PUBLIC_KEY:
     from recaptcha import RecaptchaClient
     RECAPTCHA_CLIENT = RecaptchaClient(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PUBLIC_KEY)
+
+
+GPG = None
+if GNUPG is not None:
+    if os.path.exists(GNUPG['gnupghome']):
+        GPG = gnupg.GPG(**GNUPG)
+    else:
+        log.warn('GnuPG disabled because no GPG keys found: Generate with manage.py genkeys')
 
 if not os.path.exists(LOGDIR):
     os.makedirs(LOGDIR)
