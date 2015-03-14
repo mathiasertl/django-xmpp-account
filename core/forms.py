@@ -15,6 +15,7 @@
 
 from __future__ import unicode_literals
 
+import re
 import time
 
 from copy import copy
@@ -164,7 +165,14 @@ class JidMixin(object):
 class EmailMixin(object):
     EMAIL_FIELD = forms.EmailField(
         label=_("email"), max_length=50, widget=EmailWidget,
-        help_text=_( 'Required, a confirmation email will be sent to this address.')
+        help_text=_('Required, a confirmation email will be sent to this address.')
+    )
+    FINGERPRINT_FIELD = forms.CharField(
+        label=_('GPG key (advanced, optional)'),
+        help_text=_('Add your ASCII-armored public key ("gpg --armor --export <fingerprint>" or '
+                    'its fingerprint (we will fetch it from a keyserver) if you want us to encrypt '
+                    'all confirmation E-Mails we send.'),
+        widget=forms.Textarea
     )
     EMAIL_ERROR_MESSAGES = {
         'own-domain': _(
@@ -186,6 +194,33 @@ class EmailMixin(object):
         except IndexError:
             pass
         return email
+
+    def clean_fingerprint(self):
+        key = self.cleaned_data.get('fingerprint', '').strip()
+
+        # might be a fingerprint with spaces (as outputed by gpg --list-secret-keys)
+        fp = key.replace(' ', '')
+        if len(fp) == 40:
+            return fp
+
+        lines = key.splitlines()
+        if lines[0] != '-----BEGIN PGP PUBLIC KEY BLOCK-----' \
+               or lines[-1] != '-----END PGP PUBLIC KEY BLOCK-----':
+            raise forms.ValidationError(_('This does not look at all like a GPG key.'))
+
+        if re.search('Version:\s*', lines[1]) is None:
+            raise forms.ValidationError(_("No version string found."))
+        if lines[2] != '':
+            raise forms.ValidationError(_("No line delimiter found."))
+
+        for line in lines[3:-1]:
+            if re.search('^[A-Za-z0-9+/=]*$', line) is None:
+                raise forms.ValidationError(_("Key contains invalid characters."))
+            if len(line) > 64:
+                raise forms.ValidationError(_("Line in key has more then 64 characters."))
+
+        # Either a fingerprint (40 chars) or a full gpg key
+        return key
 
 
 class EmailBlockedMixin(EmailMixin):
