@@ -175,16 +175,15 @@ class Confirmation(models.Model):
             encrypt = True
 
         # sign only if the user has fingerprint or signing is forced
-        sign = False
-        if settings.GPG and 'GPG_FINGERPRINT' in site and (
-                self.user.gpg_fingerprint or settings.FORCE_GPG_SIGNING):
-            sign = True
-
-        # only sign if the secret key is available
         fingerprints = [k['fingerprint'] for k in settings.GPG.list_keys(True)]
-        if site.get('GPG_FINGERPRINT') not in fingerprints:
-            log.warn('%s: secret key not found, not signing', site.get('GPG_FINGERPRINT'))
-            sign = False
+        signer = site.get('GPG_FINGERPRINT')
+        sign = False
+        if not signer:
+            log.warn('%s: No GPG key configured, not signing', site['DOMAIN'])
+        elif signer not in fingerprints:
+            log.warn('%s: %s: secret key not found, not signing', site['DOMAIN'], signer)
+        elif settings.GPG and (self.user.gpg_fingerprint or settings.FORCE_GPG_SIGNING):
+            sign = True
 
         frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
 
