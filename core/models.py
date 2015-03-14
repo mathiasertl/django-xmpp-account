@@ -176,7 +176,13 @@ class Confirmation(models.Model):
 
         # encrypt only if the user has a fingerprint
         if settings.GPG and self.user.gpg_fingerprint:
-            encrypt = True
+            # Receive key of recipient. We don't care about the result, because user might not have
+            # uploaded it.
+            gpg.recv_keys('pgp.mit.edu', self.user.gpg_fingerprint)
+            if self.user.gpg_fingerprint not in [k['fingerprint'] for k in gpg.list_keys()]:
+                log.warn('%s: Unknown GPG fingerprint for %s', site['DOMAIN'], self.user.jid)
+            else:
+                encrypt = True
 
         # sign only if the user has fingerprint or signing is forced
         if not signer:
@@ -197,7 +203,7 @@ class Confirmation(models.Model):
 
             if sign and not encrypt:  # only sign the message
                 payload = gpg.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
-                # TODO: Warn if data is empty
+                # TODO: Warn if payload.data is empty
                 sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
                 sig.set_payload(payload.data)
                 sig.add_header('Content-Description', 'OpenPGP digital signature')
@@ -209,9 +215,9 @@ class Confirmation(models.Model):
                 msg.attach(sig)
                 protocol = 'application/pgp-signature'
             elif encrypt:  # sign and encrypt
-                gpg.recv_keys('pgp.mit.edu', self.user.gpg_fingerprint)  # refresh encryption key
                 payload = gpg.encrypt(body.as_string(), [self.user.gpg_fingerprint], sign=signer,
                                       always_trust=True)
+                # TODO: Warn if payload.data is empty
                 encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
                 encrypted.set_payload(payload.data)
                 encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
