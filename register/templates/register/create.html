@@ -28,6 +28,10 @@ email to complete your registration.{% endblocktrans %}</p>
         {% include "core/forms/field.html" %}
     {% endwith %}
 
+    {% with field=form.fingerprint %}
+        {% include "core/forms/field.html" %}
+    {% endwith %}
+
     {% with username=form.username domain=form.domain %}
         {% include "core/forms/jid.html" %}
     {% endwith %}

@@ -33,6 +33,7 @@ User = get_user_model()
 
 class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
     email = EmailBlockedMixin.EMAIL_FIELD
+    fingerprint = EmailBlockedMixin.FINGERPRINT_FIELD
     username = copy(JidMixin.USERNAME_FIELD)  # copy because we override some fields
     domain = JidMixin.DOMAIN_FIELD
 
