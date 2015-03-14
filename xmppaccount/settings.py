@@ -206,6 +206,7 @@ GNUPG = {
     'gnupghome': os.path.join(BASE_DIR, '.gpg'),
     'gpgbinary': '/usr/bin/gpg',
 }
+FORCE_GPG_SIGNING = False
 
 try:
     from localsettings import *
@@ -269,7 +270,7 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler',
         },
         'console': {
-            'level': 'DEBUG',
+            'level': LOG_LEVEL,
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
