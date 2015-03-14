@@ -17,9 +17,16 @@
 
 from __future__ import unicode_literals
 
+import logging
 import random
 import smtplib
 import string
+
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.nonmultipart import MIMENonMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
@@ -60,6 +67,11 @@ REGISTRATION_CHOICES = (
     (REGISTRATION_UNKNOWN, 'Unknown'),
 )
 REGISTRATION_DICT = dict(REGISTRATION_CHOICES)
+
+log = logging.getLogger(__name__)
+pgp_version = MIMENonMultipart('application', 'pgp-encrypted')
+pgp_version.add_header('Content-Description', 'PGP/MIME version identification')
+pgp_version.set_payload('Version: 1')
 
 
 @python_2_unicode_compatible
@@ -152,6 +164,84 @@ class Confirmation(models.Model):
 
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
 
+    def sign_and_encrypt(self, site, subject, text, html):
+        """
+        :param site: Matching dict from XMPP_HOSTS.
+        :param text: The text part of the message.
+        :param html: The HTML part of the message.
+        """
+        # encrypt only if the user has a fingerprint
+        encrypt = False
+        if settings.GPG and self.user.gpg_fingerprint:
+            encrypt = True
+
+        # sign only if the user has fingerprint or signing is forced
+        sign = False
+        if settings.GPG and 'GPG_FINGERPRINT' in site and (
+                self.user.gpg_fingerprint or settings.FORCE_GPG_SIGNING):
+            sign = True
+
+        # only sign if the secret key is available
+        fingerprints = [k['fingerprint'] for k in settings.GPG.list_keys(True)]
+        if site.get('GPG_FINGERPRINT') not in fingerprints:
+            print('fingerprint not found in keyring, not singning.')
+            sign = False
+        print('Singing: %s, Encrypting: %s' % (sign, encrypt))
+
+        frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
+
+        msg = EmailMultiAlternatives(subject, from_email=frm, to=[self.user.email])
+
+        if sign or encrypt:
+            # first, (re)fetch the key
+            settings.GPG.recv_keys('pgp.mit.edu', self.user.gpg_fingerprint)
+
+            # try a wrapper
+
+            text = MIMEText(text)
+            html = MIMEText(html, _subtype='html')
+            body = MIMEMultipart(_subtype='alternative', _subparts=[text, html])
+
+            if sign:
+                payload = settings.GPG.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
+                # TODO: Warn if data is empty
+                sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
+                sig.set_payload(payload.data)
+                sig.add_header('Content-Description', 'OpenPGP digital signature')
+                sig.add_header('Content-Disposition', 'attachment; filename="signature.asc"')
+                del sig['Content-Transfer-Encoding']
+
+            if encrypt:
+                body = MIMEMultipart(_subtype='signed', _subparts=[body, sig])
+                encrypted = settings.GPG.encrypt(body.as_string(), [self.user.gpg_fingerprint],
+                                                always_trust=True)
+                encrypted = MIMEApplication(encrypted.data, _subpart='octed-stream', name='encrypted.asc')
+                encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
+                encrypted.add_header('Content-Disposition', 'inline; filename="encrypted.asc"')
+                msg.mixed_subtype = 'encrypted'
+                msg.attach(pgp_version)
+                msg.attach(encrypted)
+                protocol = 'application/pgp-encrypted'
+            else:
+                msg.mixed_subtype = 'signed'
+                msg.attach(body)
+                msg.attach(sig)
+                protocol = 'application/pgp-signature'
+
+            # A wrapper function so we can set params to the send message
+            _msg = msg.message
+            def message():
+                print('wrapper called')
+                msg = _msg()
+                msg.set_param('protocol', protocol)
+                return msg
+            msg.message = message
+        else:
+            msg.body = text
+            msg.attach_alternative(html, 'text/html')
+
+        return msg
+
     def send(self, request, template_base, subject, confirm_url_name):
         path = reverse(confirm_url_name, kwargs={'key': self.key})
         uri = request.build_absolute_uri(location=path)
@@ -170,9 +260,8 @@ class Confirmation(models.Model):
         text = render_to_string('%s.txt' % template_base, context)
         html = render_to_string('%s.html' % template_base, context)
 
-        frm = request.site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-        msg = EmailMultiAlternatives(subject, text, frm, [self.user.email])
-        msg.attach_alternative(html, 'text/html')
+        msg = self.handle_gpg(request.site, subject, text, html)
+
         try:
             msg.send()
         except smtplib.SMTPRecipientsRefused:
