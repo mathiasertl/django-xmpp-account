@@ -51,6 +51,11 @@ class Command(BaseCommand):
             os.makedirs(settings.GNUPG['gnupghome'], 0700)
         gpg = settings.GPG  # just a nice shortcut
 
+        # option sanitization
+        if kwargs['name'] is None:
+            kwargs['name'] = host
+        kwargs['key_type'] = kwargs['key_type'].upper()
+
         fingerprint = settings.XMPP_HOSTS.get('GPG_FINGERPRINT')
         secret_keys = gpg.list_keys(secret=True)
         secret_fps = [k['fingerprint'] for k in secret_keys]
@@ -58,8 +63,6 @@ class Command(BaseCommand):
         if fingerprint and fingerprint in secret_fps and not kwargs['force']:
             raise CommandError('Fingerprint set and found, use --force to force regenration.')
 
-        if kwargs['name'] is None:
-            kwargs['name'] = host
         email = settings.XMPP_HOSTS[host].get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
         self.stdout.write('Generating key for %s <%s>... (takes a long time!)' % (host, email))
 
@@ -76,4 +79,4 @@ class Command(BaseCommand):
                 'Fingerprint is "%s", add as "GPG_FINGERPRINT" to the XMPP_HOSTS entry.' %
                 key.fingerprint)
         else:
-            raise CommandError('Cannot generate key, gpg output was: %s' % gpg.stderr)
+            raise CommandError('Cannot generate key, gpg output was: %s' % key.stderr)
