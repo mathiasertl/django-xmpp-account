@@ -71,6 +71,7 @@ class RegistrationUser(AbstractBaseUser):
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
     )  # maximum length of a domain name is 253 characters (according to spec)
     email = models.EmailField(unique=True, null=True)
+    gpg_fingerprint = models.CharField(max_length=40, null=True, blank=True)
 
     # when the account was first registered
     registered = models.DateTimeField(auto_now_add=True)
