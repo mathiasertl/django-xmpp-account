@@ -175,7 +175,7 @@ class Confirmation(models.Model):
         sign = False
 
         # encrypt only if the user has a fingerprint
-        if settings.GPG and self.user.gpg_fingerprint:
+        if gpg and self.user.gpg_fingerprint:
             # Receive key of recipient. We don't care about the result, because user might not have
             # uploaded it.
             gpg.recv_keys('pgp.mit.edu', self.user.gpg_fingerprint)
