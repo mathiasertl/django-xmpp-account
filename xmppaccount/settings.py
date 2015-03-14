@@ -16,9 +16,11 @@
 # django-xmpp-register.  If not, see <http://www.gnu.org/licenses/>.
 
 import gnupg
+import logging
 import os
 
 from datetime import timedelta
+log = logging.getLogger(__name__)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
