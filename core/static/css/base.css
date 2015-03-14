@@ -1,6 +1,9 @@
 #id_value, label[for="id_value"] {
     display: none;
 }
+#id_fingerprint {
+    width: 100%;
+}
 
 .single-domain {
     display: none;
