@@ -22,7 +22,6 @@ import random
 import smtplib
 import string
 
-from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.nonmultipart import MIMENonMultipart
 from email.mime.base import MIMEBase
@@ -71,7 +70,7 @@ REGISTRATION_DICT = dict(REGISTRATION_CHOICES)
 log = logging.getLogger(__name__)
 pgp_version = MIMENonMultipart('application', 'pgp-encrypted')
 pgp_version.add_header('Content-Description', 'PGP/MIME version identification')
-pgp_version.set_payload('Version: 1')
+pgp_version.set_payload('Version: 1\n')
 
 
 @python_2_unicode_compatible
@@ -184,9 +183,8 @@ class Confirmation(models.Model):
         # only sign if the secret key is available
         fingerprints = [k['fingerprint'] for k in settings.GPG.list_keys(True)]
         if site.get('GPG_FINGERPRINT') not in fingerprints:
-            print('fingerprint not found in keyring, not singning.')
+            log.warn('%s: secret key not found, not signing', site.get('GPG_FINGERPRINT'))
             sign = False
-        print('Singing: %s, Encrypting: %s' % (sign, encrypt))
 
         frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
 
@@ -202,7 +200,7 @@ class Confirmation(models.Model):
             html = MIMEText(html, _subtype='html')
             body = MIMEMultipart(_subtype='alternative', _subparts=[text, html])
 
-            if sign:
+            if sign and not encrypt:  # only sign the message
                 payload = settings.GPG.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
                 # TODO: Warn if data is empty
                 sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
@@ -211,27 +209,25 @@ class Confirmation(models.Model):
                 sig.add_header('Content-Disposition', 'attachment; filename="signature.asc"')
                 del sig['Content-Transfer-Encoding']
 
-            if encrypt:
-                body = MIMEMultipart(_subtype='signed', _subparts=[body, sig])
-                encrypted = settings.GPG.encrypt(body.as_string(), [self.user.gpg_fingerprint],
+                msg.mixed_subtype = 'signed'
+                msg.attach(body)
+                msg.attach(sig)
+                protocol = 'application/pgp-signature'
+            elif encrypt:  # sign and encrypt
+                payload = settings.GPG.encrypt(body.as_string(), [self.user.gpg_fingerprint], sign=site['GPG_FINGERPRINT'],
                                                 always_trust=True)
-                encrypted = MIMEApplication(encrypted.data, _subpart='octed-stream', name='encrypted.asc')
+                encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
+                encrypted.set_payload(payload.data)
                 encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
                 encrypted.add_header('Content-Disposition', 'inline; filename="encrypted.asc"')
                 msg.mixed_subtype = 'encrypted'
                 msg.attach(pgp_version)
                 msg.attach(encrypted)
                 protocol = 'application/pgp-encrypted'
-            else:
-                msg.mixed_subtype = 'signed'
-                msg.attach(body)
-                msg.attach(sig)
-                protocol = 'application/pgp-signature'
 
-            # A wrapper function so we can set params to the send message
+            # We wrap the message() method to set Content-Type parameters (set_params())
             _msg = msg.message
             def message():
-                print('wrapper called')
                 msg = _msg()
                 msg.set_param('protocol', protocol)
                 return msg
