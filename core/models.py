@@ -169,38 +169,34 @@ class Confirmation(models.Model):
         :param text: The text part of the message.
         :param html: The HTML part of the message.
         """
-        # encrypt only if the user has a fingerprint
+        gpg = settings.gpg
         encrypt = False
+        signer = site.get('GPG_FINGERPRINT')
+        sign = False
+
+        # encrypt only if the user has a fingerprint
         if settings.GPG and self.user.gpg_fingerprint:
             encrypt = True
 
         # sign only if the user has fingerprint or signing is forced
-        fingerprints = [k['fingerprint'] for k in settings.GPG.list_keys(True)]
-        signer = site.get('GPG_FINGERPRINT')
-        sign = False
         if not signer:
             log.warn('%s: No GPG key configured, not signing', site['DOMAIN'])
-        elif signer not in fingerprints:
+        elif signer not in [k['fingerprint'] for k in gpg.list_keys(True)]:
             log.warn('%s: %s: secret key not found, not signing', site['DOMAIN'], signer)
-        elif settings.GPG and (self.user.gpg_fingerprint or settings.FORCE_GPG_SIGNING):
+        elif gpg and (self.user.gpg_fingerprint or settings.FORCE_GPG_SIGNING):
             sign = True
 
         frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-
         msg = EmailMultiAlternatives(subject, from_email=frm, to=[self.user.email])
 
+
         if sign or encrypt:
-            # first, (re)fetch the key
-            settings.GPG.recv_keys('pgp.mit.edu', self.user.gpg_fingerprint)
-
-            # try a wrapper
-
             text = MIMEText(text)
             html = MIMEText(html, _subtype='html')
             body = MIMEMultipart(_subtype='alternative', _subparts=[text, html])
 
             if sign and not encrypt:  # only sign the message
-                payload = settings.GPG.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
+                payload = gpg.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
                 # TODO: Warn if data is empty
                 sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
                 sig.set_payload(payload.data)
@@ -213,8 +209,9 @@ class Confirmation(models.Model):
                 msg.attach(sig)
                 protocol = 'application/pgp-signature'
             elif encrypt:  # sign and encrypt
-                payload = settings.GPG.encrypt(body.as_string(), [self.user.gpg_fingerprint], sign=site['GPG_FINGERPRINT'],
-                                                always_trust=True)
+                gpg.recv_keys('pgp.mit.edu', self.user.gpg_fingerprint)  # refresh encryption key
+                payload = gpg.encrypt(body.as_string(), [self.user.gpg_fingerprint], sign=signer,
+                                      always_trust=True)
                 encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
                 encrypted.set_payload(payload.data)
                 encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
