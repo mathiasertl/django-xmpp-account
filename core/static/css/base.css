@@ -4,6 +4,10 @@
 #id_fingerprint {
     width: 100%;
 }
+/* hide gpg by default */
+.gpg-form-group .row {
+    display: none;
+}
 
 .single-domain {
     display: none;
