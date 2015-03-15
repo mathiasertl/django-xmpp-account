@@ -86,7 +86,6 @@ class AntiSpamFormView(FormView):
         if hasattr(form, 'cleaned_data'):
             if 'fingerprint' in form.cleaned_data or 'gpg_key' in form.cleaned_data:
                 context['show_gpg'] = True
-        print(context)
         return context
 
     def get_form_kwargs(self):
