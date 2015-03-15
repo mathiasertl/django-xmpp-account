@@ -10,7 +10,7 @@
     <meta property="og:type"   content="article" /> 
     <meta property="og:title" content="{{ request.site.DOMAIN }} | {% block opengraph-title %}{% endblock opengraph-title %}" />
     <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-    {% if request.site.IMAGE %}<meta properyt="og:image" content="{{ request.site.IMAGE }}" />{% endif %}
+    {% if request.site.IMAGE %}<meta property="og:image" content="{{ request.site.IMAGE }}" />{% endif %}
     <meta property="og:description" content="{% block opengraph-description %}{% endblock opengraph-description %}" />
     {% if request.site.FACEBOOK %}<meta property="article:author" content="https://facebook.com/{{ request.site.FACEBOOK }}" />{% endif %}
     {% if request.site.FACEBOOK %}<meta property="article:publisher" content="https://facebook.com/{{ request.site.FACEBOOK }}" />{% endif %}
