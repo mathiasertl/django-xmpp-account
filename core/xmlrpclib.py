@@ -1515,7 +1515,7 @@ class Transport:
             if not data:
                 break
             if self.verbose:
-                print "body:", repr(data)
+                print("body: %s" % repr(data))
             p.feed(data)
 
         if stream is not response:
@@ -1676,7 +1676,7 @@ if __name__ == "__main__":
 
     server = ServerProxy("http://localhost:8000")
 
-    print server
+    print(server)
 
     multi = MultiCall(server)
     multi.pow(2, 9)
@@ -1684,6 +1684,6 @@ if __name__ == "__main__":
     multi.add(24, 11)
     try:
         for response in multi():
-            print response
+            print(response)
     except Error, v:
-        print "ERROR", v
+        print("ERROR: %s" % v)
