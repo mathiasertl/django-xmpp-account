@@ -211,25 +211,24 @@ class EmailMixin(object):
         return fp
 
     def clean_gpg_key(self):
-        return
-        lines = key.splitlines()
-        if lines[0] != '-----BEGIN PGP PUBLIC KEY BLOCK-----' \
-               or lines[-1] != '-----END PGP PUBLIC KEY BLOCK-----':
-            raise forms.ValidationError(_('This does not look at all like a GPG key.'))
+        gpg_key = self.cleaned_data.get('gpg_key')
+        if gpg_key is None:
+            return gpg_key
+        if gpg_key.content_type != 'text/plain':
+            raise forms.ValidationError('Only plain-text files are allowed!')
 
-        if re.search('Version:\s*', lines[1]) is None:
-            raise forms.ValidationError(_("No version string found."))
-        if lines[2] != '':
-            raise forms.ValidationError(_("No line delimiter found."))
+        if settings.GPG:  # check, just to be sure
+            result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
+            if result.stderr:
+                raise forms.ValidationError('Could not import GnuPG file.')
+            if len(result.fingerprints) > 1:
+                raise forms.Validationerror(_('File contains multiple keys.'))
+            if len(result.fingerprints) < 1:
+                raise forms.Validationerror(_('File contains no keys.'))
+        else:
+            raise forms.ValidationError('GPG not enabled.')
 
-        for line in lines[3:-1]:
-            if re.search('^[A-Za-z0-9+/=]*$', line) is None:
-                raise forms.ValidationError(_("Key contains invalid characters."))
-            if len(line) > 64:
-                raise forms.ValidationError(_("Line in key has more then 64 characters."))
-
-        # Either a fingerprint (40 chars) or a full gpg key
-        return key
+        return gpg_key
 
 
 class EmailBlockedMixin(EmailMixin):
