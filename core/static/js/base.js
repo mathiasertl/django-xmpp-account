@@ -90,6 +90,9 @@ $(document).ready(function() {
             username_exists_check();
         }
     });
+    $('.gpg-fields-toggle').click(function(data) {
+        $('.gpg-form-group .row').slideToggle();
+    });
 
     $('#id_email').keyup(function(data) {
         if (ignored_keys.indexOf(data.which) !== -1) {
