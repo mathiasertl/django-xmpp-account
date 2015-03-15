@@ -23,6 +23,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.http import HttpResponse
+from django.utils import six
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 from django.views.generic import View
@@ -65,7 +66,10 @@ class AntiSpamFormView(FormView):
         try:
             if settings.RECAPTCHA_CLIENT is not None and request.method == 'POST':
                 try:
-                    request.POST['recaptcha_response_field'].decode(settings.DEFAULT_CHARSET)
+                    if six.PY3:
+                        request.POST['recaptcha_response_field'].encode(settings.DEFAULT_CHARSET)
+                    else:
+                        request.POST['recaptcha_response_field'].decode(settings.DEFAULT_CHARSET)
                 except UnicodeEncodeError:
                     raise TemporaryError(_("Your CAPTCHA response contained invalid characters."))
 
