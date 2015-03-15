@@ -6,8 +6,8 @@
         <div  class="col-lg-5 {% if field.errors %}has-error{% endif %}">
             {{ field }}
             <div class="help-block">
-                {{ field.help_text }}
                 {{ field.errors }}
+                {{ field.help_text }}
             </div>
         </div>
     </div>
