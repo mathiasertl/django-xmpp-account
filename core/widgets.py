@@ -28,6 +28,7 @@ _emailattrs['type'] = 'email'
 _selectattrs = _fieldattrs.copy()
 _fingerprintattrs = _fieldattrs.copy()
 _fingerprintattrs['autocomplete'] = 'off'
+# "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
 _fingerprintattrs['maxlength'] = 50
 
 
