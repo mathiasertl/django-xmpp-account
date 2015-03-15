@@ -163,13 +163,13 @@ class Confirmation(models.Model):
 
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
 
-    def sign_and_encrypt(self, site, subject, text, html):
+    def handle_gpg(self, site, subject, text, html):
         """
         :param site: Matching dict from XMPP_HOSTS.
         :param text: The text part of the message.
         :param html: The HTML part of the message.
         """
-        gpg = settings.gpg
+        gpg = settings.GPG
         encrypt = False
         signer = site.get('GPG_FINGERPRINT')
         sign = False
