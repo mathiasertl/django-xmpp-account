@@ -102,6 +102,24 @@ class ConfirmationView(AntiSpamFormView):
     def handle_valid(self, form, user):
         pass
 
+    def handle_gpg(self, form, user):
+        if not settings.GPG:
+            return  # shortcut
+
+        if form.cleaned_data.get('fingerprint'):
+            imported = settings.GPG.recv_keys('pgp.mit.edu', form.cleaned_data['fingerprint'])
+            user.gpg_fingerprint = imported.fingerprints[0]
+            user.save()
+        elif 'gpg_key' in self.request.FILES:
+            path = self.request.FILES['gpg_key'].temporary_file_path()
+            with open(path) as stream:
+                imported = settings.GPG.import_keys(stream.read())
+                user.gpg_fingerprint = imported.fingerprints[0]
+                user.save()
+        else:
+            user.gpg_fingerprint = None
+            user.save()
+
     def form_valid(self, form):
         try:
             user = self.get_user(form.cleaned_data)
