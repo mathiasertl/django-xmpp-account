@@ -110,7 +110,8 @@ msgstr "(2x klicken ffür Privatsphäre!)"
 msgid ""
 "Our Twitter account at \n"
 "<a href=\"https://twitter.com/%(twitter)s\">@%(twitter)s</a>:"
-msgstr ""
+msgstr "Unser Twitter-account "
+"<a href=\"https://twitter.com/%(twitter)s\">@%(twitter)s</a>:"
 
 #: templates/register/confirm.html:51
 #, python-format
