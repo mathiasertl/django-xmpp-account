@@ -36,6 +36,8 @@ order to complete the change.{% endblocktrans %}</p>
         {% include "core/forms/field.html" %}
     {% endwith %}
 
+    {% include "core/forms/gpg.html" %}
+
     {% with field=form.recaptcha %}
         {% include "core/forms/recaptcha.html" %}
     {% endwith %}

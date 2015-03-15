@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 
 from copy import copy
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
@@ -48,6 +49,9 @@ class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailBlockedMixin):
     email = copy(EmailBlockedMixin.EMAIL_FIELD)
     password = PasswordMixin.PASSWORD_FIELD
     email.label = _("New email address")
+    if settings.GPG:
+        fingerprint = EmailBlockedMixin.FINGERPRINT_FIELD
+        gpg_key = EmailBlockedMixin.GPG_KEY_FIELD
 
 
 class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
