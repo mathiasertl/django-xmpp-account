@@ -4,6 +4,8 @@
 {% block description %}Register an account on {{ SITE.BRAND }}, a free and open Jabber/XMPP server.{% endblock description %}
 
 {% block title %}{% trans "Account registration" %}{% endblock title %}
+{% block opengraph-title %}{% trans "Register an account" %}{% endblock opengraph-title %}
+{% block opengraph-description %}{% blocktrans %}Register an account on {{ reqeust.site.DOMAIN }}, a reliable and secure Jabber/XMPP server. Jabber is a free and open instant messaging protocol.{% endblocktrans %}{% endblock opengraph-description %}
 
 {% block body %}
 {% if form.is_valid %}{# successfull registration - don't display form! #}
