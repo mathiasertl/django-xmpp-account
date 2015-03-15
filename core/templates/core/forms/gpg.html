@@ -1,0 +1,42 @@
+{% load i18n %}
+<div class="form-group gpg-form-group">
+    <label for="{{ form.fingerprint.id_for_label }}">
+        {% trans "GPG key (advanced, optional)" %}
+    </label>
+    <div class="row">
+        <div class="col-lg-5 help-block">
+        {% blocktrans %}Add your GPG key if you want us to encrypt all confirmation E-Mails sent to you.
+You have two options:
+{% endblocktrans %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 {% if field.errors %}has-error{% endif %}">
+            {{ form.fingerprint }}
+            <div class="help-block">
+                {{ form.fingerprint.help_text }}
+                {{ form.fingerprint.errors }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 help-block">
+            {% trans "or" %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 {% if field.errors %}has-error{% endif %}">
+            {{ form.gpg_key }}
+            <div class="help-block">
+                {{ form.gpg_key.help_text }}
+                {{ form.gpg_key.errors }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 text-danger">
+            {% blocktrans %}<strong>Warning:</strong> If you ever loose your GPG key and do not upload a
+new one here, you obviously will no longer be able to reset your password.{% endblocktrans %}
+        </div>
+    </div>
+</div>
