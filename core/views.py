@@ -75,6 +75,12 @@ class AntiSpamFormView(FormView):
         except KeyError:
             raise TemporaryError(_("The ReCAPTCHA didn't work properly."))
 
+    def get_context_data(self, **kwargs):
+        context = super(AntiSpamFormView, self).get_context_data(**kwargs)
+        if hasattr(self, 'menuitem'):
+            context['menuitem'] = self.menuitem
+        return context
+
     def get_form_kwargs(self):
         kwargs = super(AntiSpamFormView, self).get_form_kwargs()
         if settings.RECAPTCHA_CLIENT is not None:

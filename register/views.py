@@ -46,10 +46,10 @@ class RegistrationView(ConfirmationView):
     email_subject = _('Your new account on %(domain)s')
     email_template = 'register/mail'
     purpose = PURPOSE_REGISTER
+    menuitem = 'register'
 
     def get_context_data(self, **kwargs):
         context = super(RegistrationView, self).get_context_data(**kwargs)
-        context['menuitem'] = 'register'
         context['username_help_text'] = context['form'].fields['username'].help_text % {
             'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
             'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
@@ -100,6 +100,7 @@ class RegistrationConfirmationView(ConfirmedView):
     form_class = RegistrationConfirmationForm
     template_name = 'register/confirm.html'
     purpose = PURPOSE_REGISTER
+    menuitem = 'register'
 
     def handle_key(self, key, form):
         key.user.confirmed = now()

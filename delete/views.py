@@ -41,11 +41,7 @@ class DeleteView(ConfirmationView):
     purpose = PURPOSE_DELETE
     email_subject = _('Delete your account on %(domain)s')
     email_template = 'delete/mail'
-
-    def get_context_data(self, **kwargs):
-        context = super(DeleteView, self).get_context_data(**kwargs)
-        context['menuitem'] = 'delete'
-        return context
+    menuitem = 'delete'
 
     def get_user(self, data):
         username = data['username']

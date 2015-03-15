@@ -48,13 +48,9 @@ class ResetPasswordView(ConfirmationView):
     purpose = PURPOSE_SET_PASSWORD
     email_subject = _('Reset the password for your %(domain)s account')
     email_template = 'reset/password-mail'
+    menuitem = 'password'
 
     user_not_found_error = _("User not found.")
-
-    def get_context_data(self, **kwargs):
-        context = super(ResetPasswordView, self).get_context_data(**kwargs)
-        context['menuitem'] = 'password'
-        return context
 
     def get_user(self, data):
         user = User.objects.get(username=data['username'], domain=data['domain'])
@@ -83,11 +79,7 @@ class ResetEmailView(ConfirmationView):
     purpose = PURPOSE_SET_EMAIL
     email_subject = _('Confirm the email address for your %(domain)s account')
     email_template = 'reset/email-mail'
-
-    def get_context_data(self, **kwargs):
-        context = super(ResetEmailView, self).get_context_data(**kwargs)
-        context['menuitem'] = 'email'
-        return context
+    menuitem = 'email'
 
     def get_user(self, data):
         """User may or may not exist."""
