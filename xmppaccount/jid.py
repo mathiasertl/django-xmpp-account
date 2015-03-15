@@ -26,11 +26,11 @@ import stringprep
 
 # These characters aren't allowed in domain names that are used
 # in XMPP
-BAD_DOMAIN_ASCII = "".join([chr(c) for c in range(0,0x2d) +
+BAD_DOMAIN_ASCII = "".join([chr(c) for c in list(range(0,0x2d)) +
                     [0x2e, 0x2f] +
-                    range(0x3a,0x41) +
-                    range(0x5b,0x61) +
-                    range(0x7b, 0x80)])
+                    list(range(0x3a,0x41)) +
+                    list(range(0x5b,0x61)) +
+                    list(range(0x7b, 0x80))])
 
 # check bi-directional character validity
 def bidi(chars):
