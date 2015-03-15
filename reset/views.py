@@ -115,6 +115,9 @@ class ResetEmailView(ConfirmationView):
 
         return user
 
+    def handle_valid(self, form, user):
+        self.handle_gpg(form, user)
+
 
 class ResetEmailConfirmationView(ConfirmedView):
     form_class = ResetEmailConfirmationForm

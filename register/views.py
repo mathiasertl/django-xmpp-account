@@ -80,6 +80,8 @@ class RegistrationView(ConfirmationView):
                                    email=data['email'], registration_method=REGISTRATION_WEBSITE)
 
     def handle_valid(self, form, user):
+        self.handle_gpg(form, user)
+
         if settings.XMPP_HOSTS[user.domain].get('RESERVE', False):
             backend.reserve(username=user.username, domain=user.domain, email=user.email)
 
