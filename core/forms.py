@@ -208,6 +208,13 @@ class EmailMixin(object):
             raise forms.ValidationError(_("Fingerprint should be 40 characters long."))
         if re.search('[^A-F0-9]', fp) is not None:
             raise forms.ValidationError(_("Fingerprint contains invalid characters."))
+
+        # actually search for the key
+        keys = settings.GPG.search_keys(fp)
+        if len(keys) > 1:
+            raise forms.ValidationError(_("Multiple keys with that fingerprint found."))
+        elif len(keys) < 1:
+            raise forms.ValidationError(_("No key with that fingerprint found."))
         return fp
 
     def clean_gpg_key(self):
@@ -221,10 +228,10 @@ class EmailMixin(object):
             result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
             if result.stderr:
                 raise forms.ValidationError('Could not import GnuPG file.')
-            if len(result.fingerprints) > 1:
-                raise forms.Validationerror(_('File contains multiple keys.'))
-            if len(result.fingerprints) < 1:
-                raise forms.Validationerror(_('File contains no keys.'))
+            elif len(result.fingerprints) > 1:
+                raise forms.ValidationError(_('File contains multiple keys.'))
+            elif len(result.fingerprints) < 1:
+                raise forms.ValidationError(_('File contains no keys.'))
         else:
             raise forms.ValidationError('GPG not enabled.')
 
