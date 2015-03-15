@@ -26,8 +26,13 @@ _emailattrs = _fieldattrs.copy()
 _emailattrs['autocomplete'] = 'off'
 _emailattrs['type'] = 'email'
 _selectattrs = _fieldattrs.copy()
+_fingerprintattrs = _fieldattrs.copy()
+_fingerprintattrs['autocomplete'] = 'off'
+_fingerprintattrs['maxlength'] = 50
+
 
 TextWidget = forms.TextInput(attrs=_inputattrs)
 PasswordWidget = forms.PasswordInput(attrs=_inputattrs)
 EmailWidget = forms.TextInput(attrs=_emailattrs)
 SelectWidget = forms.Select(attrs=_selectattrs)
+FingerprintWidget = forms.TextInput(attrs=_fingerprintattrs)

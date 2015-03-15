@@ -33,6 +33,7 @@ from core.exceptions import SpamException
 from core.exceptions import RateException
 from core.utils import random_string
 from core.widgets import EmailWidget
+from core.widgets import FingerprintWidget
 from core.widgets import PasswordWidget
 from core.widgets import SelectWidget
 from core.widgets import TextWidget
@@ -169,6 +170,7 @@ class EmailMixin(object):
     )
     FINGERPRINT_FIELD = forms.CharField(
         label=_('GPG key (advanced, optional)'), max_length=50, required=False,
+        widget=FingerprintWidget,
         help_text=_(
             'Add your fingerprint ("gpg --list-secret-keys --fingerprint") if your key is '
             'available on the public key servers.')
