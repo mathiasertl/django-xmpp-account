@@ -27,6 +27,7 @@ def xmppaccount(request):
         'MAX_USERNAME_LENGTH': settings.MAX_USERNAME_LENGTH,
         'SITE': request.site,  # added by middleware, mappes to a host in XMPP_HOSTS
         'SUBMIT': submit,
+        'USE_GPG': settings.GPG is not None,
     }
     if submit:
         context.update({k: v for k, v in request.GET.items()})
