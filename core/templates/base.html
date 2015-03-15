@@ -5,6 +5,13 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}{% endblock description %}">
+
+    {% comment %}Facebook Open Graph{% endcomment %}
+    <meta property="og:title" content="{{ request.site.DOMAIN }} | {% block title %}{% endblock title %}" />
+    {% if request.site.IMAGE %}<meta properyt="og:image" content="{{ request.site.IMAGE }}" />{% endif %}
+    <meta property="og:description" content="{% block description %}{% endblock description %}" />
+
+
 {% if debug %}
     <script src="{% static "lib/jquery/jquery.js" %}"></script>
     <script src="{% static "js/base.js" %}"></script>
