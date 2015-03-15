@@ -24,6 +24,8 @@ import socket
 import encodings.idna
 import stringprep
 
+from django.utils import six
+
 # These characters aren't allowed in domain names that are used
 # in XMPP
 BAD_DOMAIN_ASCII = "".join([chr(c) for c in list(range(0,0x2d)) +
@@ -54,7 +56,7 @@ def bidi(chars):
                 raise UnicodeError("Violation of BIDI requirement 3")
 
 def nodeprep(u):
-    chars = list(unicode(u))
+    chars = list(six.text_type(u))
     i = 0
     while i < len(chars):
         c = chars[i]
@@ -87,7 +89,7 @@ def nodeprep(u):
     return chars
 
 def resourceprep(res):
-    chars = list(unicode(res))
+    chars = list(six.text_type(res))
     i = 0
     while i < len(chars):
         c = chars[i]
@@ -134,7 +136,7 @@ def parse_jid(jid):
             dom = []
             for label in domain.split("."):
                 try:
-                    label = encodings.idna.nameprep(unicode(label))
+                    label = encodings.idna.nameprep(six.text_type(label))
                     encodings.idna.ToASCII(label)
                 except UnicodeError:
                     return False
