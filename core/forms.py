@@ -168,12 +168,13 @@ class EmailMixin(object):
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
     FINGERPRINT_FIELD = forms.CharField(
-        label=_('GPG key (advanced, optional)'), max_length=50,
+        label=_('GPG key (advanced, optional)'), max_length=50, required=False,
         help_text=_(
             'Add your fingerprint ("gpg --list-secret-keys --fingerprint") if your key is '
             'available on the public key servers.')
     )
     GPG_KEY_FIELD = forms.FileField(
+        required=False,
         help_text=_('Upload your GPG key directly ("gpg --armor --export <fingerprint>")')
     )
     EMAIL_ERROR_MESSAGES = {
