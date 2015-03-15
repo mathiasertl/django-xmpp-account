@@ -1,7 +1,10 @@
 {% load i18n %}
 <div class="form-group gpg-form-group">
     <label for="{{ form.fingerprint.id_for_label }}" class="gpg-fields-toggle">
-        {% trans "GPG key (advanced, optional)" %}
+        <span class="triangle-wrapper">
+            <div class="show-triangle"></div><div style="display: none;" class="hide-triangle"></div>
+        </span>
+        <span class="label-text">{% trans "GPG key (advanced, optional)" %}</span>
     </label>
     <div class="row">
         <div class="col-lg-5 help-block">

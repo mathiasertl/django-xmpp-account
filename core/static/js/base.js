@@ -91,6 +91,8 @@ $(document).ready(function() {
         }
     });
     $('.gpg-fields-toggle').click(function(data) {
+        $('.gpg-fields-toggle .show-triangle').toggle();
+        $('.gpg-fields-toggle .hide-triangle').toggle();
         $('.gpg-form-group .row').slideToggle();
     });
 
