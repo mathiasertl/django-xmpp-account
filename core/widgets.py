@@ -18,7 +18,6 @@
 from __future__ import unicode_literals
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _
 
 _fieldattrs = {'class': 'form-control', 'maxlength': 30}
 _inputattrs = _fieldattrs.copy()
