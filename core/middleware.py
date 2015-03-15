@@ -18,6 +18,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.core.cache import cache
 from django.shortcuts import render
+from django.utils import six
 
 from core.exceptions import RateException
 from core.exceptions import RegistrationRateException
@@ -57,8 +58,13 @@ class AntiSpamMiddleware(object):
     def process_exception(self, request, exception):
         host = request.META['REMOTE_ADDR']
 
+        if six.PY3:
+            message = ' '.join(exception.args)
+        else:
+            message = exception.message or 'UNKNOWN REASON'
+
         context = {
-            'EXCEPTION': exception.message or 'UNKNOWN REASON',
+            'EXCEPTION': message,
             'HOST': host,
         }
 
