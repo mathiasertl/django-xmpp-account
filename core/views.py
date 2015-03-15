@@ -77,8 +77,12 @@ class AntiSpamFormView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(AntiSpamFormView, self).get_context_data(**kwargs)
-        if hasattr(self, 'menuitem'):
-            context['menuitem'] = self.menuitem
+        context['menuitem'] = getattr(self, 'menuitem', None)
+        form = context['form']
+        if hasattr(form, 'cleaned_data'):
+            if 'fingerprint' in form.cleaned_data or 'gpg_key' in form.cleaned_data:
+                context['show_gpg'] = True
+        print(context)
         return context
 
     def get_form_kwargs(self):
