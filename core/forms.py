@@ -15,6 +15,7 @@
 
 from __future__ import unicode_literals
 
+import logging
 import re
 import time
 
@@ -37,6 +38,8 @@ from core.widgets import FingerprintWidget
 from core.widgets import PasswordWidget
 from core.widgets import SelectWidget
 from core.widgets import TextWidget
+
+log = logging.getLogger(__name__)
 
 
 class UserCreationFormNoPassword(UserCreationForm):
@@ -222,12 +225,14 @@ class EmailMixin(object):
         if gpg_key is None:
             return gpg_key
         if gpg_key.content_type != 'text/plain':
-            raise forms.ValidationError('Only plain-text files are allowed!')
+            raise forms.ValidationError(
+                'Only plain-text files are allowed (was: %s)!' % gpg_key.content_type)
 
         if settings.GPG:  # check, just to be sure
             result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
             if result.stderr:
-                raise forms.ValidationError('Could not import GnuPG file.')
+                log.error('Could not import public key: %s', result.stderr)
+                raise forms.ValidationError('Could not import public key.')
             elif len(result.fingerprints) > 1:
                 raise forms.ValidationError(_('File contains multiple keys.'))
             elif len(result.fingerprints) < 1:
