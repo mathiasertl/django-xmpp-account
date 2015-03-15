@@ -180,7 +180,7 @@ class EmailMixin(object):
     )
     GPG_KEY_FIELD = forms.FileField(
         required=False,
-        help_text=_('Upload your GPG key directly ("gpg --armor --export <fingerprint>")')
+        help_text=_('Upload your GPG key directly ("gpg --armor --export <fingerprint>").')
     )
     EMAIL_ERROR_MESSAGES = {
         'own-domain': _(
