@@ -169,11 +169,13 @@ class EmailMixin(object):
     )
     FINGERPRINT_FIELD = forms.CharField(
         label=_('GPG key (advanced, optional)'), max_length=50,
-        help_text=_('Add your ASCII-armored public key ("gpg --armor --export <fingerprint>" or '
-                    'its fingerprint (we will fetch it from a keyserver) if you want us to encrypt '
-                    'all confirmation E-Mails we send.')
+        help_text=_(
+            'Add your fingerprint ("gpg --list-secret-keys --fingerprint") if your key is '
+            'available on the public key servers.')
     )
-    GPG_KEY_FIELD = forms.FileField()
+    GPG_KEY_FIELD = forms.FileField(
+        help_text=_('Upload your GPG key directly ("gpg --armor --export <fingerprint>")')
+    )
     EMAIL_ERROR_MESSAGES = {
         'own-domain': _(
             "This Jabber host does not provide email addresses. You're supposed to give your own "
