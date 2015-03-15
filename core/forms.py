@@ -201,13 +201,17 @@ class EmailMixin(object):
         return email
 
     def clean_fingerprint(self):
-        key = self.cleaned_data.get('fingerprint', '').strip()
+        fp = self.cleaned_data.get('fingerprint', '').strip().replace(' ', '').upper()
+        if fp == '':
+            return None  # no fingerprint given
+        if len(fp) != 40:
+            raise forms.ValidationError(_("Fingerprint should be 40 characters long."))
+        if re.search('[^A-F0-9]', fp) is not None:
+            raise forms.ValidationError(_("Fingerprint contains invalid characters."))
+        return fp
 
-        # might be a fingerprint with spaces (as outputed by gpg --list-secret-keys)
-        fp = key.replace(' ', '')
-        if len(fp) == 40:
-            return fp
-
+    def clean_gpg_key(self):
+        return
         lines = key.splitlines()
         if lines[0] != '-----BEGIN PGP PUBLIC KEY BLOCK-----' \
                or lines[-1] != '-----END PGP PUBLIC KEY BLOCK-----':
