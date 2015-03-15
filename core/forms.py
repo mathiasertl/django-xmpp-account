@@ -168,12 +168,12 @@ class EmailMixin(object):
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
     FINGERPRINT_FIELD = forms.CharField(
-        label=_('GPG key (advanced, optional)'),
+        label=_('GPG key (advanced, optional)'), max_length=50,
         help_text=_('Add your ASCII-armored public key ("gpg --armor --export <fingerprint>" or '
                     'its fingerprint (we will fetch it from a keyserver) if you want us to encrypt '
-                    'all confirmation E-Mails we send.'),
-        widget=forms.Textarea
+                    'all confirmation E-Mails we send.')
     )
+    GPG_KEY_FIELD = forms.FileField()
     EMAIL_ERROR_MESSAGES = {
         'own-domain': _(
             "This Jabber host does not provide email addresses. You're supposed to give your own "
