@@ -12,19 +12,20 @@ address or delete their account.
 
 1. Users can use the site to register an account, reset their password or email address or delete
    their account.
-2. Supports Python 2.7+ and Python 3.4+
-3. As standard [Django](https://www.djangoproject.com/) application, it runs on any WSGI capable
+2. Supports Python 2.7+ and Python 3.4+.
+3. Fully localized, translation is available in German.
+4. As standard [Django](https://www.djangoproject.com/) application, it runs on any WSGI capable
    webserver and supports e.g. MySQL, PostgreSQL.
-4. Currently works only with [ejabberd](https://www.ejabberd.im/) (via `mod_xmlrpc`), but could
+5. Currently works only with [ejabberd](https://www.ejabberd.im/) (via `mod_xmlrpc`), but could
    easily extended to work with other servers.
-5. Robust anti-SPAM features including ReCAPTCHA support, email confirmations and configurable
+6. Robust anti-SPAM features including ReCAPTCHA support, email confirmations and configurable
    rate-limiting.
-6. Manages accounts on multiple XMPP servers, page will adapt to the URL used (e.g. see how the
+7. Manages accounts on multiple XMPP servers, page will adapt to the URL used (e.g. see how the
    default XMPP domain changes on [account.jabber.at](https://account.jabber.at) and
    [account.xmpp.zone](https://account.xmpp.zone).
-7. Users can give a GPG key (either via fingerprint or direct upload) so the site can use GPG to
+8. Users can give a GPG key (either via fingerprint or direct upload) so the site can use GPG to
    sign and encrypt any confirmation emails it sends.
-8. Facebook and Twitter integration via "Like" and "Tweet" buttons. Buttons require two clicks to
+9. Facebook and Twitter integration via "Like" and "Tweet" buttons. Buttons require two clicks to
    protect the users privacy (see e.g. "[Two clicks for more
    privacy](http://www.h-online.com/features/Two-clicks-for-more-privacy-1783256.html)"). 
 
