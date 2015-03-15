@@ -3,13 +3,31 @@
 [![Flattr this git
 repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=mathiasertl&url=https://github.com/mathiasertl/django-xmpp-account/&title=django-xmpp-account&language=&tags=github&category=software) 
 
-`django-xmpp-account` is a small stand-alone Django application that manages
-registrations to your Jabber/XMPP server. It was written for
-[account.jabber.at](https://account.jabber.at) but can be used for any
-Jabber/XMPP server.  It features many anti-SPAM features to limit abuse of your
-server. It also allows users to reset their password, set a new Email address
-or even delete their account - the former two are not available via the XMPP
-protocol, the latter is not available in all clients.
+`django-xmpp-account` is a stand-alone Django application that manages registrations to your
+Jabber/XMPP server. It was written for [account.jabber.at](https://account.jabber.at) but can be
+used for any Jabber/XMPP server. Users can also use the site to reset their password or their email
+address or delete their account.
+
+## Features
+
+1. Users can use the site to register an account, reset their password or email address or delete
+   their account.
+2. Supports Python 2.7+ and Python 3.4+
+3. As standard [Django](https://www.djangoproject.com/) application, it runs on any WSGI capable
+   webserver and supports e.g. MySQL, PostgreSQL.
+4. Currently works with [ejabberd](https://www.ejabberd.im/) (via `mod_xmlrpc`), but could be
+   extended to work with other servers.
+5. Robust anti-SPAM features including ReCAPTCHA support, email confirmations and configurable
+   rate-limiting.
+6. Manages accounts on multiple XMPP servers, page will adapt to the URL used (e.g. see how the
+   default XMPP domain changes on [account.jabber.at](https://account.jabber.at) and
+   [account.xmpp.zone](https://account.xmpp.zone).
+7. Users can give a GPG key (either via fingerprint or direct upload) so the site can use GPG to
+   sign and encrypt any confirmation emails it sends.
+8. Facebook and Twitter integration via "Like" and "Tweet" buttons. Buttons require two clicks to
+   protect the users privacy (see e.g. "[Two clicks for more
+   privacy](http://www.h-online.com/features/Two-clicks-for-more-privacy-1783256.html)"). 
+
 
 This project currently only interacts with ejabberd servers (either via the
 `ejabberdctl` command line tool or via the `ejabberd_xmlrpc` plugin), because
