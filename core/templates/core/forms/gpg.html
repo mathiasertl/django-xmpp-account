@@ -10,7 +10,7 @@ You have two options:{% endblocktrans %}
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-5 {% if field.errors %}has-error{% endif %}">
+        <div class="col-lg-5 {% if form.fingerprint.errors %}has-error{% endif %}">
             {{ form.fingerprint }}
             <div class="help-block">
                 {{ form.fingerprint.help_text }}
@@ -24,7 +24,7 @@ You have two options:{% endblocktrans %}
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-5 {% if field.errors %}has-error{% endif %}">
+        <div class="col-lg-5 {% if form.gpg_key.errors %}has-error{% endif %}">
             {{ form.gpg_key }}
             <div class="help-block">
                 {{ form.gpg_key.help_text }}
