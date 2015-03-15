@@ -28,11 +28,11 @@ email to complete your registration.{% endblocktrans %}</p>
         {% include "core/forms/field.html" %}
     {% endwith %}
 
-    {% include "core/forms/gpg.html" %}
-
     {% with username=form.username domain=form.domain %}
         {% include "core/forms/jid.html" %}
     {% endwith %}
+
+    {% include "core/forms/gpg.html" %}
     
     {% with field=form.recaptcha %}
         {% include "core/forms/recaptcha.html" %}
