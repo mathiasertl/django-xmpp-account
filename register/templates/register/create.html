@@ -32,7 +32,9 @@ email to complete your registration.{% endblocktrans %}</p>
         {% include "core/forms/jid.html" %}
     {% endwith %}
 
-    {% include "core/forms/gpg.html" %}
+    {% if USE_GPG %}
+        {% include "core/forms/gpg.html" %}
+    {% endif %}
     
     {% with field=form.recaptcha %}
         {% include "core/forms/recaptcha.html" %}
