@@ -137,6 +137,9 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'xmppaccount.urls'
 
+# always upload to temporary files right away, since gnupg needs files there
+FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.TemporaryFileUploadHandler",)
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'xmppaccount.wsgi.application'
 
