@@ -2,17 +2,18 @@
 <div class="form-group gpg-form-group">
     <label for="{{ form.fingerprint.id_for_label }}" class="gpg-fields-toggle">
         <span class="triangle-wrapper">
-            <div class="show-triangle"></div><div style="display: none;" class="hide-triangle"></div>
+            <div class="show-triangle" {% if show_gpg %} style="display: none;"{% endif %}></div>
+            <div style="display: {% if show_gpg %}inline-block{% else %}none{% endif %};" class="hide-triangle"></div>
         </span>
         <span class="label-text">{% trans "GPG key (advanced, optional)" %}</span>
     </label>
-    <div class="row">
+    <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 help-block">
         {% blocktrans %}Add your GPG key if you want us to encrypt all confirmation emails sent to you.
 You have two options:{% endblocktrans %}
         </div>
     </div>
-    <div class="row">
+    <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 {% if form.fingerprint.errors %}has-error{% endif %}">
             {{ form.fingerprint }}
             <div class="help-block">
@@ -21,12 +22,12 @@ You have two options:{% endblocktrans %}
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 help-block">
             {% trans "or" %}
         </div>
     </div>
-    <div class="row">
+    <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 {% if form.gpg_key.errors %}has-error{% endif %}">
             {{ form.gpg_key }}
             <div class="help-block">
@@ -35,7 +36,7 @@ You have two options:{% endblocktrans %}
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 text-danger">
             {% blocktrans %}<strong>Warning:</strong> If you ever loose your GPG key and do not upload a
 new one here, you obviously will no longer be able to reset your password.{% endblocktrans %}
