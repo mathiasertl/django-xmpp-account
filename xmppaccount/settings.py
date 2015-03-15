@@ -240,7 +240,7 @@ if GNUPG is not None:
     if os.path.exists(GNUPG['gnupghome']):
         GPG = gnupg.GPG(**GNUPG)
     else:
-        log.warn('GnuPG disabled because no GPG keys found: Generate with manage.py genkeys')
+        log.warn('GnuPG disabled because GnuPG home not found. Generate key with manage.py genkey.')
 
 if not os.path.exists(LOGDIR):
     os.makedirs(LOGDIR)
