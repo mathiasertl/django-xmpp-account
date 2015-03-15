@@ -16,3 +16,4 @@ localsettings.py
 *.sqlite3
 Makefile
 wording.txt
+/.gpg/
