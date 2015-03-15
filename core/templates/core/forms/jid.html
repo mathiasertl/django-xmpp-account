@@ -32,11 +32,11 @@
                 {% if menuitem == 'register' %}
                 <p id="status-check">
                     <span id="default">{% trans "Type at least three characters to check if the account already exists." %}</span>
-                    <span id="checking">{% trans "Checking username..." %}</span>
-                    <span id="username-ok">{% trans "Username is still available." %}</span>
-                    <span id="username-taken">{% trans "Username is already taken." %}</span>
-                    <span id="username-too-long">{% trans "Username is too long." %}</span>
-                    <span id="username-error">{% trans "There was an error checking this username." %}</span>
+                    <span class="text-muted" id="checking">{% trans "Checking username..." %}</span>
+                    <span class="text-success" id="username-ok">{% trans "Username is still available." %}</span>
+                    <span class="text-danger" id="username-taken">{% trans "Username is already taken." %}</span>
+                    <span class="text-danger" id="username-too-long">{% trans "Username is too long." %}</span>
+                    <span class="text-danger" id="username-error">{% trans "There was an error checking this username." %}</span>
                 </p>
                 {% endif %}
             </div>

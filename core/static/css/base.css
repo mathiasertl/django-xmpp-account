@@ -59,16 +59,6 @@ ul.arrow-list li {
 }
 #status-check span#default {
     display: inline;
-    color: black;
-}
-#status-check span#username-ok {
-    color: green;
-}
-#status-check span#username-taken,
-#status-check span#username-error,
-#status-check span#username-too-long 
-{
-    color: #A94442;
 }
 /* triangles */
 .triangle-wrapper {
