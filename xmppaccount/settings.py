@@ -212,8 +212,9 @@ GNUPG = {
 FORCE_GPG_SIGNING = False
 
 try:
-    from localsettings import *
-except ImportError:
+    from xmppaccount.localsettings import *
+except ImportError as e:
+    print(e)
     pass
 
 MANAGED_HOSTS = [k for k, v in XMPP_HOSTS.items() if v.get('MANAGE', True)]
@@ -228,7 +229,7 @@ if MAX_USERNAME_LENGTH > 255:
     MAX_USERNAME_LENGTH = 255
 
 if DEFAULT_XMPP_HOST is None:
-    DEFAULT_XMPP_HOST = XMPP_HOSTS.values()[0]
+    DEFAULT_XMPP_HOST = list(XMPP_HOSTS.values())[0]
 
 if RECAPTCHA_PRIVATE_KEY and RECAPTCHA_PUBLIC_KEY:
     from recaptcha import RecaptchaClient
