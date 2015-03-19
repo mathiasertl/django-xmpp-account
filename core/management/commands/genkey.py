@@ -80,3 +80,13 @@ class Command(BaseCommand):
                 key.fingerprint)
         else:
             raise CommandError('Cannot generate key, gpg output was: %s' % key.stderr)
+
+        dest_dir = settings.STATICFILES_DIRS[0]
+        if not os.path.exists(dest_dir):
+            os.makedirs(dest_dir)
+
+        export = gpg.export_keys(key.fingerprint)
+        dest_path = os.path.join(dest_dir, '%s.asc' % key.fingerprint)
+        with open(dest_path, 'w') as stream:
+            stream.write(export)
+        self.stdout.write('Key exported to %s', dest_path)
