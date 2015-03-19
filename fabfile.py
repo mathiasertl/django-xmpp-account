@@ -57,7 +57,7 @@ class DeployTask(Task):
         minify_css.run()
         with quiet():
             local('git commit core/static/account.min.js core/static/account.min.css -m "update minification"')
-        local('git push')
+        local('git push origin master')
         ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
         ssh("git fetch")
         ssh("git pull origin master")
