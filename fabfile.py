@@ -29,7 +29,6 @@ from fabric_webbuilders import MinifyCSSTask
 from fabric_webbuilders import MinifyJSTask
 
 node_path = os.path.abspath('node_modules')
-print(node_path)
 if os.path.exists(node_path):
     if node_path not in os.environ['PATH']:
         os.environ['PATH'] = '%s/.bin:%s' % (node_path, os.environ['PATH'])
