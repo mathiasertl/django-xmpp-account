@@ -39,6 +39,10 @@ class DummyBackend(XmppBackendBase):
     for details.
     """
 
+    def exists(self, username, domain):
+        user = '%s@%s' % (username, domain)
+        return cache.get(user) is not None
+
     def create(self, username, domain, password, email):
         if password is None:
             password = self.get_random_password()
