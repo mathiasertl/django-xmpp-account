@@ -41,3 +41,14 @@ a merge request!
 
 Please see [account.jabber.at/doc](https://account.jabber.at/doc) for the most
 recent documentation.
+
+## Regenerate JavaScript/CSS
+
+The site uses minified JavaScript and CSS for faster pageloads. If you change a JS/CSS file, you
+must regenerate the minifed files:
+
+```
+sudo apt-get install nodejs npm
+# Ubunut installs node as nodejs, but we need "node"
+sudo sudo ln -s /usr/bin/nodejs /usr/local/bin/node 
+npm install clean-css uglify-js
