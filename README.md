@@ -53,9 +53,8 @@ installation](#basic-installation)) or all dependencies manually installed.
   library issues).
 * We strongly recommend you run the project inside a
   [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) and install all Python
-  library requirements from there. If you don't want to use virtualenv, all used libraries are
-  listed in `requirements.txt`, older versions are not tested but are probably fine for most
-  libraries.
+  library requirements inside. If you don't want to use virtualenv, all used libraries are listed
+  in `requirements.txt`, older versions are not tested but are probably fine for most libraries.
 * Any database that Django supports, for example MySQL or PostgreSQL.
 * GnuPG to sign and encrypt confirmation mails.
 
