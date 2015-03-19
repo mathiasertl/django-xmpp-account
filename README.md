@@ -41,7 +41,7 @@ a merge request!
 
 **Preface:** This documentation assumes you are already running your own Jabber/XMPP server. It
 also assumes system administration knowledge. `django-xmpp-account` is a
-[Django](https://www.djangoproject.im) project, which typically run inside a virtualenv. This means
+[Django](https://www.djangoproject.im) project which typically runs inside a virtualenv. This means
 that all references to any `python` invocation assume that you have it activated (see [Basic
 installation](#basic-installation)) or all dependencies manually installed.
 
@@ -57,6 +57,13 @@ installation](#basic-installation)) or all dependencies manually installed.
   listed in `requirements.txt`, older versions are not tested but are probably fine for most
   libraries.
 * Any database that Django supports, for example MySQL or PostgreSQL.
+* GnuPG to sign and encrypt confirmation mails.
+
+If you use Debian/Ubuntu, you can copy & paste this command:
+
+```
+apt-get install python-virtualenv gnupg libxml2-dev libxslt1-dev python-dev
+```
 
 ### Basic installation
 
@@ -68,6 +75,14 @@ cd django-xmpp-account
 virtualenv .
 source bin/activate
 pip install -r requirements.txt
+```
+
+Depending on the database backend you want to use, you probably need to install additional
+packages. For MySQL, this would be:
+
+```
+apt-get install mysql-common
+pip install MySQL-python
 ```
 
 ### Configuration
@@ -153,6 +168,17 @@ python manage.py compilemessages
 Don't forget to restart your webserver afterwards.
 
 ## Custom backends
+
+Currently only `ejabberd` via `mod_xmlrpc` is supported. But `django-xmpp-account` was written with
+additional backends in mind, so you can easily add support for any custom XMPP server, if you know
+a little Python. If you do, please consider doing a pull request for your backend.
+
+To implement support for your own server, simply create a python class that subclasses
+`backends.base.XmppBackendBase`. Raise `backends.base.UserExists` if the user already exists and
+`backends.base.UserNotFound` if the user is not found. The docstrings document precisely what
+Exceptions are expected. Make sure that your backend implements all methods defined by the base
+class and the methods use the same argument names (backend functions are always called with
+keyword arguments).
 
 ## Regenerate JavaScript/CSS
 
