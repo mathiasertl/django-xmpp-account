@@ -89,4 +89,4 @@ class Command(BaseCommand):
         dest_path = os.path.join(dest_dir, '%s.asc' % key.fingerprint)
         with open(dest_path, 'w') as stream:
             stream.write(export)
-        self.stdout.write('Key exported to %s', dest_path)
+        self.stdout.write('Key exported to %s, use "manage.py collectstatic" to make the keys downloadable.' % dest_path)
