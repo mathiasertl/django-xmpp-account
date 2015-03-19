@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n staticfiles %}
 <div class="form-group gpg-form-group">
     <label for="{{ form.fingerprint.id_for_label }}" class="gpg-fields-toggle">
         <span class="triangle-wrapper">
@@ -9,8 +9,16 @@
     </label>
     <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 help-block">
-        {% blocktrans %}Add your GPG key if you want us to encrypt all confirmation emails sent to you.
-You have two options:{% endblocktrans %}
+            {% blocktrans %}Add your GPG key if you want us to encrypt all confirmation emails sent to you.{% endblocktrans %}
+            {% for domain, config in XMPP_HOSTS.items %}
+                {% if config.GPG_FINGERPRINT %}
+                    {% static config.GPG_FINGERPRINT|add:".asc" as keylink%}
+                    <span class="fingerprint" id="fp-{{ domain }}">
+                        {% blocktrans %}Your key will be signed with <a href="{{ keylink }}">this key</a>.{% endblocktrans %}
+                    </span>
+                {% endif %}
+            {% endfor %}
+            {% blocktrans %}You have two options:{% endblocktrans %}
         </div>
     </div>
     <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
