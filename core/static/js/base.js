@@ -74,9 +74,17 @@ var username_exists_check = function() {
             }
         });
     }, 500);
-}
+};
+
+var show_fingerprint_msg = function() {
+    var id = 'fp-' + $('#id_domain option:selected').val();
+    $('.fingerprint[id!="' + id + '"]').hide();
+    $('.fingerprint[id="' + id + '"]').show();
+};
 
 $(document).ready(function() {
+    show_fingerprint_msg();
+
     $('#id_username').keyup(function(data) {
         if (ignored_keys.indexOf(data.which) !== -1) { 
             return;
@@ -86,6 +94,7 @@ $(document).ready(function() {
         }
     });
     $('#id_domain').change(function() {
+        show_fingerprint_msg();
         if (basic_username_check()) {
             username_exists_check();
         }

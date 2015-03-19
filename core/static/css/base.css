@@ -85,3 +85,7 @@ ul.arrow-list li {
     border-width: 10px 10px 0 10px;
     border-color: #000000 transparent transparent transparent;
 }
+
+.fingerprint {
+    display: none;
+}
