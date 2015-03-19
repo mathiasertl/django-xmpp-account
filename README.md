@@ -76,9 +76,9 @@ documented in the examples file.
 
 The database the project uses is configured by the `DATABASES` setting in
 `xmppaccount/localsettings.py`. Also see the [official
-documentation](https://docs.djangoproject.com/en/dev/ref/settings/#databases) for the setting for
-possible options. Make sure the database exists and the configured user has
-sufficient permissions, and simply execute:
+documentation](https://docs.djangoproject.com/en/dev/ref/settings/#databases) for possible options.
+Make sure the database exists and the configured user has sufficient permissions, and simply
+execute:
 
 ```
 python manage.py migrate
@@ -87,13 +87,47 @@ python manage.py migrate
 
 ### Webserver setup
 
-There are numerous ways to run a standard WSGI application like Django. The WSGI file is located in
+There are many ways to run a standard WSGI application like this one. The WSGI file is located in
 `xmppaccount/wsgi.py`. For example, you might want to use
 [mod_wsgi](https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/modwsgi/) or [uWSGI and
 nginx](http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html). uWSGI can also
 be used [with Apache](http://uwsgi-docs.readthedocs.org/en/latest/Apache.html).
 
+A Django project does not serve static files (like JavaScript or CSS files) by itself, this should
+be done by the webserver. Configure your webserver to serve the directory configured with the
+`STATIC_ROOT` setting under the location configured with the `STATIC_URL` setting. Then collect all
+static files there with:
+
+```
+python manage.py collectstatic
+```
+
+### Generate translations
+
+`django-xmpp-account` is a fully internationalized project, currently a German translation is
+available. Generate the translation files with:
+
+```
+python manage.py compilemessages
+```
+
+### GPG setup
+
 ## Update
+
+When want to update the project, simply do (don't forget to activate the virtualenv!):
+
+```
+source bin/activate
+git fetch
+git pull origin master
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic
+python manage.py compilemessages
+```
+
+Don't forget to restart your webserver afterwards.
 
 ## Custom backends
 
