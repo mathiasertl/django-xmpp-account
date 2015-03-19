@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-15 19:43+0100\n"
+"POT-Creation-Date: 2015-03-19 14:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -121,12 +121,14 @@ msgstr "GPG Schlüssel (optional, für Fortgeschrittene)"
 msgid ""
 "Add your fingerprint (\"gpg --list-secret-keys --fingerprint\") if your key "
 "is available on the public key servers."
-msgstr "Der \"Fingerprint\" (\"gpg --list-secret-keys --fingerprint\") falls "
-"ihr Schlüssel auf den Schlüsselservern zu finden ist."
+msgstr ""
+"Der \"Fingerprint\" (\"gpg --list-secret-keys --fingerprint\") falls ihr "
+"Schlüssel auf den Schlüsselservern zu finden ist."
 
 #: forms.py:183
 msgid "Upload your GPG key directly (\"gpg --armor --export <fingerprint>\")."
-msgstr "Den GPG-Schlüssel direkt hochladen (\"gpg --armor --export <fingerprint>\")"
+msgstr ""
+"Den GPG-Schlüssel direkt hochladen (\"gpg --armor --export <fingerprint>\")"
 
 #: forms.py:187
 msgid ""
@@ -148,10 +150,8 @@ msgid "Fingerprint should be 40 characters long."
 msgstr "Fingerprint sollte 40 Zeichen lang sein."
 
 #: forms.py:213
-#, fuzzy
-#| msgid "Your CAPTCHA response contained invalid characters."
 msgid "Fingerprint contains invalid characters."
-msgstr "Ihre Antwort auf das CAPTCHA ist inkorrekt."
+msgstr "Fingerprint enthält ungültige Zeichen."
 
 #: forms.py:218
 msgid "Multiple keys with that fingerprint found."
@@ -201,10 +201,8 @@ msgid "(Click twice for privacy!)"
 msgstr "(2x klicken für Privatsphäre!)"
 
 #: templates/container.html:18
-#, fuzzy
-#| msgid "© 2013 - 2014, Mathias Ertl unless otherwise noted."
 msgid "© 2013 - 2015, Mathias Ertl unless otherwise noted."
-msgstr "© 2013 - 2014, Mathias Ertl falls nicht anders angegeben."
+msgstr "© 2013 - 2015, Mathias Ertl falls nicht anders angegeben."
 
 #: templates/container.html:21
 msgid ""
@@ -231,26 +229,37 @@ msgstr ""
 #: templates/core/forms/gpg.html:12
 msgid ""
 "Add your GPG key if you want us to encrypt all confirmation emails sent to "
-"you.\n"
-"You have two options:"
-msgstr "Wenn sie Bestätigungs-E-Mails verschlüsselt erhalten wollen, können "
-"sie ihren GPG-Schlüssel hinzufügen. Dazu gibt es zwei Möglichkeiten:"
+"you."
+msgstr ""
+"Wenn sie Bestätigungs-E-Mails verschlüsselt erhalten wollen, können sie "
+"ihren GPG-Schlüssel angeben."
 
-#: templates/core/forms/gpg.html:27
-msgid "or"
-msgstr "oder"
+#: templates/core/forms/gpg.html:17
+#, python-format
+msgid "The email will be signed with <a href=\"%(keylink)s\">this key</a>."
+msgstr "Die E-Mail wird mit <a href=\"%(keylink)s\">diesem Schlüssel</a> signiert."
 
-#: templates/core/forms/gpg.html:41
+#: templates/core/forms/gpg.html:21
+msgid "You have two options:"
+msgstr "Sie haben zwei Optionen:"
+
+#: templates/core/forms/gpg.html:30
+msgid "Or"
+msgstr "Oder"
+
+#: templates/core/forms/gpg.html:45
 msgid ""
 "<strong>Warning:</strong> If you ever loose your GPG key and do not upload "
 "a\n"
 "new one here, you will no longer be able to reset your password."
-msgstr "<strong>Warnung:</strong> Falls sie je ihren GPG-Schlüssel verlieren "
-"und hier keinen neuen hochladen, können sie ihr Passwort nicht mehr neu setzen!"
+msgstr ""
+"<strong>Warnung:</strong> Falls sie je ihren GPG-Schlüssel verlieren und "
+"hier keinen neuen hochladen, können sie ihr Passwort nicht mehr neu setzen!"
 
 #: templates/core/forms/jid.html:34
 msgid "Type at least three characters to check if the account already exists."
-msgstr "Bitte mindestens drei Buchstaben eingeben um zu überprüfen, ob der "
+msgstr ""
+"Bitte mindestens drei Buchstaben eingeben um zu überprüfen, ob der "
 "Benutzername bereits existiert."
 
 #: templates/core/forms/jid.html:35
@@ -388,18 +397,18 @@ msgstr "ReCAPTCHA funktionierte nicht richtig."
 msgid "User not found (or false password provided)!"
 msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
-#: views.py:150
+#: views.py:153
 msgid "User already exists."
 msgstr "Benutzer existiert bereits."
 
-#: views.py:187
+#: views.py:190
 msgid "Confirmation key expired or not found."
 msgstr "Bestätigungscode abgelaufen oder nicht gefunden."
 
-#: views.py:196
+#: views.py:199
 msgid "User not found!"
 msgstr "Benutzer nicht gefunden!"
 
-#: views.py:199
+#: views.py:202
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
