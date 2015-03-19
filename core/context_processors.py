@@ -23,11 +23,12 @@ from django.conf import settings
 def xmppaccount(request):
     submit = settings.DEBUG and request.GET.get('submit')
     context = {
-        'MIN_USERNAME_LENGTH': settings.MIN_USERNAME_LENGTH,
         'MAX_USERNAME_LENGTH': settings.MAX_USERNAME_LENGTH,
+        'MIN_USERNAME_LENGTH': settings.MIN_USERNAME_LENGTH,
         'SITE': request.site,  # added by middleware, mappes to a host in XMPP_HOSTS
         'SUBMIT': submit,
         'USE_GPG': settings.GPG is not None,
+        'XMPP_HOSTS': settings.XMPP_HOSTS,
     }
     if submit:
         context.update({k: v for k, v in request.GET.items()})
