@@ -27,12 +27,8 @@
             <div class="help-block">
                 {{ form.fingerprint.errors }}
                 {{ form.fingerprint.help_text }}
+                <strong>{% trans "Or" %}</strong>
             </div>
-        </div>
-    </div>
-    <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
-        <div class="col-lg-5 help-block">
-            {% trans "or" %}
         </div>
     </div>
     <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
