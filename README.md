@@ -51,6 +51,12 @@ installation](#basic-installation)) or all dependencies manually installed.
   use a different server, please consider [contributing your own backend](#custom-backends).
 * Python 2.7 or Python 3.4 (Note: ReCAPTCHA support currently does not work with Python 3 due to
   library issues).
+* We strongly recommend you run the project inside a
+  [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) and install all Python
+  library requirements from there. If you don't want to use virtualenv, all used libraries are
+  listed in `requirements.txt`, older versions are not tested but are probably fine for most
+  libraries.
+* Any database that Django supports, for example MySQL or PostgreSQL.
 
 ### Basic installation
 
@@ -112,6 +118,23 @@ python manage.py compilemessages
 ```
 
 ### GPG setup
+
+`django-xmpp-account` sends out confirmation emails on any action. Emails can be encrypted if users
+upload their private key, but for emails to also be signed, you must generate a private key. You
+can simply do this with:
+
+```
+python manage.py genkey <hostname>
+```
+
+Where `<hostname>` is any of the hosts you configured in the `XMPP_HOSTS` settings. You must then
+manually add the key to the respective `XMPP_HOSTS` setting. The key is also saved to the `static/`
+directory, so you must update your staticfiles with `python manage.py collectstatic`.
+
+**WARNING:** GPG is very strict about permissions to its configuration directory. Make sure the
+directory is owned and read/writeable only by the system user the webserver runs as. The `genkey`
+command must also be executed as that same user, which will also create the GPG config directory if
+it doesn't exist.
 
 ## Update
 
