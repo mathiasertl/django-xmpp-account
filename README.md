@@ -49,14 +49,51 @@ installation](#basic-installation)) or all dependencies manually installed.
 
 * Currently only [ejabberd](https://www.ejabberd.im) via `mod_xmlrpc` is supported. If you want to
   use a different server, please consider [contributing your own backend](#custom-backends).
+* Python 2.7 or Python 3.4 (Note: ReCAPTCHA support currently does not work with Python 3 due to
+  library issues).
 
 ### Basic installation
 
+Simply clone the project, setup a `virtualenv` and install the requirements:
+
+```
+git clone https://github.com/mathiasertl/django-xmpp-account.git
+cd django-xmpp-account
+virtualenv .
+source bin/activate
+pip install -r requirements.txt
+```
+
 ### Configuration
+
+The project is configured via the file `xmppaccount/localsettings.py`. There is an example config
+file in `xmppaccount/localsettings.py.example`, simply copy it and fill in the details for your
+preferred setup. The file is imported by a standard Django settings file, so you can use any of the
+[official settings](https://docs.djangoproject.com/en/dev/ref/settings/), even if they are not
+documented in the examples file.
 
 ### Database setup
 
+The database the project uses is configured by the `DATABASES` setting in
+`xmppaccount/localsettings.py`. Also see the [official
+documentation](https://docs.djangoproject.com/en/dev/ref/settings/#databases) for the setting for
+possible options. Make sure the database exists and the configured user has
+sufficient permissions, and simply execute:
+
+```
+python manage.py migrate
+```
+... to create all the databases tables.
+
 ### Webserver setup
+
+There are numerous ways to run a standard WSGI application like Django. The WSGI file is located in
+`xmppaccount/wsgi.py`. For example, you might want to use
+[mod_wsgi](https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/modwsgi/) or [uWSGI and
+nginx](http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html). uWSGI can also
+be used [with Apache](http://uwsgi-docs.readthedocs.org/en/latest/Apache.html).
+
+## Update
 
 ## Custom backends
 
