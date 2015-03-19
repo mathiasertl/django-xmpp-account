@@ -43,12 +43,12 @@ a merge request!
 also assumes system administration knowledge. `django-xmpp-account` is a
 [Django](https://www.djangoproject.im) project, which typically run inside a virtualenv. This means
 that all references to any `python` invocation assume that you have it activated (see [Basic
-installation](#Basic installation)) or all dependencies manually installed.
+installation](#basic-installation)) or all dependencies manually installed.
 
 ### Requirements
 
 * Currently only [ejabberd](https://www.ejabberd.im) via `mod_xmlrpc` is supported. If you want to
-  use a different server, please consider [contributing your own backend](#Custom backends).
+  use a different server, please consider [contributing your own backend](#custom-backends).
 
 ### Basic installation
 
