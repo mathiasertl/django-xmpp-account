@@ -121,7 +121,10 @@ class ConfirmationView(AntiSpamFormView):
 
         if form.cleaned_data.get('fingerprint'):
             imported = settings.GPG.recv_keys('pgp.mit.edu', form.cleaned_data['fingerprint'])
-            user.gpg_fingerprint = imported.fingerprints[0]
+            try:
+                user.gpg_fingerprint = imported.fingerprints[0]
+            except IndexError:
+                raise Exception("IndexError: %s" % imported.stderr)
             user.save()
         elif 'gpg_key' in self.request.FILES:
             path = self.request.FILES['gpg_key'].temporary_file_path()
