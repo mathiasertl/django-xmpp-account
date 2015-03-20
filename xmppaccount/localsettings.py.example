@@ -139,6 +139,14 @@ MAX_USERNAME_LENGTH = 32
 # Display a warning that this server stores cleartext passwords
 CLEARTEXT_PASSWORDS = True
 
+# Welcome message sent to new registrations
+#WELCOME_MESSAGE = {
+#    'subject': u'Welcome to {domain}!',
+#    'message': u'''Dear {username},
+#
+#Welcome to {domain} .. ''',
+#}
+
 # How long emailed confirmation keys stay valid
 CONFIRMATION_TIMEOUT = timedelta(hours=24)
 
