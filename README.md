@@ -113,6 +113,8 @@ There are many ways to run a standard WSGI application like this one. The WSGI f
 nginx](http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html). uWSGI can also
 be used [with Apache](http://uwsgi-docs.readthedocs.org/en/latest/Apache.html).
 
+**NOTE:** Unless you deactivate GPG support, we highly recommend you enable threading support.
+
 A Django project does not serve static files (like JavaScript or CSS files) by itself, this should
 be done by the webserver. Configure your webserver to serve the directory configured with the
 `STATIC_ROOT` setting under the location configured with the `STATIC_URL` setting. Then collect all
