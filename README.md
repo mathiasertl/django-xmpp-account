@@ -133,6 +133,25 @@ available. Generate the translation files with:
 python manage.py compilemessages
 ```
 
+### Schedule cron-jobs
+
+The `manage.py cleanup` command removes users from the database if users were removed from the XMPP
+server. It also removes users from the database if they registered but never clicked the
+confirmation link sent to them via email. 
+
+```
+HOME=/usr/local/home/xmpp-account
+PATH=/usr/local/home/xmpp-account/bin
+
+# m h   dom mon dow     user            command
+22 *    * * *           xmpp-account   python django-xmpp-account/manage.py cleanup
+```
+
+If your server allows In-Band Registration (IBR), you can also add the `manage.py
+ejabberd_registrations` command. It is an XMPP bot that parses messages that ejabberd sends to
+contacts named in its `registration_watchers` setting. Note that it uses additional settings,
+please see your `localsettings.py`. 
+
 ### GPG setup
 
 `django-xmpp-account` sends out confirmation emails on any action. Emails can be encrypted if users
