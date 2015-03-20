@@ -1,28 +1,17 @@
 # -*- coding: utf-8 -*-
 #
-# This file is part of django-xmpp-register (https://account.jabber.at/doc).
+# This file is part of django-xmpp-account (https://github.com/mathiasertl/django-xmpp-account/).
 #
-# django-xmpp-register is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by the Free
-# Software Foundation, either version 3 of the License, or (at your option) any
-# later version.
+# django-xmpp-account is free software: you can redistribute it and/or modify it under the terms of
+# the GNU General Public License as published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
 #
-# django-xmpp-register is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-# more details.
+# django-xmpp-account is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with
-# django-xmpp-register.  If not, see <http://www.gnu.org/licenses/>.
-
-###############################################################################
-### NOTE: For a more detailed description of the available settings, please ###
-###       see:                                                              ###
-###                                                                         ###
-###       https://account.jabber.at/doc/                                    ###
-###                                                                         ###
-###############################################################################
-
+# You should have received a copy of the GNU General Public License along with django-xmpp-account.
+# If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import timedelta
 
@@ -37,7 +26,12 @@ ADMINS = (
 
 #MANAGERS = ADMINS
 
-# Database connection:
+# A random string, make this unique, and don't share it with anybody.
+SECRET_KEY = ''
+
+# Django supports MySQL, PostgreSQL et al, please see:
+# https://docs.djangoproject.com/en/dev/ref/databases/
+# for a list of available options.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -51,7 +45,7 @@ DATABASES = {
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
+# See https://docs.djangoproject.com/en/dev/ref/settings/
 ALLOWED_HOSTS = []
 
 # Local time zone for this installation. Choices can be found here:
@@ -71,25 +65,70 @@ LANGUAGE_CODE = 'en-us'
 STATIC_ROOT = ''
 
 # URL prefix for static files.
-# Example: "http://example.com/static/", "http://static.example.com/"
+# Example: "https://example.com/static/", "https://static.example.com/"
 STATIC_URL = '/static/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = ''
 
-# The XMPP hosts that you can register for here
+# The XMPP_HOSTS setting configures the XMPP hosts you offer. You can give multiple hosts and they
+# can be used
 XMPP_HOSTS = {
     'example.com': {
-        'RESERVATION': True,
+        # Wether to allow registration for this host. If you set this to False, users will still be
+        # able to reset their password or email and delete their account.
+        'REGISTRATION': True,
+        # If this host allows other means of registrations (e.g. IBR), set this to True. This will
+        # cause the site to register the account with a random password so the same username can't
+        # be registered by someone else if the 
+        #'RESERVATION': False, 
+        #
+        # The homepage of this particular host.
+        'HOMEPAGE': 'https://jabber.at',
+        #
+        # Address from which confirmation emails are sent
+        'FROM_EMAIL': 'noreply@example.com',
+        #
+        # A URL to a webchat, if any.
+        #'WEBCHAT': 'https://webchat.jabber.at',
+        #
+        # A link to a Twitter account and/or Facebook page for this host, if any.
+        #'TWITTER': 'jabber_at',
+        #'FACEBOOK': 'jabber.at',
+        #
+        # The fingerprint used for signing emails from this host. Generate a key with 
+        # "python manage.py genkey example.com"
+        #'GPG_FINGERPRINT': '2E1FF6F2E93E419BE1CBFC2B7A346DFAEB38324A',
+        #
+        # The image used when the site is shared via Facebook.
+        #'IMAGE': 'https://jabber.at/sites/jabber.at/files/jabber.at.png',
+    },
+    'example.net': {
+        # ...
     },
 }
-# preselected in the registration form:
+
+# If you have multiple XMPP hosts defined in XMPP_HOSTS and your site is available via multiple
+# hostnames, you can map the hostnames to specific XMPP hosts. This will cause the hostname to be
+# preselected in the dropdown when users visit the site through a particular URL.
+XMPP_HOSTS_MAPPING = {
+    'register.example.com': 'example.com',
+    'account.example.net': 'example.net',
+}
+
+# The default host from XMPP_HOSTS preselected if the site is visited via a hostname not listed in
+# XMPP_HOSTS_MAPPING.
 DEFAULT_XMPP_HOST = 'example.com'
 
 # Backend to communicate with our XMPP hosts:
 XMPP_BACKENDS = {
     'default': {
-#        'BACKEND': 'backends.',
+        'BACKEND': 'backends.ejabberd_xmlrpc.EjabberdXMLRPCBackend',
+        'HOST': '127.0.0.1',
+        # If you have authentication defined for the xmlrpc API:
+        #'USER': '',
+        #'SERVER': '',
+        #'PASSWORD': '',
     }
 }
 
@@ -115,6 +154,11 @@ REGISTRATION_RATE = {
     timedelta(hours=1): 2,
     timedelta(days=1): 5,
 }
+
+# IP addresses not affected by REGISTRATION_RATE.
+#RATELIMIT_WHITELIST = {
+#    '192.168.0.22',
+#}
 
 # Top-level domains that are not allowed to be used in email addresses for registration
 BLOCKED_EMAIL_TLDS = set()
