@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 
 import random
 import string
+import threading
 
 SAFE_CHARS = string.ascii_letters + string.digits
 
@@ -34,3 +35,6 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+gpg_lock = threading.Lock()
