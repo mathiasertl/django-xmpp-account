@@ -42,6 +42,7 @@ from core.models import Address
 from core.models import Confirmation
 from core.models import UserAddresses
 from core.utils import get_client_ip
+from core.utils import gpg_lock
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -120,7 +121,8 @@ class ConfirmationView(AntiSpamFormView):
             return  # shortcut
 
         if form.cleaned_data.get('fingerprint'):
-            imported = settings.GPG.recv_keys('pgp.mit.edu', form.cleaned_data['fingerprint'])
+            with gpg_lock:
+                imported = settings.GPG.recv_keys('pgp.mit.edu', form.cleaned_data['fingerprint'])
             try:
                 user.gpg_fingerprint = imported.fingerprints[0]
             except IndexError:
@@ -128,8 +130,11 @@ class ConfirmationView(AntiSpamFormView):
             user.save()
         elif 'gpg_key' in self.request.FILES:
             path = self.request.FILES['gpg_key'].temporary_file_path()
-            with open(path) as stream:
-                imported = settings.GPG.import_keys(stream.read())
+            with open(path) as stream, gpg_lock:
+                try:
+                    imported = settings.GPG.import_keys(stream.read())
+                except IndexError:
+                    raise Exception("IndexError: %s" % imported.stderr)
                 user.gpg_fingerprint = imported.fingerprints[0]
                 user.save()
         else:
