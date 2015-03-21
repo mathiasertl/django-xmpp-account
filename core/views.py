@@ -121,21 +121,23 @@ class ConfirmationView(AntiSpamFormView):
             return  # shortcut
 
         if form.cleaned_data.get('fingerprint'):
+            fingerprint = form.cleaned_data['fingerprint']
             with gpg_lock:
-                imported = settings.GPG.recv_keys('pgp.mit.edu', form.cleaned_data['fingerprint'])
+                imported = settings.GPG.recv_keys('pgp.mit.edu', fingerprint)
             try:
                 user.gpg_fingerprint = imported.fingerprints[0]
             except IndexError:
-                raise Exception("IndexError: %s" % imported.stderr)
+                raise Exception("IndexError: %s (fp: '%s')" % (imported.stderr, fingerprint))
             user.save()
         elif 'gpg_key' in self.request.FILES:
             path = self.request.FILES['gpg_key'].temporary_file_path()
             with open(path) as stream, gpg_lock:
+                data = stream.read()
                 try:
-                    imported = settings.GPG.import_keys(stream.read())
+                    imported = settings.GPG.import_keys(data)
+                    user.gpg_fingerprint = imported.fingerprints[0]
                 except IndexError:
-                    raise Exception("IndexError: %s" % imported.stderr)
-                user.gpg_fingerprint = imported.fingerprints[0]
+                    raise Exception("IndexError: %s\ndata: %s" % (imported.stderr, data))
                 user.save()
         else:
             user.gpg_fingerprint = None
