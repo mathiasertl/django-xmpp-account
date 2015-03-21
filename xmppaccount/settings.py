@@ -209,6 +209,7 @@ RATELIMIT_WHITELIST = set()
 GNUPG = {
     'gnupghome': os.path.join(BASE_DIR, '.gpg'),
     'gpgbinary': '/usr/bin/gpg',
+    'options': ['--lock-multiple'],
 }
 FORCE_GPG_SIGNING = False
 
