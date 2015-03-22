@@ -15,6 +15,8 @@
 
 from __future__ import unicode_literals
 
+import json
+
 from datetime import datetime
 
 from django.conf import settings
@@ -80,10 +82,11 @@ class RegistrationView(ConfirmationView):
                                    email=data['email'], registration_method=REGISTRATION_WEBSITE)
 
     def handle_valid(self, form, user):
-        self.handle_gpg(form, user)
+        payload = self.handle_gpg(form, user)
 
         if settings.XMPP_HOSTS[user.domain].get('RESERVE', False):
             backend.reserve(username=user.username, domain=user.domain, email=user.email)
+        return payload
 
     def form_valid(self, form):
         self.registration_rate()
@@ -103,6 +106,8 @@ class RegistrationConfirmationView(ConfirmedView):
     menuitem = 'register'
 
     def handle_key(self, key, form):
+        data = json.loads(key.payload)
+        key.user.gpg_fingerprint = data.get('gpg_fingerprint')
         key.user.confirmed = now()
         key.user.save()
 

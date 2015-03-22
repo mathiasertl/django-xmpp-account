@@ -17,6 +17,8 @@
 
 from __future__ import unicode_literals
 
+import json
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.utils.timezone import now
@@ -108,7 +110,7 @@ class ResetEmailView(ConfirmationView):
         return user
 
     def handle_valid(self, form, user):
-        self.handle_gpg(form, user)
+        return self.handle_gpg(form, user)
 
 
 class ResetEmailConfirmationView(ConfirmedView):
@@ -120,6 +122,9 @@ class ResetEmailConfirmationView(ConfirmedView):
         if not backend.check_password(username=key.user.username, domain=key.user.domain,
                                       password=form.cleaned_data['password']):
             raise UserNotFound()
+
+        data = json.loads(key.payload)
+        key.user.gpg_fingerprint = data.get('gpg_fingerprint')
         key.user.confirmed = now()
         key.user.save()
         backend.set_email(username=key.user.username, domain=key.user.domain, email=key.user.email)

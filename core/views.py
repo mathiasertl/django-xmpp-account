@@ -17,6 +17,7 @@
 
 from __future__ import unicode_literals
 
+import json
 import logging
 
 from django.conf import settings
@@ -124,29 +125,24 @@ class ConfirmationView(AntiSpamFormView):
             fingerprint = form.cleaned_data['fingerprint']
             with gpg_lock:
                 imported = settings.GPG.recv_keys('pgp.mit.edu', fingerprint)
-            try:
-                user.gpg_fingerprint = imported.fingerprints[0]
-            except IndexError:
-                raise Exception("IndexError: %s (fp: '%s')" % (imported.stderr, fingerprint))
-            user.save()
+            if not imported.fingerprints:
+                raise Exception("No imported keys: %s (fp: '%s')" % (imported.stderr, fingerprint))
+            return {'gpg_fingerprint': fingerprint, }
         elif 'gpg_key' in self.request.FILES:
             path = self.request.FILES['gpg_key'].temporary_file_path()
             with open(path) as stream, gpg_lock:
                 data = stream.read()
-                try:
-                    imported = settings.GPG.import_keys(data)
-                    user.gpg_fingerprint = imported.fingerprints[0]
-                except IndexError:
-                    raise Exception("IndexError: %s\ndata: %s" % (imported.stderr, data))
-                user.save()
+            imported = settings.GPG.import_keys(data)
+            if not imported.fingerprints:
+                raise Exception("No imported keys: %s\ndata: %s" % (imported.stderr, data))
+            return {'gpg_fingerprint': imported.fingerprints[0], }
         else:
-            user.gpg_fingerprint = None
-            user.save()
+            return {'gpg_fingerprint': None, }
 
     def form_valid(self, form):
         try:
             user = self.get_user(form.cleaned_data)
-            self.handle_valid(form, user)
+            payload = self.handle_valid(form, user)
         except User.DoesNotExist:
             form.add_error(None, self.user_not_found_error)
             return self.form_invalid(form)
@@ -160,12 +156,14 @@ class ConfirmationView(AntiSpamFormView):
             form.add_error(None, _("User already exists."))
             return self.form_invalid(form)
 
+        payload = json.dumps(payload)
+
         # log user address:
         address = Address.objects.get_or_create(address=self.request.META['REMOTE_ADDR'])[0]
         UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
         # create a confirmation key before returning the response
-        key = Confirmation.objects.create(user=user, purpose=self.purpose)
+        key = Confirmation.objects.create(user=user, purpose=self.purpose, payload=payload)
         key.send(
             request=self.request, template_base=self.email_template,
             subject=self.email_subject % {'domain': user.domain, },
