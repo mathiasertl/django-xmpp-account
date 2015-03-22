@@ -160,6 +160,7 @@ class Confirmation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
+    payload = models.TextField(null=True, blank=True)
 
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
 
