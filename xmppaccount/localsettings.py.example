@@ -178,5 +178,18 @@ RECAPTCHA_PUBLIC_KEY = None
 ###########################
 ### GnuPG configuration ###
 ###########################
-# The default keyserver to use
+# Default options for GnuPG. Please see
+#   https://pythonhosted.org/python-gnupg/#getting-started
+# for available options. To completely disable GnuPG, you can set this setting to None.
+#GNUPG = {
+#    'gnupghome': os.path.join(BASE_DIR, '.gpg'),
+#    'gpgbinary': '/usr/bin/gpg',
+#    'options': ['--lock-multiple'],
+#}
+#
+#
+# The default keyserver to use.
 #GPG_KEYSERVER = 'pool.sks-keyservers.net
+
+# Set to True to sign mails even if users did not give their own GPG key.
+#FORCE_GPG_SIGNING = False
