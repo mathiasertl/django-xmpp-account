@@ -174,3 +174,9 @@ BLOCKED_EMAIL_TLDS = set()
 # ReCAPTCHA configuration
 RECAPTCHA_PRIVATE_KEY = None
 RECAPTCHA_PUBLIC_KEY = None
+
+###########################
+### GnuPG configuration ###
+###########################
+# The default keyserver to use
+#GPG_KEYSERVER = 'pool.sks-keyservers.net

@@ -211,6 +211,7 @@ GNUPG = {
     'gpgbinary': '/usr/bin/gpg',
     'options': ['--lock-multiple'],
 }
+GPG_KEYSERVER = 'pool.sks-keyservers.net'
 FORCE_GPG_SIGNING = False
 
 try:
