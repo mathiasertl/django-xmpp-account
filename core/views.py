@@ -124,7 +124,7 @@ class ConfirmationView(AntiSpamFormView):
         if form.cleaned_data.get('fingerprint'):
             fingerprint = form.cleaned_data['fingerprint']
             with gpg_lock:
-                imported = settings.GPG.recv_keys('pgp.mit.edu', fingerprint)
+                imported = settings.GPG.recv_keys(settings.GPG_KEYSERVER, fingerprint)
             if not imported.fingerprints:
                 raise Exception("No imported keys: %s (fp: '%s')" % (imported.stderr, fingerprint))
             return {'gpg_fingerprint': fingerprint, }

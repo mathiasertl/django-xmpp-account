@@ -213,7 +213,7 @@ class EmailMixin(object):
             raise forms.ValidationError(_("Fingerprint contains invalid characters."))
 
         # actually search for the key
-        keys = settings.GPG.search_keys(fp)
+        keys = settings.GPG.search_keys(fp, settings.GPG_KEYSERVER)
         if len(keys) > 1:
             raise forms.ValidationError(_("Multiple keys with that fingerprint found."))
         elif len(keys) < 1:
