@@ -78,8 +78,7 @@ class DeleteConfirmationView(ConfirmedView):
         domain = key.user.domain
         password = form.cleaned_data['password']
 
-        if not backend.check_password(username=username, domain=domain,
-                                      password=password):
+        if not backend.check_password(username=username, domain=domain, password=password):
             raise UserNotFound()
 
     def after_delete(self, data):
