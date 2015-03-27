@@ -15,13 +15,12 @@
     <meta property="article:author" content="https://facebook.com/{{ request.site.FACEBOOK }}" />
     <meta property="article:publisher" content="https://facebook.com/{{ request.site.FACEBOOK }}" />
     {% endif %}
-{% comment %}Twitter cards{% endcomment %}
+{% comment %}Twitter cards{% endcomment %}{% if request.site.TWITTER and request.site.TWITTER_IMAGE %}
     <meta name="twitter:card" content="summary" />
-    {% if request.site.TWITTER %}<meta name="twitter:site" content="{{ request.site.TWITTER }}" />{% endif %}
-    <meta name="twitter:title" content="{{ OPENGRAPH_TITLE }}" />
-    <meta name="twitter:description" content="{{ OPENGRAPH_DESCRIPTION }}" />
-    {% if request.site.FACEBOOK_IMAGE %}<meta name="twitter:image" content="{{ request.site.FACEBOOK_IMAGE }}" />{% endif %}
-    <meta name="twitter:url" content="{{ ACTION_URL }}" />
+    <meta name="twitter:site" content="{{ request.site.TWITTER }}" />
+    <meta name="twitter:image" content="{{ request.site.FACEBOOK_IMAGE }}" />
+    <meta name="twitter:url" content="{{ ACTION_URL }}" />{% comment %}NOTE: Documented but unsed by twitter{% endcomment %}
+{% endif %}
 
 {% if debug %}
     <script src="{% static "lib/jquery/jquery.js" %}"></script>
