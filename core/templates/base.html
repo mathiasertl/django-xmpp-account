@@ -20,7 +20,7 @@
     {% if request.site.TWITTER %}<meta name="twitter:site" content="{{ request.site.TWITTER }}" />{% endif %}
     <meta name="twitter:title" content="{{ OPENGRAPH_TITLE }}" />
     <meta name="twitter:description" content="{{ OPENGRAPH_DESCRIPTION }}" />
-    <meta name="twitter:image" content="{{ FACEBOOK_IMAGE }}" />
+    {% if request.site.FACEBOOK_IMAGE %}<meta name="twitter:image" content="{{ request.site.FACEBOOK_IMAGE }}" />{% endif %}
     <meta name="twitter:url" content="{{ ACTION_URL }}" />
 
 {% if debug %}
