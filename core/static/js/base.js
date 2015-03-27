@@ -141,4 +141,12 @@ $(document).ready(function() {
         var html = '<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=' + TWITTER_PAGE + '&show_count=false&dnt=true" style="width: 300px; height: 20px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
         $('.twitter-follow').html(html);
     });
+
+    $('.twitter-tweet').on('click', function(event) {
+        button = $(this);
+        url = console.log($(this).attr('data-url'));
+        var html = '<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + button.attr('data-url') + '" data-text="' + button.attr('data-text') + '" data-via="' + button.attr('data-via') + '" data-hashtags="' + button.attr('data-hashtags') + '" data-dnt="' + button.attr('data-dnt') + '">Tweet</a>';
+        var script = "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
+        button.html(html + script);
+    });
 });

@@ -24,6 +24,16 @@ and Wikipedia has a <a href="https://en.wikipedia.org/wiki/Comparison_of_XMPP_cl
 list with feature comparisons</a>.{% endblocktrans %}</li>
     <li>{% blocktrans %}Follow news about our server on <a href="{{ SITE.HOMEPAGE }}">our homepage</a>.{% endblocktrans %}
     {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
+    <li>{% trans "Tell your friends about your new account:" %}<br />
+    <div class="social-buttons inline">
+        <span class="twitter-tweet" data-url="{{ ACTION_URL }}" 
+                data-text="{% trans "I just got a new #Jabber account. Get one too so we can start chatting!" %}"
+                data-via="jabber_at" data-hashtags="xmpp" data-dnt="true">
+            <img src="{% static 'img/twitter-tweet.png' %}">
+        </span>
+    {% trans "(Click twice for privacy!)" %}</div></li>
+    {% endif %}
+    {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
     {% blocktrans %}Or if you prefer social media:{% endblocktrans %}
     <ul class="arrow-list">
         {% if SITE.FACEBOOK %}
