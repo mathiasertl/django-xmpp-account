@@ -84,13 +84,18 @@ XMPP_HOSTS = {
         #'RESERVATION': False, 
         #
         # The homepage of this particular host.
-        'HOMEPAGE': 'https://jabber.at',
+        'HOMEPAGE': 'https://example.com',
         #
-        # Address from which confirmation emails are sent
+        # Address from which confirmation emails are sent. If not given, use the global
+        # DEFAULT_FROM_EMAIL setting.
         'FROM_EMAIL': 'noreply@example.com',
+        # By default, users cannot give email addresses with the same domain as any of the hosts
+        # named in XMPP_HOSTS, as users frequently enter that domain in error. If you do also offer
+        # custom email addresses on this domain, you can set this EMAIL to True.
+        #EMAIL = True
         #
         # A URL to a webchat, if any.
-        #'WEBCHAT': 'https://webchat.jabber.at',
+        #'WEBCHAT': 'https://webchat.example.com',
         #
         # A link to a Twitter account and/or Facebook page for this host, if any.
         #'TWITTER': 'jabber_at',
@@ -132,10 +137,6 @@ XMPP_BACKENDS = {
     }
 }
 
-# Minimum and maximum username length
-MIN_USERNAME_LENGTH = 3
-MAX_USERNAME_LENGTH = 32
-
 # Display a warning that this server stores cleartext passwords
 CLEARTEXT_PASSWORDS = True
 
@@ -146,6 +147,13 @@ CLEARTEXT_PASSWORDS = True
 #
 #Welcome to {domain} .. ''',
 #}
+
+##########################
+### Anti-SPAM measures ###
+##########################
+# Some TLDs cannot be used for registration. If you add domains later, users on these domains will
+# still be able to reset their passwords.
+#BLOCKED_EMAIL_TLDS = set('spam.ru', 'other-spam.com', )
 
 # How long emailed confirmation keys stay valid
 CONFIRMATION_TIMEOUT = timedelta(hours=24)
@@ -168,12 +176,20 @@ REGISTRATION_RATE = {
 #    '192.168.0.22',
 #}
 
-# Top-level domains that are not allowed to be used in email addresses for registration
-BLOCKED_EMAIL_TLDS = set()
+#############################
+### Username restrictions ###
+#############################
+# Minimum and maximum userlength
+MIN_USERNAME_LENGTH = 3
+MAX_USERNAME_LENGTH = 32
 
-# ReCAPTCHA configuration
-RECAPTCHA_PRIVATE_KEY = None
-RECAPTCHA_PUBLIC_KEY = None
+
+###############################
+### ReCAPTCHA configuration ###
+###############################
+# Set your private and public key here to enable ReCAPTCHA.
+#RECAPTCHA_PRIVATE_KEY = None
+#RECAPTCHA_PUBLIC_KEY = None
 
 ###########################
 ### GnuPG configuration ###
