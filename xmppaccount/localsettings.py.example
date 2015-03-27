@@ -15,6 +15,13 @@
 
 from datetime import timedelta
 
+################################
+### Standard Django settings ###
+################################
+# This is a standard Django settings file. Please see
+#   https://docs.djangoproject.com/en/dev/ref/settings/
+# for more information.
+
 # set to true during development:
 #DEBUG = False
 #TEMPLATE_DEBUG = DEBUG
@@ -68,8 +75,9 @@ STATIC_ROOT = ''
 # Example: "https://example.com/static/", "https://static.example.com/"
 STATIC_URL = '/static/'
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = ''
+###############################
+### XMPP host configuration ###
+###############################
 
 # The XMPP_HOSTS setting configures the XMPP hosts you offer. You can give multiple hosts and they
 # can be used
@@ -182,7 +190,6 @@ REGISTRATION_RATE = {
 # Minimum and maximum userlength
 MIN_USERNAME_LENGTH = 3
 MAX_USERNAME_LENGTH = 32
-
 
 ###############################
 ### ReCAPTCHA configuration ###
