@@ -20,6 +20,7 @@ import os
 logging.basicConfig(level=logging.DEBUG)
 
 from fabric.api import local
+from fabric.api import sudo
 from fabric.tasks import Task
 from fabric.context_managers import quiet
 
@@ -59,6 +60,7 @@ class DeployTask(Task):
             local('git commit core/static/account.min.js core/static/account.min.css -m "update minification"')
         local('git push origin master')
         ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
+        sudo('chgrp -R %s %s' % (group, dir))
         ssh("git fetch")
         ssh("git pull origin master")
         ssh("../bin/pip install -r requirements.txt")
