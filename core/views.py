@@ -84,7 +84,6 @@ class AntiSpamFormView(FormView):
         except RecaptchaUnreachableError:
             raise TemporaryError(_("The ReCAPTCHA server was unreacheable."))
         except KeyError:
-            raise
             raise TemporaryError(_("The ReCAPTCHA didn't work properly."))
 
     def get_context_data(self, **kwargs):
