@@ -24,7 +24,7 @@ msgid ""
 "At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No \"@\" or "
 "spaces."
 msgstr ""
-"Mindestes %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" "
+"Mindestens %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" "
 "oder Leerzeichen."
 
 #: templates/register/confirm.html:4
