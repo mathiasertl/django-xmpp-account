@@ -5,8 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}{% endblock description %}">
-
-    {% comment %}Facebook Open Graph{% endcomment %}
+{% comment %}Facebook Open Graph{% endcomment %}
     <meta property="og:type"   content="article" /> 
     <meta property="og:title" content="{{ OPENGRAPH_TITLE }}" />
     <meta property="og:url" content="{{ ACTION_URL }}" />
@@ -16,7 +15,13 @@
     <meta property="article:author" content="https://facebook.com/{{ request.site.FACEBOOK }}" />
     <meta property="article:publisher" content="https://facebook.com/{{ request.site.FACEBOOK }}" />
     {% endif %}
-
+{% comment %}Twitter cards{% endcomment %}
+    <meta name="twitter:card" content="summary" />
+    {% if request.site.TWITTER %}<meta name="twitter:site" content="{{ request.site.TWITTER }}" />{% endif %}
+    <meta name="twitter:title" content="{{ OPENGRAPH_TITLE }}" />
+    <meta name="twitter:description" content="{{ OPENGRAPH_DESCRIPTION }}" />
+    <meta name="twitter:image" content="{{ FACEBOOK_IMAGE }}" />
+    <meta name="twitter:url" content="{{ ACTION_URL }}" />
 
 {% if debug %}
     <script src="{% static "lib/jquery/jquery.js" %}"></script>
