@@ -47,6 +47,9 @@ ul.arrow-list li {
     box-sizing: border-box;
     display: inline-block;
 }
+.fblike {
+    display: inline;
+}
 .twitter-share-button {
     vertical-align: bottom;
     width: 85px !important;
