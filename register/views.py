@@ -41,7 +41,7 @@ User = get_user_model()
 
 _messages = {
     'opengraph_title': _('%(DOMAIN)s: Register a new account'),
-    'opengraph_description': _('Register an account on %(DOMAIN)s, a reliable and secure Jabber/XMPP server. Jabber is a free and open instant messaging protocol used by millions of people worldwide.'),
+    'opengraph_description': _('Register on %(DOMAIN)s, a reliable and secure Jabber server. Jabber is a free and open instant messaging protocol used by millions of people worldwide.'),
 }
 
 
