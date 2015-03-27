@@ -18,7 +18,7 @@
 {% comment %}Twitter cards{% endcomment %}{% if request.site.TWITTER and request.site.TWITTER_IMAGE %}
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="{{ request.site.TWITTER }}" />
-    <meta name="twitter:image" content="{{ request.site.FACEBOOK_IMAGE }}" />
+    <meta name="twitter:image" content="{{ request.site.TWITTER_IMAGE }}" />
     <meta name="twitter:url" content="{{ ACTION_URL }}" />{% comment %}NOTE: Documented but unsed by twitter{% endcomment %}
 {% endif %}
 
