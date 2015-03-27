@@ -24,6 +24,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils import six
 from django.utils.six.moves.urllib.parse import urlsplit
@@ -194,6 +195,11 @@ class ConfirmationView(AntiSpamFormView):
 
 class ConfirmedView(AntiSpamFormView):
     user = None
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.META['HTTP_USER_AGENT'].startswith('Twitterbot'):
+            return HttpResponseRedirect(reverse(self.action_url))
+        return super(ConfirmedView, self).dispatch(request, *args, **kwargs)
 
     def after_delete(self, data):
         pass
