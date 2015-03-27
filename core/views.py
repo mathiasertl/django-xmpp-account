@@ -26,6 +26,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.utils import six
+from django.utils.six.moves.urllib.parse import urlsplit
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 from django.views.generic import View
@@ -94,6 +95,10 @@ class AntiSpamFormView(FormView):
         if action_url is not None:
             action_url = reverse(action_url)
         context['ACTION_URL'] = self.request.build_absolute_uri(action_url)
+
+        if 'CANONICAL_HOST' in self.request.site:
+            context['ACTION_URL'] = urlsplit(context['ACTION_URL'])._replace(
+                netloc=self.request.site['CANONICAL_HOST']).geturl()
 
         context['OPENGRAPH_TITLE'] = self.opengraph_title % self.request.site
         context['OPENGRAPH_DESCRIPTION'] = self.opengraph_description % self.request.site
