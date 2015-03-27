@@ -42,6 +42,15 @@ ul.arrow-list li {
 .twitter-follow-button {
     vertical-align: bottom;
 }
+.twitter-tweet {
+    width: 87px !important;
+    box-sizing: border-box;
+    display: inline-block;
+}
+.twitter-share-button {
+    vertical-align: bottom;
+    width: 85px !important;
+}
 
 .social-buttons {
     margin-top: -10px;  /* decrease margin to page-header */
