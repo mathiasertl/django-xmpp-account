@@ -117,6 +117,9 @@ XMPP_HOSTS = {
         #
         # Image used when the site is shared via Facebook, should be at least 200x200.
         #'FACEBOOK_IMAGE': 'https://example.com/static/fb.png'
+        # Image used when site is shared via twitter. Minimum size of 120x120px, should look good
+        # when cropped to a 4:3 aspect ration (120x90px).
+        #'TWITTER_IMAGE': 'https://example.com/static/twitter.png'
         #
         # The fingerprint used for signing emails from this host. Generate a key with 
         # "python manage.py genkey example.com"
