@@ -50,6 +50,8 @@ log = logging.getLogger(__name__)
 
 
 class AntiSpamFormView(FormView):
+    action_url = None
+
     def dispatch(self, request, *args, **kwargs):
         remote_ip = get_client_ip(request)
 
@@ -79,11 +81,19 @@ class AntiSpamFormView(FormView):
         except RecaptchaUnreachableError:
             raise TemporaryError(_("The ReCAPTCHA server was unreacheable."))
         except KeyError:
+            raise
             raise TemporaryError(_("The ReCAPTCHA didn't work properly."))
 
     def get_context_data(self, **kwargs):
         context = super(AntiSpamFormView, self).get_context_data(**kwargs)
         context['menuitem'] = getattr(self, 'menuitem', None)
+
+        # Social media
+        context['ACTION_URL'] = self.request.build_absolute_uri(self.action_url)
+        print(self.request.site)
+        context['OPENGRAPH_TITLE'] = self.opengraph_title % self.request.site
+        context['OPENGRAPH_DESCRIPTION'] = self.opengraph_description % self.request.site
+
         form = context['form']
         if hasattr(form, 'cleaned_data'):
             if 'fingerprint' in form.cleaned_data or 'gpg_key' in form.cleaned_data:

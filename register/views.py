@@ -39,6 +39,11 @@ from backends import backend
 
 User = get_user_model()
 
+_messages = {
+    'opengraph_title': _('%(DOMAIN)s: Register a new account'),
+    'opengraph_description': _('Register an account on %(DOMAIN)s, a reliable and secure Jabber/XMPP server. Jabber is a free and open instant messaging protocol used by millions of people worldwide.'),
+}
+
 
 class RegistrationView(ConfirmationView):
     template_name = 'register/create.html'
@@ -49,6 +54,8 @@ class RegistrationView(ConfirmationView):
     email_template = 'register/mail'
     purpose = PURPOSE_REGISTER
     menuitem = 'register'
+    opengraph_title = _messages['opengraph_title']
+    opengraph_description = _messages['opengraph_description']
 
     def get_context_data(self, **kwargs):
         context = super(RegistrationView, self).get_context_data(**kwargs)
@@ -104,6 +111,8 @@ class RegistrationConfirmationView(ConfirmedView):
     template_name = 'register/confirm.html'
     purpose = PURPOSE_REGISTER
     menuitem = 'register'
+    opengraph_title = _messages['opengraph_title']
+    opengraph_description = _messages['opengraph_description']
 
     def handle_key(self, key, form):
         data = json.loads(key.payload)

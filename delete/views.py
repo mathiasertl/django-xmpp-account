@@ -31,6 +31,10 @@ from backends import backend
 from backends.base import UserNotFound
 
 User = get_user_model()
+_messages = {
+    'opengraph_title': _('%(DOMAIN)s: Delete your account'),
+    'opengraph_description': _('Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it can never be restored.'),
+}
 
 
 class DeleteView(ConfirmationView):
@@ -42,6 +46,8 @@ class DeleteView(ConfirmationView):
     email_subject = _('Delete your account on %(domain)s')
     email_template = 'delete/mail'
     menuitem = 'delete'
+    opengraph_title = _messages['opengraph_title']
+    opengraph_description = _messages['opengraph_description']
 
     def get_user(self, data):
         username = data['username']
@@ -63,6 +69,8 @@ class DeleteConfirmationView(ConfirmedView):
     form_class = DeleteConfirmationForm
     template_name = 'delete/delete-confirm.html'
     purpose = PURPOSE_DELETE
+    opengraph_title = _messages['opengraph_title']
+    opengraph_description = _messages['opengraph_description']
 
     def handle_key(self, key, form):
         username = key.user.username

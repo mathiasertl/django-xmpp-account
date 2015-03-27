@@ -40,6 +40,17 @@ from reset.forms import ResetEmailConfirmationForm
 
 User = get_user_model()
 
+_messages = {
+    'email': {
+        'opengraph_title': _('%(DOMAIN)s: Set a new email address'),
+        'opengraph_description': _('Set a new email address for your Jabber account on %(DOMAIN)s. You must have a valid email address set to be able to reset your password.'),
+    },
+    'password': {
+        'opengraph_title': _('%(DOMAIN)s: Reset your password'),
+        'opengraph_description': _('Reset the password for your %(DOMAIN)s account.'),
+    },
+}
+
 
 class ResetPasswordView(ConfirmationView):
     form_class = ResetPasswordForm
@@ -51,6 +62,8 @@ class ResetPasswordView(ConfirmationView):
     email_subject = _('Reset the password for your %(domain)s account')
     email_template = 'reset/password-mail'
     menuitem = 'password'
+    opengraph_title = _messages['password']['opengraph_title']
+    opengraph_description = _messages['password']['opengraph_description']
 
     user_not_found_error = _("User not found.")
 
@@ -64,6 +77,8 @@ class ResetPasswordConfirmationView(ConfirmedView):
     form_class = ResetPasswordConfirmationForm
     template_name = 'reset/password-confirm.html'
     purpose = PURPOSE_SET_PASSWORD
+    opengraph_title = _messages['password']['opengraph_title']
+    opengraph_description = _messages['password']['opengraph_description']
 
     def handle_key(self, key, form):
         backend.set_password(username=key.user.username, domain=key.user.domain,
@@ -82,6 +97,8 @@ class ResetEmailView(ConfirmationView):
     email_subject = _('Confirm the email address for your %(domain)s account')
     email_template = 'reset/email-mail'
     menuitem = 'email'
+    opengraph_title = _messages['email']['opengraph_title']
+    opengraph_description = _messages['email']['opengraph_description']
 
     def get_user(self, data):
         """User may or may not exist."""
@@ -117,6 +134,9 @@ class ResetEmailConfirmationView(ConfirmedView):
     form_class = ResetEmailConfirmationForm
     template_name = 'reset/email-confirm.html'
     purpose = PURPOSE_SET_EMAIL
+
+    opengraph_title = _messages['email']['opengraph_title']
+    opengraph_description = _messages['email']['opengraph_description']
 
     def handle_key(self, key, form):
         if not backend.check_password(username=key.user.username, domain=key.user.domain,
