@@ -111,6 +111,7 @@ class RegistrationConfirmationView(ConfirmedView):
     template_name = 'register/confirm.html'
     purpose = PURPOSE_REGISTER
     menuitem = 'register'
+    action_url = 'index'
     opengraph_title = _messages['opengraph_title']
     opengraph_description = _messages['opengraph_description']
 

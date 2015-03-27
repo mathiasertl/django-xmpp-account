@@ -77,6 +77,7 @@ class ResetPasswordConfirmationView(ConfirmedView):
     form_class = ResetPasswordConfirmationForm
     template_name = 'reset/password-confirm.html'
     purpose = PURPOSE_SET_PASSWORD
+    action_url = 'ResetPassword'
     opengraph_title = _messages['password']['opengraph_title']
     opengraph_description = _messages['password']['opengraph_description']
 
@@ -135,6 +136,7 @@ class ResetEmailConfirmationView(ConfirmedView):
     template_name = 'reset/email-confirm.html'
     purpose = PURPOSE_SET_EMAIL
 
+    action_url = 'ResetEmail'
     opengraph_title = _messages['email']['opengraph_title']
     opengraph_description = _messages['email']['opengraph_description']
 

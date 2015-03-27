@@ -69,6 +69,7 @@ class DeleteConfirmationView(ConfirmedView):
     form_class = DeleteConfirmationForm
     template_name = 'delete/delete-confirm.html'
     purpose = PURPOSE_DELETE
+    action_url = 'Delete'
     opengraph_title = _messages['opengraph_title']
     opengraph_description = _messages['opengraph_description']
 

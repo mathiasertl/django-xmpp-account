@@ -24,6 +24,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 from django.utils import six
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
@@ -89,8 +90,11 @@ class AntiSpamFormView(FormView):
         context['menuitem'] = getattr(self, 'menuitem', None)
 
         # Social media
-        context['ACTION_URL'] = self.request.build_absolute_uri(self.action_url)
-        print(self.request.site)
+        action_url = self.action_url
+        if action_url is not None:
+            action_url = reverse(action_url)
+        context['ACTION_URL'] = self.request.build_absolute_uri(action_url)
+
         context['OPENGRAPH_TITLE'] = self.opengraph_title % self.request.site
         context['OPENGRAPH_DESCRIPTION'] = self.opengraph_description % self.request.site
 
