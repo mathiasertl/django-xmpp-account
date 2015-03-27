@@ -96,12 +96,12 @@ XMPP_HOSTS = {
         #'TWITTER': 'jabber_at',
         #'FACEBOOK': 'jabber.at',
         #
+        # Image used when the site is shared via Facebook, should be at least 200x200.
+        #'FACEBOOK_IMAGE': 'https://example.com/static/fb.png'
+        #
         # The fingerprint used for signing emails from this host. Generate a key with 
         # "python manage.py genkey example.com"
         #'GPG_FINGERPRINT': '2E1FF6F2E93E419BE1CBFC2B7A346DFAEB38324A',
-        #
-        # The image used when the site is shared via Facebook.
-        #'IMAGE': 'https://jabber.at/sites/jabber.at/files/jabber.at.png',
     },
     'example.net': {
         # ...
