@@ -91,12 +91,14 @@ XMPP_HOSTS = {
         # be registered by someone else if the 
         #'RESERVATION': False, 
         #
-        # The homepage of this particular host.
+        # The homepage of this particular host. This should point to the primary homepage of your
+        # server, not this page.
         'HOMEPAGE': 'https://example.com',
         #
         # Address from which confirmation emails are sent. If not given, use the global
         # DEFAULT_FROM_EMAIL setting.
         'FROM_EMAIL': 'noreply@example.com',
+        #
         # By default, users cannot give email addresses with the same domain as any of the hosts
         # named in XMPP_HOSTS, as users frequently enter that domain in error. If you do also offer
         # custom email addresses on this domain, you can set this EMAIL to True.
@@ -104,6 +106,10 @@ XMPP_HOSTS = {
         #
         # A URL to a webchat, if any.
         #'WEBCHAT': 'https://webchat.example.com',
+        #
+        # If set, the hostname in the URL used for sharing this page via Twitter or Facebook will
+        # always be this one. Useful if the page is available via multiple domains.
+        #'CANONICAL_HOST': 'account.example.com',
         #
         # A link to a Twitter account and/or Facebook page for this host, if any.
         #'TWITTER': 'jabber_at',
