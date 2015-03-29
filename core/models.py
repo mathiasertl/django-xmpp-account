@@ -208,10 +208,10 @@ class Confirmation(models.Model):
         body = MIMEMultipart(_subtype='alternative', _subparts=[text, html])
 
         if sign and not encrypt:  # only sign the message
-            payload = gpg.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
-            # TODO: Warn if payload.data is empty
+            signed_body = gpg.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
+            # TODO: Warn if signed_body.data is empty
             sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
-            sig.set_payload(payload.data)
+            sig.set_payload(signed_body.data)
             sig.add_header('Content-Description', 'OpenPGP digital signature')
             sig.add_header('Content-Disposition', 'attachment; filename="signature.asc"')
             del sig['Content-Transfer-Encoding']
@@ -221,11 +221,11 @@ class Confirmation(models.Model):
             msg.attach(sig)
             protocol = 'application/pgp-signature'
         elif encrypt:  # sign and encrypt
-            payload = gpg.encrypt(body.as_string(), [self.user.gpg_fingerprint], sign=signer,
-                                  always_trust=True)
-            # TODO: Warn if payload.data is empty
+            encrypted_body = gpg.encrypt(body.as_string(), [self.user.gpg_fingerprint],
+                                         sign=signer, always_trust=True)
+            # TODO: Warn if encrypted_body.data is empty
             encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
-            encrypted.set_payload(payload.data)
+            encrypted.set_payload(encrypted_body.data)
             encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
             encrypted.add_header('Content-Disposition', 'inline; filename="encrypted.asc"')
             msg.mixed_subtype = 'encrypted'
