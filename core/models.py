@@ -17,6 +17,7 @@
 
 from __future__ import unicode_literals
 
+import json
 import logging
 import random
 import smtplib
@@ -175,13 +176,16 @@ class Confirmation(models.Model):
         signer = site.get('GPG_FINGERPRINT')
         sign = False
 
+        payload = json.loads(self.payload)
+        gpg_fingerprint = payload['gpg_fingerprint']
+
         # encrypt only if the user has a fingerprint
-        if gpg and self.user.gpg_fingerprint:
+        if gpg and gpg_fingerprint:
             # Receive key of recipient. We don't care about the result, because user might not have
             # uploaded it.
-            gpg.recv_keys(settings.GPG_KEYSERVER, self.user.gpg_fingerprint)
+            gpg.recv_keys(settings.GPG_KEYSERVER, gpg_fingerprint)
 
-            if self.user.gpg_fingerprint not in [k['fingerprint'] for k in gpg.list_keys()]:
+            if gpg_fingerprint not in [k['fingerprint'] for k in gpg.list_keys()]:
                 log.warn('%s: Unknown GPG fingerprint for %s', site['DOMAIN'], self.user.jid)
             else:
                 encrypt = True
@@ -195,7 +199,7 @@ class Confirmation(models.Model):
                 log.warn('%s: No GPG key configured, not signing', site['DOMAIN'])
             elif signer not in [k['fingerprint'] for k in gpg.list_keys(True)]:
                 log.warn('%s: %s: secret key not found, not signing', site['DOMAIN'], signer)
-            elif gpg and (self.user.gpg_fingerprint or settings.FORCE_GPG_SIGNING):
+            elif gpg and (gpg_fingerprint or settings.FORCE_GPG_SIGNING):
                 sign = True
 
         if not (sign or encrypt):  # shortcut if no GPG is used
@@ -221,8 +225,8 @@ class Confirmation(models.Model):
             msg.attach(sig)
             protocol = 'application/pgp-signature'
         elif encrypt:  # sign and encrypt
-            encrypted_body = gpg.encrypt(body.as_string(), [self.user.gpg_fingerprint],
-                                         sign=signer, always_trust=True)
+            encrypted_body = gpg.encrypt(body.as_string(), [gpg_fingerprint], sign=signer,
+                                         always_trust=True)
             # TODO: Warn if encrypted_body.data is empty
             encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
             encrypted.set_payload(encrypted_body.data)
