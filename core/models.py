@@ -213,7 +213,8 @@ class Confirmation(models.Model):
 
         if sign and not encrypt:  # only sign the message
             signed_body = gpg.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
-            # TODO: Warn if signed_body.data is empty
+            if not signed_body.data:
+                log.warn('GPG returned no data when signing')
             sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
             sig.set_payload(signed_body.data)
             sig.add_header('Content-Description', 'OpenPGP digital signature')
@@ -227,7 +228,8 @@ class Confirmation(models.Model):
         elif encrypt:  # sign and encrypt
             encrypted_body = gpg.encrypt(body.as_string(), [gpg_fingerprint], sign=signer,
                                          always_trust=True)
-            # TODO: Warn if encrypted_body.data is empty
+            if not signed_body.data:
+                log.warn('GPG returned no data when signing/encrypting')
             encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
             encrypted.set_payload(encrypted_body.data)
             encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
