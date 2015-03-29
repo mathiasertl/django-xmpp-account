@@ -136,7 +136,7 @@ class ConfirmationView(AntiSpamFormView):
     def handle_valid(self, form, user):
         """By default, the users current fingerprint is the payload."""
 
-        return {'gpg_fingerprint', user.gpg_fingerprint, }
+        return {'gpg_fingerprint': user.gpg_fingerprint, }
 
     def handle_gpg(self, form, user):
         if not settings.GPG:
