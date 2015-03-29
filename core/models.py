@@ -179,7 +179,8 @@ class Confirmation(models.Model):
         if gpg and self.user.gpg_fingerprint:
             # Receive key of recipient. We don't care about the result, because user might not have
             # uploaded it.
-            gpg.recv_keys('pgp.mit.edu', self.user.gpg_fingerprint)
+            gpg.recv_keys(settings.GPG_KEYSERVER, self.user.gpg_fingerprint)
+
             if self.user.gpg_fingerprint not in [k['fingerprint'] for k in gpg.list_keys()]:
                 log.warn('%s: Unknown GPG fingerprint for %s', site['DOMAIN'], self.user.jid)
             else:
