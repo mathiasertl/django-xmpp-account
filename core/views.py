@@ -134,7 +134,9 @@ class ConfirmationView(AntiSpamFormView):
     user_not_found_error = _("User not found (or false password provided)!")
 
     def handle_valid(self, form, user):
-        pass
+        """By default, the users current fingerprint is the payload."""
+
+        return {'gpg_fingerprint', user.gpg_fingerprint, }
 
     def handle_gpg(self, form, user):
         if not settings.GPG:
