@@ -32,6 +32,6 @@ def follow(context):
 
     target = 'https://twitter.com/intent/follow?screen_name=%s&tw_p=followbutton' % account
     image_src = static('site/follow_%s.png' % account)
-    image = '<img class="social-button" src="%s" alt="%s" data-url="%s" data-width="300" ' \
-        'data-height="300">' % (image_src, _("Follow @%s on Twitter") % account, target)
+    image = '<img class="social-button" src="%s" alt="%s" data-url="%s" data-width="570" ' \
+        'data-height="450">' % (image_src, _("Follow @%s on Twitter") % account, target)
     return image
