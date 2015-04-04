@@ -208,5 +208,6 @@ must regenerate the minifed files:
 ```
 sudo apt-get install nodejs npm
 # Ubunut installs node as nodejs, but we need "node"
-sudo sudo ln -s /usr/bin/nodejs /usr/local/bin/node 
+sudo ln -s /usr/bin/nodejs /usr/local/bin/node 
 npm install clean-css uglify-js
+```
