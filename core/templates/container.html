@@ -8,7 +8,7 @@
 </h1></div>
 {% if SITE.FACEBOOK or SITE.TWITTER or SITE.GPLUS %}
 <div class="social-buttons">
-{% if SITE.TWITTER %}{% follow %}{% endif %}
+{% follow %}
 {% if SITE.FACEBOOK %}
 <div class="fblike"><img src="{% static 'img/fblike.png' %}"> {% trans "(Click twice for privacy!)" %}</div>
 {% endif %}

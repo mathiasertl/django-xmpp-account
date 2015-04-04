@@ -55,6 +55,10 @@ ul.arrow-list li {
     width: 85px !important;
 }
 
+.social-button {
+    cursor: pointer;
+}
+
 .social-buttons {
     margin-top: -10px;  /* decrease margin to page-header */
     cursor: pointer;
