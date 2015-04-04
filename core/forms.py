@@ -26,7 +26,8 @@ from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import salted_hmac
-from django_recaptcha_field import create_form_subclass_with_recaptcha
+
+from django_recaptcha_field import _RecaptchaField
 
 from xmppaccount.jid import parse_jid
 
@@ -40,6 +41,36 @@ from core.widgets import SelectWidget
 from core.widgets import TextWidget
 
 log = logging.getLogger(__name__)
+
+def create_form_subclass_with_recaptcha(base_form_class, recaptcha_client,
+                                        additional_field_kwargs=None):
+    """Copy from django_recaptcha_field.py overriding the class used for the recaptcha field."""
+
+    additional_field_kwargs = additional_field_kwargs or {}
+
+    class RecaptchaProtectedForm(base_form_class):
+
+        def __init__(self, request, *args, **kwargs):
+            super(RecaptchaProtectedForm, self).__init__(*args, **kwargs)
+
+            self.fields['recaptcha'] = RecaptchaField(
+                recaptcha_client,
+                request.META['REMOTE_ADDR'],
+                request.is_secure(),
+                **additional_field_kwargs
+                )
+
+    return RecaptchaProtectedForm
+
+
+class RecaptchaField(_RecaptchaField):
+    """Subclass adding the missing error message."""
+
+    default_error_messages = {
+        'incorrect_solution': 'Your solution to the CAPTCHA was incorrect',
+        # This key is missing upstream, which sometimes causes tracebacks
+        'invalid': 'This field is invalid.',
+    }
 
 
 class UserCreationFormNoPassword(UserCreationForm):
