@@ -57,6 +57,7 @@ ul.arrow-list li {
 
 .social-button {
     cursor: pointer;
+    padding-right: 5px;
 }
 
 .social-buttons {

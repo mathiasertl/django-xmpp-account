@@ -35,3 +35,16 @@ def follow(context):
     image = '<img class="social-button" src="%s" alt="%s" data-url="%s" data-width="570" ' \
         'data-height="450">' % (image_src, _("Follow @%s on Twitter") % account, target)
     return image
+
+
+@register.simple_tag(takes_context=True)
+def share(context):
+    account = context['SITE'].get('FACEBOOK')
+    if account is None:
+        return ''
+
+    action = context['ACTION_URL']
+    target = 'https://www.facebook.com/sharer/sharer.php?u=%s' % action
+    image_src = static('site/share.png')
+    return '<img class="social-button" src="%s" alt="%s" data-url="%s" data-width="670" ' \
+        'data-height="450">' % (image_src, _("Share this page on Facebook"), target)
