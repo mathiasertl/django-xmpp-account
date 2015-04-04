@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles social %}
 
 {% block container %}
 {% include "core/includes/navbar.html" %}
@@ -8,14 +8,7 @@
 </h1></div>
 {% if SITE.FACEBOOK or SITE.TWITTER or SITE.GPLUS %}
 <div class="social-buttons">
-{% if SITE.TWITTER %}
-<span class="twitter twitter-tweet" data-url="{{ ACTION_URL }}" 
-                data-text="{% trans "Get a Jabber account today!" %}"
-                data-via="{{ SITE.TWITTER }}" data-hashtags="xmpp,jabber" data-dnt="true">
-            <img src="{% static 'img/twitter-tweet.png' %}">
-        </span>
-
-{% endif %}
+{% if SITE.TWITTER %}{% follow %}{% endif %}
 {% if SITE.FACEBOOK %}
 <div class="fblike"><img src="{% static 'img/fblike.png' %}"> {% trans "(Click twice for privacy!)" %}</div>
 {% endif %}
