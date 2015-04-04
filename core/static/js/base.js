@@ -119,6 +119,14 @@ $(document).ready(function() {
         }
     });
 
+    $('.social-button').on('click', function(event) {
+        link = $(event.target);
+        url = link.attr('data-url');
+        width = link.attr('data-width');
+        height = link.attr('data-height');
+        window.open(url, 'newwindow', 'width=' + width + ', height=' + height);
+    });
+
     $('.fblike').on('click', function(event) {
         // Generate a string containing the HTML to place in the element (for readability)
         var html = "<div id=\"fb-root\">\n";
