@@ -2,8 +2,8 @@
 <div class="form-group gpg-form-group">
     <span class="gpg-fields-toggle">
         <span class="triangle-wrapper">
-            <div class="show-triangle" {% if show_gpg %} style="display: none;"{% endif %}></div>
-            <div style="display: {% if show_gpg %}inline-block{% else %}none{% endif %};" class="hide-triangle"></div>
+            <span class="show-triangle" {% if show_gpg %} style="display: none;"{% endif %}></span>
+            <span style="display: {% if show_gpg %}inline-block{% else %}none{% endif %};" class="hide-triangle"></span>
         </span>
         <label for="{{ form.fingerprint.id_for_label }}">{% trans "GPG key (advanced, optional)" %}</label>
     </span>
