@@ -102,6 +102,7 @@ class AntiSpamFormView(FormView):
 
         context['OPENGRAPH_TITLE'] = self.opengraph_title % self.request.site
         context['OPENGRAPH_DESCRIPTION'] = self.opengraph_description % self.request.site
+        context['TWITTER_TEXT'] = getattr(self, 'twitter_text', context['OPENGRAPH_TITLE'])
 
         form = context['form']
         if hasattr(form, 'cleaned_data'):
