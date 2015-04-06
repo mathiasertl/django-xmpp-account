@@ -1,12 +1,12 @@
 {% load i18n staticfiles %}
 <div class="form-group gpg-form-group">
-    <label for="{{ form.fingerprint.id_for_label }}" class="gpg-fields-toggle">
+    <span class="gpg-fields-toggle">
         <span class="triangle-wrapper">
             <div class="show-triangle" {% if show_gpg %} style="display: none;"{% endif %}></div>
             <div style="display: {% if show_gpg %}inline-block{% else %}none{% endif %};" class="hide-triangle"></div>
         </span>
-        <span class="label-text">{% trans "GPG key (advanced, optional)" %}</span>
-    </label>
+        <label for="{{ form.fingerprint.id_for_label }}">{% trans "GPG key (advanced, optional)" %}</label>
+    </span>
     <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 help-block">
             {% blocktrans %}Add your GPG key if you want us to encrypt all confirmation emails sent to you.{% endblocktrans %}
