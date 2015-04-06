@@ -5,6 +5,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}{% endblock description %}">
+{% comment %}Dublin Core{% endcomment %}
+    <meta name="DC.Title" content="{{ TWITTER_TEXT }}" >
+    <meta name="DC.Subject" content="jabber, xmpp, Instant Messaging" >
 {% comment %}Facebook Open Graph{% endcomment %}
     <meta property="og:type"   content="article" /> 
     <meta property="og:title" content="{{ OPENGRAPH_TITLE }}" />
@@ -17,7 +20,8 @@
     {% endif %}
 {% comment %}Twitter cards{% endcomment %}{% if request.site.TWITTER and request.site.TWITTER_IMAGE %}
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="{{ request.site.TWITTER }}" />
+    <meta name="twitter:title" content="{{ TWITTER_TEXT }}" />
+    <meta name="twitter:site" content="@{{ request.site.TWITTER }}" />
     <meta name="twitter:image" content="{{ request.site.TWITTER_IMAGE }}" />
     <meta name="twitter:url" content="{{ ACTION_URL }}" />{% comment %}NOTE: Documented but unsed by twitter{% endcomment %}
 {% endif %}

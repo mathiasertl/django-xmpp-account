@@ -6,7 +6,7 @@
 <div class="page-header"><h1>{% block title %}{% endblock title %}
 
 </h1></div>
-<div class="shariff"></div>
+<div class="shariff" data-url="{{ ACTION_URL }}" data-text="{{ TWITTER_TEXT }}" {% if request.site.TWITTER %}data-twitter-via="{{ request.site.TWITTER }}"{% endif %}></div>
 {% block body %}{% endblock body %}
 <footer class="row"><div class="col-md-12">
     <p>{% trans "© 2013 - 2015, Mathias Ertl unless otherwise noted." %}
