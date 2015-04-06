@@ -52,13 +52,18 @@ minify_js = MinifyJSTask(files=[
     'core/static/js/base.js',
 ], dest='core/static/account.min.js')
 
-class DeployTask(Task):
-    def run(self, host='hyperion', dir='/usr/local/home/xmpp-account/django-xmpp-account/', group='xmpp-account'):
+
+class BuildTask(Task):
+    def run(self):
         minify_js.run()
         minify_css.run()
         with quiet():
             local('git commit core/static/account.min.js core/static/account.min.css -m "update minification"')
         local('git push origin master')
+
+
+class DeployTask(Task):
+    def run(self, host='hyperion', dir='/usr/local/home/xmpp-account/django-xmpp-account/', group='xmpp-account'):
         ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
         local('ssh %s sudo chgrp -R %s %s' % (host, group, dir))
         ssh("git fetch")
@@ -69,3 +74,4 @@ class DeployTask(Task):
 
 
 deploy = DeployTask()
+build = BuildTask()
