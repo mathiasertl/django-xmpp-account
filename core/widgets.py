@@ -35,5 +35,5 @@ _fingerprintattrs['maxlength'] = 50
 TextWidget = forms.TextInput(attrs=_inputattrs)
 PasswordWidget = forms.PasswordInput(attrs=_inputattrs)
 EmailWidget = forms.TextInput(attrs=_emailattrs)
-SelectWidget = forms.Select(attrs=_selectattrs)
+SelectWidget = forms.Select(attrs={'class': 'form-control', })
 FingerprintWidget = forms.TextInput(attrs=_fingerprintattrs)
