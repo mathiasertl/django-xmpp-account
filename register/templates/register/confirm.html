@@ -65,7 +65,7 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
 
 {% include "core/forms/errors.html" %}
 
-<form role="form" action="" method="post" autocomplete="off">{% csrf_token %}
+<form role="form" action="{{ request.path }}" method="post" autocomplete="off">{% csrf_token %}
     {% include "core/forms/head.html" %}
    
     {% with field=form.password %}

@@ -22,7 +22,7 @@ way to restore your account!{% endblocktrans %}</p>
 
 {% include "core/forms/errors.html" %}
 
-<form role="form" action="" method="post" autocomplete="off">{% csrf_token %}
+<form role="form" action="{{ request.path }}" method="post" autocomplete="off">{% csrf_token %}
     {% include "core/forms/head.html" %}
 
     {% with username=form.username domain=form.domain %}
