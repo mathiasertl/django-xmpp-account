@@ -83,8 +83,7 @@ class UserCreationFormNoPassword(UserCreationForm):
 class AntiSpamBase(object):
     TIMESTAMP = forms.IntegerField(widget=forms.HiddenInput, required=True)
     TOKEN = forms.CharField(widget=forms.HiddenInput, required=True)
-    SECURITY_HASH = forms.CharField(min_length=40, max_length=40, required=True,
-                                    widget=forms.HiddenInput)
+    SECURITY_HASH = forms.CharField(required=True, widget=forms.HiddenInput)
 
     ANTI_SPAM_MESSAGES = {
         'too-slow': _("This page has expired. Reload and try again."),
