@@ -106,3 +106,7 @@ ul.arrow-list li {
 .fingerprint {
     display: none;
 }
+
+img#flattr {
+    border: 0;
+}
