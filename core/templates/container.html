@@ -6,14 +6,7 @@
 <div class="page-header"><h1>{% block title %}{% endblock title %}
 
 </h1></div>
-{% if SITE.FACEBOOK or SITE.TWITTER or SITE.GPLUS %}
-<div class="social-buttons">
-{% follow %}{% share %}
-{% if SITE.FACEBOOK %}
-<div class="fblike"><img src="{% static 'img/fblike.png' %}"> {% trans "(Click twice for privacy!)" %}</div>
-{% endif %}
-</div>
-{% endif %}
+<div class="shariff"></div>
 {% block body %}{% endblock body %}
 <footer class="row"><div class="col-md-12">
     <p>{% trans "© 2013 - 2015, Mathias Ertl unless otherwise noted." %}
