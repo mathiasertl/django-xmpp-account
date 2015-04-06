@@ -26,6 +26,7 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def follow(context):
+    """A Twitter follow button."""
     account = context['SITE'].get('TWITTER')
     if account is None:
         return ''
@@ -39,6 +40,7 @@ def follow(context):
 
 @register.simple_tag(takes_context=True)
 def share(context):
+    """A Facebook share button."""
     account = context['SITE'].get('FACEBOOK')
     if account is None:
         return ''
@@ -48,3 +50,12 @@ def share(context):
     image_src = static('site/share.png')
     return '<img class="social-button" src="%s" alt="%s" data-url="%s" data-width="670" ' \
         'data-height="450">' % (image_src, _("Share this page on Facebook"), target)
+
+@register.simple_tag(takes_context=True)
+def fb_follow(context):
+    """A button to follow a page on facebook."""
+    account = context['SITE'].get('FACEBOOK')
+    if account is None:
+        return ''
+
+    action = context['ACTION_URL']
