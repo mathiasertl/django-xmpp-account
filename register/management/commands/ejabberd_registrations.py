@@ -1,18 +1,18 @@
+# -*- coding: utf-8 -*-
+# vim: expandtab:tabstop=4:hlsearch
 #
-# This file is part of django-xmpp-register (https://account.jabber.at/doc).
+# This file is part of django-xmpp-account (https://github.com/mathiasertl/django-xmpp-account/).
 #
-# django-xmpp-register is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by the Free
-# Software Foundation, either version 3 of the License, or (at your option) any
-# later version.
+# django-xmpp-account is free software: you can redistribute it and/or modify it under the terms of
+# the GNU General Public License as published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
 #
-# django-xmpp-register is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-# more details.
+# django-xmpp-account is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with
-# django-xmpp-register.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License along with django-xmpp-account.
+# If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
 
@@ -36,10 +36,8 @@ from core.constants import REGISTRATION_INBAND
 from core.models import Address
 from core.models import UserAddresses
 
-# Python versions before 3.0 do not use UTF-8 encoding
-# by default. To ensure that Unicode is handled properly
-# throughout SleekXMPP, we will set the default encoding
-# ourselves to UTF-8.
+# Python versions before 3.0 do not use UTF-8 encoding by default. To ensure that Unicode is
+# handled properly throughout SleekXMPP, we will set the default encoding ourselves to UTF-8.
 if sys.version_info < (3, 0):
     reload(sys)
     sys.setdefaultencoding('utf8')
@@ -90,10 +88,9 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 return
             except User.DoesNotExist:
                 last_login = tzinfo.localize(datetime.now())
-                user = User.objects.create(username=username, domain=domain,
-                                           registration_method=REGISTRATION_INBAND,
-                                           registered=timestamp,
-                                           last_login=last_login)
+                user = User.objects.create(
+                    username=username, domain=domain, registration_method=REGISTRATION_INBAND,
+                    registered=timestamp, last_login=last_login)
 
             log.info('Imported user %s@%s (from %s)', username, domain, ip)
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
