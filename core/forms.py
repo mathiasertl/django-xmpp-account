@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+# vim: expandtab:tabstop=4:hlsearch
 #
-# This file is part of django-xmpp-account (https://account.jabber.at/doc).
+# This file is part of django-xmpp-account (https://github.com/mathiasertl/django-xmpp-account/).
 #
 # django-xmpp-account is free software: you can redistribute it and/or modify it under the terms of
 # the GNU General Public License as published by the Free Software Foundation, either version 3 of
