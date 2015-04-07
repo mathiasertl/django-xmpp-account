@@ -19,6 +19,8 @@ import json
 
 from datetime import datetime
 
+import pytz
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
@@ -38,6 +40,7 @@ from register.forms import RegistrationConfirmationForm
 from backends import backend
 
 User = get_user_model()
+tzinfo = pytz.timezone(settings.TIME_ZONE)
 
 _messages = {
     'opengraph_title': _('%(DOMAIN)s: Register a new account'),
@@ -85,8 +88,11 @@ class RegistrationView(ConfirmationView):
         return kwargs
 
     def get_user(self, data):
-        return User.objects.create(username=data['username'], domain=data['domain'],
-                                   email=data['email'], registration_method=REGISTRATION_WEBSITE)
+        last_login = tzinfo.localize(datetime.now())
+        return User.objects.create(
+            username=data['username'], domain=data['domain'], last_login=last_login,
+            email=data['email'], registration_method=REGISTRATION_WEBSITE,
+        )
 
     def handle_valid(self, form, user):
         payload = self.handle_gpg(form, user)

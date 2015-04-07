@@ -89,9 +89,11 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
                 log.error('User exists: %s@%s', username, domain)
                 return
             except User.DoesNotExist:
+                last_login = tzinfo.localize(datetime.now())
                 user = User.objects.create(username=username, domain=domain,
                                            registration_method=REGISTRATION_INBAND,
-                                           registered=timestamp)
+                                           registered=timestamp,
+                                           last_login=last_login)
 
             log.info('Imported user %s@%s (from %s)', username, domain, ip)
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
