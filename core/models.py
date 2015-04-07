@@ -155,6 +155,28 @@ class RegistrationUser(AbstractBaseUser):
         self.is_admin = value
 
 
+class Registration(models.Model):
+    # NOTE: MySQL only allows a 255 character limit
+    username = models.CharField(max_length=255)
+    domain = models.CharField(
+        max_length=253, default=settings.DEFAULT_XMPP_HOST,
+        choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
+    )  # maximum length of a domain name is 253 characters (according to spec)
+    email = models.EmailField(null=True, blank=True)
+    gpg_fingerprint = models.CharField(max_length=40, null=True, blank=True)
+    registration_method = models.SmallIntegerField(choices=REGISTRATION_CHOICES)
+
+    # Some useful timestamps:
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    confirmed = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = (
+            ('username', 'domain', ),
+        )
+
+
 @python_2_unicode_compatible
 class Confirmation(models.Model):
     key = models.CharField(max_length=40)
