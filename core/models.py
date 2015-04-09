@@ -154,6 +154,10 @@ class RegistrationUser(AbstractBaseUser):
     def is_staff(self, value):
         self.is_admin = value
 
+    @property
+    def reg(self):
+        return Registration.objects.get(username=self.username, domain=self.domain)
+
 
 class Registration(models.Model):
     # NOTE: MySQL only allows a 255 character limit
