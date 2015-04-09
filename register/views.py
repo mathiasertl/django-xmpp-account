@@ -32,6 +32,7 @@ from django.utils.translation import ugettext_lazy as _
 from core.constants import PURPOSE_REGISTER
 from core.constants import REGISTRATION_WEBSITE
 from core.exceptions import RegistrationRateException
+from core.models import Registration
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
@@ -90,6 +91,11 @@ class RegistrationView(ConfirmationView):
 
     def get_user(self, data):
         last_login = tzinfo.localize(datetime.now())
+        Registration.objects.create(
+            username=data['username'], domain=data['domain'], last_login=last_login,
+            email=data['email'], registration_method=REGISTRATION_WEBSITE,
+        )
+
         return User.objects.create(
             username=data['username'], domain=data['domain'], last_login=last_login,
             email=data['email'], registration_method=REGISTRATION_WEBSITE,
@@ -128,17 +134,22 @@ class RegistrationConfirmationView(ConfirmedView):
         key.user.confirmed = now()
         key.user.save()
 
-        backend.create(username=key.user.username, domain=key.user.domain, email=key.user.email,
-                       password=form.cleaned_data['password'])
+        # keep registration in sync
+        key.registration.gpg_fingerprint = data.get('gpg_fingerprint')
+        key.registration.confirmed = now()
+        key.registration.save()
+
+        backend.create(username=key.registration.username, domain=key.registration.domain,
+                       email=key.registration.email, password=form.cleaned_data['password'])
         if settings.WELCOME_MESSAGE is not None:
             reset_pass_path = reverse('ResetPassword')
             reset_mail_path = reverse('ResetEmail')
             delete_path = reverse('Delete')
 
             context = {
-                'username': key.user.username,
-                'domain': key.user.domain,
-                'email': key.user.email,
+                'username': key.registration.username,
+                'domain': key.registration.domain,
+                'email': key.registration.email,
                 'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
                 'email_reset_url': self.request.build_absolute_uri(location=reset_mail_path),
                 'delete_url': self.request.build_absolute_uri(location=delete_path),
@@ -146,5 +157,5 @@ class RegistrationConfirmationView(ConfirmedView):
             }
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)
-            backend.message(username=key.user.username, domain=key.user.domain, subject=subject,
-                            message=message)
+            backend.message(username=key.registration.username, domain=key.registration.domain,
+                            subject=subject, message=message)
