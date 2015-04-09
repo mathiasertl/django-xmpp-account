@@ -190,6 +190,13 @@ class Confirmation(models.Model):
     payload = models.TextField(null=True, blank=True)
 
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
+    _registration = None
+
+    @property
+    def registration(self):
+        if self._registration is None:
+            self._registration = self.user.reg
+        return self._registration
 
     def handle_gpg(self, site, subject, text, html):
         """
