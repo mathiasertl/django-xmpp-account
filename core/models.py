@@ -175,6 +175,18 @@ class Registration(models.Model):
     updated = models.DateTimeField(auto_now=True)
     confirmed = models.DateTimeField(null=True, blank=True)
 
+    _user = None
+
+    @property
+    def user(self):
+        """Shortcut for old User object.
+
+        TODO: Remove this shortcut.
+        """
+        if self._user is None:
+            self._user = RegistrationUser.objects.get(username=self.username, domain=self.domain)
+        return self._user
+
     class Meta:
         unique_together = (
             ('username', 'domain', ),
