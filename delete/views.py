@@ -82,6 +82,6 @@ class DeleteConfirmationView(ConfirmedView):
 
     def after_delete(self, data):
         # actually delete user from the database
-        backend.remove(username=self.user.username, domain=self.user.domain)
-        self.user.reg.delete()
-        self.user.delete()
+        backend.remove(username=self.registration.username, domain=self.registration.domain)
+        self.registration.user.delete()
+        self.registration.delete()

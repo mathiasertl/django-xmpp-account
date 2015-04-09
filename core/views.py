@@ -195,7 +195,7 @@ class ConfirmationView(AntiSpamFormView):
 
 
 class ConfirmedView(AntiSpamFormView):
-    user = None
+    registration = None
 
     def dispatch(self, request, *args, **kwargs):
         if request.META['HTTP_USER_AGENT'].startswith('Twitterbot'):
@@ -207,10 +207,10 @@ class ConfirmedView(AntiSpamFormView):
 
     def get_context_data(self, **kwargs):
         context = super(ConfirmedView, self).get_context_data(**kwargs)
-        if self.user is not None:
-            context['username'] = self.user.username
-            context['domain'] = self.user.domain
-            context['jid'] = self.user.jid
+        if self.registration is not None:
+            context['username'] = self.registration.username
+            context['domain'] = self.registration.domain
+            context['jid'] = self.registration.jid
         return context
 
     def form_valid(self, form):
@@ -220,7 +220,7 @@ class ConfirmedView(AntiSpamFormView):
         except Confirmation.DoesNotExist:
             form.add_error(None, _("Confirmation key expired or not found."))
             return self.form_invalid(form)
-        self.user = key.user
+        self.registration = key.registration
 
         try:
             self.handle_key(key, form)
