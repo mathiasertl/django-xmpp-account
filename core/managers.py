@@ -17,31 +17,44 @@
 
 from __future__ import unicode_literals
 
+from datetime import datetime
+
+import pytz
+
+from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
 from django.utils.crypto import salted_hmac
 
+from core.constants import REGISTRATION_WEBSITE as WEBSITE
 from core.querysets import ConfirmationQuerySet
 from core.utils import random_string
 
+tzinfo = pytz.timezone(settings.TIME_ZONE)
+
 
 class RegistrationUserManager(BaseUserManager):
-    def create_user(self, email, username, domain, password=None):
+    def create_user(self, jid, email, password=None):
         """Create a user.
 
         .. NOTE:: Password is required by manage.py createuser but is unused.
         """
-        user = self.model(email=email, username=username, domain=domain)
+        now = tzinfo.localize(datetime.now())
+        name, domain = jid.split('@')
+        user = self.model(username=name, domain=domain, email=email, confirmed=now,
+                          registration_method=WEBSITE)
         user.save(using=self.db)
         return user
 
-    def create_superuser(self, email, username, domain, password=None):
+    def create_superuser(self, jid, email, password=None):
         """Create a superuser.
 
         .. NOTE:: Password is required by manage.py createuser but is unused.
         """
-        user = self.model(email=email, username=username, domain=domain,
-                          is_admin=True)
+        now = tzinfo.localize(datetime.now())
+        name, domain = jid.split('@')
+        user = self.model(username=name, domain=domain, email=email, confirmed=now,
+                          registration_method=WEBSITE, is_admin=True)
         user.save(using=self.db)
         return user
 

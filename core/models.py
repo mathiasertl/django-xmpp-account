@@ -82,6 +82,7 @@ class RegistrationUser(AbstractBaseUser):
         max_length=253, default=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
     )  # maximum length of a domain name is 253 characters (according to spec)
+    jid = models.CharField(max_length=509, unique=True, null=True, blank=True, verbose_name='JID')
     email = models.EmailField(unique=True, null=True)
     gpg_fingerprint = models.CharField(max_length=40, null=True, blank=True)
 
@@ -97,8 +98,8 @@ class RegistrationUser(AbstractBaseUser):
 
     objects = RegistrationUserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'domain', ]
+    USERNAME_FIELD = 'jid'
+    REQUIRED_FIELDS = ('email', )
 
     class Meta:
         verbose_name = _('User')
@@ -106,9 +107,9 @@ class RegistrationUser(AbstractBaseUser):
             ('username', 'domain', ),
         )
 
-    @property
-    def jid(self):
-        return '%s@%s' % (self.username, self.domain)
+    def save(self, *args, **kwargs):
+        self.jid = '%s@%s' % (self.username, self.domain)
+        return super(RegistrationUser, self).save(*args, **kwargs)
 
     def has_email(self):
         if not self.email or not self.confirmed:
