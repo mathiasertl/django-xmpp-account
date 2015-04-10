@@ -26,7 +26,7 @@ User = get_user_model()
 class BackendBackend(object):
     def authenticate(self, username, password):
         try:
-            user = User.objects.get(email=username)
+            user = User.objects.get(jid=username)
             if backend.check_password(user.username, user.domain, password):
                 return user
         except User.DoesNotExist:
