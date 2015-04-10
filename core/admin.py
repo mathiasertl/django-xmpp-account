@@ -100,6 +100,11 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         'resend_password_reset',
         'resend_email_reset',
     )
+    fields = (
+        'username', 'domain', 'email', 'registered', 'registration_method',
+        'confirmed', 'gpg_fingerprint', 'is_admin',
+    )
+    readonly_fields = ('registered', 'confirmed', )
 
     def log_deletion(self, request, object, object_repr):
         """Remove users from Jabber server before removing from database.
