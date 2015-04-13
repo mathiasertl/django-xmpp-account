@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='registrationuser',
             name='jid',
-            field=models.CharField(default='', unique=True, max_length=509, verbose_name='JID'),
+            field=models.CharField(default='', unique=True, max_length=255, verbose_name='JID'),
             preserve_default=False,
         ),
     ]
