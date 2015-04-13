@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='registrationuser',
             name='jid',
-            field=models.CharField(max_length=509, unique=True, null=True, blank=True),
+            field=models.CharField(max_length=255, unique=True, null=True, blank=True),
         ),
         migrations.AlterField(
             model_name='registrationuser',
