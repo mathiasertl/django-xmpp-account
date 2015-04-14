@@ -90,8 +90,9 @@ class RegistrationView(ConfirmationView):
 
     def get_user(self, data):
         last_login = tzinfo.localize(datetime.now())
+        jid = '%s@%s' % (data['username'], data['domain'])
         return User.objects.create(
-            username=data['username'], domain=data['domain'], last_login=last_login,
+            username=data['username'], domain=data['domain'], jid=jid, last_login=last_login,
             email=data['email'], registration_method=REGISTRATION_WEBSITE,
         )
 
