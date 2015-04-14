@@ -108,7 +108,8 @@ class RegistrationUser(AbstractBaseUser):
         )
 
     def save(self, *args, **kwargs):
-        self.jid = '%s@%s' % (self.username, self.domain)
+        if self.jid is None:
+            self.jid = '%s@%s' % (self.username, self.domain)
         return super(RegistrationUser, self).save(*args, **kwargs)
 
     def has_email(self):
