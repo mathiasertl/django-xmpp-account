@@ -17,8 +17,9 @@
 
 from __future__ import unicode_literals
 
+from importlib import import_module
+
 from django.conf import settings
-from django.utils import importlib
 
 from backends.base import InvalidXmppBackendError
 
@@ -41,7 +42,7 @@ def get_backend(backend, **kwargs):
     try:
         backend, params = parse_backend_conf(backend)
         mod_path, cls_name = backend.rsplit('.', 1)
-        mod = importlib.import_module(mod_path)
+        mod = import_module(mod_path)
         backend_cls = getattr(mod, cls_name)
     except (AttributeError, ImportError) as e:
         raise InvalidXmppBackendError(

@@ -17,7 +17,7 @@
 
 from __future__ import unicode_literals
 
-from django.utils import importlib
+from importlib import import_module
 
 from core.utils import random_string
 
@@ -68,7 +68,7 @@ class XmppBackendBase(object):
             else:
                 name = mod_path = self.library
             try:
-                module = importlib.import_module(mod_path)
+                module = import_module(mod_path)
             except ImportError:
                 raise ValueError("Couldn't load %s backend library library" % name)
             self._module = module
