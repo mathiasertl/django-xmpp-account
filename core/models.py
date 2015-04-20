@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 import json
 import logging
 import random
+import re
 import smtplib
 import string
 
@@ -267,6 +268,7 @@ class Confirmation(models.Model):
             'subject': subject,
         }
         text = render_to_string('%s.txt' % template_base, context)
+        text = re.sub('\n\n+', '\n\n', text)
         html = render_to_string('%s.html' % template_base, context)
 
         msg = self.handle_gpg(request.site, subject, text, html)
