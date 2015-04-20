@@ -98,6 +98,9 @@ class RegistrationView(ConfirmationView):
 
     def handle_valid(self, form, user):
         payload = self.handle_gpg(form, user)
+        payload['username'] = form.cleaned_data['username']
+        payload['domain'] = form.cleaned_data['domain']
+        payload['email'] = form.cleaned_data['email']
 
         if settings.XMPP_HOSTS[user.domain].get('RESERVE', False):
             backend.reserve(username=user.username, domain=user.domain, email=user.email)
