@@ -231,7 +231,7 @@ class Confirmation(models.Model):
         elif encrypt:  # sign and encrypt
             encrypted_body = gpg.encrypt(body.as_string(), [gpg_fingerprint], sign=signer,
                                          always_trust=True)
-            if not signed_body.data:
+            if not encrypted_body.data:
                 log.warn('GPG returned no data when signing/encrypting')
             encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
             encrypted.set_payload(encrypted_body.data)
