@@ -23,6 +23,7 @@ from django.conf import settings
 import pytz
 
 from django.db.models.query import QuerySet
+from django.db.models.query_utils import Q
 
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_PASSWORD
@@ -33,6 +34,10 @@ class RegistrationUserQuerySet(QuerySet):
     def get_user(self, username, domain):
         jid = '%s@%s' % (username, domain)
         return self.get(jid=jid)
+
+    def has_email(self):
+        #if not self.email or not self.confirmed:
+        return self.exclude(Q(email__isnull=True) | Q(confirmed__isnull=True))
 
 
 class ConfirmationQuerySet(QuerySet):
