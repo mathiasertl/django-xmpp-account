@@ -53,7 +53,7 @@ class DeleteView(ConfirmationView):
         domain = data['domain']
 
         try:
-            user = User.objects.get(username=data['username'], domain=data['domain'])
+            user = User.objects.get_user(username, domain)
             user.has_email()
         except User.DoesNotExist:
             raise UserNotFound()

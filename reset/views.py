@@ -67,7 +67,7 @@ class ResetPasswordView(ConfirmationView):
     user_not_found_error = _("User not found.")
 
     def get_user(self, data):
-        user = User.objects.get(username=data['username'], domain=data['domain'])
+        user = User.objects.get_user(username=data['username'], domain=data['domain'])
         user.has_email()
         return user
 
@@ -104,6 +104,7 @@ class ResetEmailView(ConfirmationView):
         """User may or may not exist."""
         username = data['username']
         domain = data['domain']
+        jid = '%s@%s' % (data['username'], data['domain'])
         password = data['password']
 
         if not backend.check_password(username=username, domain=domain, password=password):
@@ -112,12 +113,13 @@ class ResetEmailView(ConfirmationView):
         # Defaults are only used for *new* User objects. If they aren't in the database already,
         # it means they registered through InBand-Registration.
         defaults = {
+            'username': username,
+            'domain': domain,
             'email': data['email'],
             'registration_method': REGISTRATION_INBAND,
         }
 
-        user, created = User.objects.get_or_create(username=username, domain=domain,
-                                                   defaults=defaults)
+        user, created = User.objects.get_or_create(jid=jid, defaults=defaults)
 
         if not created:
             user.email = data['email']
