@@ -29,14 +29,16 @@ from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
 
 
+class RegistrationUserQuerySet(QuerySet):
+    def get_user(self, username, domain):
+        jid = '%s@%s' % (username, domain)
+        return self.get(jid=jid)
+
+
 class ConfirmationQuerySet(QuerySet):
     @property
     def timestamp(self):
         return pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
-
-    def get_user(self, username, domain):
-        jid = '%s@%s' % (username, domain)
-        return self.get(jid=jid)
 
     def valid(self):
         return self.filter(created__gt=self.timestamp)

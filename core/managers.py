@@ -28,12 +28,19 @@ from django.utils.crypto import salted_hmac
 
 from core.constants import REGISTRATION_WEBSITE as WEBSITE
 from core.querysets import ConfirmationQuerySet
+from core.querysets import RegistrationUserQuerySet
 from core.utils import random_string
 
 tzinfo = pytz.timezone(settings.TIME_ZONE)
 
 
 class RegistrationUserManager(BaseUserManager):
+    def get_queryset(self):
+        return RegistrationUserQuerySet(self.model)
+
+    def get_user(self, username, domain):
+        return self.get_queryset().get_user(username, domain)
+
     def create_user(self, jid, email, password=None):
         """Create a user.
 
