@@ -97,7 +97,7 @@ XMPP_HOSTS = {
         #
         # Address from which confirmation emails are sent. If not given, use the global
         # DEFAULT_FROM_EMAIL setting.
-        'FROM_EMAIL': 'noreply@example.com',
+        'FROM_EMAIL': 'example.com <noreply@example.com>',
         #
         # By default, users cannot give email addresses with the same domain as any of the hosts
         # named in XMPP_HOSTS, as users frequently enter that domain in error. If you do also offer
