@@ -67,9 +67,7 @@ class ResetPasswordView(ConfirmationView):
     user_not_found_error = _("User not found.")
 
     def get_user(self, data):
-        user = User.objects.get_user(username=data['username'], domain=data['domain'])
-        user.has_email()
-        return user
+        return User.objects.has_email().get_user(username=data['username'], domain=data['domain'])
 
 
 class ResetPasswordConfirmationView(ConfirmedView):
