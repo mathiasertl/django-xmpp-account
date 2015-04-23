@@ -34,6 +34,10 @@ class ConfirmationQuerySet(QuerySet):
     def timestamp(self):
         return pytz.utc.localize(datetime.now()) - settings.CONFIRMATION_TIMEOUT
 
+    def get_user(self, username, domain):
+        jid = '%s@%s' % (username, domain)
+        return self.get(jid=jid)
+
     def valid(self):
         return self.filter(created__gt=self.timestamp)
 
@@ -48,4 +52,3 @@ class ConfirmationQuerySet(QuerySet):
 
     def emails(self):
         return self.filter(purpose=PURPOSE_SET_EMAIL)
-
