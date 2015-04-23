@@ -101,7 +101,7 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         'resend_email_reset',
     )
     fields = (
-        'username', 'domain', 'email', 'registered', 'registration_method',
+        'username', 'domain', 'jid', 'email', 'registered', 'registration_method',
         'confirmed', 'gpg_fingerprint', 'is_admin',
     )
     readonly_fields = ('registered', 'confirmed', )
