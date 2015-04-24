@@ -106,6 +106,12 @@ class AntiSpamFormBase(forms.Form):
         initial['security_hash'] = self.generate_hash(initial['timestamp'], initial['token'])
         return initial
 
+    def clean(self):
+        data = super(AntiSpamFormBase, self).clean()
+        if isinstance(self, JidMixin):
+            data['jid'] = '%s@%s' % (data['username'], data['domain'])
+        return data
+
     def clean_timestamp(self):
         now = time.time()
         timestamp = self.cleaned_data.get("timestamp")
