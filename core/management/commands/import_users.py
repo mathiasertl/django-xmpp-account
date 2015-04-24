@@ -35,6 +35,8 @@ log = logging.getLogger('cleanup')  # we log to a file
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
+        parser.add_argument('--dry', default=False, action='store_true',
+                            help="Do not actually import users.")
         parser.add_argument('domain')
 
     def handle(self, *args, **kwargs):
@@ -47,11 +49,9 @@ class Command(BaseCommand):
         db_users = set([u.split('@', 1)[0] for u in db_users])
         to_create = backend_users - db_users
 
-        to_create.add('to_create1')
-        to_create.add('to_create2')
-
-        for username in to_create:
-            jid = '%s@%s' % (username, domain)
-            User.objects.create(jid=jid, registration_method=REGISTRATION_INBAND)
+        if not kwargs.get('dry'):
+            for username in to_create:
+                jid = '%s@%s' % (username, domain)
+                User.objects.create(jid=jid, registration_method=REGISTRATION_INBAND)
 
         self.stdout.write("Imported %s users." % len(to_create))
