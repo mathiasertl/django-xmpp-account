@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 continue
 
             # only consider users that have no pending confirmation keys
-            users = User.objects.filter(domain=domain, confirmation__isnull=True)
+            users = User.objects.filter(jid__endswith='@%s' % domain, confirmation__isnull=True)
 
             for user in users:
                 username = user.username.lower()
