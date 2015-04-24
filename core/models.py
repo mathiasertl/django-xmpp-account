@@ -176,6 +176,7 @@ class Confirmation(models.Model):
 
         payload = json.loads(self.payload)
         gpg_fingerprint = payload['gpg_fingerprint']
+        recipient = payload.get('email', self.user.email)
 
         # encrypt only if the user has a fingerprint
         if gpg and gpg_fingerprint:
@@ -189,7 +190,7 @@ class Confirmation(models.Model):
                 encrypt = True
 
         frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-        msg = EmailMultiAlternatives(subject, from_email=frm, to=[self.user.email])
+        msg = EmailMultiAlternatives(subject, from_email=frm, to=[recipient])
 
         # sign only if the user has fingerprint or signing is forced
         if gpg:
