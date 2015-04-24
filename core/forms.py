@@ -299,21 +299,8 @@ class AntiSpamBaseForm(forms.Form, AntiSpamBase):
         super(AntiSpamBaseForm, self).__init__(*args, **kwargs)
 
 
-class AntiSpamModelBaseForm(forms.ModelForm, AntiSpamBase):
-    timestamp = AntiSpamBase.TIMESTAMP
-    token = AntiSpamBase.TOKEN
-    security_hash = AntiSpamBase.SECURITY_HASH
-
-    def __init__(self, *args, **kwargs):
-        kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
-        super(AntiSpamModelBaseForm, self).__init__(*args, **kwargs)
-
-
 # dynamically make BaseForms to CAPTCHA forms if settings.RECAPTCHA_CLIENT
 if settings.RECAPTCHA_CLIENT is not None:
-    AntiSpamModelForm = create_form_subclass_with_recaptcha(AntiSpamModelBaseForm,
-                                                            settings.RECAPTCHA_CLIENT)
     AntiSpamForm = create_form_subclass_with_recaptcha(AntiSpamBaseForm, settings.RECAPTCHA_CLIENT)
 else:
-    AntiSpamModelForm = AntiSpamModelBaseForm
     AntiSpamForm = AntiSpamBaseForm
