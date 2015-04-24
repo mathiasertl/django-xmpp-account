@@ -18,10 +18,12 @@ from __future__ import unicode_literals
 
 from copy import copy
 
+from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
+from backends import backend
 from core.forms import AntiSpamForm
 from core.forms import EmailBlockedMixin
 from core.forms import JidMixin
@@ -40,6 +42,22 @@ class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
 
     username.help_text = _(
         'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.')
+
+
+    def clean(self):
+        data = super(RegistrationForm, self).clean()
+        username = data.get('username')
+        domain = data.get('domain')
+        if not username or not domain:
+            return data
+
+        if username and domain:
+            jid = '%s@%s' % (username, domain)
+            if User.objects.filter(jid=jid).exists() \
+                    or backend.exists(username=username, domain=domain):
+                print('User already exists ;-)')
+                self._username_status = 'taken'
+                raise forms.ValidationError(_("User already exists."))
 
 
 class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
