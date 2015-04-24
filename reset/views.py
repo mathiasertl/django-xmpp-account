@@ -127,7 +127,7 @@ class ResetEmailView(ConfirmationView):
         return user
 
     def handle_valid(self, form, user):
-        payload = super(ResetPasswordView, self).handle_valid(form, user)
+        payload = super(ResetEmailView, self).handle_valid(form, user)
         payload.update(self.handle_gpg(form, user))
         payload['email'] = form.cleaned_data['email']
         return payload
