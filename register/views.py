@@ -131,9 +131,7 @@ class RegistrationConfirmationView(ConfirmedView):
         key.user.confirmed = now()
         key.user.save()
 
-        print('TODO: Use user properties.')
-        username, domain = key.user.jid.split('@', 1)
-        backend.create(username=username, domain=domain, email=key.user.email,
+        backend.create(username=key.user.username, domain=key.user.domain, email=key.user.email,
                        password=form.cleaned_data['password'])
         if settings.WELCOME_MESSAGE is not None:
             reset_pass_path = reverse('ResetPassword')
@@ -141,8 +139,8 @@ class RegistrationConfirmationView(ConfirmedView):
             delete_path = reverse('Delete')
 
             context = {
-                'username': username,
-                'domain': domain,
+                'username': key.user.username,
+                'domain': key.user.domain,
                 'email': key.user.email,
                 'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
                 'email_reset_url': self.request.build_absolute_uri(location=reset_mail_path),
@@ -151,5 +149,5 @@ class RegistrationConfirmationView(ConfirmedView):
             }
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)
-            backend.message(username=username, domain=domain, subject=subject,
+            backend.message(username=key.user.username, domain=key.user.domain, subject=subject,
                             message=message)
