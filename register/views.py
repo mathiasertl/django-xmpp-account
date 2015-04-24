@@ -69,7 +69,7 @@ class RegistrationView(ConfirmationView):
             'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
         }
 
-        if hasattr(form, 'cleaned_data'):  # form was submitted
+        if hasattr(form, 'cleaned_data') and hasattr(form, '_username_status'):  # form was submitted
             context['username_status'] = form._username_status
         return context
 
