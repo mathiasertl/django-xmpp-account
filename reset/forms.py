@@ -23,7 +23,6 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 from core.forms import AntiSpamForm
-from core.forms import EmailMixin
 from core.forms import EmailBlockedMixin
 from core.forms import JidMixin
 from core.forms import PasswordMixin
@@ -32,7 +31,7 @@ from core.forms import PasswordConfirmationMixin
 User = get_user_model()
 
 
-class ResetPasswordForm(AntiSpamForm, JidMixin, EmailMixin):
+class ResetPasswordForm(AntiSpamForm, JidMixin):
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.ALL_DOMAINS_FIELD
 
