@@ -116,12 +116,6 @@ class ResetEmailView(ConfirmationView):
         }
 
         user, created = User.objects.get_or_create(jid=jid, defaults=defaults)
-
-        if not created:
-            user.email = data['email']
-            user.confirmed = None
-            user.save()
-
         return user
 
     def handle_valid(self, form, user):
@@ -148,5 +142,9 @@ class ResetEmailConfirmationView(ConfirmedView):
         data = json.loads(key.payload)
         key.user.gpg_fingerprint = data.get('gpg_fingerprint')
         key.user.confirmed = now()
+
+        if 'email' in data:  # set email from payload (might not be present in old keys)
+            key.user.email = data['email']
+
         key.user.save()
         backend.set_email(username=key.user.username, domain=key.user.domain, email=key.user.email)
