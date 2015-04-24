@@ -249,14 +249,12 @@ class ExistsView(View):
         # Check if the user exists in the database
         try:
             User.objects.get_user(username, domain)
-            print('exists in db')
             return HttpResponse('')
         except User.DoesNotExist:
             pass
 
         # Check if the user exists in the backend
         if backend.exists(username, domain):
-            print('exists in backend')
             return HttpResponse('')
         else:
             return HttpResponse('', status=404)
