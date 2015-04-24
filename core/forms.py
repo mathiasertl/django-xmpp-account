@@ -75,23 +75,28 @@ class RecaptchaField(_RecaptchaField):
 
 
 class UserCreationFormNoPassword(UserCreationForm):
+    #TODO: Dead code?
     def __init__(self, *args, **kwargs):
         super(UserCreationFormNoPassword, self).__init__(*args, **kwargs)
         del self.fields['password1']
         del self.fields['password2']
 
 
-class AntiSpamBase(object):
-    TIMESTAMP = forms.IntegerField(widget=forms.HiddenInput, required=True)
-    TOKEN = forms.CharField(widget=forms.HiddenInput, required=True)
-    SECURITY_HASH = forms.CharField(required=True, widget=forms.HiddenInput)
+class AntiSpamFormBase(forms.Form):
+    timestamp = forms.IntegerField(widget=forms.HiddenInput, required=True)
+    token = forms.CharField(widget=forms.HiddenInput, required=True)
+    security_hash = forms.CharField(required=True, widget=forms.HiddenInput)
 
     ANTI_SPAM_MESSAGES = {
         'too-slow': _("This page has expired. Reload and try again."),
     }
 
+    def __init__(self, *args, **kwargs):
+        super(AntiSpamFormBase, self).__init__(*args, **kwargs)
+        kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
+
     def generate_hash(self, timestamp, token):
-        key_salt = 'xmppaccount.core.forms.AntiSpamBase'
+        key_salt = 'xmppaccount.core.forms.AntiSpamFormBase'
         value = '%s-%s' % (timestamp, token)
         return salted_hmac(key_salt, value).hexdigest()
 
@@ -289,18 +294,10 @@ class EmailBlockedMixin(EmailMixin):
         return email
 
 
-class AntiSpamBaseForm(forms.Form, AntiSpamBase):
-    timestamp = AntiSpamBase.TIMESTAMP
-    token = AntiSpamBase.TOKEN
-    security_hash = AntiSpamBase.SECURITY_HASH
-
-    def __init__(self, *args, **kwargs):
-        kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
-        super(AntiSpamBaseForm, self).__init__(*args, **kwargs)
-
-
 # dynamically make BaseForms to CAPTCHA forms if settings.RECAPTCHA_CLIENT
 if settings.RECAPTCHA_CLIENT is not None:
-    AntiSpamForm = create_form_subclass_with_recaptcha(AntiSpamBaseForm, settings.RECAPTCHA_CLIENT)
+    AntiSpamForm = create_form_subclass_with_recaptcha(AntiSpamFormBase, settings.RECAPTCHA_CLIENT)
 else:
-    AntiSpamForm = AntiSpamBaseForm
+    # WARNING: Do not rename form class to "AntiSpamForm" and skip this branch: The constructor
+    # would raise "maximum recursion depth exceeded"
+    AntiSpamForm = AntiSpamFormBase
