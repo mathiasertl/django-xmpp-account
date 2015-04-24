@@ -57,7 +57,7 @@ class AntiSpamFormView(FormView):
     def dispatch(self, request, *args, **kwargs):
         remote_ip = get_client_ip(request)
 
-        if remote_ip not in settings.RATELIMIT_WHITELIST:
+        if settings.DEBUG is False and remote_ip not in settings.RATELIMIT_WHITELIST:
             # create a dummy function and dynamically set its name. This way,
             # the ratelimit decorator is specific to the method in each class.
             def func(request):
@@ -249,12 +249,14 @@ class ExistsView(View):
         # Check if the user exists in the database
         try:
             User.objects.get_user(username, domain)
+            print('exists in db')
             return HttpResponse('')
         except User.DoesNotExist:
             pass
 
         # Check if the user exists in the backend
         if backend.exists(username, domain):
+            print('exists in backend')
             return HttpResponse('')
         else:
             return HttpResponse('', status=404)

@@ -96,13 +96,13 @@ class RegistrationView(ConfirmationView):
         )
 
     def handle_valid(self, form, user):
+        domain = form.cleaned_data['domain']
         payload = self.handle_gpg(form, user)
-        payload['username'] = form.cleaned_data['username']
-        payload['domain'] = form.cleaned_data['domain']
         payload['email'] = form.cleaned_data['email']
 
-        if settings.XMPP_HOSTS[user.domain].get('RESERVE', False):
-            backend.reserve(username=user.username, domain=user.domain, email=user.email)
+        if settings.XMPP_HOSTS[domain].get('RESERVE', False):
+            backend.reserve(
+                username=form.cleaned_data['username'], domain=domain, email=user.email)
         return payload
 
     def form_valid(self, form):
@@ -131,7 +131,9 @@ class RegistrationConfirmationView(ConfirmedView):
         key.user.confirmed = now()
         key.user.save()
 
-        backend.create(username=key.user.username, domain=key.user.domain, email=key.user.email,
+        print('TODO: Use user properties.')
+        username, domain = key.user.jid.split('@', 1)
+        backend.create(username=username, domain=domain, email=key.user.email,
                        password=form.cleaned_data['password'])
         if settings.WELCOME_MESSAGE is not None:
             reset_pass_path = reverse('ResetPassword')
@@ -139,8 +141,8 @@ class RegistrationConfirmationView(ConfirmedView):
             delete_path = reverse('Delete')
 
             context = {
-                'username': key.user.username,
-                'domain': key.user.domain,
+                'username': username,
+                'domain': domain,
                 'email': key.user.email,
                 'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
                 'email_reset_url': self.request.build_absolute_uri(location=reset_mail_path),
@@ -149,5 +151,5 @@ class RegistrationConfirmationView(ConfirmedView):
             }
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)
-            backend.message(username=key.user.username, domain=key.user.domain, subject=subject,
+            backend.message(username=username, domain=domain, subject=subject,
                             message=message)

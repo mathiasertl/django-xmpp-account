@@ -81,5 +81,7 @@ class DeleteConfirmationView(ConfirmedView):
 
     def after_delete(self, data):
         # actually delete user from the database
-        backend.remove(username=self.user.username, domain=self.user.domain)
+        print('TODO: use user-properties')
+        username, domain = self.user.jid.split('@', 1)
+        backend.remove(username=username, domain=domain)
         self.user.delete()

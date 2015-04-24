@@ -80,8 +80,7 @@ class RegistrationUser(AbstractBaseUser):
     # NOTE: MySQL only allows a 255 character limit
     username = models.CharField(max_length=255, null=True, blank=True)
     domain = models.CharField(
-        null=True, blank=True,
-        max_length=253, default=settings.DEFAULT_XMPP_HOST,
+        null=True, blank=True, max_length=253,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
     )  # maximum length of a domain name is 253 characters (according to spec)
     jid = models.CharField(max_length=255, unique=True, verbose_name='JID')
