@@ -16,6 +16,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
@@ -90,19 +91,32 @@ class RegistrationMethodListFilter(admin.SimpleListFilter):
         return queryset
 
 
+class DomainFilter(admin.SimpleListFilter):
+    title = _('domain')
+    parameter_name = 'domain'
+
+    def lookups(self, request, model_admin):
+        return {k: k for k in settings.XMPP_HOSTS}.items()
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            return queryset.filter(jid__endswith='@%s' % self.value())
+        return queryset
+
+
 class RegistrationUserAdmin(admin.ModelAdmin):
     list_display = ['jid', 'email', 'registered', 'confirmed']
     ordering = ('-registered', '-confirmed', )
-    search_fields = ('username', 'email', )
-    list_filter = ('domain', 'registration_method', )
+    search_fields = ('jid', 'email', )
+    list_filter = (DomainFilter, 'registration_method', )
     actions = (
         'resend_registration',
         'resend_password_reset',
         'resend_email_reset',
     )
     fields = (
-        'username', 'domain', 'jid', 'email', 'registered', 'registration_method',
-        'confirmed', 'gpg_fingerprint', 'is_admin',
+        'jid', 'email', 'registered', 'registration_method', 'confirmed', 'gpg_fingerprint',
+        'is_admin',
     )
     readonly_fields = ('registered', 'confirmed', )
 
@@ -146,8 +160,6 @@ class RegistrationUserAdmin(admin.ModelAdmin):
             )
     resend_email_reset.short_description = _("Resend email reset email")
 
-    def jid(self, obj):
-        return '%s@%s' % (obj.username, obj.domain)
 
 
 class UserAdmin(UserAdminBase):
