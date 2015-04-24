@@ -111,8 +111,6 @@ class ResetEmailView(ConfirmationView):
         # Defaults are only used for *new* User objects. If they aren't in the database already,
         # it means they registered through InBand-Registration.
         defaults = {
-            'username': username,
-            'domain': domain,
             'email': data['email'],
             'registration_method': REGISTRATION_INBAND,
         }

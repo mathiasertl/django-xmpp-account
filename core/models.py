@@ -78,8 +78,9 @@ pgp_version.set_payload('Version: 1\n')
 @python_2_unicode_compatible
 class RegistrationUser(AbstractBaseUser):
     # NOTE: MySQL only allows a 255 character limit
-    username = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, null=True, blank=True)
     domain = models.CharField(
+        null=True, blank=True,
         max_length=253, default=settings.DEFAULT_XMPP_HOST,
         choices=tuple([(host, host) for host in settings.XMPP_HOSTS])
     )  # maximum length of a domain name is 253 characters (according to spec)
