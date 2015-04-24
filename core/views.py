@@ -179,10 +179,6 @@ class ConfirmationView(AntiSpamFormView):
             else:
                 form.add_error(None, self.user_not_found_error)
             return self.form_invalid(form)
-        except (IntegrityError, UserExists) as e:
-            form._username_status = 'taken'
-            form.add_error(None, _("User already exists."))
-            return self.form_invalid(form)
 
         payload = json.dumps(payload)
 
