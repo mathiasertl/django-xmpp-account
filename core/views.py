@@ -21,7 +21,6 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import IntegrityError
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -180,14 +179,13 @@ class ConfirmationView(AntiSpamFormView):
                 form.add_error(None, self.user_not_found_error)
             return self.form_invalid(form)
 
-        payload = json.dumps(payload)
-
         # log user address:
         address = Address.objects.get_or_create(address=self.request.META['REMOTE_ADDR'])[0]
         UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
         # create a confirmation key before returning the response
-        key = Confirmation.objects.create(user=user, purpose=self.purpose, payload=payload)
+        key = Confirmation.objects.create(user=user, purpose=self.purpose,
+                                          payload=json.dumps(payload))
         key.send(
             request=self.request, template_base=self.email_template,
             subject=self.email_subject % {'domain': user.domain, },
