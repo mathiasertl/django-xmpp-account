@@ -45,7 +45,7 @@ else:
     raw_input = input
 
 User = get_user_model()
-REGEX = '\[([^\]]*)\]\s*The account ([^@]*)@([^\s]*) was registered from IP address ([^\s]*)'
+REGEX = '\[([^\]]*)\]\s*The account ([^\s]*) was registered from IP address ([^\s]*)'
 
 tzinfo = pytz.timezone(settings.TIME_ZONE)
 log = logging.getLogger('import')
@@ -69,11 +69,11 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
 
     def message(self, msg):
         try:
-            timestamp, username, domain, ip = re.match(REGEX, msg['body']).groups()
+            timestamp, jid, ip = re.match(REGEX, msg['body']).groups()
             if ip.lower().startswith('::ffff:'):
                 ip = ip[7:]
 
-            if domain != msg['from'].full:
+            if jid.split('@', 1)[1] != msg['from'].full:
                 log.warn('Received message from unauthorized JID %s', msg['from'].full)
                 return
 
@@ -82,17 +82,17 @@ class EjabberdClient(sleekxmpp.ClientXMPP):
             address = Address.objects.get_or_create(address=ip)[0]
 
             try:
-                user = User.objects.get(username=username, domain=domain)
+                user = User.objects.get(jid=jid)
                 # a user that already exists is a state that should not happen, hence log an error
-                log.error('User exists: %s@%s', username, domain)
+                log.error('User exists: %s', jid)
                 return
             except User.DoesNotExist:
                 last_login = tzinfo.localize(datetime.now())
                 user = User.objects.create(
-                    username=username, domain=domain, registration_method=REGISTRATION_INBAND,
-                    registered=timestamp, last_login=last_login)
+                    jid=jid, registration_method=REGISTRATION_INBAND, registered=timestamp,
+                    last_login=last_login)
 
-            log.info('Imported user %s@%s (from %s)', username, domain, ip)
+            log.info('Imported user %s (from %s)', jid, ip)
             UserAddresses.objects.create(address=address, user=user, purpose=PURPOSE_REGISTER)
         except Exception as e:
             log.error('%s: %s', type(e).__name__, e)
