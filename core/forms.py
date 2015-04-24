@@ -103,8 +103,7 @@ class AntiSpamFormBase(forms.Form):
     def init_security(self, initial):
         initial['timestamp'] = int(time.time())
         initial['token'] = random_string()
-        initial['security_hash'] = self.generate_hash(initial['timestamp'],
-                                                      initial['token'])
+        initial['security_hash'] = self.generate_hash(initial['timestamp'], initial['token'])
         return initial
 
     def clean_timestamp(self):
