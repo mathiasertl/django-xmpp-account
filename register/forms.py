@@ -46,7 +46,7 @@ class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
 
     def clean(self):
         data = super(RegistrationForm, self).clean()
-        if data['jid']:
+        if data.get('jid'):  # implies username/domain also present
             if User.objects.filter(jid=data['jid']).exists() \
                     or backend.exists(username=data['username'], domain=data['domain']):
                 self._username_status = 'taken'
