@@ -108,7 +108,7 @@ class AntiSpamFormBase(forms.Form):
 
     def clean(self):
         data = super(AntiSpamFormBase, self).clean()
-        if isinstance(self, JidMixin):
+        if isinstance(self, JidMixin) and data.get('username') and data.get('domain'):
             data['jid'] = '%s@%s' % (data['username'], data['domain'])
         return data
 
