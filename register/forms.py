@@ -46,18 +46,12 @@ class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
 
     def clean(self):
         data = super(RegistrationForm, self).clean()
-        username = data.get('username')
-        domain = data.get('domain')
-        if not username or not domain:
-            return data
-
-        if username and domain:
-            jid = '%s@%s' % (username, domain)
-            if User.objects.filter(jid=jid).exists() \
-                    or backend.exists(username=username, domain=domain):
-                print('User already exists ;-)')
+        if data['jid']:
+            if User.objects.filter(jid=data['jid']).exists() \
+                    or backend.exists(username=data['username'], domain=data['domain']):
                 self._username_status = 'taken'
                 raise forms.ValidationError(_("User already exists."))
+        return data
 
 
 class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
