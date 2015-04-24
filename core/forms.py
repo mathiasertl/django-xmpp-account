@@ -181,18 +181,21 @@ class JidMixin(object):
 
         # validate minimum and maximum length
         length = len(node.encode('utf-8'))
-        max_length = 1023
-        if settings.MAX_USERNAME_LENGTH < max_length:
-            max_length = settings.MAX_USERNAME_LENGTH
+        max_length = min(settings.MAX_USERNAME_LENGTH, 1023)
+        self._username_status = 'ok'
+
         if length > max_length:
+            self._username_status = 'too-long'
             raise forms.ValidationError(
                 _("Username must not be longer then %s characters.") % max_length)
         if length < settings.MIN_USERNAME_LENGTH:
+            self._username_status = 'too-short'
             raise forms.ValidationError(_(
                 "Username must not be shorter then %s characters.") % settings.MIN_USERNAME_LENGTH)
 
         results = parse_jid('%s@example.com' % node)  # fake the server part
         if not results:
+            self._username_status = 'invalid'
             raise forms.ValidationError(_("Username is not a valid XMPP username."))
         return node
 
