@@ -25,7 +25,7 @@
                         <h4 class="modal-title" id="myModalLabel">{% trans "Follow us on Facebook" %}</h4>
                     </div>
                     <div class="modal-body">
-                        {% blocktrans with url=FACEBOOK_URL %}{{ url }}{% endblocktrans %}
+                        <p>{% blocktrans with url=FACEBOOK_URL %}You can follow our Facebook page at <a href="{{ url }}">{{ url }}</a>:{% endblocktrans %}</p>
 
                         <div style="display: inline-block; position: relative;">
                             <div class="fb-page" data-href="https://www.facebook.com/jabber.at" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/jabber.at"><a href="https://www.facebook.com/jabber.at">jabber.at</a></blockquote></div></div>
