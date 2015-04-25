@@ -10,7 +10,8 @@
     "navs.less",
     "navbar.less",
     "alerts.less",
-    "modals.less"
+    "modals.less",
+    "close.less"
   ],
   "js": [
     "modal.js"
