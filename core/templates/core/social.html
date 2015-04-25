@@ -6,7 +6,7 @@
         <li class="shariff-button twitter">
         <a href="https://twitter.com/intent/follow?screen_name={{ SITE.TWITTER }}" class="social" data-width="570" data-height="510">
             <span class="fa fa-twitter"></span>
-            <span class="share_text">{% trans "follow" %}</span>
+            <span class="share_text aaa">@{{ SITE.TWITTER }}</span>
         </a>
         </li>
         {% endif %}
@@ -14,7 +14,7 @@
         <li class="shariff-button facebook">
             <a href="{{ FACEBOOK_URL }}" data-toggle="modal" data-target="#myModal">
                 <span class="fa fa-facebook"></span>
-                <span class="share_text">{% trans "follow" %}</span>
+                <span class="share_text">{{ SITE.FACEBOOK }}</span>
             </a>
         </li>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
