@@ -82,6 +82,7 @@ var show_fingerprint_msg = function() {
     $('.fingerprint[id="' + id + '"]').show();
 };
 
+
 $(document).ready(function() {
     show_fingerprint_msg();
 
@@ -119,6 +120,14 @@ $(document).ready(function() {
         }
     });
 
+    $('a.social').on('click', function(event) {
+        link = $(event.target);
+        url = link.attr('href');
+        width = link.attr('data-width');
+        height = link.attr('data-height');
+        window.open(url, 'newwindow', 'width=' + width + ', height=' + height);
+        return false;
+    });
     $('.social-button').on('click', function(event) {
         link = $(event.target);
         url = link.attr('data-url');
