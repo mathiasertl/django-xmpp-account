@@ -55,5 +55,10 @@
 <div class="container">
 {% block container %}{% endblock container %}
 </div>
+<script>{% comment %}fake shariff for noauto class to enable manual buttons{% endcomment %}
+$('.shariff.noauto').each(function() {
+    this.shariff = 'exists';
+});
+</script>
 <script src="{% static "lib/shariff/shariff.min.js" %}"></script>
 </body></html>
