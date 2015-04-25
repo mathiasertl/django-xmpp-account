@@ -374,8 +374,7 @@
     "@blockquote-border-color": "@gray-lighter",
     "@page-header-border-color": "@gray-lighter",
     "@dl-horizontal-offset": "@component-offset-horizontal",
-    "@hr-border": "@gray-lighter",
-    "@zindex-modal-background":  "1040"
+    "@hr-border": "@gray-lighter"
   },
   "css": [
     "type.less",
