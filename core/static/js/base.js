@@ -82,6 +82,23 @@ var show_fingerprint_msg = function() {
     $('.fingerprint[id="' + id + '"]').show();
 };
 
+/**
+ * Code to insert Facebook SDK.
+ */
+var fb_loaded = false;
+var load_facebook = function() {
+    // This is the code provided by facebook to asynchronously load their SDK
+    console.log('load_facebook()');
+    if (! fb_loaded) {
+        console.log("Load Facebook SDK");
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol +
+          '//connect.facebook.net/en_US/all.js#xfbml=1';
+        document.getElementById('fb-root').appendChild(e);
+    }
+    fb_loaded = true;
+};
+
 
 $(document).ready(function() {
     show_fingerprint_msg();
@@ -128,41 +145,8 @@ $(document).ready(function() {
         window.open(url, 'newwindow', 'width=' + width + ', height=' + height);
         return false;
     });
-    $('.social-button').on('click', function(event) {
-        link = $(event.target);
-        url = link.attr('data-url');
-        width = link.attr('data-width');
-        height = link.attr('data-height');
-        window.open(url, 'newwindow', 'width=' + width + ', height=' + height);
-    });
-
-    $('.fblike').on('click', function(event) {
-        // Generate a string containing the HTML to place in the element (for readability)
-        var html = "<div id=\"fb-root\">\n";
-        html += "<div class=\"fb-follow\" data-href=\"https://www.facebook.com/" + FACEBOOK_PAGE + "\" data-colorscheme=\"light\" data-layout=\"button\" data-show-faces=\"true\"></div>\n";
-        html += "<div class=\"fb-like\" data-href=\"https://facebook.com/" + FACEBOOK_PAGE + "\" data-send=\"true\" data-layout=\"button_count\" data-width=\"100\" data-show-faces=\"false\" data-font=\"arial\">\n";
-        html += "</div>\n";
-
-        // Replace the specified element's contents with the HTML necessary to display the
-        // Like/+1 Buttons, *before* loading the SDKs below
-        $('.fblike').html(html);
-
-        // This is the code provided by facebook to asynchronously load their SDK
-        var e = document.createElement('script'); e.async = true;
-        e.src = document.location.protocol +
-          '//connect.facebook.net/en_US/all.js#xfbml=1';
-        document.getElementById('fb-root').appendChild(e);
-    });
-
-    $('.twitter').on('click', function(event) {
-        var follow_html = '<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=' + TWITTER_PAGE + '&show_count=false&dnt=true" style="width: 300px; height: 20px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>';
-        $('.twitter-follow').html(follow_html);
-
-        $('.twitter-tweet').each(function(index) {
-            button = $(this);
-            var html = '<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + button.attr('data-url') + '" data-text="' + button.attr('data-text') + '" data-via="' + button.attr('data-via') + '" data-hashtags="' + button.attr('data-hashtags') + '" data-dnt="' + button.attr('data-dnt') + '">Tweet</a>';
-            var script = "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
-            button.html(html + script);
-        });
+    $('#myModal').on('show.bs.modal', function(e) {
+        console.log('show.bs.modal!');
+        load_facebook();
     });
 });

@@ -38,38 +38,8 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
     </li>
     {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
     <li>{% trans "Tell your friends about your new account:" %}<br />
-    <div class="social-buttons inline">
-        <span class="twitter twitter-tweet" data-url="{{ ACTION_URL }}" 
-                data-text="{% trans "I just got a new Jabber account. Get one too so we can start chatting!" %}"
-                data-via="{{ SITE.TWITTER }}" data-hashtags="xmpp,jabber" data-dnt="true">
-            <img src="{% static 'img/twitter-tweet.png' %}">
-        </span>
-    {% trans "(Click twice for privacy!)" %}</div></li>
+    {% social %}</li>
     {% endif %}
-    {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
-    {% blocktrans %}Or if you prefer social media:{% endblocktrans %}
-    <ul class="arrow-list">
-        {% if SITE.FACEBOOK %}
-        <li>{% blocktrans with site=SITE.FACEBOOK %}Our Facebook page at <a href="https://facebook.com/{{ site }}">https://facebook.com/{{ site }}</a>:{% endblocktrans %}
-            <div class="social-buttons inline">
-                <div class="fblike"><img src="{% static 'img/fblike.png' %}"> 
-                    {% trans "(Click twice for privacy!)" %}
-                </div>
-            </div>
-        </li>
-        {% endif %}
-        {% if SITE.TWITTER %}
-        <li>{% blocktrans with twitter=SITE.TWITTER %}Our Twitter account at 
-<a href="https://twitter.com/{{ twitter }}">@{{ twitter }}</a>:{% endblocktrans %}
-        <div class="social-buttons inline">
-            <span class="twitter twitter-follow">
-                <img src="{% static 'img/twitter.png' %}"> {% trans "(Click twice for privacy!)" %}
-            </span>
-        </li>
-        {% endif %}
-    </ul>
-    {% endif %}
-    </li>
 </ul>
 {% else %}
 

@@ -12,23 +12,28 @@
         {% endif %}
         {% if SITE.FACEBOOK %}
         <li class="shariff-button facebook">
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">test</button>
+            <a href="{{ FACEBOOK_URL }}" data-toggle="modal" data-target="#myModal">
+                <span class="fa fa-facebook"></span>
+                <span class="share_text">{% trans "follow" %}</span>
+            </a>
         </li>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        header
-      </div>
-      <div class="modal-body">
-        body
-      </div>
-      <div class="modal-footer">
-        footer
-      </div>
-    </div>
-  </div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">{% trans "Follow us on Facebook" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% blocktrans with url=FACEBOOK_URL %}{{ url }}{% endblocktrans %}
 
+                        <div style="display: inline-block; position: relative;">
+                            <div class="fb-page" data-href="https://www.facebook.com/jabber.at" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/jabber.at"><a href="https://www.facebook.com/jabber.at">jabber.at</a></blockquote></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endif %}
     </ul>
 {% endif %}
