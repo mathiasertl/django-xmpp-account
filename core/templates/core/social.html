@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="shariff{% if noauto %} noauto{% endif %}">{% if noauto %}
+<div class="shariff {% if noauto %} noauto{% endif %}" data-twitter-via="{{ SITE.TWITTER }}" data-url="{{ register_url }}" {% if data_title %}data-title="{{ data_title }}"{% endif %}>{% if noauto %}
 {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
     <ul class="theme-color orientation-horizontal">
         {% if SITE.TWITTER %}

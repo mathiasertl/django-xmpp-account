@@ -17,16 +17,36 @@
 from __future__ import unicode_literals
 
 from django import template
+from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
+_purpose = {
+    'share-account': {
+        'data_title': _('Just registered my new #Jabber account "%(username)s" on %(domain)s. Register too and add me! #xmpp'),
+    },
+    'default': {
+        'data_title': _('Register your new #Jabber account on %(domain)s via %(register_url)s. #xmpp'),
+    },
+}
 
 
 @register.inclusion_tag("core/social.html", takes_context=True)
-def social(context, noauto=False):
-    context = {
+def social(context, noauto=False, purpose='default'):
+    passed_context = {
         'SITE': context['SITE'],
         'noauto': noauto,
     }
+
+    i18n_context = {
+        'username': context.get('username'),
+        'homepage': context['SITE']['HOMEPAGE'],
+        'action_url': context['ACTION_URL'],
+        'domain': context['SITE']['DOMAIN'],
+        'register_url': context['REGISTER_URL'],
+    }
+    for key, value in _purpose[purpose].items():
+        passed_context[key] = value % i18n_context
+
     if context['SITE'].get('FACEBOOK'):
-        context['FACEBOOK_URL'] = 'https://www.facebook.com/%s' % context['SITE']['FACEBOOK']
-    return context
+        passed_context['FACEBOOK_URL'] = 'https://www.facebook.com/%s' % context['SITE']['FACEBOOK']
+    return passed_context

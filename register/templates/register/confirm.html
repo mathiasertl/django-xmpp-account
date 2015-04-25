@@ -38,7 +38,7 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
     </li>
     {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
     <li>{% trans "Tell your friends about your new account:" %}<br />
-    {% social %}</li>
+    {% social purpose="share-account" %}</li>
     {% endif %}
 </ul>
 {% else %}
