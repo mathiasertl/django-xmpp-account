@@ -110,3 +110,7 @@ ul.arrow-list > li {
 img#flattr {
     border: 0;
 }
+
+.modal-dialog {
+    width: 312px;
+}
