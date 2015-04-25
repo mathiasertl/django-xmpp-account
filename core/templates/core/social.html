@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="shariff{% if noauto %} noauto{% endif %}">{% if noauto %}
+{% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
+    <ul class="theme-color orientation-horizontal">
+        {% if SITE.TWITTER %}
+        <li class="shariff-button twitter">
+        <a href="https://twitter.com/intent/follow?screen_name={{ SITE.TWITTER }}" class="social" data-width="570" data-height="510">
+            <span class="fa fa-twitter"></span>
+            <span class="share_text">{% trans "follow" %}</span>
+        </a>
+        </li>
+        {% endif %}
+    </ul>
+{% endif %}
+{% endif %}</div>
