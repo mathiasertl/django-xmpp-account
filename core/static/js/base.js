@@ -88,9 +88,7 @@ var show_fingerprint_msg = function() {
 var fb_loaded = false;
 var load_facebook = function() {
     // This is the code provided by facebook to asynchronously load their SDK
-    console.log('load_facebook()');
     if (! fb_loaded) {
-        console.log("Load Facebook SDK");
         var e = document.createElement('script'); e.async = true;
         e.src = document.location.protocol +
           '//connect.facebook.net/en_US/all.js#xfbml=1';
@@ -138,7 +136,7 @@ $(document).ready(function() {
     });
 
     $('a.social').on('click', function(event) {
-        link = $(event.target);
+        link = $(event.currentTarget);
         url = link.attr('href');
         width = link.attr('data-width');
         height = link.attr('data-height');
@@ -146,7 +144,6 @@ $(document).ready(function() {
         return false;
     });
     $('#fb-page-modal').on('show.bs.modal', function(e) {
-        console.log('show.bs.modal!');
         load_facebook();
     });
 });
