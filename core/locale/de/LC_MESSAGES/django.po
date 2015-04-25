@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-20 20:28+0200\n"
+"POT-Creation-Date: 2015-04-25 18:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -18,106 +18,110 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:76
+#: admin.py:77
 msgid "Registration method"
 msgstr ""
 
-#: admin.py:81
+#: admin.py:82
 msgid "In-Band registration"
 msgstr ""
 
-#: admin.py:82
+#: admin.py:83
 msgid "This website"
 msgstr ""
 
-#: admin.py:127
+#: admin.py:95
+msgid "domain"
+msgstr ""
+
+#: admin.py:141
 msgid "Resend registration email"
 msgstr ""
 
-#: admin.py:137
+#: admin.py:151
 msgid "Resend password reset email"
 msgstr ""
 
-#: admin.py:147
+#: admin.py:161
 msgid "Resend email reset email"
 msgstr ""
 
-#: forms.py:90
+#: forms.py:91
 msgid "This page has expired. Reload and try again."
 msgstr "Diese Seite ist abgelaufen. Bitte lade sie neu und versuche es erneut."
 
-#: forms.py:109
+#: forms.py:119
 msgid "Missing form-field."
 msgstr "Fehlendes Formularfeld."
 
-#: forms.py:112
+#: forms.py:122
 msgid "Form submitted within one second."
 msgstr "Formular innerhalb einer Sekunde abgeschickt."
 
-#: forms.py:123
+#: forms.py:133
 msgid "No security hash"
 msgstr "Kein Sicherheits-Hash."
 
-#: forms.py:125
+#: forms.py:135
 msgid "Wrong security hash"
 msgstr "Falscher Sicherheits-Hash."
 
-#: forms.py:132
+#: forms.py:142
 #, python-format
 msgid "Wrong value: \"%s\""
 msgstr "Falscher Wert: \"%s\""
 
-#: forms.py:137
+#: forms.py:147
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:142
+#: forms.py:152
 msgid "The two password fields didn't match."
 msgstr "Die beiden Passwörter stimmen nicht miteinander überein."
 
-#: forms.py:146
+#: forms.py:156
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: forms.py:147
+#: forms.py:157
 msgid "Enter the same password as above, for verification."
 msgstr "Das selbe Passwort wie oben, zur Verifikation."
 
-#: forms.py:159
+#: forms.py:169
 msgid "Username"
 msgstr "Benutzername"
 
-#: forms.py:176
+#: forms.py:186
 msgid "Unknown domain given"
 msgstr "Unbekannte Domain angegeben"
 
-#: forms.py:189
+#: forms.py:200
 #, python-format
 msgid "Username must not be longer then %s characters."
 msgstr "Name darf nicht länger als %s Zeichen sein."
 
-#: forms.py:192
+#: forms.py:204
 #, python-format
 msgid "Username must not be shorter then %s characters."
 msgstr "Benutzername muss mindestens %s Zeichen haben."
 
-#: forms.py:196
+#: forms.py:209
 msgid "Username is not a valid XMPP username."
 msgstr "Benutzername ist kein valider XMPP-Benutzername."
 
-#: forms.py:202
+#: forms.py:215
 msgid "email"
 msgstr "E-Mail"
 
-#: forms.py:203
+#: forms.py:216
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse gesandt."
 
-#: forms.py:206 templates/core/forms/gpg.html:8
+#: forms.py:219 templates/core/forms/gpg.html:8
 msgid "GPG key (advanced, optional)"
 msgstr "GPG Schlüssel (optional, für Fortgeschrittene)"
 
-#: forms.py:209
+#: forms.py:222
 msgid ""
 "Add your fingerprint (\"gpg --list-secret-keys --fingerprint\") if your key "
 "is available on the public key servers."
@@ -125,14 +129,15 @@ msgstr ""
 "Der \"Fingerprint\" (\"gpg --list-secret-keys --fingerprint\") falls ihr "
 "Schlüssel auf den Schlüsselservern zu finden ist."
 
-#: forms.py:214
+#: forms.py:227
 msgid ""
 "Upload your ASCII armored GPG key directly (\"gpg --armor --export "
 "<fingerprint>\")."
 msgstr ""
-"Den GPG-Schlüssel im ASCII-armor Format direkt hochladen (\"gpg --armor --export <fingerprint>\")"
+"Den GPG-Schlüssel im ASCII-armor Format direkt hochladen (\"gpg --armor --"
+"export <fingerprint>\")"
 
-#: forms.py:218
+#: forms.py:231
 msgid ""
 "This Jabber host does not provide email addresses. You're supposed to give "
 "your own email address."
@@ -140,61 +145,61 @@ msgstr ""
 "Dieser Jabber-Server stellt keine E-Mail-Adressen zur Verfügung. Bitte geben "
 "sie ihre eigene Adresse an!"
 
-#: forms.py:222
+#: forms.py:235
 msgid ""
 "Email addresses with this domain are blocked and cannot be used on this site."
 msgstr ""
 "E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet "
 "werden."
 
-#: forms.py:242
+#: forms.py:255
 msgid "Fingerprint should be 40 characters long."
 msgstr "Fingerprint sollte 40 Zeichen lang sein."
 
-#: forms.py:244
+#: forms.py:257
 msgid "Fingerprint contains invalid characters."
 msgstr "Fingerprint enthält ungültige Zeichen."
 
-#: forms.py:249
+#: forms.py:262
 msgid "Multiple keys with that fingerprint found."
 msgstr "Mehrere Schlüssel mit diesem Fingerprint gefunden."
 
-#: forms.py:251
+#: forms.py:264
 msgid "No key with that fingerprint found."
 msgstr "Kein Schlüssel mit diesem Fingerprint gefunden."
 
-#: forms.py:268
+#: forms.py:281
 msgid "File contains multiple keys."
 msgstr "Datei enthält multiple Schlüssel."
 
-#: forms.py:270
+#: forms.py:283
 msgid "File contains no keys."
 msgstr "Datei enthält keine Schlüssel."
 
-#: models.py:106
+#: models.py:101
 msgid "User"
 msgstr "Benutzername"
 
-#: models.py:119
+#: models.py:106
 msgid ""
 "You have either not yet set your email address or have not confirmed it yet."
 msgstr ""
 "Sie haben entweder ihre E-Mail-Adresse noch noch nicht gesetzt oder diese "
 "noch nicht bestätigt."
 
-#: models.py:291
+#: models.py:287
 msgid "IP-Address"
 msgstr "IP-Adresse"
 
-#: models.py:292
+#: models.py:288
 msgid "IP-Addresses"
 msgstr "IP-Adressen"
 
-#: models.py:307
+#: models.py:303
 msgid "IP-Address Activity"
 msgstr "Aktivität"
 
-#: models.py:308
+#: models.py:304
 msgid "IP-Address Activities"
 msgstr "Aktivitäten"
 
@@ -334,6 +339,19 @@ msgstr ""
 "in ihrer Firma/Schule/... einzuführen, können sie uns gerne <a href="
 "\"%(SITE.CONTACT_URL)s\">kontaktieren</a>."
 
+#: templates/core/social.html:24
+msgid "Close"
+msgstr "Schließen"
+
+#: templates/core/social.html:25
+msgid "Follow us on Facebook"
+msgstr "Folge uns Facebook"
+
+#: templates/core/social.html:28
+#, python-format
+msgid "You can follow our Facebook page at <a href=\"%(url)s\">%(url)s</a>:"
+msgstr "Sie können unserer Facebook-Seite unter <a href=\"%(url)s\">%(url)s</a> folgen:"
+
 #: templates/core/spambot.html:4
 msgid "Spambots vanish!"
 msgstr "Nieder mit den Spambots!"
@@ -380,15 +398,6 @@ msgstr ""
 msgid "The error message given, was: %(EXCEPTION)s"
 msgstr "Die interne Fehlermeldung lautet: %(EXCEPTION)s"
 
-#: templatetags/social.py:37
-#, python-format
-msgid "Follow @%s on Twitter"
-msgstr "@%s auf Twitter folgen"
-
-#: templatetags/social.py:52
-msgid "Share this page on Facebook"
-msgstr "Diese Seite auf Facebook teilen"
-
 #: views.py:80
 msgid "Your CAPTCHA response contained invalid characters."
 msgstr "Ihre Antwort auf das CAPTCHA ist inkorrekt."
@@ -397,22 +406,18 @@ msgstr "Ihre Antwort auf das CAPTCHA ist inkorrekt."
 msgid "The ReCAPTCHA server was unreacheable."
 msgstr "Der ReCAPTCHA-Server ist nicht erreichbar."
 
-#: views.py:134
+#: views.py:135
 msgid "User not found (or false password provided)!"
 msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
-#: views.py:177
-msgid "User already exists."
-msgstr "Benutzer existiert bereits."
-
-#: views.py:221
+#: views.py:222
 msgid "Confirmation key expired or not found."
 msgstr "Bestätigungscode abgelaufen oder nicht gefunden."
 
-#: views.py:230
+#: views.py:231
 msgid "User not found!"
 msgstr "Benutzer nicht gefunden!"
 
-#: views.py:233
+#: views.py:234
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"
