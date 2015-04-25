@@ -1,5 +1,5 @@
 {% extends "container.html" %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles social %}
 
 {% block title %}{% trans "Confirm Registration" %}{% endblock title %}
 
@@ -18,11 +18,24 @@
 <h2>{% trans "What's next?" %}</h2>
 <ul class="arrow-list">
     <li>{% blocktrans %}Configure your account (<strong>{{ jid }}</strong> or username: <strong>{{ username }}</strong>, domain: <strong>{{ domain }}</strong>) you just created in any Jabber client of your choice.{% endblocktrans %}
-    <li>{% blocktrans %}If you are not sure what client to use, the XSF has an 
+    <ul class="arrow-list">
+        <li>{% blocktrans %}If you are not sure what client to use, the XSF has an 
 <a href="http://xmpp.org/xmpp-software/clients/">extensive list of clients</a>
 and Wikipedia has a <a href="https://en.wikipedia.org/wiki/Comparison_of_XMPP_clients">
 list with feature comparisons</a>.{% endblocktrans %}</li>
-    <li>{% blocktrans %}Follow news about our server on <a href="{{ SITE.HOMEPAGE }}">our homepage</a>.{% endblocktrans %}
+        {% if SITE.WEBCHAT %}
+            <li>{% blocktrans %}<a href="{{ SITE.WEBCHAT }}">Our webchat</a> allows you to login anywere without having to install a client.{% endblocktrans %}</li>
+        {% endif %}
+    </ul>
+    <li>{% blocktrans with homepage=SITE.HOMEPAGE %}Follow news about our server on <a href="{{ homepage }}">our homepage</a>.{% endblocktrans %}
+    {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
+    <ul class="arrow-list">
+        <li>{% trans "If you prefer, you can also follow us via social media:" %}<br />
+        {% social noauto=True %}
+        </li>
+    </ul>
+    {% endif %}
+    </li>
     {% if SITE.TWITTER or SITE.FACEBOOK or SITE.GPLUS %}
     <li>{% trans "Tell your friends about your new account:" %}<br />
     <div class="social-buttons inline">
@@ -57,9 +70,6 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
     </ul>
     {% endif %}
     </li>
-{% if SITE.WEBCHAT %}
-    <li>{% blocktrans %}<a href="{{ SITE.WEBCHAT }}">Our webchat</a> allows you to login anywere without having to install a client.{% endblocktrans %}</li>
-{% endif %}
 </ul>
 {% else %}
 
