@@ -31,7 +31,7 @@ ul.arrow-list {
     list-style: none inside none;
     padding-left: 10px;
 }
-ul.arrow-list li {
+ul.arrow-list > li {
     background: url('/static/img/arrow-right-green.png');
     background-repeat: no-repeat;
     background-position: 0px 2px
