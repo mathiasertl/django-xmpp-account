@@ -145,7 +145,7 @@ $(document).ready(function() {
         window.open(url, 'newwindow', 'width=' + width + ', height=' + height);
         return false;
     });
-    $('#myModal').on('show.bs.modal', function(e) {
+    $('#fb-page-modal').on('show.bs.modal', function(e) {
         console.log('show.bs.modal!');
         load_facebook();
     });

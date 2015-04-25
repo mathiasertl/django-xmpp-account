@@ -12,17 +12,17 @@
         {% endif %}
         {% if SITE.FACEBOOK %}
         <li class="shariff-button facebook">
-            <a href="{{ FACEBOOK_URL }}" data-toggle="modal" data-target="#myModal">
+            <a href="{{ FACEBOOK_URL }}" data-toggle="modal" data-target="#fb-page-modal">
                 <span class="fa fa-facebook"></span>
                 <span class="share_text">{{ SITE.FACEBOOK }}</span>
             </a>
         </li>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="fb-page-modal" tabindex="-1" role="dialog" aria-labelledby="fp-page-modal-label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">{% trans "Follow us on Facebook" %}</h4>
+                        <h4 class="modal-title" id="fb-page-modal-label">{% trans "Follow us on Facebook" %}</h4>
                     </div>
                     <div class="modal-body">
                         <p>{% blocktrans with url=FACEBOOK_URL %}You can follow our Facebook page at <a href="{{ url }}">{{ url }}</a>:{% endblocktrans %}</p>
