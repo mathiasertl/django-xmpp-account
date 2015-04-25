@@ -34,7 +34,7 @@ if os.path.exists(node_path):
         print(os.environ['PATH'])
 
 build_jquery = BuildJqueryTask(
-    excludes='-deprecated,-dimensions,-offset',
+    excludes='-deprecated,-dimensions',
     dest_dir='core/static/lib/jquery/'
 )
 build_bootstrap = BuildBootstrapTask(
