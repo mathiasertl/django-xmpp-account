@@ -25,7 +25,7 @@ _purpose = {
         'data_title': _('Just registered my new #Jabber account "%(username)s" on %(domain)s. Register too and add me! #xmpp'),
     },
     'default': {
-        'data_title': _('Register your new #Jabber account on %(domain)s via %(register_url)s. #xmpp'),
+        'data_title': _('Register your new #Jabber account on %(homepage)s via %(register_url)s. #xmpp'),
     },
 }
 
@@ -35,6 +35,7 @@ def social(context, noauto=False, purpose='default'):
     passed_context = {
         'SITE': context['SITE'],
         'noauto': noauto,
+        'register_url': context['REGISTER_URL'],
     }
 
     i18n_context = {
