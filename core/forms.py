@@ -92,8 +92,8 @@ class AntiSpamFormBase(forms.Form):
     }
 
     def __init__(self, *args, **kwargs):
-        super(AntiSpamFormBase, self).__init__(*args, **kwargs)
         kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
+        super(AntiSpamFormBase, self).__init__(*args, **kwargs)
 
     def generate_hash(self, timestamp, token):
         key_salt = 'xmppaccount.core.forms.AntiSpamFormBase'
