@@ -23,7 +23,10 @@ register = template.Library()
 
 @register.inclusion_tag("core/social.html", takes_context=True)
 def social(context, noauto=False):
-    return {
+    context = {
         'SITE': context['SITE'],
         'noauto': noauto,
     }
+    if context['SITE'].get('FACEBOOK'):
+        context['FACEBOOK_URL'] = 'https://www.facebook.com/%s' % context['SITE']['FACEBOOK']
+    return context
