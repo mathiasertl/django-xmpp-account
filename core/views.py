@@ -94,9 +94,12 @@ class AntiSpamFormView(FormView):
         if action_url is not None:
             action_url = reverse(action_url)
         context['ACTION_URL'] = self.request.build_absolute_uri(action_url)
+        context['REGISTER_URL'] = self.request.build_absolute_uri('')
 
         if 'CANONICAL_HOST' in self.request.site:
             context['ACTION_URL'] = urlsplit(context['ACTION_URL'])._replace(
+                netloc=self.request.site['CANONICAL_HOST']).geturl()
+            context['REGISTER_URL'] = urlsplit(context['REGISTER_URL'])._replace(
                 netloc=self.request.site['CANONICAL_HOST']).geturl()
 
         context['OPENGRAPH_TITLE'] = self.opengraph_title % self.request.site
