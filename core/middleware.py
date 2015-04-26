@@ -16,6 +16,8 @@
 
 from __future__ import unicode_literals
 
+import logging
+
 from django.conf import settings
 from django.core.cache import cache
 from django.shortcuts import render
@@ -25,6 +27,8 @@ from core.exceptions import RateException
 from core.exceptions import RegistrationRateException
 from core.exceptions import SpamException
 from core.exceptions import TemporaryError
+
+log = logging.getLogger(__name__)
 
 
 class SiteMiddleware(object):
@@ -62,6 +66,7 @@ class AntiSpamMiddleware(object):
         if six.PY3:
             message = ' '.join(exception.args)
         else:
+            #TODO: This still is sometimes True!
             message = exception.message or 'UNKNOWN REASON'
 
         context = {
@@ -75,6 +80,7 @@ class AntiSpamMiddleware(object):
         elif isinstance(exception, RegistrationRateException):
             return render(request, 'core/registration_rate.html', context)
         elif isinstance(exception, RateException):
+            log.info('RateException: %s', message)
             return render(request, 'core/rate.html', context)
         elif isinstance(exception, TemporaryError):
             return render(request, 'core/temporary_error.html', context)
