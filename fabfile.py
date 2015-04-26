@@ -43,7 +43,8 @@ build_bootstrap = BuildBootstrapTask(
 )
 minify_css = MinifyCSSTask(files=[
     'core/static/lib/bootstrap/css/bootstrap.min.css',
-    'core/static/lib/shariff/shariff.complete.css',
+    'core/static/lib/font-awesome/css/font-awesome.min.css',
+    'core/static/lib/shariff/shariff.min.css',
     'core/static/css/base.css',
 ], dest='core/static/account.min.css')
 minify_js = MinifyJSTask(files=[
