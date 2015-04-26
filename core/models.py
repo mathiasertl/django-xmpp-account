@@ -206,7 +206,7 @@ class Confirmation(models.Model):
         sign = False
 
         payload = json.loads(self.payload)
-        gpg_fingerprint = payload['gpg_fingerprint']
+        gpg_fingerprint = payload.get('gpg_fingerprint')
         recipient = payload.get('email', self.user.email)
 
         # encrypt only if the user has a fingerprint
