@@ -133,6 +133,22 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         super(RegistrationUserAdmin, self).log_deletion(request, object, object_repr)
         backend.remove(username, domain)
 
+    def save_model(self, request, obj, form, change):
+        site = settings.XMPP_HOSTS[obj.domain]
+
+        if change is True:  # changed user
+            from_db = User.objects.only('email').get(jid=obj.jid)
+            if from_db.email != form.cleaned_data['email']:
+                obj.send_confirmation(request, purpose=PURPOSE_REGISTER, payload={
+                    'gpg_fingerprint': form.cleaned_data.get('gpg_fingerprint'),
+                    'email': form.cleaned_data['email'],
+                })
+        else: # new user
+            if site.get('RESERVE', False):
+                backend.reserve(username=obj.username, domain=obj.domain, email=obj.email)
+            obj.send_confirmation(request, purpose=PURPOSE_REGISTER)
+        obj.save()
+
     def resend_registration(self, request, queryset):
         for user in queryset:
             #TODO: This does not use the original payload - e.g. GPG encryption
