@@ -36,6 +36,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _l
 
 from django.contrib.auth.models import AbstractBaseUser
 
@@ -68,6 +69,28 @@ REGISTRATION_CHOICES = (
     (REGISTRATION_UNKNOWN, 'Unknown'),
 )
 REGISTRATION_DICT = dict(REGISTRATION_CHOICES)
+PURPOSES = {
+    PURPOSE_REGISTER: {
+        'urlname': 'RegistrationConfirmation',
+        'subject': _l('Your new account on %(domain)s'),
+        'template': 'register/mail',
+    },
+    PURPOSE_SET_EMAIL: {
+        'urlname': 'ResetEmailConfirmation',
+        'subject': _l('Confirm the email address for your %(domain)s account'),
+        'template': 'reset/email-mail',
+    },
+    PURPOSE_SET_PASSWORD: {
+        'urlname': 'ResetPasswordConfirmation',
+        'subject': _l('Reset the password for your %(domain)s account'),
+        'template': 'reset/password-mail',
+    },
+    PURPOSE_DELETE: {
+        'urlname': 'DeleteConfirmation',
+        'subject': _l('Delete your account on %(domain)s'),
+        'template': 'delete/mail',
+    },
+}
 
 log = logging.getLogger(__name__)
 pgp_version = MIMENonMultipart('application', 'pgp-encrypted')
@@ -118,6 +141,14 @@ class RegistrationUser(AbstractBaseUser):
     def set_unusable_password(self):
         pwd = ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
         backend.set_unusable_password(self.username, self.domain, pwd)
+
+    def send_confirmation(self, request, purpose, payload=None):
+        if payload is None:
+            payload = {}
+
+        key = Confirmation.objects.create(user=self, purpose=purpose, payload=json.dumps(payload))
+        key.send(request)
+        return key
 
     def get_short_name(self):
         return self.email
@@ -248,10 +279,13 @@ class Confirmation(models.Model):
 
         return msg
 
-    def send(self, request, template_base, subject, confirm_url_name):
-        path = reverse(confirm_url_name, kwargs={'key': self.key})
+    def send(self, request):
+        path = reverse(PURPOSES[self.purpose]['urlname'], kwargs={'key': self.key, })
         uri = request.build_absolute_uri(location=path)
 
+        subject = PURPOSES[self.purpose]['subject'] % {
+            'domain': self.user.domain,
+        }
         context = {
             'username': self.user.username,
             'domain': self.user.domain,
@@ -263,9 +297,9 @@ class Confirmation(models.Model):
             'lang': request.LANGUAGE_CODE,
             'subject': subject,
         }
-        text = render_to_string('%s.txt' % template_base, context)
+        text = render_to_string('%s.txt' % PURPOSES[self.purpose]['template'], context)
         text = re.sub('\n\n+', '\n\n', text)
-        html = render_to_string('%s.html' % template_base, context)
+        html = render_to_string('%s.html' % PURPOSES[self.purpose]['template'], context)
 
         msg = self.handle_gpg(request.site, subject, text, html)
 

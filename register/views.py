@@ -53,9 +53,6 @@ class RegistrationView(ConfirmationView):
     template_name = 'register/create.html'
     form_class = RegistrationForm
 
-    confirm_url_name = 'RegistrationConfirmation'
-    email_subject = _('Your new account on %(domain)s')
-    email_template = 'register/mail'
     purpose = PURPOSE_REGISTER
     menuitem = 'register'
     opengraph_title = _messages['opengraph_title']

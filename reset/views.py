@@ -56,10 +56,7 @@ class ResetPasswordView(ConfirmationView):
     success_url = reverse_lazy('ResetPasswordThanks')
     template_name = 'reset/password.html'
 
-    confirm_url_name = 'ResetPasswordConfirmation'
     purpose = PURPOSE_SET_PASSWORD
-    email_subject = _('Reset the password for your %(domain)s account')
-    email_template = 'reset/password-mail'
     menuitem = 'password'
     opengraph_title = _messages['password']['opengraph_title']
     opengraph_description = _messages['password']['opengraph_description']
@@ -90,10 +87,7 @@ class ResetEmailView(ConfirmationView):
     success_url = reverse_lazy('ResetEmailThanks')
     template_name = 'reset/email.html'
 
-    confirm_url_name = 'ResetEmailConfirmation'
     purpose = PURPOSE_SET_EMAIL
-    email_subject = _('Confirm the email address for your %(domain)s account')
-    email_template = 'reset/email-mail'
     menuitem = 'email'
     opengraph_title = _messages['email']['opengraph_title']
     opengraph_description = _messages['email']['opengraph_description']

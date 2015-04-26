@@ -25,12 +25,15 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from backends import backend
+from core.constants import PURPOSE_DELETE
+from core.constants import PURPOSE_REGISTER
+from core.constants import PURPOSE_SET_EMAIL
+from core.constants import PURPOSE_SET_PASSWORD
 from core.forms import UserCreationFormNoPassword
 from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
-from register.views import RegistrationView
 from reset.views import ResetPasswordView
 from reset.views import ResetEmailView
 
@@ -132,32 +135,19 @@ class RegistrationUserAdmin(admin.ModelAdmin):
 
     def resend_registration(self, request, queryset):
         for user in queryset:
-            key = Confirmation.objects.create(user=user, purpose=RegistrationView.purpose)
-            key.send(
-                request=request, template_base=RegistrationView.email_template,
-                subject=RegistrationView.email_subject % {'domain': user.domain, },
-                confirm_url_name=RegistrationView.confirm_url_name
-            )
+            #TODO: This does not use the original payload - e.g. GPG encryption
+            user.send_confirmation(request, purpose=PURPOSE_REGISTER)
     resend_registration.short_description = _("Resend registration email")
 
     def resend_password_reset(self, request, queryset):
         for user in queryset:
-            key = Confirmation.objects.create(user=user, purpose=ResetPasswordView.purpose)
-            key.send(
-                request=request, template_base=ResetPasswordView.email_template,
-                subject=ResetPasswordView.email_subject % {'domain': user.domain, },
-                confirm_url_name=ResetPasswordView.confirm_url_name
-            )
+            user.send_confirmation(request, purpose=PURPOSE_SET_PASSWORD)
     resend_password_reset.short_description = _("Resend password reset email")
 
     def resend_email_reset(self, request, queryset):
         for user in queryset:
-            key = Confirmation.objects.create(user=user, purpose=ResetEmailView.purpose)
-            key.send(
-                request=request, template_base=ResetEmailView.email_template,
-                subject=ResetEmailView.email_subject % {'domain': user.domain, },
-                confirm_url_name=ResetEmailView.confirm_url_name
-            )
+            #TODO: This does not use the original payload - e.g. GPG encryption
+            user.send_confirmation(request, purpose=PURPOSE_SET_EMAIL)
     resend_email_reset.short_description = _("Resend email reset email")
 
 

@@ -40,10 +40,7 @@ class DeleteView(ConfirmationView):
     form_class = DeleteForm
     template_name = 'delete/delete.html'
 
-    confirm_url_name = 'DeleteConfirmation'
     purpose = PURPOSE_DELETE
-    email_subject = _('Delete your account on %(domain)s')
-    email_template = 'delete/mail'
     menuitem = 'delete'
     opengraph_title = _messages['opengraph_title']
     opengraph_description = _messages['opengraph_description']

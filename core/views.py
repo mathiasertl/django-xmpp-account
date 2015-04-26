@@ -16,7 +16,6 @@
 
 from __future__ import unicode_literals
 
-import json
 import logging
 
 from django.conf import settings
@@ -127,14 +126,6 @@ class AntiSpamFormView(FormView):
 
 
 class ConfirmationView(AntiSpamFormView):
-    """
-    Keys:
-
-    * confirm_url_name
-    * email_subject
-    * email_template
-    * purpose
-    """
     user_not_found_error = _("User not found (or false password provided)!")
 
     def handle_valid(self, form, user):
@@ -186,14 +177,8 @@ class ConfirmationView(AntiSpamFormView):
         address = Address.objects.get_or_create(address=self.request.META['REMOTE_ADDR'])[0]
         UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
-        # create a confirmation key before returning the response
-        key = Confirmation.objects.create(user=user, purpose=self.purpose,
-                                          payload=json.dumps(payload))
-        key.send(
-            request=self.request, template_base=self.email_template,
-            subject=self.email_subject % {'domain': user.domain, },
-            confirm_url_name=self.confirm_url_name
-        )
+        # Send confirmation email to the user
+        user.send_confirmation(self.request, purpose=self.purpose, payload=payload)
 
         return super(ConfirmationView, self).form_valid(form)
 
