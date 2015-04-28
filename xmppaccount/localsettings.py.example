@@ -104,6 +104,9 @@ XMPP_HOSTS = {
         # custom email addresses on this domain, you can set this EMAIL to True.
         #EMAIL = True
         #
+        # The "brand" used by the site. This is the top-left item next to the menu.
+        #BRAND = ''
+        #
         # A URL to a webchat, if any.
         #'WEBCHAT': 'https://webchat.example.com',
         #
@@ -141,6 +144,9 @@ XMPP_HOSTS_MAPPING = {
 # The default host from XMPP_HOSTS preselected if the site is visited via a hostname not listed in
 # XMPP_HOSTS_MAPPING.
 DEFAULT_XMPP_HOST = 'example.com'
+
+# The default brand displayed on the top-left. Can be overridden on a per-host basis.
+#BRAND = ''
 
 # Backend to communicate with our XMPP hosts:
 XMPP_BACKENDS = {
