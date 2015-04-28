@@ -34,18 +34,16 @@ log = logging.getLogger(__name__)
 class SiteMiddleware(object):
     def process_request(self, request):
         host = request.META.get('HTTP_HOST', request.META.get('SERVER_NAME'))
-        mapped = settings.XMPP_HOSTS_MAPPING.get(host)
-        if mapped is None:
-            request.site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
-            request.site['DOMAIN'] = settings.DEFAULT_XMPP_HOST
-            request.site.setdefault('BRAND', settings.BRAND or settings.DEFAULT_XMPP_HOST)
-        else:
-            request.site = settings.XMPP_HOSTS[mapped]
-            request.site['DOMAIN'] = mapped
-            request.site.setdefault('BRAND', settings.BRAND or mapped)
+        config = settings.XMPP_HOSTS_MAPPING.get(host)
+        if config is None:
+            config = settings.DEFAULT_XMPP_HOST
 
+        request.site = settings.XMPP_HOSTS[config]
+        request.site['DOMAIN'] = config
+        request.site.setdefault('BRAND', settings.BRAND or config)
         request.site.setdefault('CONTACT_URL', settings.CONTACT_URL)
         request.site.setdefault('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
+        request.site.setdefault('HOMEPAGE', 'https://%s' % config)
 
 
 class AntiSpamMiddleware(object):

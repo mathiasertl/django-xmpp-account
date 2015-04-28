@@ -92,7 +92,7 @@ XMPP_HOSTS = {
         #'RESERVATION': False, 
         #
         # The homepage of this particular host. This should point to the primary homepage of your
-        # server, not this page.
+        # server, not this page. The default is 'https://<dict-key>'
         'HOMEPAGE': 'https://example.com',
         #
         # Address from which confirmation emails are sent. If not given, use the global
