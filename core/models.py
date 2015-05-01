@@ -233,10 +233,13 @@ class Confirmation(models.Model):
             elif gpg and (gpg_fingerprint or settings.FORCE_GPG_SIGNING):
                 sign = True
 
+        # we create an unencrypted and unsigned message that we can send in case GPG fails
+        default_msg = EmailMultiAlternatives(subject, from_email=frm, to=[recipient])
+        default_msg.body = text
+        default_msg.attach_alternative(html, 'text/html')
+
         if not (sign or encrypt):  # shortcut if no GPG is used
-            msg.body = text
-            msg.attach_alternative(html, 'text/html')
-            return msg
+            return default_msg
 
         text = MIMEText(text, _charset='utf-8')
         html = MIMEText(html, _subtype='html', _charset='utf-8')
@@ -246,6 +249,8 @@ class Confirmation(models.Model):
             signed_body = gpg.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
             if not signed_body.data:
                 log.warn('GPG returned no data when signing')
+                log.warn(signed_body.stderr)
+                return default_msg
             sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
             sig.set_payload(signed_body.data)
             sig.add_header('Content-Description', 'OpenPGP digital signature')
@@ -262,6 +267,7 @@ class Confirmation(models.Model):
             if not encrypted_body.data:
                 log.warn('GPG returned no data when signing/encrypting')
                 log.warn(encrypted_body.stderr)
+                return default_msg
             encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
             encrypted.set_payload(encrypted_body.data)
             encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
