@@ -238,8 +238,8 @@ class Confirmation(models.Model):
             msg.attach_alternative(html, 'text/html')
             return msg
 
-        text = MIMEText(text)
-        html = MIMEText(html, _subtype='html')
+        text = MIMEText(text, _charset='utf-8')
+        html = MIMEText(html, _subtype='html', _charset='utf-8')
         body = MIMEMultipart(_subtype='alternative', _subparts=[text, html])
 
         if sign and not encrypt:  # only sign the message
