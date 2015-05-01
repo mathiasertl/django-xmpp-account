@@ -47,33 +47,32 @@ class SiteMiddleware(object):
 
 
 class AntiSpamMiddleware(object):
-    def process_request(self, request):
+    def get_context(self, request, message):
         host = request.META['REMOTE_ADDR']
 
-        message = cache.get('spamblock-%s' % host)  # Added by previous SpamException
+        context = {
+            'EXCEPTION': message,
+            'HOST': host,
+        }
+        return context
+
+    def process_request(self, request):
+        message = cache.get('spamblock-%s' % request.META['REMOTE_ADDR'])  # Added by previous SpamException
         if message:
-            context = {
-                'EXCEPTION': message,
-                'HOST': host,
-            }
+            context = self.get_context(request, request, message)
             return render(request, 'core/spambot.html', context)
 
     def process_exception(self, request, exception):
-        host = request.META['REMOTE_ADDR']
-
         if six.PY3:
             message = ' '.join(exception.args)
         else:
             #TODO: This still is sometimes True!
             message = exception.message or 'UNKNOWN REASON'
 
-        context = {
-            'EXCEPTION': message,
-            'HOST': host,
-        }
+        context = self.get_context(request, message)
 
         if isinstance(exception, SpamException):
-            cache.set('spamblock-%s' % host, context['EXCEPTION'], settings.SPAM_BLOCK_TIME)
+            cache.set('spamblock-%s' % context['HOST'], context['EXCEPTION'], settings.SPAM_BLOCK_TIME)
             return render(request, 'core/spambot.html', context)
         elif isinstance(exception, RegistrationRateException):
             return render(request, 'core/registration_rate.html', context)
