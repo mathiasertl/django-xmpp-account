@@ -56,9 +56,9 @@ class AntiSpamMiddleware(object):
             'HOST': host,
             'REGISTER_URL': request.build_absolute_uri('/'),
         }
-        if 'CANONICAL_HOST' in self.request.site:
+        if 'CANONICAL_HOST' in request.site:
             context['REGISTER_URL'] = urlsplit(context['REGISTER_URL'])._replace(
-                netloc=self.request.site['CANONICAL_HOST']).geturl()
+                netloc=request.site['CANONICAL_HOST']).geturl()
 
         return context
 
