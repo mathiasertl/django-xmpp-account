@@ -229,6 +229,7 @@ class Confirmation(models.Model):
                 log.warn('%s: No GPG key configured, not signing', site['DOMAIN'])
             elif signer not in [k['fingerprint'] for k in gpg.list_keys(True)]:
                 log.warn('%s: %s: secret key not found, not signing', site['DOMAIN'], signer)
+                signer = None
             elif gpg and (gpg_fingerprint or settings.FORCE_GPG_SIGNING):
                 sign = True
 
