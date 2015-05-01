@@ -22,6 +22,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.shortcuts import render
 from django.utils import six
+from django.utils.six.moves.urllib.parse import urlsplit
 
 from core.exceptions import RateException
 from core.exceptions import RegistrationRateException
@@ -53,7 +54,12 @@ class AntiSpamMiddleware(object):
         context = {
             'EXCEPTION': message,
             'HOST': host,
+            'REGISTER_URL': request.build_absolute_uri('/'),
         }
+        if 'CANONICAL_HOST' in self.request.site:
+            context['REGISTER_URL'] = urlsplit(context['REGISTER_URL'])._replace(
+                netloc=self.request.site['CANONICAL_HOST']).geturl()
+
         return context
 
     def process_request(self, request):
