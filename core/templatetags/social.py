@@ -41,7 +41,7 @@ def social(context, noauto=False, purpose='default'):
     i18n_context = {
         'username': context.get('username'),
         'homepage': context['SITE']['HOMEPAGE'],
-        'action_url': context['ACTION_URL'],
+        'action_url': context.get('ACTION_URL'),
         'domain': context['SITE']['DOMAIN'],
         'register_url': context['REGISTER_URL'],
     }
