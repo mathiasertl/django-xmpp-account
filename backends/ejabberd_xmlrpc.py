@@ -19,6 +19,8 @@ from __future__ import unicode_literals
 
 import time
 
+from httplib import BadStatusLine
+
 from django.conf import settings
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
@@ -109,7 +111,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
                 return func(kwargs)
             else:
                 return func(self.credentials, kwargs)
-        except xmlrpclib.ProtocolError:
+        except (xmlrpclib.ProtocolError, BadStatusLine):
             raise TemporaryError(_("Our server is experiencing temporary difficulties. "
                                    "Please try again later."))
 
