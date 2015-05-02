@@ -127,11 +127,15 @@ python manage.py collectstatic
 ### Generate translations
 
 `django-xmpp-account` is a fully internationalized project, currently a German translation is
-available. Generate the translation files with:
+available. The project has per-app translations, so to generate the translations manually, you must
+execute `manage.py` inside the app directories (`core`, `register`, `reset` and `delete`):
 
 ```
-python manage.py compilemessages
+cd core
+python ../manage.py compilemessages
 ```
+
+Note that all translations are automatically compiled with `manage.py update`.
 
 ### Schedule cron-jobs
 
@@ -180,9 +184,7 @@ source bin/activate
 git fetch
 git pull origin master
 pip install -r requirements.txt
-python manage.py migrate
-python manage.py collectstatic
-python manage.py compilemessages
+python manage.py update
 ```
 
 Don't forget to restart your webserver afterwards.
