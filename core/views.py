@@ -71,18 +71,17 @@ class AntiSpamFormView(FormView):
         try:
             if settings.RECAPTCHA_CLIENT is not None and request.method == 'POST':
                 try:
+                    captcha = request.POST.get('recaptcha_response_field', '')
                     if six.PY3:
-                        request.POST['recaptcha_response_field'].encode(settings.DEFAULT_CHARSET)
+                        captcha.encode(settings.DEFAULT_CHARSET)
                     else:
-                        request.POST['recaptcha_response_field'].decode(settings.DEFAULT_CHARSET)
+                        captcha.decode(settings.DEFAULT_CHARSET)
                 except UnicodeEncodeError:
                     raise TemporaryError(_("Your CAPTCHA response contained invalid characters."))
 
             return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
         except RecaptchaUnreachableError:
             raise TemporaryError(_("The ReCAPTCHA server was unreacheable."))
-#        except KeyError:
-#            raise TemporaryError(_("The ReCAPTCHA didn't work properly."))
 
     def get_context_data(self, **kwargs):
         context = super(AntiSpamFormView, self).get_context_data(**kwargs)
