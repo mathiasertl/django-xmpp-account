@@ -136,6 +136,7 @@ class RegistrationUserAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         site = settings.XMPP_HOSTS[obj.domain]
 
+        obj.save()
         if change is True:  # changed user
             from_db = User.objects.only('email').get(jid=obj.jid)
             if from_db.email != form.cleaned_data['email']:
@@ -147,7 +148,6 @@ class RegistrationUserAdmin(admin.ModelAdmin):
             if site.get('RESERVE', False):
                 backend.reserve(username=obj.username, domain=obj.domain, email=obj.email)
             obj.send_confirmation(request, purpose=PURPOSE_REGISTER)
-        obj.save()
 
     def resend_registration(self, request, queryset):
         for user in queryset:
