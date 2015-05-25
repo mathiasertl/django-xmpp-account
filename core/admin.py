@@ -25,7 +25,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from backends import backend
-from core.constants import PURPOSE_DELETE
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_EMAIL
 from core.constants import PURPOSE_SET_PASSWORD
@@ -34,8 +33,6 @@ from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
-from reset.views import ResetPasswordView
-from reset.views import ResetEmailView
 
 User = get_user_model()
 
