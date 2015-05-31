@@ -1,0 +1,23 @@
+Dear {{ user }}!
+
+You have registered this {{ domain }} Jabber account with your client. If you
+ever loose your password, the only way to reset your password is via this site:
+
+    https://account.jabber.at
+
+The site requires an email confirmation and you haven't yet given us an email
+address. You can do so here: 
+
+    https://account.jabber.at/reset/email/
+
+You can continue to use your account just fine without giving us an email
+address at all. You will just not be able to reset your password if you ever
+loose it. The email address is never used in daily operations and will of
+course never be given to anyone.
+
+Please also see our homepage for more information: 
+
+    https://jabber.at/en/node/132
+
+greetings, 
+your {{ domain }} team
