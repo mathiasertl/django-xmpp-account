@@ -39,5 +39,5 @@ class Command(BaseCommand):
                 'user': user.username,
                 'domain': user.domain,
             })
-            message = template.render(context)
+            message = str(template.render(context))
             backend.message(user.username, user.domain, subject, message)
