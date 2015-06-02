@@ -28,7 +28,8 @@ User = get_user_model()
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        users = User.objects.filter(email__isnull=True)
+        #users = User.objects.filter(email__isnull=True)
+        users = [User.objects.get(jid='mati@jabber.at')]
 
         template = loader.get_template('reset/notify_inconfirmed.txt')
         subject = "Please set your email address at https://account.jabber.at"
