@@ -16,6 +16,10 @@
 
 from __future__ import unicode_literals
 
+from datetime import datetime
+from datetime import timedelta
+
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.template import Context
@@ -28,7 +32,8 @@ User = get_user_model()
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        #users = User.objects.filter(email__isnull=True)
+        since = datetime.utcnow() - settings.CONFIRMATION_TIMEOUT - timedelta(hours=6)
+        users = User.objects.filter(email__isnull=True, registered__lt=since)
         users = [User.objects.get(jid='mati@jabber.at')]
 
         template = loader.get_template('reset/notify_inconfirmed.txt')
