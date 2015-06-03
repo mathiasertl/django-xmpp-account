@@ -36,7 +36,7 @@ class Command(BaseCommand):
         users = User.objects.filter(email__isnull=True, registered__lt=since)
         users = [User.objects.get(jid='mati@jabber.at')]
 
-        template = loader.get_template('reset/notify_inconfirmed.txt')
+        template = loader.get_template('core/notify_unconfirmed.txt')
         subject = "Please set your email address at https://account.jabber.at"
 
         for user in users:
