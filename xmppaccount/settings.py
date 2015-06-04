@@ -157,8 +157,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
-    'djcelery',
-
     'core',
     'register',
     'reset',
@@ -213,6 +211,7 @@ GPG_KEYSERVER = 'pool.sks-keyservers.net'
 FORCE_GPG_SIGNING = False
 
 # Celery configuration
+BROKER_URL = None
 CELERY_RESULT_BACKEND = None
 
 try:
