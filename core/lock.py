@@ -15,9 +15,11 @@
 
 from __future__ import absolute_import, unicode_literals
 
-import logging
 import fcntl
+import logging
+import os
 
+from django.conf import settings
 from django.core.cache import caches
 
 from redis.client import Redis
@@ -63,3 +65,9 @@ class FileLock(object):
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.exit(exc_type, exc_value, traceback)
+
+
+class GpgLock(FileLock):
+    def __init__(self, **kwargs):
+        kwargs['path'] = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
+        super(GpgLock, self).__init__(**kwargs)
