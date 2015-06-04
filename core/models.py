@@ -46,6 +46,9 @@ from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import REGISTRATION_INBAND
 from core.constants import REGISTRATION_WEBSITE
 from core.constants import REGISTRATION_UNKNOWN
+from core.exceptions import GpgError
+from core.exceptions import GpgFingerprintError
+from core.exceptions import GpgKeyError
 from core.lock import GpgLock
 from core.managers import ConfirmationManager
 from core.managers import RegistrationUserManager
@@ -228,7 +231,10 @@ class Confirmation(models.Model):
 
             # ... instead, we check if it is a known key after importing
             if gpg_fingerprint not in [k['fingerprint'] for k in gpg.list_keys()]:
-                log.warn('%s: Unknown GPG fingerprint for %s', site['DOMAIN'], self.user.jid)
+                if quiet is True:
+                    log.warn('%s: Unknown GPG fingerprint for %s', site['DOMAIN'], self.user.jid)
+                else:
+                    raise GpgFingerprintError(_("GPG key not found on keyservers."))
             else:
                 encrypt = True
 
@@ -239,7 +245,10 @@ class Confirmation(models.Model):
 
             imported = settings.GPG.import_keys(payload['gpg_key'])
             if not imported.fingerprints:
-                log.warn("No imported keys: %s\ndata: %s", imported.stderr, payload['gpg_key'])
+                if quiet is True:
+                    log.warn("No imported keys: %s\ndata: %s", imported.stderr, payload['gpg_key'])
+                else:
+                    raise GpgKeyError(_("GPG key could not be imported."))
             else:
                 gpg_fingerprint = imported.fingerprints[0]
                 payload['gpg_fingerprint'] = gpg_fingerprint
@@ -270,9 +279,13 @@ class Confirmation(models.Model):
         if sign and not encrypt:  # only sign the message
             signed_body = gpg.sign(body.as_string(), keyid=signer, detach=True)
             if not signed_body.data:
-                log.warn('GPG returned no data when signing')
-                log.warn(signed_body.stderr)
-                return self.msg_without_gpg(subject, frm, recipient, text, html)
+                if quiet is True:
+                   log.warn('GPG returned no data when signing')
+                   log.warn(signed_body.stderr)
+                   return self.msg_without_gpg(subject, frm, recipient, text, html)
+                else:
+                   raise GpgError("Error signing message: %s" % signed_body.stderr)
+
             sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
             sig.set_payload(signed_body.data)
             sig.add_header('Content-Description', 'OpenPGP digital signature')
@@ -287,9 +300,12 @@ class Confirmation(models.Model):
             encrypted_body = gpg.encrypt(body.as_string(), [gpg_fingerprint], sign=signer,
                                          always_trust=True)
             if not encrypted_body.data:
-                log.warn('GPG returned no data when signing/encrypting')
-                log.warn(encrypted_body.stderr)
-                return self.msg_without_gpg(subject, frm, recipient, text, html)
+                if quiet is True:
+                    log.warn('GPG returned no data when signing/encrypting')
+                    log.warn(encrypted_body.stderr)
+                    return self.msg_without_gpg(subject, frm, recipient, text, html)
+                else:
+                   raise GpgError("Error encrypting message: %s" % encrypted_body.stderr)
 
             encrypted = MIMEBase(_maintype='application', _subtype='octed-stream',
                                  name='encrypted.asc')
