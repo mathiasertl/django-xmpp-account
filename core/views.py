@@ -140,7 +140,7 @@ class ConfirmationView(AntiSpamFormView):
 
     def handle_gpg(self, form, user):
         if not settings.GPG:
-            return  # shortcut
+            return {}  # shortcut
 
         if form.cleaned_data.get('fingerprint'):
             fingerprint = form.cleaned_data['fingerprint']
