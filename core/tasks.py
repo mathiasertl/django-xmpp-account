@@ -35,7 +35,7 @@ def send_email(self, key_id, uri, site, lang):
     key = Confirmation.objects.get(id=key_id)
 
     payload = json.loads(key.payload)
-    frm, recipient, subject, text, html = key.get_msg_data(uri, site, lang)
+    frm, recipient, subject, text, html = key.get_msg_data(payload, uri, site, lang)
 
     if key.should_use_gpg(payload=payload, site=site):
         send_gpg_email.delay(key_id=key_id, site=site, frm=frm, subject=subject, text=text, html=html)

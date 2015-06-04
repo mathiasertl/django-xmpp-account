@@ -300,7 +300,6 @@ class Confirmation(models.Model):
         return msg
 
     def get_msg_data(self, payload, uri, site, lang):
-        payload = json.loads(self.payload)
         frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
         recipient = payload.get('email', self.user.email)
 
@@ -322,11 +321,11 @@ class Confirmation(models.Model):
         text = re.sub('\n\n+', '\n\n', text)
         html = render_to_string('%s.html' % PURPOSES[self.purpose]['template'], context)
 
-        return frm, recipient, subject, text, html, payload
+        return frm, recipient, subject, text, html
 
     def send(self, uri, site, lang):
         payload = json.loads(self.payload)
-        frm, recipient, subject, text, html = self.get_msg_data(uri, site, lang)
+        frm, recipient, subject, text, html = self.get_msg_data(payload, uri, site, lang)
 
         if self.should_use_gpg(payload, site):
             msg = self.msg_with_gpg(site, frm, subject, text, html, payload=payload)
