@@ -52,6 +52,10 @@ def confirm(request, user, purpose, payload=None, lang=None):
     path = reverse(urlname, kwargs={'key': key.key, })
     uri = request.build_absolute_uri(location=path)
 
-    key.send(uri=uri, site=request.site, lang=lang)
+    return key, {
+        'uri': uri,
+        'site': request.site,
+        'lang': lang,
+    }
 
 gpg_lock = threading.Lock()

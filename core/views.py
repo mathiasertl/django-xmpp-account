@@ -43,6 +43,7 @@ from core.forms import EmailMixin
 from core.models import Address
 from core.models import Confirmation
 from core.models import UserAddresses
+from core.tasks import send_email
 from core.utils import confirm
 from core.utils import get_client_ip
 from core.utils import gpg_lock
@@ -178,7 +179,11 @@ class ConfirmationView(AntiSpamFormView):
         UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
         # Send confirmation email to the user
-        confirm(self.request, user, purpose=self.purpose, payload=payload)
+        key, kwargs = confirm(self.request, user, purpose=self.purpose, payload=payload)
+        if settings.BROKER_URL is None:
+            key.send(**kwargs)
+        else:
+            send_email.delay(key_id=key.pk, **kwargs)
 
         return super(ConfirmationView, self).form_valid(form)
 
