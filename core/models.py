@@ -142,12 +142,14 @@ class RegistrationUser(AbstractBaseUser):
         pwd = ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
         backend.set_unusable_password(self.username, self.domain, pwd)
 
-    def send_confirmation(self, site, request, purpose, payload=None, **kwargs):
+    def send_confirmation(self, site, request, purpose, payload=None, lang=None):
         if payload is None:
             payload = {}
+        if lang is None:
+            lang = settings.LANGUAGE_CODE
 
         key = Confirmation.objects.create(user=self, purpose=purpose, payload=json.dumps(payload))
-        key.send(request, site=site, **kwargs)
+        key.send(request, site=site, lang=lang)
         return key
 
     def get_short_name(self):
@@ -287,7 +289,7 @@ class Confirmation(models.Model):
 
         return msg
 
-    def send(self, request, site, lang='en'):
+    def send(self, request, site, lang):
         path = reverse(PURPOSES[self.purpose]['urlname'], kwargs={'key': self.key, })
         uri = request.build_absolute_uri(location=path)
 
