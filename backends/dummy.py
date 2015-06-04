@@ -90,7 +90,7 @@ class DummyBackend(XmppBackendBase):
 
         data = cache.get(user)
         if data is None:
-            raise UserNotFound()
+            raise UserNotFound("User does not exist in backend.")
         else:
             data['pass'] = password
             cache.set(user, data)
