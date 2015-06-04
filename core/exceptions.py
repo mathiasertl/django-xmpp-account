@@ -35,3 +35,13 @@ class TemporaryError(Exception):
 
 class RegistrationRateException(RateException):
     """Raised when the user exceeds rate for registrations."""
+
+
+class GpgFingerprintError(Exception):
+    """Raised when handling (e.g. fetching) fingerprints."""
+    pass
+
+
+class GpgKeyError(Exception):
+    """Raised when e.g. importing raw GPG keys."""
+    pass
