@@ -202,11 +202,12 @@ class Confirmation(models.Model):
             return True
         return False
 
-    def msg_with_gpg(self, site, frm, subject, text, html, payload=None):
+    def msg_with_gpg(self, site, frm, subject, text, html, payload=None, quiet=True):
         """
         :param site: Matching dict from XMPP_HOSTS.
         :param text: The text part of the message.
         :param html: The HTML part of the message.
+        :param quiet: If False, raise an Exception, the default is only to log errors.
         """
         if payload is None:
             payload = json.loads(self.payload)
@@ -351,7 +352,8 @@ class Confirmation(models.Model):
 
         if self.should_use_gpg(payload, site):
             with GpgLock():
-                msg = self.msg_with_gpg(site, frm, subject, text, html, payload=payload)
+                msg = self.msg_with_gpg(site, frm, subject, text, html, payload=payload,
+                                        quiet=False)
         else:
             msg = self.msg_without_gpg(subject, frm, recipient, text, html)
 
