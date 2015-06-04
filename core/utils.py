@@ -21,6 +21,7 @@ import string
 import threading
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 SAFE_CHARS = string.ascii_letters + string.digits
 
@@ -38,19 +39,19 @@ def get_client_ip(request):
     return ip
 
 
-def send_confirmation(request, user, purpose, payload, lang=None):
+def confirm(request, user, purpose, payload=None, lang=None):
     """Send an email confirmation from a request - either via Celery or directly."""
 
     if lang is None:
         lang = settings.LANGUAGE_CODE
+    if payload is None:
+        payload = {}
 
-    user.send_confirmation(
-        site=request.site,
-        request=request,
-        purpose=purpose,
-        payload=payload,
-        lang=lang
-    )
+    urlname, key = user.get_confirmation_key(purpose, payload)
 
+    path = reverse(urlname, kwargs={'key': key, })
+    uri = request.build_absolute_uri(location=path)
+
+    key.send(uri=uri, site=request.site, lang=lang)
 
 gpg_lock = threading.Lock()
