@@ -16,6 +16,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import logging
+import fcntl
 
 from django.core.cache import caches
 
@@ -27,7 +28,7 @@ cache = caches['default']
 
 class FileLock(object):
     def __init__(self, path, cache_fallback=None):
-        self.path = path
+        self.path = '%s.xmppaccount.lock' % path
         self.cache = cache_fallback
 
         # (1) Try to use standard django cache
@@ -43,14 +44,24 @@ class FileLock(object):
         elif isinstance(cache_fallback, Redis):
             log.warn('Use Redis from Celery')
             self.use_redis(cache_fallback)
-        # (3) Try to use fcntl
-        #     # https://docs.python.org/2/library/fcntl.html#fcntl.lockf
+
+        # Try to use fcntl
+        elif True:  # TODO: Test here if we porperly support fcntl
+            log.warn('Use fcntl')
+            self.use_fcntl()
+        else:
+            log.warn('No suitable locking mechanism found')
 
     def use_redis(self, client):
         self.client = client
         lock = self.client.lock(self.path, timeout=120)
         self.enter = lambda: lock.__enter__()
         self.exit = lambda exc_type, exc_value, traceback: lock.__exit__(exc_type, exc_value, traceback)
+
+    def use_fcntl(self):
+        fp = open(self.path, 'w')
+        self.enter = lambda: fcntl.flock(fp, fcntl.LOCK_EX)
+        self.exit = lambda exc_type, exc_value, traceback: fp.close()
 
     def __enter__(self):
         self.enter()
