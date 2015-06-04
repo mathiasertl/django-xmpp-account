@@ -144,11 +144,12 @@ class ConfirmationView(AntiSpamFormView):
         if not settings.GPG:
             return {}  # shortcut
 
+        lock_path = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
+
         if form.cleaned_data.get('fingerprint'):
             fingerprint = form.cleaned_data['fingerprint']
 
             if settings.BROKER_URL is None:
-                lock_path = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
                 with FileLock(lock_path):
                     imported = settings.GPG.recv_keys(settings.GPG_KEYSERVER, fingerprint)
                 if not imported.fingerprints:
@@ -158,7 +159,9 @@ class ConfirmationView(AntiSpamFormView):
             path = self.request.FILES['gpg_key'].temporary_file_path()
             with open(path) as stream, gpg_lock:
                 data = stream.read()
-            imported = settings.GPG.import_keys(data)
+
+            with FileLock(lock_path):
+                imported = settings.GPG.import_keys(data)
             if not imported.fingerprints:
                 raise Exception("No imported keys: %s\ndata: %s" % (imported.stderr, data))
             return {'gpg_fingerprint': imported.fingerprints[0], }
