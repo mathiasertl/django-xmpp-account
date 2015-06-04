@@ -248,6 +248,9 @@ class EmailMixin(object):
         return email
 
     def clean_fingerprint(self):
+        if not settings.GPG:  # check, just to be sure
+            raise forms.ValidationError('GPG not enabled.')
+
         fp = self.cleaned_data.get('fingerprint', '').strip().replace(' ', '').upper()
         if fp == '':
             return None  # no fingerprint given
