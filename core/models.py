@@ -230,15 +230,27 @@ class Confirmation(models.Model):
             else:
                 encrypt = True
 
+        elif 'gpg_key' in payload:
+            # No fingerprint but a gpg_key in the payload, so import the key. This should only be
+            # happening if we're using Celery.
+            log.warn('Importing gpg key in msg_with_gpg()')
+
+            imported = settings.GPG.import_keys(payload['gpg_key'])
+            if not imported.fingerprints:
+                log.warn("No imported keys: %s\ndata: %s", imported.stderr, payload['gpg_key'])
+            else:
+                gpg_fingerprint = imported.fingerprints[0]
+                payload['gpg_fingerprint'] = gpg_fingerprint
+                encrypt = True
+
         # sign only if the user has fingerprint or signing is forced
-        if gpg:
-            if not signer:
-                log.warn('%s: No GPG key configured, not signing', site['DOMAIN'])
-            elif signer not in [k['fingerprint'] for k in gpg.list_keys(True)]:
-                log.warn('%s: %s: secret key not found, not signing', site['DOMAIN'], signer)
-                signer = None
-            elif gpg and (gpg_fingerprint or settings.FORCE_GPG_SIGNING):
-                sign = True
+        if not signer:
+            log.warn('%s: No GPG key configured, not signing', site['DOMAIN'])
+        elif signer not in [k['fingerprint'] for k in gpg.list_keys(True)]:
+            log.warn('%s: %s: secret key not found, not signing', site['DOMAIN'], signer)
+            signer = None
+        elif gpg and (gpg_fingerprint or settings.FORCE_GPG_SIGNING):
+            sign = True
 
         log.info('sign, encrypt: %s/%s', sign, encrypt)
         if not (sign or encrypt):  # shortcut if no GPG is used
