@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 
 
 @shared_task(bind=True)
-def send_email(key_id, uri, site, lang):
+def send_email(self, key_id, uri, site, lang):
     key = Confirmation.objects.get(id=key_id)
     key.send(uri=uri, site=site, lang=lang)
 
