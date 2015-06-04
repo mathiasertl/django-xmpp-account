@@ -213,6 +213,12 @@ MAX_USERNAME_LENGTH = 32
 #RECAPTCHA_PRIVATE_KEY = None
 #RECAPTCHA_PUBLIC_KEY = None
 
+############################
+### Celery configuration ###
+############################
+#BROKER_URL = 'redis://localhost:6379/0'
+#CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
 ###########################
 ### GnuPG configuration ###
 ###########################
