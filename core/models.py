@@ -192,6 +192,16 @@ class Confirmation(models.Model):
 
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
 
+    def should_use_gpg(self, payload, site):
+        if not settings.GPG:  # GPG not configured
+            return False
+
+        if payload.get('gpg_fingerprint'):  # GPG fingerprint submitted
+            return True
+        elif site.get('GPG_FINGERPRINT') and settings.FORCE_GPG_SIGNING:  # site has gpg and forced
+            return True
+        return False
+
     def handle_gpg(self, site, subject, text, html):
         """
         :param site: Matching dict from XMPP_HOSTS.
@@ -266,7 +276,9 @@ class Confirmation(models.Model):
                 log.warn('GPG returned no data when signing/encrypting')
                 log.warn(encrypted_body.stderr)
                 return default_msg
-            encrypted = MIMEBase(_maintype='application', _subtype='octed-stream', name='encrypted.asc')
+
+            encrypted = MIMEBase(_maintype='application', _subtype='octed-stream',
+                                 name='encrypted.asc')
             encrypted.set_payload(encrypted_body.data)
             encrypted.add_header('Content-Description', 'OpenPGP encrypted message')
             encrypted.add_header('Content-Disposition', 'inline; filename="encrypted.asc"')
@@ -277,6 +289,7 @@ class Confirmation(models.Model):
 
         # We wrap the message() method to set Content-Type parameters (set_params())
         _msg = msg.message
+
         def message():
             msg = _msg()
             msg.set_param('protocol', protocol)
@@ -339,7 +352,6 @@ class UserAddresses(models.Model):
     class Meta:
         verbose_name = _('IP-Address Activity')
         verbose_name_plural = _('IP-Address Activities')
-
 
     def __str__(self):
         return '%s: %s/%s' % (PURPOSE_DICT[self.purpose], self.address.address,
