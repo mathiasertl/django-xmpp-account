@@ -48,7 +48,6 @@ from core.models import UserAddresses
 from core.tasks import send_email
 from core.utils import confirm
 from core.utils import get_client_ip
-from core.utils import gpg_lock
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -157,7 +156,7 @@ class ConfirmationView(AntiSpamFormView):
             return {'gpg_fingerprint': fingerprint, }
         elif 'gpg_key' in self.request.FILES:
             path = self.request.FILES['gpg_key'].temporary_file_path()
-            with open(path) as stream, gpg_lock:
+            with open(path) as stream:
                 data = stream.read()
 
             with FileLock(lock_path):

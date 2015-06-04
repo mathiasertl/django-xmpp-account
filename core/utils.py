@@ -18,7 +18,6 @@ from __future__ import unicode_literals
 
 import random
 import string
-import threading
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -57,5 +56,3 @@ def confirm(request, user, purpose, payload=None, lang=None):
         'site': request.site,
         'lang': lang,
     }
-
-gpg_lock = threading.Lock()
