@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 
 import json
 import logging
-import os
 import random
 import re
 import smtplib
@@ -47,7 +46,7 @@ from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import REGISTRATION_INBAND
 from core.constants import REGISTRATION_WEBSITE
 from core.constants import REGISTRATION_UNKNOWN
-from core.lock import FileLock
+from core.lock import GpgLock
 from core.managers import ConfirmationManager
 from core.managers import RegistrationUserManager
 from core.querysets import ConfirmationQuerySet
@@ -330,8 +329,7 @@ class Confirmation(models.Model):
         frm, recipient, subject, text, html = self.get_msg_data(payload, uri, site, lang)
 
         if self.should_use_gpg(payload, site):
-            lock_path = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
-            with FileLock(lock_path, getattr(self.backend, 'client')):
+            with GpgLock():
                 msg = self.msg_with_gpg(site, frm, subject, text, html, payload=payload)
         else:
             msg = self.msg_without_gpg(subject, frm, recipient, text, html)

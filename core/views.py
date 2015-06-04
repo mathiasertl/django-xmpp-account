@@ -17,7 +17,6 @@
 from __future__ import unicode_literals
 
 import logging
-import os
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -41,7 +40,7 @@ from backends.base import UserNotFound
 from core.exceptions import RateException
 from core.exceptions import TemporaryError
 from core.forms import EmailMixin
-from core.lock import FileLock
+from core.lock import GpgLock
 from core.models import Address
 from core.models import Confirmation
 from core.models import UserAddresses
@@ -143,13 +142,11 @@ class ConfirmationView(AntiSpamFormView):
         if not settings.GPG:
             return {}  # shortcut
 
-        lock_path = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
-
         if form.cleaned_data.get('fingerprint'):
             fingerprint = form.cleaned_data['fingerprint']
 
             if settings.BROKER_URL is None:
-                with FileLock(lock_path):
+                with GpgLock():
                     imported = settings.GPG.recv_keys(settings.GPG_KEYSERVER, fingerprint)
                 if not imported.fingerprints:
                     raise Exception("No imported keys: %s (fp: '%s')" % (imported.stderr, fingerprint))
@@ -159,7 +156,7 @@ class ConfirmationView(AntiSpamFormView):
             with open(path) as stream:
                 data = stream.read()
 
-            with FileLock(lock_path):
+            with GpgLock():
                 imported = settings.GPG.import_keys(data)
             if not imported.fingerprints:
                 raise Exception("No imported keys: %s\ndata: %s" % (imported.stderr, data))
