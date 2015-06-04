@@ -36,19 +36,15 @@ class FileLock(object):
 
         # Use one of the supported cache backends
         if cache.__module__ == 'django_redis.cache':
-            # TODO: solve this without a module-level import
-            log.warn('use django redis cache')
             self.use_redis(cache.client.get_client(True))
 
         # Try to use passed cache as fallback. This is only used when no suitable main cache is
         # found, because the main cache is shared between the WSGI server and Celery.
         elif isinstance(cache_fallback, Redis):
-            log.warn('Use Redis from Celery')
             self.use_redis(cache_fallback)
 
         # Use fcntl (unix only!)
         else:  # TODO: Test here if we porperly support fcntl
-            log.warn('Use fcntl')
             self.use_fcntl()
 
     def use_redis(self, client):
