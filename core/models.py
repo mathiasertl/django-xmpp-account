@@ -243,6 +243,10 @@ class Confirmation(models.Model):
                 payload['gpg_fingerprint'] = gpg_fingerprint
                 encrypt = True
 
+                # save the payload to make sure it will always have one during confirmation
+                self.payload = json.dumps(payload)
+                self.save()
+
         # sign only if the user has fingerprint or signing is forced
         if not signer:
             log.warn('%s: No GPG key configured, not signing', site['DOMAIN'])
