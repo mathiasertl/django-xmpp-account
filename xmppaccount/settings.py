@@ -308,10 +308,12 @@ LOGGING = {
         'backends': {
             'handlers': ['console', ],
             'level': LOG_LEVEL,
+            'propagate': False,
         },
         'core': {
             'handlers': ['console', ],
             'level': LOG_LEVEL,
+            'propagate': False,
         },
         'cleanup': {
             'handlers': ['cleanup', 'cron-console'],
