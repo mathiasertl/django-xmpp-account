@@ -37,6 +37,10 @@ class RegistrationRateException(RateException):
     """Raised when the user exceeds rate for registrations."""
 
 
+class GpgError(Exception):
+    """Raised when generally handling GPG."""
+    pass
+
 class GpgFingerprintError(Exception):
     """Raised when handling (e.g. fetching) fingerprints."""
     pass
