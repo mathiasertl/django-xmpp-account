@@ -268,6 +268,9 @@ class EmailMixin(object):
         return fp
 
     def clean_gpg_key(self):
+        if not settings.GPG: # check, just to be sure
+            raise forms.ValidationError('GPG not enabled.')
+
         gpg_key = self.cleaned_data.get('gpg_key')
         if gpg_key is None:
             return gpg_key
@@ -275,17 +278,14 @@ class EmailMixin(object):
             raise forms.ValidationError(
                 'Only plain-text files are allowed (was: %s)!' % gpg_key.content_type)
 
-        if settings.GPG:  # check, just to be sure
-            result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
-            if result.stderr:
-                log.error('Could not import public key: %s', result.stderr)
-                raise forms.ValidationError('Could not import public key.')
-            elif len(result.fingerprints) > 1:
-                raise forms.ValidationError(_('File contains multiple keys.'))
-            elif len(result.fingerprints) < 1:
-                raise forms.ValidationError(_('File contains no keys.'))
-        else:
-            raise forms.ValidationError('GPG not enabled.')
+        result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
+        if result.stderr:
+            log.error('Could not import public key: %s', result.stderr)
+            raise forms.ValidationError('Could not import public key.')
+        elif len(result.fingerprints) > 1:
+            raise forms.ValidationError(_('File contains multiple keys.'))
+        elif len(result.fingerprints) < 1:
+            raise forms.ValidationError(_('File contains no keys.'))
 
         return gpg_key
 
