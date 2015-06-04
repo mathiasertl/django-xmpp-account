@@ -31,9 +31,10 @@ class FileLock(object):
         self.path = '%s.xmppaccount.lock' % path
         self.cache = cache_fallback
 
-        # (1) Try to use standard django cache
-        #     # memcached: https://russellneufeld.wordpress.com/2012/05/24/using-memcached-as-a-distributed-lock-from-within-django/
-        #     # redis: http://loose-bits.com/2010/10/distributed-task-locking-in-celery.html
+        # TODO: Memcached caches should be suitable as well:
+        # https://russellneufeld.wordpress.com/2012/05/24/using-memcached-as-a-distributed-lock-from-within-django/
+
+        # Use one of the supported cache backends
         if cache.__module__ == 'django_redis.cache':
             # TODO: solve this without a module-level import
             log.warn('use django redis cache')
@@ -45,12 +46,10 @@ class FileLock(object):
             log.warn('Use Redis from Celery')
             self.use_redis(cache_fallback)
 
-        # Try to use fcntl
-        elif True:  # TODO: Test here if we porperly support fcntl
+        # Use fcntl (unix only!)
+        else:  # TODO: Test here if we porperly support fcntl
             log.warn('Use fcntl')
             self.use_fcntl()
-        else:
-            log.warn('No suitable locking mechanism found')
 
     def use_redis(self, client):
         self.client = client
