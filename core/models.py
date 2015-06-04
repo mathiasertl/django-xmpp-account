@@ -337,6 +337,10 @@ class Confirmation(models.Model):
         return frm, recipient, subject, text, html
 
     def send(self, uri, site, lang):
+        """Send this confirmation key.
+
+        This method is intended to be used inside the WSGI daemon if celery is not used.
+        """
         payload = json.loads(self.payload)
         frm, recipient, subject, text, html = self.get_msg_data(payload, uri, site, lang)
 
