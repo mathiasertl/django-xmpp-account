@@ -17,14 +17,10 @@ from __future__ import absolute_import
 
 import json
 import logging
-import os
-import time
 
 from celery import shared_task
 
-from django.conf import settings
-
-from core.lock import FileLock
+from core.lock import GpgLock
 from core.models import Confirmation
 
 log = logging.getLogger(__name__)
@@ -46,19 +42,7 @@ def send_email(self, key_id, uri, site, lang):
 
 @shared_task(bind=True)
 def send_gpg_email(self, key_id, site, frm, subject, text, html):
-    lock_path = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
-
     key = Confirmation.objects.get(id=key_id)
-
-    with FileLock(lock_path, getattr(self.backend, 'client')):
+    with GpgLock(getattr(self.backend, 'client')):
         msg = key.msg_with_gpg(site, frm, subject, text, html)
-
     msg.send()
-
-
-@shared_task(bind=True)
-def test_task(self):
-    with FileLock('testpath', getattr(self.backend, 'client')):
-        log.warn('locked')
-        time.sleep(60)
-    log.warn('after lock')
