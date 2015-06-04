@@ -43,6 +43,7 @@ from core.forms import EmailMixin
 from core.models import Address
 from core.models import Confirmation
 from core.models import UserAddresses
+from core.utils import confirm
 from core.utils import get_client_ip
 from core.utils import gpg_lock
 
@@ -177,12 +178,7 @@ class ConfirmationView(AntiSpamFormView):
         UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
         # Send confirmation email to the user
-        user.send_confirmation(
-            self.request,
-            purpose=self.purpose,
-            payload=payload,
-            lang=self.request.LANGUAGE_CODE
-        )
+        confirm(self.request, user, purpose=self.purpose, payload=payload)
 
         return super(ConfirmationView, self).form_valid(form)
 
