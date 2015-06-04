@@ -49,7 +49,7 @@ def confirm(request, user, purpose, payload=None, lang=None):
 
     urlname, key = user.get_confirmation_key(purpose, payload)
 
-    path = reverse(urlname, kwargs={'key': key, })
+    path = reverse(urlname, kwargs={'key': key.key, })
     uri = request.build_absolute_uri(location=path)
 
     key.send(uri=uri, site=request.site, lang=lang)
