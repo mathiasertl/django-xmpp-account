@@ -221,10 +221,11 @@ class Confirmation(models.Model):
 
         # encrypt only if the user has a fingerprint
         if gpg_fingerprint:
-            # Receive key of recipient. We don't care about the result, because user might not have
-            # uploaded it.
+            # Receive key of recipient. We don't care about the result, because user might have
+            # already uploaded it.
             gpg.recv_keys(settings.GPG_KEYSERVER, gpg_fingerprint)
 
+            # ... instead, we check if it is a known key after importing
             if gpg_fingerprint not in [k['fingerprint'] for k in gpg.list_keys()]:
                 log.warn('%s: Unknown GPG fingerprint for %s', site['DOMAIN'], self.user.jid)
             else:
