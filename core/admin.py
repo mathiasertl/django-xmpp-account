@@ -33,6 +33,7 @@ from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
+from core.utils import confirm
 
 User = get_user_model()
 
@@ -137,31 +138,32 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         if change is True:  # changed user
             from_db = User.objects.only('email').get(jid=obj.jid)
             if from_db.email != form.cleaned_data['email']:
-                obj.send_confirmation(request, purpose=PURPOSE_REGISTER, payload={
+                payload = {
                     'gpg_fingerprint': form.cleaned_data.get('gpg_fingerprint'),
                     'email': form.cleaned_data['email'],
-                })
+                }
+                confirm(request, obj, purpose=PURPOSE_REGISTER, payload=payload)
         else: # new user
             if site.get('RESERVE', False):
                 backend.reserve(username=obj.username, domain=obj.domain, email=obj.email)
             if obj.email:
-                obj.send_confirmation(request, purpose=PURPOSE_REGISTER)
+                confirm(request, obj, purpose=PURPOSE_REGISTER)
 
     def resend_registration(self, request, queryset):
         for user in queryset:
             #TODO: This does not use the original payload - e.g. GPG encryption
-            user.send_confirmation(request, purpose=PURPOSE_REGISTER)
+            confirm(request, user, purpose=PURPOSE_REGISTER)
     resend_registration.short_description = _("Resend registration email")
 
     def resend_password_reset(self, request, queryset):
         for user in queryset:
-            user.send_confirmation(request, purpose=PURPOSE_SET_PASSWORD)
+            confirm(request, user, purpose=PURPOSE_SET_PASSWORD)
     resend_password_reset.short_description = _("Resend password reset email")
 
     def resend_email_reset(self, request, queryset):
         for user in queryset:
             #TODO: This does not use the original payload - e.g. GPG encryption
-            user.send_confirmation(request, purpose=PURPOSE_SET_EMAIL)
+            confirm(request, user, purpose=PURPOSE_SET_EMAIL)
     resend_email_reset.short_description = _("Resend email reset email")
 
 
