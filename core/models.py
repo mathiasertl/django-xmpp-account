@@ -229,7 +229,6 @@ class Confirmation(models.Model):
             else:
                 encrypt = True
 
-
         # sign only if the user has fingerprint or signing is forced
         if gpg:
             if not signer:
@@ -240,6 +239,7 @@ class Confirmation(models.Model):
             elif gpg and (gpg_fingerprint or settings.FORCE_GPG_SIGNING):
                 sign = True
 
+        log.info('sign, encrypt: %s/%s', sign, encrypt)
         if not (sign or encrypt):  # shortcut if no GPG is used
             return self.msg_without_gpg(subject, frm, recipient, text, html)
 
