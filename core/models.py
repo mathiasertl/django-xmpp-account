@@ -31,7 +31,6 @@ from email.mime.text import MIMEText
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible
@@ -202,20 +201,22 @@ class Confirmation(models.Model):
             return True
         return False
 
-    def handle_gpg(self, site, subject, text, html):
+    def msg_with_gpg(self, site, frm, subject, text, html, payload=None):
         """
         :param site: Matching dict from XMPP_HOSTS.
         :param text: The text part of the message.
         :param html: The HTML part of the message.
         """
+        if payload is None:
+            payload = json.loads(self.payload)
+
         gpg = settings.GPG
-        encrypt = False
         signer = site.get('GPG_FINGERPRINT')
         sign = False
+        encrypt = False
 
-        payload = json.loads(self.payload)
-        gpg_fingerprint = payload.get('gpg_fingerprint')
         recipient = payload.get('email', self.user.email)
+        gpg_fingerprint = payload.get('gpg_fingerprint')
 
         # encrypt only if the user has a fingerprint
         if gpg and gpg_fingerprint:
@@ -228,8 +229,6 @@ class Confirmation(models.Model):
             else:
                 encrypt = True
 
-        frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-        msg = EmailMultiAlternatives(subject, from_email=frm, to=[recipient])
 
         # sign only if the user has fingerprint or signing is forced
         if gpg:
@@ -241,24 +240,20 @@ class Confirmation(models.Model):
             elif gpg and (gpg_fingerprint or settings.FORCE_GPG_SIGNING):
                 sign = True
 
-        # we create an unencrypted and unsigned message that we can send in case GPG fails
-        default_msg = EmailMultiAlternatives(subject, from_email=frm, to=[recipient])
-        default_msg.body = text
-        default_msg.attach_alternative(html, 'text/html')
-
         if not (sign or encrypt):  # shortcut if no GPG is used
-            return default_msg
+            return self.msg_without_gpg(subject, frm, recipient, text, html)
 
-        text = MIMEText(text, _charset='utf-8')
-        html = MIMEText(html, _subtype='html', _charset='utf-8')
-        body = MIMEMultipart(_subtype='alternative', _subparts=[text, html])
+        msg = EmailMultiAlternatives(subject, from_email=frm, to=[recipient])
+        mime_text = MIMEText(text, _charset='utf-8')
+        mime_html = MIMEText(html, _subtype='html', _charset='utf-8')
+        body = MIMEMultipart(_subtype='alternative', _subparts=[mime_text, mime_html])
 
         if sign and not encrypt:  # only sign the message
-            signed_body = gpg.sign(body.as_string(), keyid=site['GPG_FINGERPRINT'], detach=True)
+            signed_body = gpg.sign(body.as_string(), keyid=signer, detach=True)
             if not signed_body.data:
                 log.warn('GPG returned no data when signing')
                 log.warn(signed_body.stderr)
-                return default_msg
+                return self.msg_without_gpg(subject, frm, recipient, text, html)
             sig = MIMEBase(_maintype='application', _subtype='pgp-signature', name='signature.asc')
             sig.set_payload(signed_body.data)
             sig.add_header('Content-Description', 'OpenPGP digital signature')
@@ -275,7 +270,7 @@ class Confirmation(models.Model):
             if not encrypted_body.data:
                 log.warn('GPG returned no data when signing/encrypting')
                 log.warn(encrypted_body.stderr)
-                return default_msg
+                return self.msg_without_gpg(subject, frm, recipient, text, html)
 
             encrypted = MIMEBase(_maintype='application', _subtype='octed-stream',
                                  name='encrypted.asc')
@@ -298,7 +293,17 @@ class Confirmation(models.Model):
 
         return msg
 
-    def send(self, uri, site, lang):
+    def msg_without_gpg(self, subject, frm, recipient, text, html):
+        msg = EmailMultiAlternatives(subject, from_email=frm, to=[recipient])
+        msg.body = text
+        msg.attach_alternative(html, 'text/html')
+        return msg
+
+    def get_msg_data(self, payload, uri, site, lang):
+        payload = json.loads(self.payload)
+        frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
+        recipient = payload.get('email', self.user.email)
+
         subject = PURPOSES[self.purpose]['subject'] % {
             'domain': self.user.domain,
         }
@@ -317,7 +322,16 @@ class Confirmation(models.Model):
         text = re.sub('\n\n+', '\n\n', text)
         html = render_to_string('%s.html' % PURPOSES[self.purpose]['template'], context)
 
-        msg = self.handle_gpg(site, subject, text, html)
+        return frm, recipient, subject, text, html, payload
+
+    def send(self, uri, site, lang):
+        payload = json.loads(self.payload)
+        frm, recipient, subject, text, html = self.get_msg_data(uri, site, lang)
+
+        if self.should_use_gpg(payload, site):
+            msg = self.msg_with_gpg(site, frm, subject, text, html, payload=payload)
+        else:
+            msg = self.msg_without_gpg(subject, frm, recipient, text, html)
 
         try:
             msg.send()
