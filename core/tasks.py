@@ -21,12 +21,19 @@ import time
 from celery import shared_task
 
 from core.lock import FileLock
+from core.models import ConfirmationKey
 
 log = logging.getLogger(__name__)
 
 
 @shared_task(bind=True)
-def send_email(self):
+def send_email(key_id, uri, site, lang):
+    key = ConfirmationKey.objects.get(id=key_id)
+    key.send(uri=uri, site=site, lang=lang)
+
+
+@shared_task(bind=True)
+def test_task(self):
     with FileLock('testpath', getattr(self.backend, 'client')):
         log.warn('locked')
         time.sleep(60)
