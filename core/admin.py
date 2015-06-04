@@ -33,6 +33,7 @@ from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
 from core.models import RegistrationUser
+from core.tasks import send_email
 from core.utils import confirm
 
 User = get_user_model()
@@ -131,6 +132,13 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         super(RegistrationUserAdmin, self).log_deletion(request, object, object_repr)
         backend.remove(username, domain)
 
+    def _confirm(self, request, user, purpose, payload=None):
+        key, kwargs = confirm(request, user, purpose=purpose, payload=payload)
+        if settings.BROKER_URL is None:
+            key.send(**kwargs)
+        else:
+            send_email.delay(key_id=key.pk, **kwargs)
+
     def save_model(self, request, obj, form, change):
         site = settings.XMPP_HOSTS[obj.domain]
 
@@ -142,28 +150,28 @@ class RegistrationUserAdmin(admin.ModelAdmin):
                     'gpg_fingerprint': form.cleaned_data.get('gpg_fingerprint'),
                     'email': form.cleaned_data['email'],
                 }
-                confirm(request, obj, purpose=PURPOSE_REGISTER, payload=payload)
+                self._confirm(request, obj, purpose=PURPOSE_REGISTER, payload=payload)
         else: # new user
             if site.get('RESERVE', False):
                 backend.reserve(username=obj.username, domain=obj.domain, email=obj.email)
             if obj.email:
-                confirm(request, obj, purpose=PURPOSE_REGISTER)
+                self._confirm(request, obj, purpose=PURPOSE_REGISTER)
 
     def resend_registration(self, request, queryset):
         for user in queryset:
             #TODO: This does not use the original payload - e.g. GPG encryption
-            confirm(request, user, purpose=PURPOSE_REGISTER)
+            self._confirm(request, user, purpose=PURPOSE_REGISTER)
     resend_registration.short_description = _("Resend registration email")
 
     def resend_password_reset(self, request, queryset):
         for user in queryset:
-            confirm(request, user, purpose=PURPOSE_SET_PASSWORD)
+            self._confirm(request, user, purpose=PURPOSE_SET_PASSWORD)
     resend_password_reset.short_description = _("Resend password reset email")
 
     def resend_email_reset(self, request, queryset):
         for user in queryset:
             #TODO: This does not use the original payload - e.g. GPG encryption
-            confirm(request, user, purpose=PURPOSE_SET_EMAIL)
+            self._confirm(request, user, purpose=PURPOSE_SET_EMAIL)
     resend_email_reset.short_description = _("Resend email reset email")
 
 
