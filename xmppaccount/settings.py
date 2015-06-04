@@ -312,6 +312,21 @@ LOGGING = {
             'level': LOG_LEVEL,
             'propagate': False,
         },
+        'register': {
+            'handlers': ['console', ],
+            'level': LOG_LEVEL,
+            'propagate': False,
+        },
+        'reset': {
+            'handlers': ['console', ],
+            'level': LOG_LEVEL,
+            'propagate': False,
+        },
+        'delete': {
+            'handlers': ['console', ],
+            'level': LOG_LEVEL,
+            'propagate': False,
+        },
         'cleanup': {
             'handlers': ['cleanup', 'cron-console'],
             'level': LOG_LEVEL,
