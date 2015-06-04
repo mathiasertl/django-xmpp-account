@@ -264,10 +264,7 @@ LOGGING = {
     },
     'formatters': {
         'simple': {
-            'format': '%(levelname)-8s %(message)s',
-        },
-        'cron': {
-            'format': '[%(asctime).19s] %(message)s',  # .19s = only first 19 chars
+            'format': '[%(asctime).19s %(levelname)-8s] %(message)s',  # .19s = only first 19 chars
         },
     },
     'handlers': {
@@ -284,19 +281,19 @@ LOGGING = {
         'cron-console': {  # always log error to stdout
             'level': 'ERROR',
             'class': 'logging.StreamHandler',
-            'formatter': 'cron',
+            'formatter': 'simple',
         },
         'cleanup': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOGDIR, 'cleanup.log'),
-            'formatter': 'cron',
+            'formatter': 'simple',
         },
         'import': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOGDIR, 'import.log'),
-            'formatter': 'cron',
+            'formatter': 'simple',
         },
     },
     'loggers': {
