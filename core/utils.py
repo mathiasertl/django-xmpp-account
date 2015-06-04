@@ -20,6 +20,8 @@ import random
 import string
 import threading
 
+from django.conf import settings
+
 SAFE_CHARS = string.ascii_letters + string.digits
 
 
@@ -34,6 +36,21 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+def send_confirmation(request, user, purpose, payload, lang=None):
+    """Send an email confirmation from a request - either via Celery or directly."""
+
+    if lang is None:
+        lang = settings.LANGUAGE_CODE
+
+    user.send_confirmation(
+        site=request.site,
+        request=request,
+        purpose=purpose,
+        payload=payload,
+        lang=lang
+    )
 
 
 gpg_lock = threading.Lock()
