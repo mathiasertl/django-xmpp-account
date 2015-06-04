@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 
 import json
 import logging
+import os
 import random
 import re
 import smtplib
@@ -46,6 +47,7 @@ from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import REGISTRATION_INBAND
 from core.constants import REGISTRATION_WEBSITE
 from core.constants import REGISTRATION_UNKNOWN
+from core.lock import FileLock
 from core.managers import ConfirmationManager
 from core.managers import RegistrationUserManager
 from core.querysets import ConfirmationQuerySet
@@ -219,7 +221,7 @@ class Confirmation(models.Model):
         gpg_fingerprint = payload.get('gpg_fingerprint')
 
         # encrypt only if the user has a fingerprint
-        if gpg and gpg_fingerprint:
+        if gpg_fingerprint:
             # Receive key of recipient. We don't care about the result, because user might not have
             # uploaded it.
             gpg.recv_keys(settings.GPG_KEYSERVER, gpg_fingerprint)
@@ -328,7 +330,9 @@ class Confirmation(models.Model):
         frm, recipient, subject, text, html = self.get_msg_data(payload, uri, site, lang)
 
         if self.should_use_gpg(payload, site):
-            msg = self.msg_with_gpg(site, frm, subject, text, html, payload=payload)
+            lock_path = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
+            with FileLock(lock_path, getattr(self.backend, 'client')):
+                msg = self.msg_with_gpg(site, frm, subject, text, html, payload=payload)
         else:
             msg = self.msg_without_gpg(subject, frm, recipient, text, html)
 
