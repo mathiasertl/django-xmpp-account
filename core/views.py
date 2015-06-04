@@ -177,7 +177,12 @@ class ConfirmationView(AntiSpamFormView):
         UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
         # Send confirmation email to the user
-        user.send_confirmation(self.request, purpose=self.purpose, payload=payload)
+        user.send_confirmation(
+            self.request,
+            purpose=self.purpose,
+            payload=payload,
+            lang=self.request.LANGUAGE_CODE
+        )
 
         return super(ConfirmationView, self).form_valid(form)
 
