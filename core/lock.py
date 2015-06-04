@@ -29,6 +29,17 @@ cache = caches['default']
 
 
 class FileLock(object):
+    """A global (distributed) lock.
+
+    This class should be used as a context manager. It currently supports using Redis for locking.
+    A global Redis cache is recommended. If you have a Redis client as fallback, you can pass it as
+    `cache_fallback`.
+
+    If no Redis cache is configured and you do not pass a fallback, this class will fallback to
+    `fcntl` (Unix only!). This will not work across multiple machines *but* is at least safe
+    accross multiple processes.
+    """
+
     def __init__(self, path, cache_fallback=None):
         self.path = '%s.xmppaccount.lock' % path
         self.cache = cache_fallback
@@ -68,6 +79,8 @@ class FileLock(object):
 
 
 class GpgLock(FileLock):
+    """Minor subclass that locks the GPG private key."""
+
     def __init__(self, **kwargs):
         kwargs['path'] = os.path.join(settings.GPG.gnupghome, 'secring.gpg')
         super(GpgLock, self).__init__(**kwargs)
