@@ -168,7 +168,7 @@ class ConfirmationView(AntiSpamFormView):
                     imported = settings.GPG.import_keys(data)
                 if not imported.fingerprints:
                     raise Exception("No imported keys: %s\ndata: %s" % (imported.stderr, data))
-                payload['gpg_fingerprint'] =  imported.fingerprints[0]
+                payload['gpg_fingerprint'] = imported.fingerprints[0]
 
             return payload
         else:
