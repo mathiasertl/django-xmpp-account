@@ -215,8 +215,11 @@ class ConfirmedView(AntiSpamFormView):
             self.handle_key(key, form)
             key.delete()
             self.after_delete(form.cleaned_data)
-        except UserNotFound:
-            form.add_error(None, _("User not found!"))
+        except UserNotFound as e:
+            if e.message:
+                form.add_error(None, _("User not found: %s") % e.message)
+            else:
+                form.add_error(None, _("User not found!"))
             return self.form_invalid(form)
         except UserExists:
             form.add_error(None, _("User already exists!"))
