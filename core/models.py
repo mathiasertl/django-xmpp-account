@@ -148,8 +148,11 @@ class RegistrationUser(AbstractBaseUser):
         if lang is None:
             lang = settings.LANGUAGE_CODE
 
+        path = reverse(PURPOSES[self.purpose]['urlname'], kwargs={'key': self.key, })
+        uri = request.build_absolute_uri(location=path)
+
         key = Confirmation.objects.create(user=self, purpose=purpose, payload=json.dumps(payload))
-        key.send(request, site=site, lang=lang)
+        key.send(uri=uri, site=site, lang=lang)
         return key
 
     def get_short_name(self):
@@ -289,10 +292,7 @@ class Confirmation(models.Model):
 
         return msg
 
-    def send(self, request, site, lang):
-        path = reverse(PURPOSES[self.purpose]['urlname'], kwargs={'key': self.key, })
-        uri = request.build_absolute_uri(location=path)
-
+    def send(self, uri, site, lang):
         subject = PURPOSES[self.purpose]['subject'] % {
             'domain': self.user.domain,
         }
