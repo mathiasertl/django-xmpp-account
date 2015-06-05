@@ -216,6 +216,12 @@ MAX_USERNAME_LENGTH = 32
 ############################
 ### Celery configuration ###
 ############################
+# Set BROKER_URL to a non-None value to enable the Celery distributed task queue. The task-queue
+# will be used to send emails. This is especially useful if you enable GPG. Please see our
+# homepage:
+#   https://github.com/mathiasertl/django-xmpp-account/#celery-setup
+# for more information.
+#
 #BROKER_URL = 'redis://localhost:6379/0'
 #CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
