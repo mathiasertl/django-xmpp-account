@@ -39,13 +39,13 @@ class RegistrationRateException(RateException):
 
 class GpgError(Exception):
     """Raised when generally handling GPG."""
-    pass
+    field = None
 
-class GpgFingerprintError(Exception):
+class GpgFingerprintError(GpgError):
     """Raised when handling (e.g. fetching) fingerprints."""
-    pass
+    field = 'fingerprint'
 
 
-class GpgKeyError(Exception):
+class GpgKeyError(GpgError):
     """Raised when e.g. importing raw GPG keys."""
-    pass
+    field = 'gpg_key'
