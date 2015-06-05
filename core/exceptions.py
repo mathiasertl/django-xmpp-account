@@ -41,6 +41,7 @@ class GpgError(Exception):
     """Raised when generally handling GPG."""
     field = None
 
+
 class GpgFingerprintError(GpgError):
     """Raised when handling (e.g. fetching) fingerprints."""
     field = 'fingerprint'
