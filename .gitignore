@@ -18,3 +18,4 @@ Makefile
 wording.txt
 /.gpg/
 /py3/
+/fab.conf
