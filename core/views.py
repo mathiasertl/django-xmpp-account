@@ -146,32 +146,12 @@ class ConfirmationView(AntiSpamFormView):
         if form.cleaned_data.get('fingerprint'):
             fingerprint = form.cleaned_data['fingerprint']
 
-            # fetch key from keyserver if not using celery
-            if settings.BROKER_URL is None:
-                with GpgLock():
-                    imported = settings.GPG.recv_keys(settings.GPG_KEYSERVER, fingerprint)
-                if not imported.fingerprints:
-                    raise Exception("No imported keys: %s (fp: '%s')" % (imported.stderr, fingerprint))
-
             return {'gpg_fingerprint': fingerprint, }
         elif 'gpg_key' in self.request.FILES:
             path = self.request.FILES['gpg_key'].temporary_file_path()
             with open(path) as stream:
                 data = stream.read()
-            payload = {
-                'gpg_fingerprint': None,
-                'gpg_key': data,
-            }
-
-            # import uploaded key if not using celery
-            if settings.BROKER_URL is None:
-                with GpgLock():
-                    imported = settings.GPG.import_keys(data)
-                if not imported.fingerprints:
-                    raise Exception("No imported keys: %s\ndata: %s" % (imported.stderr, data))
-                payload['gpg_fingerprint'] = imported.fingerprints[0]
-
-            return payload
+            return {'gpg_key': data, }
         else:
             return {'gpg_fingerprint': None, }
 
