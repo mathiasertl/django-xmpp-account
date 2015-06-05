@@ -9,4 +9,5 @@ lxml==3.4.4
 python-gnupg==0.3.7
 pytz==2015.4
 recaptcha==1.0rc1
+six==1.9.0
 sleekxmpp==1.3.1
