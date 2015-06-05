@@ -19,6 +19,8 @@ import logging
 import os
 logging.basicConfig(level=logging.DEBUG)
 
+from six.moves import configparser
+
 from fabric.api import local
 from fabric.tasks import Task
 
@@ -53,6 +55,13 @@ minify_js = MinifyJSTask(files=[
 ], dest='core/static/account.min.js')
 
 
+config = configparser.ConfigParser({
+    'remote': 'origin',
+    'branch': 'master',
+})
+config.read('fab.conf')
+
+
 class BuildTask(Task):
     def run(self):
         minify_js.run()
@@ -61,7 +70,7 @@ class BuildTask(Task):
 
 class DeployTask(Task):
     def run(self, host='hyperion', dir='/usr/local/home/xmpp-account/django-xmpp-account/', group='xmpp-account'):
-        local('git push origin master')
+        local('git push %s %s' % (config.get('DEFAULT', 'remote'), config.get('DEFAULT', 'branch')))
         ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
         local('ssh %s sudo chgrp -R %s %s' % (host, group, dir))
         ssh("git fetch")
