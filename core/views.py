@@ -37,6 +37,9 @@ from backends import backend
 from backends.base import UserExists
 from backends.base import UserNotFound
 
+from core.exceptions import GpgError
+from core.exceptions import GpgFingerprintError
+from core.exceptions import GpgKeyError
 from core.exceptions import RateException
 from core.exceptions import TemporaryError
 from core.forms import EmailMixin
@@ -178,6 +181,15 @@ class ConfirmationView(AntiSpamFormView):
         try:
             user = self.get_user(form.cleaned_data)
             payload = self.handle_valid(form, user)
+        except GpgError as e:
+            form.add_error(None, e.message)
+            return self.form_invalid(form)
+        except GpgFingerprintError as e:
+            form.add_error('fingerprint', e.message)
+            return self.form_invalid(form)
+        except GpgKeyError as e:
+            form.add_error('gpg_key', e.message)
+            return self.form_invalid(form)
         except User.DoesNotExist:
             form.add_error(None, self.user_not_found_error)
             return self.form_invalid(form)
