@@ -10,23 +10,25 @@ address or delete their account.
 
 ## Features
 
-1. Users can use the site to register an account, reset their password or email address or delete
-   their account.
-2. Supports Python 2.7+ and Python 3.4+.
-3. Fully localized, translation is available in German.
-4. As standard [Django](https://www.djangoproject.com/) application, it runs on any WSGI capable
-   webserver and supports e.g. MySQL, PostgreSQL.
-5. Currently works only with [ejabberd](https://www.ejabberd.im/) (via `mod_xmlrpc`), but could
-   easily extended to work with other servers.
-6. Robust anti-SPAM features including ReCAPTCHA support, email confirmations and configurable
-   rate-limiting.
-7. Manages accounts on multiple XMPP servers, page will adapt to the URL used (e.g. see how the
-   default XMPP domain changes on [account.jabber.at](https://account.jabber.at) and
-   [account.xmpp.zone](https://account.xmpp.zone).
-8. Users can give a GPG key (either via fingerprint or direct upload) so the site can use GPG to
-   sign and encrypt any confirmation emails it sends.
-9. Facebook and Twitter integration via "Share" and "Tweet" buttons. Buttons use
-   [Shariff](https://github.com/heiseonline/shariff) to protect users privacy.
+1.  Users can use the site to register an account, reset their password or email address or delete
+    their account.
+2.  Supports Python 2.7+ and Python 3.4+.
+3.  Fully localized, translation is available in German.
+4.  As standard [Django](https://www.djangoproject.com/) application, it runs on any WSGI capable
+    webserver and supports e.g. MySQL, PostgreSQL.
+5.  Currently works only with [ejabberd](https://www.ejabberd.im/) (via `mod_xmlrpc`), but could
+    easily extended to work with other servers.
+6.  Robust anti-SPAM features including ReCAPTCHA support, email confirmations and configurable
+    rate-limiting.
+7.  Manages accounts on multiple XMPP servers, page will adapt to the URL used (e.g. see how the
+    default XMPP domain changes on [account.jabber.at](https://account.jabber.at) and
+    [account.xmpp.zone](https://account.xmpp.zone).
+8.  Users can give a GPG key (either via fingerprint or direct upload) so the site can use GPG to
+    sign and encrypt any confirmation emails it sends.
+9.  Support for [Celery](http://docs.celeryproject.org) to send emails asynchronously for fast page
+    response times.
+10. Facebook and Twitter integration via "Share" and "Tweet" buttons. Buttons use
+    [Shariff](https://github.com/heiseonline/shariff) to protect users privacy.
 
 This project currently only interacts with ejabberd servers (either via the
 `ejabberdctl` command line tool or via the `ejabberd_xmlrpc` plugin), because
