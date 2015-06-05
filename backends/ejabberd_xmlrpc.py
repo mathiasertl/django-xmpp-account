@@ -17,6 +17,7 @@
 
 from __future__ import unicode_literals
 
+import logging
 import time
 
 from httplib import BadStatusLine
@@ -34,6 +35,8 @@ from core.exceptions import TemporaryError
 from backends.base import XmppBackendBase
 from backends.base import BackendError
 from backends.base import UserExists
+
+log = logging.getLogger(__name__)
 
 
 class EjabberdXMLRPCBackend(XmppBackendBase):
@@ -128,8 +131,11 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         if result['res'] == 0:
             # set last activity, so that no user has the activity 'Never'. This way the account
             # isn't removed with delete_old_users.
-            self.rpc('set_last', user=username, host=domain, timestamp=int(time.time()),
-                     status='Registered')
+            try:
+                self.rpc('set_last', user=username, host=domain, timestamp=int(time.time()),
+                         status='Registered')
+            except TemporaryError:
+                log.error('Temporary error when setting last activity.')
 
             return
         elif result['res'] == 1:
