@@ -199,7 +199,7 @@ class Confirmation(models.Model):
         if not settings.GPG:  # GPG not configured
             return False
 
-        if payload.get('gpg_fingerprint'):  # GPG fingerprint submitted
+        if payload.get('gpg_fingerprint') or payload.get('gpg_key'):  # GPG fp/key submitted
             return True
         elif site.get('GPG_FINGERPRINT') and settings.FORCE_GPG_SIGNING:  # site has gpg and forced
             return True
