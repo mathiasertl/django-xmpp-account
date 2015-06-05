@@ -25,10 +25,8 @@ address or delete their account.
    [account.xmpp.zone](https://account.xmpp.zone).
 8. Users can give a GPG key (either via fingerprint or direct upload) so the site can use GPG to
    sign and encrypt any confirmation emails it sends.
-9. Facebook and Twitter integration via "Like" and "Tweet" buttons. Buttons require two clicks to
-   protect the users privacy (see e.g. "[Two clicks for more
-   privacy](http://www.h-online.com/features/Two-clicks-for-more-privacy-1783256.html)"). 
-
+9. Facebook and Twitter integration via "Share" and "Tweet" buttons. Buttons use
+   [Shariff](https://github.com/heiseonline/shariff) to protect users privacy.
 
 This project currently only interacts with ejabberd servers (either via the
 `ejabberdctl` command line tool or via the `ejabberd_xmlrpc` plugin), because
@@ -174,6 +172,21 @@ directory, so you must update your staticfiles with `python manage.py collectsta
 directory is owned and read/writeable only by the system user the webserver runs as. The `genkey`
 command must also be executed as that same user, which will also create the GPG config directory if
 it doesn't exist.
+
+### Celery setup
+
+[Celery](http://docs.celeryproject.org) is a distributed task queue. *django-xmpp-account* can use
+celery to send emails asynchronously. This is especially recommended if you enable GPG, since GPG
+operations can be quite slow and doing all GPG operations inside the WSGI process will result in
+long page load times. The downside is that if some GPG operations fail, no error message can be
+displayed anymore and the user will receive an unencrypted email instead.
+
+To enable Celery, just edit the relevant sections in your `localsettings.py` file. We strongly
+recommend using `redis` as a broker, on Debian/Ubuntu a simple `apt-get install redis-server`
+should suffice.
+
+Celery obviously runs as a daemon, so it needs to be started. (todo: update docs here after
+testing)
 
 ## Update
 
