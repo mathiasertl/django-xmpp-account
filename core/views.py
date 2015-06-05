@@ -41,7 +41,6 @@ from core.exceptions import GpgError
 from core.exceptions import RateException
 from core.exceptions import TemporaryError
 from core.forms import EmailMixin
-from core.lock import GpgLock
 from core.models import Address
 from core.models import Confirmation
 from core.models import UserAddresses
