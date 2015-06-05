@@ -43,6 +43,6 @@ def send_email(self, key_id, uri, site, lang):
 @shared_task(bind=True)
 def send_gpg_email(self, key_id, site, frm, subject, text, html):
     key = Confirmation.objects.get(id=key_id)
-    with GpgLock(getattr(self.backend, 'client')):
+    with GpgLock(cache_fallback=getattr(self.backend, 'client')):
         msg = key.msg_with_gpg(site, frm, subject, text, html)
     msg.send()
