@@ -187,8 +187,24 @@ To enable Celery, just edit the relevant sections in your `localsettings.py` fil
 recommend using `redis` as a broker, on Debian/Ubuntu a simple `apt-get install redis-server`
 should suffice.
 
-Celery obviously runs as a daemon, so it needs to be started. (todo: update docs here after
-testing)
+Celery obviously runs as a daemon, so it needs to be started. Example files for systemd are
+included in `files/systemd`. They assume that celery runs as user `xmpp-account` with the home
+directory `/usr/local/home/xmpp-account`, a virtualenv and the source code in that directory. If
+this doesn't suit your needs, you need to modify the files accordingly. After that, two simple
+symlinks should enable the service:
+
+```
+ln -s /usr/local/home/xmpp-account/django-xmpp-account/files/systemd/celery-xmpp-account.conf \
+    /etc/conf.d/
+ln -s /usr/local/home/xmpp-account/django-xmpp-account/files/systemd/celery-xmpp-account.service \
+    /etc/systemd/system/
+```
+
+Then just start the celery daemon with:
+
+```
+service celery-xmpp-account start
+```
 
 ## Update
 
