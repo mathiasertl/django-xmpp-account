@@ -70,11 +70,14 @@ class BuildTask(Task):
 
 class DeployTask(Task):
     def run(self, host='hyperion', dir='/usr/local/home/xmpp-account/django-xmpp-account/', group='xmpp-account'):
-        local('git push %s %s' % (config.get('DEFAULT', 'remote'), config.get('DEFAULT', 'branch')))
+        remote = config.get('DEFAULT', 'remote')
+        branch = config.get('DEFAULT', 'branch')
+
+        local('git push %s %s' % (remote, branch))
         ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
         local('ssh %s sudo chgrp -R %s %s' % (host, group, dir))
-        ssh("git fetch")
-        ssh("git pull origin master")
+        ssh("git fetch %s" % remote)
+        ssh("git pull %s %s" % (remote, branch))
         ssh("../bin/pip install -r requirements.txt")
         ssh("../bin/python manage.py update")
         ssh("touch /etc/uwsgi-emperor/vassals/xmpp-account.ini")
