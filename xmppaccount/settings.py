@@ -217,6 +217,7 @@ FORCE_GPG_SIGNING = False
 # Celery configuration
 BROKER_URL = None
 CELERY_RESULT_BACKEND = None
+CELERY_ACCEPT_CONTENT = ['json']
 
 try:
     from xmppaccount.localsettings import *
