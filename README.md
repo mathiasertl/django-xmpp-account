@@ -207,6 +207,9 @@ Then just start the celery daemon with:
 service celery-xmpp-account start
 ```
 
+If you're not using systemd, the official documentation has a [few more
+examples](http://docs.celeryproject.org/en/latest/tutorials/index.html) for other init systems.
+
 ## Update
 
 When want to update the project, simply do (don't forget to activate the virtualenv!):
