@@ -420,7 +420,7 @@ msgstr "Ich habe gerade einen neuen #Jabber account \"%(username)s\" auf %(domai
 #, python-format
 msgid ""
 "Register your new #Jabber account on %(homepage)s via %(register_url)s. #xmpp"
-msgstr "Registriere einen neuen #Jabber account für %(homepage)s auf %(register_url)s. #xmpp"
+msgstr "Registriere ein #Jabber-Konto für %(homepage)s auf %(register_url)s. #xmpp"
 
 #: views.py:82
 msgid "Your CAPTCHA response contained invalid characters."
