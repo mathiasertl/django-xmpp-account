@@ -40,9 +40,12 @@ class Command(BaseCommand):
         subject = "Please set your email address at https://account.jabber.at"
 
         for user in users:
-            context = Context({
-                'user': user.username,
-                'domain': user.domain,
-            })
-            message = str(template.render(context))
-            backend.message(user.username, user.domain, subject, message)
+            try:
+                context = Context({
+                    'user': user.username,
+                    'domain': user.domain,
+                })
+                message = str(template.render(context))
+                backend.message(user.username, user.domain, subject, message)
+            except Exception as e:
+                print("Message failed for %s: %s: %s" % (user.jid, type(e).__name__, e))
