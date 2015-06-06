@@ -244,7 +244,7 @@ class EmailMixin(object):
         gpg_key = self.cleaned_data.get('gpg_key')
         if gpg_key is None:
             return gpg_key
-        if gpg_key.content_type != 'text/plain':
+        if gpg_key.content_type not in ['text/plain', 'application/pgp-encrypted']:
             raise forms.ValidationError(
                 'Only plain-text files are allowed (was: %s)!' % gpg_key.content_type)
 
