@@ -74,46 +74,56 @@ class BuildTask(Task):
 
 
 class DeployTask(Task):
+    def sudo(self, cmd, chdir=True):
+        if chdir is True:
+            local('ssh %s sudo sh -c \'"cd %s && %s"\'' % (self.host, self.path, cmd))
+        else:
+            local('ssh %s sudo %s' % (self.host, cmd))
+
+    def sg(self, cmd, chdir=True):
+        if chdir is True:
+            local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (self.host, self.group, self.path, cmd))
+        else:
+            local('ssh %s sudo sg %s -c "%s"' % (self.host, self.group, cmd))
+
     def run(self, section='DEFAULT'):
         # get options that have a default:
         remote = config.get(section, 'remote')
         branch = config.get(section, 'branch')
-        group = config.get(section, 'group')
+        self.group = config.get(section, 'group')
 
         # these options are required for deployment
         try:
-            path = config.get(section, 'path')
+            self.path = config.get(section, 'path')
         except configparser.NoOptionError:
             print(red('Error: Configure "%s" in section "%s" in fab.conf' % ('path', section)))
             sys.exit(1)
 
         try:
-            host = config.get('DEFAULT', 'host')
+            self.host = config.get('DEFAULT', 'host')
         except configparser.NoOptionError:
             print(red('Error: Configure "%s" in section "%s" in fab.conf' % ('host', section)))
             sys.exit(1)
 
         # start actually deployment
         local('git push %s %s' % (remote, branch))
-        ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group,
-                                                                            path, cmd))
-        local('ssh %s sudo chgrp -R %s %s' % (host, group, path))
-        ssh("git fetch %s" % remote)
-        ssh("git pull %s %s" % (remote, branch))
-        ssh("../bin/pip install -r requirements.txt")
-        ssh("../bin/python manage.py update")
-        local('ssh %s sudo chmod -R o-rwx %s' % (host, path))
+        self.sudo('chgrp -R %s' % self.group)
+        self.sg("git fetch %s" % remote)
+        self.sg("git pull %s %s" % (remote, branch))
+        self.sg("../bin/pip install -r requirements.txt")
+        self.sg("../bin/python manage.py update")
+        self.sudo('chmod -R o-rwx .')
 
         uwsgi_emperor = config.get(section, 'uwsgi-emperor')
         if uwsgi_emperor:
             if os.path.isabs(uwsgi_emperor):
-                ssh("touch %s" % uwsgi_emperor)
+                self.sudo("touch %s" % uwsgi_emperor, chdir=False)
             else:
-                ssh("touch /etc/uwsgi-emperor/vassals/%s.ini" % uwsgi_emperor)
+                self.sudo("touch /etc/uwsgi-emperor/vassals/%s.ini" % uwsgi_emperor, chdir=False)
 
         celery_systemd = config.get(section, 'celery-systemd')
         if celery_systemd:
-            ssh('service %s restart' % celery_systemd)
+            self.sudo('service %s restart' % celery_systemd, chdir=False)
 
 
 deploy = DeployTask()
