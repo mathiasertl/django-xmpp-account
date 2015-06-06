@@ -223,10 +223,20 @@ Don't forget to restart your webserver afterwards.
 
 ## Deployment
 
-We use a fabric script for deployment. It's somewhat customizable via the file `fab.conf`, see the
-example file in the repositories root directory. The deployment script pushes a local repository to
-a remote, then updates the repository on the deployed host from that. It will also do all other
-update-related tasks for you.
+We use a fabric script for easy, fast and reproduceable deployment. If you have local modifications
+to this software, you might want to use the script instead.  It's somewhat customizable via the
+file `fab.conf`, see the example file in the repositories root directory.
+
+The deployment script pushes a local repository (where you'd write and test your changes) to a
+remote, then updates the repository on the deployed host from that. It will also do all other
+update-related tasks for you. 
+
+If the fab-file suits your needs (if not: do a merge request!), you should be able to update a
+deployment simply by doing:
+
+```
+fab deploy
+```
 
 ## Custom backends
 
