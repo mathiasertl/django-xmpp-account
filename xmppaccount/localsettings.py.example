@@ -206,13 +206,6 @@ REGISTRATION_RATE = {
 MIN_USERNAME_LENGTH = 3
 MAX_USERNAME_LENGTH = 32
 
-###############################
-### ReCAPTCHA configuration ###
-###############################
-# Set your private and public key here to enable ReCAPTCHA.
-#RECAPTCHA_PRIVATE_KEY = None
-#RECAPTCHA_PUBLIC_KEY = None
-
 ############################
 ### Celery configuration ###
 ############################

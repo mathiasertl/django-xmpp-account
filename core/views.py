@@ -23,7 +23,6 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.utils import six
 from django.utils.six.moves.urllib.parse import urlsplit
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
@@ -31,15 +30,12 @@ from django.views.generic import View
 
 from brake.decorators import ratelimit
 
-from recaptcha import RecaptchaUnreachableError
-
 from backends import backend
 from backends.base import UserExists
 from backends.base import UserNotFound
 
 from core.exceptions import GpgError
 from core.exceptions import RateException
-from core.exceptions import TemporaryError
 from core.forms import EmailMixin
 from core.models import Address
 from core.models import Confirmation
@@ -70,20 +66,7 @@ class AntiSpamFormView(FormView):
             if getattr(request, 'limited', False):
                 raise RateException()
 
-        try:
-            if settings.RECAPTCHA_CLIENT is not None and request.method == 'POST':
-                try:
-                    captcha = request.POST.get('recaptcha_response_field', '')
-                    if six.PY3:
-                        captcha.encode(settings.DEFAULT_CHARSET)
-                    else:
-                        captcha.decode(settings.DEFAULT_CHARSET)
-                except UnicodeEncodeError:
-                    raise TemporaryError(_("Your CAPTCHA response contained invalid characters."))
-
-            return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
-        except RecaptchaUnreachableError:
-            raise TemporaryError(_("The ReCAPTCHA server was unreacheable."))
+        return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(AntiSpamFormView, self).get_context_data(**kwargs)
@@ -115,8 +98,6 @@ class AntiSpamFormView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super(AntiSpamFormView, self).get_form_kwargs()
-        if settings.RECAPTCHA_CLIENT is not None:
-            kwargs['request'] = self.request
 
         if 'domain' in self.form_class.declared_fields:
             kwargs['initial']['domain'] = self.request.site['DOMAIN']

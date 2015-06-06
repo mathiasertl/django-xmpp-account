@@ -26,7 +26,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-RECAPTCHA_CLIENT = None
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
