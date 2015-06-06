@@ -26,3 +26,6 @@ host = ...
 
 # Restart a Celery daemon using systemd. The value is the name of the systemd service.
 #celery-systemd = celery-xmpp-account
+
+# If Celery can be restarted via a SysV style init script (in /etc/init.d/), give its name here:
+#celery-sysv = celery-xmpp-account

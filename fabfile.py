@@ -137,6 +137,9 @@ class DeployTask(Task):
         celery_systemd = config.get(section, 'celery-systemd')
         if celery_systemd:
             self.sudo('service %s restart' % celery_systemd, chdir=False)
+        celery_sysv = config.get(section, 'celery-sysv')
+        if celery_sysv:
+            self.sudo('/etc/init.d/%s restart' % celery_sysv, chdir=False)
 
 
 deploy = DeployTask()
