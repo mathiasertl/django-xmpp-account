@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-25 18:02+0200\n"
+"POT-Creation-Date: 2015-06-06 12:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:77
+#: admin.py:79
 msgid "Registration method"
 msgstr ""
 
-#: admin.py:82
+#: admin.py:84
 msgid "In-Band registration"
 msgstr ""
 
-#: admin.py:83
+#: admin.py:85
 msgid "This website"
 msgstr ""
 
-#: admin.py:95
+#: admin.py:97
 msgid "domain"
 msgstr ""
 
-#: admin.py:141
+#: admin.py:164
 msgid "Resend registration email"
 msgstr ""
 
-#: admin.py:151
+#: admin.py:169
 msgid "Resend password reset email"
 msgstr ""
 
-#: admin.py:161
+#: admin.py:175
 msgid "Resend email reset email"
 msgstr ""
 
@@ -152,62 +152,70 @@ msgstr ""
 "E-Mail-Adressen mit dieser Domain können nicht für Registrierungen verwendet "
 "werden."
 
-#: forms.py:255
+#: forms.py:258
 msgid "Fingerprint should be 40 characters long."
 msgstr "Fingerprint sollte 40 Zeichen lang sein."
 
-#: forms.py:257
+#: forms.py:260
 msgid "Fingerprint contains invalid characters."
 msgstr "Fingerprint enthält ungültige Zeichen."
 
-#: forms.py:262
+#: forms.py:265
 msgid "Multiple keys with that fingerprint found."
 msgstr "Mehrere Schlüssel mit diesem Fingerprint gefunden."
 
-#: forms.py:264
+#: forms.py:267
 msgid "No key with that fingerprint found."
 msgstr "Kein Schlüssel mit diesem Fingerprint gefunden."
 
-#: forms.py:281
+#: forms.py:286
 msgid "File contains multiple keys."
 msgstr "Datei enthält multiple Schlüssel."
 
-#: forms.py:283
+#: forms.py:288
 msgid "File contains no keys."
 msgstr "Datei enthält keine Schlüssel."
 
-#: models.py:101
+#: models.py:127
 msgid "User"
 msgstr "Benutzername"
 
-#: models.py:106
+#: models.py:132
 msgid ""
 "You have either not yet set your email address or have not confirmed it yet."
 msgstr ""
 "Sie haben entweder ihre E-Mail-Adresse noch noch nicht gesetzt oder diese "
 "noch nicht bestätigt."
 
-#: models.py:287
+#: models.py:237
+msgid "GPG key not found on keyservers."
+msgstr ""
+
+#: models.py:251
+msgid "GPG key could not be imported."
+msgstr ""
+
+#: models.py:391
 msgid "IP-Address"
 msgstr "IP-Adresse"
 
-#: models.py:288
+#: models.py:392
 msgid "IP-Addresses"
 msgstr "IP-Adressen"
 
-#: models.py:303
+#: models.py:407
 msgid "IP-Address Activity"
 msgstr "Aktivität"
 
-#: models.py:304
+#: models.py:408
 msgid "IP-Address Activities"
 msgstr "Aktivitäten"
 
-#: templates/container.html:12
+#: templates/container.html:13
 msgid "© 2013 - 2015, Mathias Ertl unless otherwise noted."
 msgstr "© 2013 - 2015, Mathias Ertl falls nicht anders angegeben."
 
-#: templates/container.html:15
+#: templates/container.html:16
 msgid ""
 "This project is powered by <a href=\"https://www.djangoproject.com\">Django</"
 "a>.\n"
@@ -306,7 +314,7 @@ msgstr "Konto löschen"
 msgid "Too many page views!"
 msgstr "Zu viele Seitenaufrufe!"
 
-#: templates/core/rate.html:7
+#: templates/core/rate.html:9
 msgid ""
 "To combat automated registration, viewing this page is rate limited. Please\n"
 "wait a couple of minutes before trying again."
@@ -350,7 +358,9 @@ msgstr "Folge uns Facebook"
 #: templates/core/social.html:28
 #, python-format
 msgid "You can follow our Facebook page at <a href=\"%(url)s\">%(url)s</a>:"
-msgstr "Sie können unserer Facebook-Seite unter <a href=\"%(url)s\">%(url)s</a> folgen:"
+msgstr ""
+"Sie können unserer Facebook-Seite unter <a href=\"%(url)s\">%(url)s</a> "
+"folgen:"
 
 #: templates/core/spambot.html:4
 msgid "Spambots vanish!"
@@ -398,26 +408,45 @@ msgstr ""
 msgid "The error message given, was: %(EXCEPTION)s"
 msgstr "Die interne Fehlermeldung lautet: %(EXCEPTION)s"
 
-#: views.py:80
+#: templatetags/social.py:25
+#, python-format
+msgid ""
+"Just registered my new #Jabber account \"%(username)s\" on %(domain)s. "
+"Register too and add me! #xmpp"
+msgstr "Ich habe gerade einen neuen #Jabber account \"%(username)s\" auf %(domain)s registriert. "
+"Registriere dich auch um mit mir zu chatten! #xmpp"
+
+#: templatetags/social.py:28
+#, python-format
+msgid ""
+"Register your new #Jabber account on %(homepage)s via %(register_url)s. #xmpp"
+msgstr "Registriere einen neuen #Jabber account für %(homepage)s auf %(register_url)s. #xmpp"
+
+#: views.py:82
 msgid "Your CAPTCHA response contained invalid characters."
 msgstr "Ihre Antwort auf das CAPTCHA ist inkorrekt."
 
-#: views.py:84
+#: views.py:86
 msgid "The ReCAPTCHA server was unreacheable."
 msgstr "Der ReCAPTCHA-Server ist nicht erreichbar."
 
-#: views.py:135
+#: views.py:130
 msgid "User not found (or false password provided)!"
 msgstr "Benutzer nicht gefunden (oder falsches Passwort angegeben)!"
 
-#: views.py:222
+#: views.py:212
 msgid "Confirmation key expired or not found."
 msgstr "Bestätigungscode abgelaufen oder nicht gefunden."
 
-#: views.py:231
+#: views.py:222
+#, python-format
+msgid "User not found: %s"
+msgstr "Benutzer nicht gefunden: %s"
+
+#: views.py:224
 msgid "User not found!"
 msgstr "Benutzer nicht gefunden!"
 
-#: views.py:234
+#: views.py:227
 msgid "User already exists!"
 msgstr "Benutzer existiert bereits!"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-25 18:05+0200\n"
+"POT-Creation-Date: 2015-06-06 12:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,6 +93,7 @@ msgstr ""
 "überall aus einloggen ohne einen Client installieren zu müssen."
 
 #: templates/register/confirm.html:30
+#, python-format
 msgid ""
 "Follow news about our server on <a href=\"%(homepage)s\">our homepage</a>."
 msgstr ""
@@ -206,25 +207,3 @@ msgid ""
 "free and open instant messaging protocol used by millions of people "
 "worldwide."
 msgstr ""
-
-#: views.py:57
-#, python-format
-msgid "Your new account on %(domain)s"
-msgstr "Registrierung auf %(domain)s"
-
-#~ msgid ""
-#~ "Our Facebook page at <a href=\"https://facebook.com/%(site)s\">https://"
-#~ "facebook.com/%(site)s</a>:"
-#~ msgstr ""
-#~ "Unsere Facebook-Seite unter <a href=\"https://facebook.com/%(site)s"
-#~ "\">https://facebook.com/%(site)s</a>:"
-
-#~ msgid "(Click twice for privacy!)"
-#~ msgstr "(2x klicken ffür Privatsphäre!)"
-
-#~ msgid ""
-#~ "Our Twitter account at \n"
-#~ "<a href=\"https://twitter.com/%(twitter)s\">@%(twitter)s</a>:"
-#~ msgstr ""
-#~ "Unser Twitter-account <a href=\"https://twitter.com/%(twitter)s\">@"
-#~ "%(twitter)s</a>:"
