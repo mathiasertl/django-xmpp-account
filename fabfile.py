@@ -105,7 +105,10 @@ class DeployTask(Task):
 
         uwsgi_emperor = config.get(section, 'uwsgi-emperor')
         if uwsgi_emperor:
-            ssh("touch /etc/uwsgi-emperor/vassals/%s.ini" % uwsgi_emperor)
+            if os.path.isabs(uwsgi_emperor):
+                ssh("touch %s" % uwsgi_emperor)
+            else:
+                ssh("touch /etc/uwsgi-emperor/vassals/%s.ini" % uwsgi_emperor)
 
         celery_systemd = config.get(section, 'celery-systemd')
         if celery_systemd:
