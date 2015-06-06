@@ -157,6 +157,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
+    'captcha',
+
     'core',
     'register',
     'reset',
@@ -190,8 +192,6 @@ REGISTRATION_RATE = {
 }
 BLOCKED_EMAIL_TLDS = set()
 
-RECAPTCHA_PRIVATE_KEY = None
-RECAPTCHA_PUBLIC_KEY = None
 BRAND = ""
 CONTACT_URL = ""
 WELCOME_MESSAGE = None
@@ -200,6 +200,10 @@ WELCOME_MESSAGE = None
 LOGDIR = os.path.join(BASE_DIR, 'logs')
 LOG_LEVEL = 'WARNING'
 RATELIMIT_WHITELIST = set()
+
+# Captchas
+CAPTCHA_LENGTH = 8
+CAPTCHA_FONT_SIZE = 32
 
 # GPG config
 GNUPG = {
@@ -233,11 +237,6 @@ if MAX_USERNAME_LENGTH > 255:
 
 if DEFAULT_XMPP_HOST is None:
     DEFAULT_XMPP_HOST = list(XMPP_HOSTS.values())[0]
-
-if RECAPTCHA_PRIVATE_KEY and RECAPTCHA_PUBLIC_KEY:
-    from recaptcha import RecaptchaClient
-    RECAPTCHA_CLIENT = RecaptchaClient(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PUBLIC_KEY)
-
 
 GPG = None
 if GNUPG is not None:
