@@ -34,7 +34,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         since = datetime.utcnow() - settings.CONFIRMATION_TIMEOUT - timedelta(hours=6)
         users = User.objects.filter(email__isnull=True, registered__lt=since)
-        users = [User.objects.get(jid='mati@jabber.at')]
 
         template = loader.get_template('core/notify_unconfirmed.txt')
         subject = "Please set your email address at https://account.jabber.at"
