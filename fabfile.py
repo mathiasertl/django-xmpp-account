@@ -99,7 +99,7 @@ class DeployTask(Task):
 
         # these options are required for deployment
         try:
-            self.path = config.get(section, 'path')
+            self.path = os.path.abspath(config.get(section, 'path'))
         except configparser.NoOptionError:
             print(red('Error: Configure "%s" in section "%s" in fab.conf' % ('path', section)))
             sys.exit(1)
@@ -110,14 +110,20 @@ class DeployTask(Task):
             print(red('Error: Configure "%s" in section "%s" in fab.conf' % ('host', section)))
             sys.exit(1)
 
+        # virtualenv defaults to one level above self.path:
+        try:
+            self.virtualenv = config.get('DEFAULT', 'virtualenv')
+        except configparser.NoOptionError:
+            self.virtualenv = os.path.dirname(self.path)
+
         # start actually deployment
         local('git push %s %s' % (remote, branch))
         if self.group:
             self.sudo('chgrp -R %s .' % self.group)
         self.sg("git fetch %s" % remote)
         self.sg("git pull %s %s" % (remote, branch))
-        self.sg("../bin/pip install -r requirements.txt")
-        self.sg("../bin/python manage.py update")
+        self.sg("%s/bin/pip install -r requirements.txt" % self.virtualenv)
+        self.sg("%s/bin/python manage.py update" % self.virtualenv)
         if self.group:
             self.sudo('chmod -R o-rwx .')
 

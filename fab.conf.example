@@ -9,15 +9,20 @@ path = ...
 # something like username@hostname or anything you have configured in your ssh config.
 host = ...
 
+# Override the location of the virtualenv. The default location is one level above the path
+# setting. So if "path = /var/lib/xmpp-account/django-xmpp-account", then virtualenv is
+# "/var/lib/xmpp-account".
+#virtualenv = ...
+
 # If you specify a group, fabric will automatically chgrp the entire source code to it and make
 # sure it is not world-readable. You must make sure that any WSGI servers and/or Celery daemons can
 # read the source code this way.
-group = xmpp-account
+#group = xmpp-account
 
 # Restart a uWSGI emperor vassal (by touching the config file) after deployment. This may either be
 # a name (and fabric will assume the config file is /etc/uwsgi-emperor/vassals/<name>.ini) or an
 # absolute path.
-uwsgi-emperor = xmpp-account
+#uwsgi-emperor = xmpp-account
 
 # Restart a Celery daemon using systemd. The value is the name of the systemd service.
-celery-systemd = celery-xmpp-account
+#celery-systemd = celery-xmpp-account
