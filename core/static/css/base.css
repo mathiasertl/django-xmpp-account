@@ -12,10 +12,6 @@
     display: none;
 }
 
-input#recaptcha_response_field {
-    line-height: normal !important;
-}
-
 nav {
     margin-top: 10px;
 }
@@ -113,4 +109,12 @@ img#flattr {
 
 .modal-dialog {
     width: 312px;
+}
+
+/* django-simple-captcha */
+img.captcha {
+    display: block;
+}
+input#id_captcha_1 {
+    margin-top: 5px;
 }
