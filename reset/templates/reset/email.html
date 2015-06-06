@@ -40,9 +40,7 @@ order to complete the change.{% endblocktrans %}</p>
         {% include "core/forms/gpg.html" %}
     {% endif %}
 
-    {% with field=form.recaptcha %}
-        {% include "core/forms/recaptcha.html" %}
-    {% endwith %}
+    {% include "core/forms/captcha.html" %}
 
     <button type="submit" class="btn btn-default">{% trans "Set email" %}</button>
 </form>

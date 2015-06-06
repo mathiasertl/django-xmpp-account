@@ -1,0 +1,12 @@
+<div class="form-group">
+    {{ form.captcha.label_tag }}
+    <div class="row">
+        <div  class="col-lg-5 {% if form.captcha.errors %}has-error{% endif %}">
+            {{ form.captcha|safe }}
+            <div class="help-block">
+                {{ form.captcha.help_text }}
+                {{ form.captcha.errors }}
+            </div>
+        </div>
+    </div>
+</div>
