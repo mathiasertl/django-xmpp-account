@@ -112,12 +112,14 @@ class DeployTask(Task):
 
         # start actually deployment
         local('git push %s %s' % (remote, branch))
-        self.sudo('chgrp -R %s .' % self.group)
+        if self.group:
+            self.sudo('chgrp -R %s .' % self.group)
         self.sg("git fetch %s" % remote)
         self.sg("git pull %s %s" % (remote, branch))
         self.sg("../bin/pip install -r requirements.txt")
         self.sg("../bin/python manage.py update")
-        self.sudo('chmod -R o-rwx .')
+        if self.group:
+            self.sudo('chmod -R o-rwx .')
 
         uwsgi_emperor = config.get(section, 'uwsgi-emperor')
         if uwsgi_emperor:
