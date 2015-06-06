@@ -38,13 +38,21 @@ class Command(BaseCommand):
         template = loader.get_template('core/notify_unconfirmed.txt')
         subject = "Please set your email address at https://account.jabber.at"
 
+        count = 0
+        self.stdout.write("Sending message to %s users" % len(users))
+
         for user in users:
+            count += 1
+            if count % 100:
+                self.stdout.write('%s... ' % count, ending='')
+
             try:
                 context = Context({
                     'user': user.username,
                     'domain': user.domain,
                 })
                 message = str(template.render(context))
-                backend.message(user.username, user.domain, subject, message)
+                #backend.message(user.username, user.domain, subject, message)
             except Exception as e:
-                print("Message failed for %s: %s: %s" % (user.jid, type(e).__name__, e))
+                self.stderror.write("Message failed for %s: %s: %s" % (user.jid, type(e).__name__, e))
+        self.stdout.write('')
