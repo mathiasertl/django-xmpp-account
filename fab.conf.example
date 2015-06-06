@@ -11,7 +11,7 @@ host = ...
 
 # Override the location of the virtualenv. The default location is one level above the path
 # setting. So if "path = /var/lib/xmpp-account/django-xmpp-account", then virtualenv is
-# "/var/lib/xmpp-account".
+# "/var/lib/xmpp-account". If you give an empty string, no virtualenv will be used.
 #virtualenv = ...
 
 # If you specify a group, fabric will automatically chgrp the entire source code to it and make

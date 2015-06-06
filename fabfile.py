@@ -63,6 +63,7 @@ config = configparser.ConfigParser({
     'group': '',
     'uwsgi-emperor': '',
     'celery-systemd': '',
+    'celery-sysv': '',
 })
 config.read('fab.conf')
 
@@ -116,14 +117,21 @@ class DeployTask(Task):
         except configparser.NoOptionError:
             self.virtualenv = os.path.dirname(self.path)
 
+        if self.virtualenv:
+            pip = os.path.join(self.virtualenv, 'bin', 'pip')
+            python = os.path.join(self.virtualenv, 'bin', 'python')
+        else:
+            pip = 'pip'
+            python = 'python'
+
         # start actually deployment
         local('git push %s %s' % (remote, branch))
         if self.group:
             self.sudo('chgrp -R %s .' % self.group)
         self.sg("git fetch %s" % remote)
         self.sg("git pull %s %s" % (remote, branch))
-        self.sg("%s/bin/pip install -r requirements.txt" % self.virtualenv)
-        self.sg("%s/bin/python manage.py update" % self.virtualenv)
+        self.sg("%s install -r requirements.txt" % pip)
+        self.sg("%s manage.py update" % python)
         if self.group:
             self.sudo('chmod -R o-rwx .')
 
