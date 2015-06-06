@@ -126,6 +126,22 @@ static files there with:
 python manage.py collectstatic
 ```
 
+You can optimize page load speed by using browser caching. See Google's [PageSpeed
+Insights](https://developers.google.com/speed/pagespeed/insights/) for more information. Here is
+what we use using [mod_expires](http://httpd.apache.org/docs/2.4/de/mod/mod_expires.html):
+
+```
+ExpiresActive on
+ExpiresDefault "access plus 1 month"
+ExpiresByType text/html "access plus 0 seconds"
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+
+<Location /captcha>
+    ExpiresByType image/png "access plus 0 seconds"
+</Location>
+```
+
 ### Generate translations
 
 `django-xmpp-account` is a fully internationalized project, currently a German translation is
