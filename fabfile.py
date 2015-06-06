@@ -88,6 +88,7 @@ class DeployTask(Task):
             print(red('Please configure option "%s" in section "%s" in fab.conf' % ('host', section)))
             sys.exit(1)
 
+        # start actually deployment
         local('git push %s %s' % (remote, branch))
         ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, path, cmd))
         local('ssh %s sudo chgrp -R %s %s' % (host, group, path))
@@ -95,6 +96,7 @@ class DeployTask(Task):
         ssh("git pull %s %s" % (remote, branch))
         ssh("../bin/pip install -r requirements.txt")
         ssh("../bin/python manage.py update")
+        local('ssh %s sudo chmod -R o-rwx %s' % (host, path))
         ssh("touch /etc/uwsgi-emperor/vassals/xmpp-account.ini")
 
 
