@@ -30,6 +30,9 @@ urlpatterns = patterns('',
 
     url(r'^$', RegistrationView.as_view(), name='index'),
 
+    # for captchas:
+    url(r'^captcha/', include('captcha.urls')),
+
     url(r'^core/', include('core.urls')),
     url(r'^register/', include('register.urls')),
     url(r'^reset/', include('reset.urls')),
