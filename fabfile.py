@@ -107,7 +107,7 @@ class DeployTask(Task):
 
         # start actually deployment
         local('git push %s %s' % (remote, branch))
-        self.sudo('chgrp -R %s' % self.group)
+        self.sudo('chgrp -R %s .' % self.group)
         self.sg("git fetch %s" % remote)
         self.sg("git pull %s %s" % (remote, branch))
         self.sg("../bin/pip install -r requirements.txt")
