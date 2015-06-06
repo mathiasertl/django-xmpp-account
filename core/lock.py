@@ -54,10 +54,12 @@ class FileLock(object):
         # Try to use passed cache as fallback. This is only used when no suitable main cache is
         # found, because the main cache is shared between the WSGI server and Celery.
         elif isinstance(cache_fallback, Redis):
+            log.warn('Using fallback cache, consider configuring a global Redis cache.')
             self.use_redis(cache_fallback)
 
         # Use fcntl (unix only!)
         else:  # TODO: Test here if we porperly support fcntl
+            log.warn('Using fcntl locks, consider configuring a global Redis cache.')
             self.use_fcntl()
 
     def use_redis(self, client):
