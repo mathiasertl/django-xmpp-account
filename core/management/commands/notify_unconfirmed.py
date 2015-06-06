@@ -43,7 +43,7 @@ class Command(BaseCommand):
 
         for user in users:
             count += 1
-            if count % 100:
+            if count % 100 == 0:
                 self.stdout.write('%s... ' % count, ending='')
 
             try:
@@ -54,5 +54,5 @@ class Command(BaseCommand):
                 message = str(template.render(context))
                 #backend.message(user.username, user.domain, subject, message)
             except Exception as e:
-                self.stderror.write("Message failed for %s: %s: %s" % (user.jid, type(e).__name__, e))
+                self.stderr.write("Message failed for %s: %s: %s" % (user.jid, type(e).__name__, e))
         self.stdout.write('')
