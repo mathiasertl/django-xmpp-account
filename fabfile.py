@@ -84,18 +84,19 @@ class DeployTask(Task):
         try:
             path = config.get(section, 'path')
         except configparser.NoOptionError:
-            print(red('Please configure option "%s" in section "%s" in fab.conf' % ('path', section)))
+            print(red('Error: Configure "%s" in section "%s" in fab.conf' % ('path', section)))
             sys.exit(1)
 
         try:
             host = config.get('DEFAULT', 'host')
         except configparser.NoOptionError:
-            print(red('Please configure option "%s" in section "%s" in fab.conf' % ('host', section)))
+            print(red('Error: Configure "%s" in section "%s" in fab.conf' % ('host', section)))
             sys.exit(1)
 
         # start actually deployment
         local('git push %s %s' % (remote, branch))
-        ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, path, cmd))
+        ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group,
+                                                                            path, cmd))
         local('ssh %s sudo chgrp -R %s %s' % (host, group, path))
         ssh("git fetch %s" % remote)
         ssh("git pull %s %s" % (remote, branch))
