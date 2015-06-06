@@ -28,7 +28,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import salted_hmac
 
-from django_recaptcha_field import _RecaptchaField
+from captcha.fields import CaptchaField
 
 from xmppaccount.jid import parse_jid
 
@@ -43,37 +43,6 @@ from core.widgets import TextWidget
 
 log = logging.getLogger(__name__)
 
-def create_form_subclass_with_recaptcha(base_form_class, recaptcha_client,
-                                        additional_field_kwargs=None):
-    """Copy from django_recaptcha_field.py overriding the class used for the recaptcha field."""
-
-    additional_field_kwargs = additional_field_kwargs or {}
-
-    class RecaptchaProtectedForm(base_form_class):
-
-        def __init__(self, request, *args, **kwargs):
-            super(RecaptchaProtectedForm, self).__init__(*args, **kwargs)
-
-            self.fields['recaptcha'] = RecaptchaField(
-                recaptcha_client,
-                request.META['REMOTE_ADDR'],
-                request.is_secure(),
-                **additional_field_kwargs
-                )
-
-    return RecaptchaProtectedForm
-
-
-class RecaptchaField(_RecaptchaField):
-    """Subclass adding the missing error message."""
-
-    default_error_messages = {
-        'incorrect_solution': 'Your solution to the CAPTCHA was incorrect',
-        # This key is missing upstream, which sometimes causes tracebacks
-        'invalid': 'This field is invalid.',
-    }
-
-
 class UserCreationFormNoPassword(UserCreationForm):
     #TODO: Dead code?
     def __init__(self, *args, **kwargs):
@@ -82,10 +51,11 @@ class UserCreationFormNoPassword(UserCreationForm):
         del self.fields['password2']
 
 
-class AntiSpamFormBase(forms.Form):
+class AntiSpamForm(forms.Form):
     timestamp = forms.IntegerField(widget=forms.HiddenInput, required=True)
     token = forms.CharField(widget=forms.HiddenInput, required=True)
     security_hash = forms.CharField(required=True, widget=forms.HiddenInput)
+    captcha = CaptchaField()
 
     ANTI_SPAM_MESSAGES = {
         'too-slow': _("This page has expired. Reload and try again."),
@@ -93,7 +63,7 @@ class AntiSpamFormBase(forms.Form):
 
     def __init__(self, *args, **kwargs):
         kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
-        super(AntiSpamFormBase, self).__init__(*args, **kwargs)
+        super(AntiSpamForm, self).__init__(*args, **kwargs)
 
     def generate_hash(self, timestamp, token):
         key_salt = 'xmppaccount.core.forms.AntiSpamFormBase'
@@ -107,7 +77,7 @@ class AntiSpamFormBase(forms.Form):
         return initial
 
     def clean(self):
-        data = super(AntiSpamFormBase, self).clean()
+        data = super(AntiSpamForm, self).clean()
         if isinstance(self, JidMixin) and data.get('username') and data.get('domain'):
             data['jid'] = '%s@%s' % (data['username'], data['domain'])
         return data
@@ -300,12 +270,3 @@ class EmailBlockedMixin(EmailMixin):
         except IndexError:
             pass
         return email
-
-
-# dynamically make BaseForms to CAPTCHA forms if settings.RECAPTCHA_CLIENT
-if settings.RECAPTCHA_CLIENT is not None:
-    AntiSpamForm = create_form_subclass_with_recaptcha(AntiSpamFormBase, settings.RECAPTCHA_CLIENT)
-else:
-    # WARNING: Do not rename form class to "AntiSpamForm" and skip this branch: The constructor
-    # would raise "maximum recursion depth exceeded"
-    AntiSpamForm = AntiSpamFormBase
