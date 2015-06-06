@@ -59,6 +59,10 @@ minify_js = MinifyJSTask(files=[
 config = configparser.ConfigParser({
     'remote': 'origin',
     'branch': 'master',
+    'user': 'root',
+    'group': '',
+    'uwsgi-emperor': '',
+    'celery-systemd': '',
 })
 config.read('fab.conf')
 
@@ -70,10 +74,11 @@ class BuildTask(Task):
 
 
 class DeployTask(Task):
-    def run(self, section='DEFAULT', group='xmpp-account'):
+    def run(self, section='DEFAULT'):
         # get options that have a default:
         remote = config.get(section, 'remote')
         branch = config.get(section, 'branch')
+        group = config.get(section, 'group')
 
         # these options are required for deployment
         try:
@@ -97,7 +102,14 @@ class DeployTask(Task):
         ssh("../bin/pip install -r requirements.txt")
         ssh("../bin/python manage.py update")
         local('ssh %s sudo chmod -R o-rwx %s' % (host, path))
-        ssh("touch /etc/uwsgi-emperor/vassals/xmpp-account.ini")
+
+        uwsgi_emperor = config.get(section, 'uwsgi-emperor')
+        if uwsgi_emperor:
+            ssh("touch /etc/uwsgi-emperor/vassals/%s.ini" % uwsgi_emperor)
+
+        celery_systemd = config.get(section, 'celery-systemd')
+        if celery_systemd:
+            ssh('service %s restart' % celery_systemd)
 
 
 deploy = DeployTask()
