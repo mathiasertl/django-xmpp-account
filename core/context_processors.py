@@ -28,6 +28,8 @@ def xmppaccount(request):
         'SUBMIT': submit,
         'USE_GPG': settings.GPG is not None,
         'XMPP_HOSTS': settings.XMPP_HOSTS,
+        'MINIFIED_JS': settings.MINIFIED_JS,
+        'MINIFIED_CSS': settings.MINIFIED_CSS,
     }
     if submit:
         context.update({k: v for k, v in request.GET.items()})

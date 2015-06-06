@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import glob
 import gnupg
 import logging
 import os
@@ -246,6 +247,11 @@ if GNUPG is not None:
 
 if not os.path.exists(LOGDIR):
     os.makedirs(LOGDIR)
+
+# compute path to latest minified js/css files
+_static_base = os.path.join(BASE_DIR, 'core', 'static')
+MINIFIED_JS = sorted(glob.glob(os.path.join(_static_base, 'account-*.min.js')))[-1]
+MINIFIED_CSS = sorted(glob.glob(os.path.join(_static_base, 'account-*.min.css')))[-1]
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -18,6 +18,9 @@ from __future__ import unicode_literals
 import logging
 import os
 import sys
+
+from datetime import datetime
+
 logging.basicConfig(level=logging.DEBUG)
 
 from six.moves import configparser
@@ -36,6 +39,7 @@ if os.path.exists(node_path):
     if node_path not in os.environ['PATH']:
         os.environ['PATH'] = '%s/.bin:%s' % (node_path, os.environ['PATH'])
 
+datestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
 build_jquery = BuildJqueryTask(
     excludes='-deprecated,-dimensions',
     dest_dir='core/static/lib/jquery/'
@@ -49,11 +53,11 @@ minify_css = MinifyCSSTask(files=[
     'core/static/lib/font-awesome/css/font-awesome.min.css',
     'core/static/lib/shariff/shariff.min.css',
     'core/static/css/base.css',
-], dest='core/static/account.min.css')
+], dest='core/static/account-%s.min.css' % datestamp)
 minify_js = MinifyJSTask(files=[
     'core/static/lib/jquery/jquery.min.js',
     'core/static/js/base.js',
-], dest='core/static/account.min.js')
+], dest='core/static/account-%s.min.js' % datestamp)
 
 
 config = configparser.ConfigParser({
