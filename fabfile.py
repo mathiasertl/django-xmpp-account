@@ -81,10 +81,15 @@ class DeployTask(Task):
             local('ssh %s sudo %s' % (self.host, cmd))
 
     def sg(self, cmd, chdir=True):
+        if not self.group:
+            self.sudo(cmd, chdir=chdir)
+            return
+
+        sg_cmd = 'ssh %s sudo sg %s -c' % (self.host, self.group)
         if chdir is True:
-            local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (self.host, self.group, self.path, cmd))
+            local('%s \'"cd %s && %s"\'' % (sg_cmd, self.path, cmd))
         else:
-            local('ssh %s sudo sg %s -c "%s"' % (self.host, self.group, cmd))
+            local('%s "%s"' % (sg_cmd, cmd))
 
     def run(self, section='DEFAULT'):
         # get options that have a default:
