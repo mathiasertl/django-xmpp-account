@@ -17,11 +17,13 @@ from __future__ import unicode_literals
 
 import logging
 import os
+import sys
 logging.basicConfig(level=logging.DEBUG)
 
 from six.moves import configparser
 
 from fabric.api import local
+from fabric.colors import red
 from fabric.tasks import Task
 
 from fabric_webbuilders import BuildBootstrapTask
@@ -33,7 +35,6 @@ node_path = os.path.abspath('node_modules')
 if os.path.exists(node_path):
     if node_path not in os.environ['PATH']:
         os.environ['PATH'] = '%s/.bin:%s' % (node_path, os.environ['PATH'])
-        print(os.environ['PATH'])
 
 build_jquery = BuildJqueryTask(
     excludes='-deprecated,-dimensions',
@@ -69,13 +70,27 @@ class BuildTask(Task):
 
 
 class DeployTask(Task):
-    def run(self, host='hyperion', dir='/usr/local/home/xmpp-account/django-xmpp-account/', group='xmpp-account'):
-        remote = config.get('DEFAULT', 'remote')
-        branch = config.get('DEFAULT', 'branch')
+    def run(self, section='DEFAULT', group='xmpp-account'):
+        # get options that have a default:
+        remote = config.get(section, 'remote')
+        branch = config.get(section, 'branch')
+
+        # these options are required for deployment
+        try:
+            path = config.get(section, 'path')
+        except configparser.NoOptionError:
+            print(red('Please configure option "%s" in section "%s" in fab.conf' % ('path', section)))
+            sys.exit(1)
+
+        try:
+            host = config.get('DEFAULT', 'host')
+        except configparser.NoOptionError:
+            print(red('Please configure option "%s" in section "%s" in fab.conf' % ('host', section)))
+            sys.exit(1)
 
         local('git push %s %s' % (remote, branch))
-        ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, dir, cmd))
-        local('ssh %s sudo chgrp -R %s %s' % (host, group, dir))
+        ssh = lambda cmd: local('ssh %s sudo sg %s -c \'"cd %s && %s"\'' % (host, group, path, cmd))
+        local('ssh %s sudo chgrp -R %s %s' % (host, group, path))
         ssh("git fetch %s" % remote)
         ssh("git pull %s %s" % (remote, branch))
         ssh("../bin/pip install -r requirements.txt")
