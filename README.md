@@ -29,6 +29,7 @@ address or delete their account.
     response times.
 10. Facebook and Twitter integration via "Share" and "Tweet" buttons. Buttons use
     [Shariff](https://github.com/heiseonline/shariff) to protect users privacy.
+11. Fabric file for fast and automated deployment of updates.
 
 This project currently only interacts with ejabberd servers (either via the
 `ejabberdctl` command line tool or via the `ejabberd_xmlrpc` plugin), because
@@ -219,6 +220,13 @@ python manage.py update
 ```
 
 Don't forget to restart your webserver afterwards.
+
+## Deployment
+
+We use a fabric script for deployment. It's somewhat customizable via the file `fab.conf`, see the
+example file in the repositories root directory. The deployment script pushes a local repository to
+a remote, then updates the repository on the deployed host from that. It will also do all other
+update-related tasks for you.
 
 ## Custom backends
 
