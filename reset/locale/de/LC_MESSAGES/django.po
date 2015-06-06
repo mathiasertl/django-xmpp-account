@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-01 20:15+0100\n"
+"POT-Creation-Date: 2015-06-06 12:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:50
+#: forms.py:49
 msgid "New email address"
 msgstr "Neue E-Mail-Adresse"
 
@@ -84,7 +84,7 @@ msgstr ""
 "Sie haben ihre E-Mail-Adresse für ihren Jabber-Konto %(jid)s geändert. Um "
 "die Änderung abzuschließen, klicken sie bitte hier:"
 
-#: templates/reset/email.html:4 templates/reset/email.html.py:43
+#: templates/reset/email.html:4 templates/reset/email.html.py:47
 msgid "Set email"
 msgstr "E-Mail setzen"
 
@@ -182,16 +182,28 @@ msgstr ""
 "wenn sie sich auch über diese Seite registriert haben (oder sie nachträglich "
 "ihr <a href=\"%(url)s\">Passwort neu gesetzt</a> haben)."
 
+#: views.py:44
+#, python-format
+msgid "%(DOMAIN)s: Set a new email address"
+msgstr "%(DOMAIN)s: Setze eine neue E-Mail-Adresse"
+
+#: views.py:45
+#, python-format
+msgid ""
+"Set a new email address for your Jabber account on %(DOMAIN)s. You must have "
+"a valid email address set to be able to reset your password."
+msgstr ""
+
+#: views.py:48
+#, python-format
+msgid "%(DOMAIN)s: Reset your password"
+msgstr "%(DOMAIN)s: Passwort neu setzen"
+
 #: views.py:49
 #, python-format
-msgid "Reset the password for your %(domain)s account"
-msgstr "Passwort für ihr %(domain)s-Konto neu setzen"
+msgid "Reset the password for your %(DOMAIN)s account."
+msgstr "Passwort für ihr %(DOMAIN)s-Konto neu setzen"
 
-#: views.py:52
+#: views.py:64
 msgid "User not found."
 msgstr "Benutzer/Benutzerin nicht gefunden."
-
-#: views.py:84
-#, python-format
-msgid "Confirm the email address for your %(domain)s account"
-msgstr "Bestätigen sie die E-Mail-Adresse für ihr %(domain)s-Konto"
