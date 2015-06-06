@@ -62,7 +62,8 @@ installation](#basic-installation)) or all dependencies manually installed.
 If you use Debian/Ubuntu, you can copy & paste this command:
 
 ```
-apt-get install python-virtualenv gnupg libxml2-dev libxslt1-dev python-dev
+apt-get install python-virtualenv gnupg libxml2-dev libxslt1-dev python-dev \
+    libfreetype6-dev
 ```
 
 ### Basic installation
