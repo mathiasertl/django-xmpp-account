@@ -16,7 +16,7 @@ host = ...
 
 # If you specify a group, fabric will automatically chgrp the entire source code to it and make
 # sure it is not world-readable. You must make sure that any WSGI servers and/or Celery daemons can
-# read the source code this way.
+# read the source code (preferably run them with this group as te primary process group id).
 #group = xmpp-account
 
 # Restart a uWSGI emperor vassal (by touching the config file) after deployment. This may either be
