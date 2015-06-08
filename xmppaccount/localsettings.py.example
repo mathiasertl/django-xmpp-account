@@ -199,6 +199,9 @@ REGISTRATION_RATE = {
 #    '192.168.0.22',
 #}
 
+# If you do not want CAPTCHAs, you can disable them completely:
+#ENABLE_CAPTCHAS = False
+
 #############################
 ### Username restrictions ###
 #############################

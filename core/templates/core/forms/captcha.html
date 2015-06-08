@@ -1,4 +1,4 @@
-<div class="form-group">
+{% if ENABLE_CAPTCHAS %}<div class="form-group">
     {{ form.captcha.label_tag }}
     <div class="row">
         <div  class="col-lg-5 {% if form.captcha.errors %}has-error{% endif %}">
@@ -9,4 +9,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>{% endif %}

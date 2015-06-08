@@ -30,6 +30,7 @@ def xmppaccount(request):
         'XMPP_HOSTS': settings.XMPP_HOSTS,
         'MINIFIED_JS': settings.MINIFIED_JS,
         'MINIFIED_CSS': settings.MINIFIED_CSS,
+        'ENABLE_CAPTCHAS': settings.ENABLE_CAPTCHAS,
     }
     if submit:
         context.update({k: v for k, v in request.GET.items()})

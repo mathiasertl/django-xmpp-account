@@ -55,7 +55,9 @@ class AntiSpamForm(forms.Form):
     timestamp = forms.IntegerField(widget=forms.HiddenInput, required=True)
     token = forms.CharField(widget=forms.HiddenInput, required=True)
     security_hash = forms.CharField(required=True, widget=forms.HiddenInput)
-    captcha = CaptchaField()
+
+    if settings.ENABLE_CAPTCHAS:
+        captcha = CaptchaField()
 
     ANTI_SPAM_MESSAGES = {
         'too-slow': _("This page has expired. Reload and try again."),
