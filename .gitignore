@@ -19,3 +19,4 @@ wording.txt
 /.gpg/
 /py3/
 /fab.conf
+/pip-selfcheck.json
