@@ -134,6 +134,7 @@ class DeployTask(Task):
             self.sudo('chgrp -R %s .' % self.group)
         self.sg("git fetch %s" % remote)
         self.sg("git pull %s %s" % (remote, branch))
+        self.sg("%s install -U pip")
         self.sg("%s install -r requirements.txt" % pip)
         self.sg("%s manage.py update" % python)
         if self.group:
