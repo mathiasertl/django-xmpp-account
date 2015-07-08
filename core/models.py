@@ -49,6 +49,7 @@ from core.constants import REGISTRATION_UNKNOWN
 from core.exceptions import GpgError
 from core.exceptions import GpgFingerprintError
 from core.exceptions import GpgKeyError
+from core.exceptions import TemporaryError
 from core.lock import GpgLock
 from core.managers import ConfirmationManager
 from core.managers import RegistrationUserManager
@@ -146,9 +147,15 @@ class RegistrationUser(AbstractBaseUser):
         backend.set_unusable_password(self.username, self.domain, pwd)
 
     def get_confirmation_key(self, purpose, payload):
+        try:
+            payload = json.dumps(payload)
+        except UnicodeDecodeError:
+            raise TemporaryError(
+                "It appears you have entered some weird characters. Please try again.")
+
         return (
             PURPOSES[purpose]['urlname'],
-            Confirmation.objects.create(user=self, purpose=purpose, payload=json.dumps(payload)),
+            Confirmation.objects.create(user=self, purpose=purpose, payload=payload),
         )
 
     def get_short_name(self):
