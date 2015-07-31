@@ -37,6 +37,7 @@ from backends.base import UserNotFound
 
 from core.exceptions import GpgError
 from core.exceptions import RateException
+from core.exceptions import SpamException
 from core.forms import EmailMixin
 from core.models import Address
 from core.models import Confirmation
@@ -66,6 +67,10 @@ class AntiSpamFormView(FormView):
 
             if getattr(request, 'limited', False):
                 raise RateException()
+
+        # We sometimes get requests *without* a user agent. We assume these are automated requests.
+        if not request.META.get('HTTP_USER_AGENT'):
+            raise SpamException("No user agent passed.")
 
         return super(AntiSpamFormView, self).dispatch(request, *args, **kwargs)
 
