@@ -65,7 +65,7 @@ class AntiSpamMiddleware(object):
     def process_request(self, request):
         message = cache.get('spamblock-%s' % request.META['REMOTE_ADDR'])  # Added by previous SpamException
         if message:
-            context = self.get_context(request, request, message)
+            context = self.get_context(request, message)
             return render(request, 'core/spambot.html', context)
 
     def process_exception(self, request, exception):
