@@ -208,10 +208,12 @@ should suffice.
 Celery obviously runs as a daemon, so it needs to be started. Example files for systemd are
 included in `files/systemd`. They assume that celery runs as user `xmpp-account` with the home
 directory `/usr/local/home/xmpp-account`, a virtualenv and the source code in that directory. If
-this doesn't suit your needs, you need to modify the files accordingly. After that, two simple
+this doesn't suit your needs, you need to modify the files accordingly. After that, three simple
 symlinks should enable the service:
 
 ```
+ln -s /usr/local/home/xmpp-account/django-xmpp-account/files/systemd/celery-xmpp-account.tmpfiles \
+    /etc/tmpfiles.d/celery-xmpp-account.conf
 ln -s /usr/local/home/xmpp-account/django-xmpp-account/files/systemd/celery-xmpp-account.conf \
     /etc/conf.d/
 ln -s /usr/local/home/xmpp-account/django-xmpp-account/files/systemd/celery-xmpp-account.service \

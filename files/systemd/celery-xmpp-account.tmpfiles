@@ -1,0 +1,2 @@
+d /run/xmpp-account 0755 xmpp-account xmpp-account -
+d /var/log/xmpp-account 0755 xmpp-account xmpp-account -
