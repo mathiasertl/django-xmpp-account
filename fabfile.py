@@ -151,8 +151,7 @@ class DeployTask(Task):
             self.sg("git fetch %s" % remote)
             self.sg("git pull %s %s" % (remote, branch))
         else:
-            self.sg("git clone %s" % origin)
-            self.sg("git checkout %s" % branch)
+            self.sg("git clone --branch %s %s" % (branch, origin))
 
         self.sg("%s install -U pip" % pip)
         self.sg("%s install -r requirements.txt" % pip)
