@@ -62,6 +62,7 @@ minify_js = MinifyJSTask(files=[
 
 
 config = configparser.ConfigParser({
+    'origin': 'https://github.com/mathiasertl/django-xmpp-account.git',
     'remote': 'origin',
     'branch': 'master',
     'user': 'root',
@@ -103,6 +104,7 @@ class DeployTask(Task):
 
     def run(self, section='DEFAULT'):
         # get options that have a default:
+        origin = config.get(section, 'origin')
         remote = config.get(section, 'remote')
         branch = config.get(section, 'branch')
         self.group = config.get(section, 'group')
@@ -141,10 +143,17 @@ class DeployTask(Task):
 
         # start actually deployment
         local('git push %s %s' % (remote, branch))
-        if self.group:
-            self.sudo('chgrp -R %s .' % self.group)
-        self.sg("git fetch %s" % remote)
-        self.sg("git pull %s %s" % (remote, branch))
+
+        if self.exists(self.path):
+            if self.group:
+                self.sudo('chgrp -R %s .' % self.group)
+
+            self.sg("git fetch %s" % remote)
+            self.sg("git pull %s %s" % (remote, branch))
+        else:
+            self.sg("git clone %s" % origin)
+            self.sg("git checkout %s" % branch)
+
         self.sg("%s install -U pip" % pip)
         self.sg("%s install -r requirements.txt" % pip)
         self.sg("%s manage.py update" % python)
