@@ -95,7 +95,7 @@ class DeployTask(Task):
         if chdir is True:
             return local('%s \'"cd %s && %s"\'' % (sg_cmd, self.path, cmd))
         else:
-            return local('%s "%s"' % (sg_cmd, cmd))
+            return local('%s \'"%s"\'' % (sg_cmd, cmd))
 
     def exists(self, path):
         """Returns True/False depending on if the given path exists."""
@@ -151,7 +151,7 @@ class DeployTask(Task):
             self.sg("git fetch %s" % remote)
             self.sg("git pull %s %s" % (remote, branch))
         else:
-            self.sg("git clone --branch %s %s" % (branch, origin))
+            self.sg("git clone --branch %s %s %s" % (branch, origin, self.path), chdir=False)
 
         self.sg("%s install -U pip" % pip)
         self.sg("%s install -r requirements.txt" % pip)
