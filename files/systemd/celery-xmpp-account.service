@@ -1,6 +1,7 @@
 [Unit]
 Description=Celery workers
 After=network.target
+Require=systemd-tmpfiles-setup
 
 [Service]
 Type=forking
