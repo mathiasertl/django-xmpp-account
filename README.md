@@ -82,7 +82,7 @@ Depending on the database backend you want to use, you probably need to install 
 packages. For MySQL, this would be:
 
 ```
-apt-get install mysql-common
+apt-get install libmysqlclient-dev mysql-common
 pip install MySQL-python
 ```
 
