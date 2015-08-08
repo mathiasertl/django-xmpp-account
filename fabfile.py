@@ -132,9 +132,9 @@ class DeployTask(Task):
 
             # create virtualenv if it does not yet exist
             if self.exists(self.virtualenv) is False:
-                self.sudo('mkdir -p %s' % self.virtualenv)
-            if self.exists(pip) is False:
-                self.sudo('virtualenv %s' % self.virtualenv)
+                self.sudo('mkdir -p %s' % self.virtualenv, chdir=False)
+            if self.exists(python) is False:
+                self.sudo('virtualenv %s' % self.virtualenv, chdir=False)
         else:
             pip = 'pip'
             python = 'python'
