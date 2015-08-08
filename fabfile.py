@@ -27,6 +27,7 @@ from six.moves import configparser
 
 from fabric.api import local
 from fabric.colors import red
+from fabric.context_managers import quiet
 from fabric.tasks import Task
 
 from fabric_webbuilders import BuildBootstrapTask
@@ -96,6 +97,11 @@ class DeployTask(Task):
         else:
             local('%s "%s"' % (sg_cmd, cmd))
 
+    def exists(self, path):
+        """Returns True/False depending on if the given path exists."""
+        with quiet():
+            return self.sudo('test -e %s' % self.virtualenv, chdir=False).succeeded
+
     def run(self, section='DEFAULT'):
         # get options that have a default:
         remote = config.get(section, 'remote')
@@ -124,6 +130,12 @@ class DeployTask(Task):
         if self.virtualenv:
             pip = os.path.join(self.virtualenv, 'bin', 'pip')
             python = os.path.join(self.virtualenv, 'bin', 'python')
+
+            # create virtualenv if it does not yet exist
+            if self.exists(self.virtualenv) is False:
+                self.sudo('mkdir -p %s' % self.virtualenv)
+            if self.exists(pip) is False:
+                self.sudo('virtualenv %s' % self.virtualenv)
         else:
             pip = 'pip'
             python = 'python'
