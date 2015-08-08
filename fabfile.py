@@ -82,20 +82,19 @@ class BuildTask(Task):
 class DeployTask(Task):
     def sudo(self, cmd, chdir=True):
         if chdir is True:
-            local('ssh %s sudo sh -c \'"cd %s && %s"\'' % (self.host, self.path, cmd))
+            return local('ssh %s sudo sh -c \'"cd %s && %s"\'' % (self.host, self.path, cmd))
         else:
-            local('ssh %s sudo %s' % (self.host, cmd))
+            return local('ssh %s sudo %s' % (self.host, cmd))
 
     def sg(self, cmd, chdir=True):
         if not self.group:
-            self.sudo(cmd, chdir=chdir)
-            return
+            return self.sudo(cmd, chdir=chdir)
 
         sg_cmd = 'ssh %s sudo sg %s -c' % (self.host, self.group)
         if chdir is True:
-            local('%s \'"cd %s && %s"\'' % (sg_cmd, self.path, cmd))
+            return local('%s \'"cd %s && %s"\'' % (sg_cmd, self.path, cmd))
         else:
-            local('%s "%s"' % (sg_cmd, cmd))
+            return local('%s "%s"' % (sg_cmd, cmd))
 
     def exists(self, path):
         """Returns True/False depending on if the given path exists."""
