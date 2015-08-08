@@ -99,7 +99,7 @@ class DeployTask(Task):
     def exists(self, path):
         """Returns True/False depending on if the given path exists."""
         with quiet():
-            return self.sudo('test -e %s' % self.virtualenv, chdir=False).succeeded
+            return self.sudo('test -e %s' % path, chdir=False).succeeded
 
     def run(self, section='DEFAULT'):
         # get options that have a default:
