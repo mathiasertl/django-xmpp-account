@@ -88,4 +88,5 @@ input#id_captcha_1 {
 }
 .js-captcha-refresh {
     cursor: pointer; /* refresh captcha */
+    white-space: nowrap;
 }
