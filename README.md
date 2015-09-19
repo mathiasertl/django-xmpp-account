@@ -50,8 +50,7 @@ installation](#basic-installation)) or all dependencies manually installed.
 
 * Currently only [ejabberd](https://www.ejabberd.im) via `mod_xmlrpc` is supported. If you want to
   use a different server, please consider [contributing your own backend](#custom-backends).
-* Python 2.7 or Python 3.4 (Note: ReCAPTCHA support currently does not work with Python 3 due to
-  library issues).
+* Python 2.7 or Python 3.4
 * We strongly recommend you run the project inside a
   [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) and install all Python
   library requirements inside. If you don't want to use virtualenv, all used libraries are listed
