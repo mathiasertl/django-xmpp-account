@@ -26,7 +26,6 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.crypto import salted_hmac
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import CaptchaField
