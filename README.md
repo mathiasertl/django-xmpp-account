@@ -177,7 +177,7 @@ please see your `localsettings.py`.
 ### GPG setup
 
 `django-xmpp-account` sends out confirmation emails on any action. Emails can be encrypted if users
-upload their private key, but for emails to also be signed, you must generate a private key. You
+upload their public key, but for emails to also be signed, you must generate a private key. You
 can simply do this with:
 
 ```
