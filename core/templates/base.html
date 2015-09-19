@@ -59,6 +59,7 @@
     <script>
         var csrftoken = "{{ csrf_token }}";
         var exists_url = "{% url 'ExistsView' %}";
+        var captcha_refresh_url = "{% url 'captcha-refresh' %}";
         var MIN_USERNAME_LENGTH = {{ MIN_USERNAME_LENGTH }};
         var MAX_USERNAME_LENGTH = {{ MAX_USERNAME_LENGTH }};
         {% if SITE.FACEBOOK %}var FACEBOOK_PAGE = "{{ SITE.FACEBOOK }}";{% endif %}
