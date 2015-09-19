@@ -25,8 +25,9 @@ from copy import copy
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
-from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import salted_hmac
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import CaptchaField
 
@@ -57,7 +58,11 @@ class AntiSpamForm(forms.Form):
     security_hash = forms.CharField(required=True, widget=forms.HiddenInput)
 
     if settings.ENABLE_CAPTCHAS:
-        captcha = CaptchaField()
+        captcha = CaptchaField(help_text=_(
+            'This <a href="https://en.wikipedia.org/wiki/CAPTCHA">CAPTCHA</a> prevents '
+            'automated SPAM. If you can\'t read it, just <a '
+            'class="js-captcha-refresh">&#8634; reload</a> it.'
+        ))
 
     ANTI_SPAM_MESSAGES = {
         'too-slow': _("This page has expired. Reload and try again."),

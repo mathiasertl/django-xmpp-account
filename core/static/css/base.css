@@ -86,3 +86,6 @@ img.captcha {
 input#id_captcha_1 {
     margin-top: 5px;
 }
+.js-captcha-refresh {
+    cursor: pointer; /* refresh captcha */
+}

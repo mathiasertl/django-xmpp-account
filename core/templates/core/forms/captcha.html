@@ -3,9 +3,8 @@
     <div class="row">
         <div class="col-lg-5 {% if form.captcha.errors %}has-error{% endif %}">
             <span id="captcha-form-data">{{ form.captcha|safe }}</span>
-            <button class='js-captcha-refresh'>{% trans "&#8634; Reload CAPTCHA" %}</button>
             <div class="help-block">
-                {{ form.captcha.help_text }}
+                {{ form.captcha.help_text|safe }}
                 {{ form.captcha.errors }}
             </div>
         </div>
