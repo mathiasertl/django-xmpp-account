@@ -18,11 +18,11 @@ address or delete their account.
     webserver and supports e.g. MySQL, PostgreSQL.
 5.  Currently works only with [ejabberd](https://www.ejabberd.im/) (via `mod_xmlrpc`), but could
     easily extended to work with other servers.
-6.  Robust anti-SPAM features including ReCAPTCHA support, email confirmations and configurable
+6.  Robust anti-SPAM features including CAPTCHA support, email confirmations and configurable
     rate-limiting.
 7.  Manages accounts on multiple XMPP servers, page will adapt to the URL used (e.g. see how the
     default XMPP domain changes on [account.jabber.at](https://account.jabber.at) and
-    [account.xmpp.zone](https://account.xmpp.zone).
+    [account.xmpp.zone](https://account.xmpp.zone)).
 8.  Users can give a GPG key (either via fingerprint or direct upload) so the site can use GPG to
     sign and encrypt any confirmation emails it sends.
 9.  Support for [Celery](http://docs.celeryproject.org) to send emails asynchronously for fast page
