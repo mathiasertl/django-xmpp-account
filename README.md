@@ -138,6 +138,7 @@ ExpiresByType application/javascript "access plus 1 year"
 
 <Location /captcha>
     ExpiresByType image/png "access plus 0 seconds"
+    ExpiresByType application/json "access plus 0 seconds"
 </Location>
 ```
 
