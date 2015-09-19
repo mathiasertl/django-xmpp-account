@@ -148,14 +148,10 @@ $(document).ready(function() {
     });
 
     $('.js-captcha-refresh').click(function(){
-        console.log('refresh clicked!');
         $form = $(this).parents('form');
-        console.log(captcha_refresh_url);
 
         $.getJSON(captcha_refresh_url, {}, function(json) {
             // This should update your captcha image src and captcha hidden input
-            console.log(json);
-            console.log(typeof json);
             $('#captcha-form-data img').attr('src', json.image_url);
             $('#captcha-form-data input[type="hidden"]').attr('value', json.key);
         });
