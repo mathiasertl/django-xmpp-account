@@ -42,5 +42,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 ]
 
-for args in settings.EXTRA_URL_INCLUDES:
-    urlpatterns.append(url(*args))
+for path, include_args in settings.EXTRA_URL_INCLUDES.items():
+    urlpatterns.append(url(path, include(*include_args)))
