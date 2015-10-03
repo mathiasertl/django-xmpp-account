@@ -16,6 +16,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls import url
 
@@ -40,3 +41,6 @@ urlpatterns = [
     # admin interface
     url(r'^admin/', include(admin.site.urls)),
 ]
+
+for args in settings.EXTRA_URL_INCLUDES:
+    urlpatterns.append(url(*args))
