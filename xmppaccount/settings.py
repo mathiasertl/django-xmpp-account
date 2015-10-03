@@ -220,6 +220,7 @@ BROKER_URL = None
 CELERY_RESULT_BACKEND = None
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+EXTRA_URL_INCLUDES = []
 
 try:
     from xmppaccount.localsettings import *
