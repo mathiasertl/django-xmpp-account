@@ -7,7 +7,7 @@ django-simple-captcha==0.4.6
 dnspython==1.12.0
 hiredis==0.2.0
 lxml==3.4.4
-python-gnupg==0.3.7
+python-gnupg==0.3.8
 pytz==2015.6
 six==1.9.0
 sleekxmpp==1.3.1
