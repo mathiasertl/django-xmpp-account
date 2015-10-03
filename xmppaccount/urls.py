@@ -16,7 +16,6 @@
 
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns
 from django.conf.urls import include
 from django.conf.urls import url
 
@@ -26,21 +25,18 @@ from register.views import RegistrationView
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-
+urlpatterns = [
     url(r'^$', RegistrationView.as_view(), name='index'),
 
     # for captchas:
     url(r'^captcha/', include('captcha.urls')),
 
+    # core URLs
     url(r'^core/', include('core.urls')),
     url(r'^register/', include('register.urls')),
     url(r'^reset/', include('reset.urls')),
     url(r'^delete/', include('delete.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
+    # admin interface
     url(r'^admin/', include(admin.site.urls)),
-)
+]
