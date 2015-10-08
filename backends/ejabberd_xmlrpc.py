@@ -18,6 +18,7 @@
 from __future__ import unicode_literals
 
 import logging
+import socket
 import time
 
 from httplib import BadStatusLine
@@ -114,7 +115,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
                 return func(kwargs)
             else:
                 return func(self.credentials, kwargs)
-        except (xmlrpclib.ProtocolError, BadStatusLine, xmlrpclib.Fault):
+        except (xmlrpclib.ProtocolError, BadStatusLine, xmlrpclib.Fault, socket.error):
             raise TemporaryError(_("Our server is experiencing temporary difficulties. "
                                    "Please try again later."))
 
