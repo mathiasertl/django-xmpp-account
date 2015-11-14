@@ -49,7 +49,7 @@ class AddressAdmin(admin.ModelAdmin):
     list_display = ['address', 'count_activities', 'timerange']
 
     def get_queryset(self, request):
-        qs = super(AddressAdmin, self).queryset(request)
+        qs = super(AddressAdmin, self).get_queryset(request)
         return qs.annotate(
             count_activities=models.Count('activities')
         ).annotate(
