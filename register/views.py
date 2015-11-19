@@ -102,7 +102,7 @@ class RegistrationView(ConfirmationView):
         payload['email'] = form.cleaned_data['email']
 
         if settings.XMPP_HOSTS[domain].get('RESERVE', False):
-            backend.reserve(
+            backend.create_reservation(
                 username=form.cleaned_data['username'], domain=domain, email=user.email)
         return payload
 
@@ -132,8 +132,8 @@ class RegistrationConfirmationView(ConfirmedView):
         key.user.confirmed = now()
         key.user.save()
 
-        backend.create(username=key.user.username, domain=key.user.domain, email=key.user.email,
-                       password=form.cleaned_data['password'])
+        backend.create_user(username=key.user.username, domain=key.user.domain,
+                            email=key.user.email, password=form.cleaned_data['password'])
         if settings.WELCOME_MESSAGE is not None:
             reset_pass_path = reverse('ResetPassword')
             reset_mail_path = reverse('ResetEmail')
@@ -150,5 +150,5 @@ class RegistrationConfirmationView(ConfirmedView):
             }
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)
-            backend.message(username=key.user.username, domain=key.user.domain, subject=subject,
-                            message=message)
+            backend.message_user(username=key.user.username, domain=key.user.domain,
+                                 subject=subject, message=message)

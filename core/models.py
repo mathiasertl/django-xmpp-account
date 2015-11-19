@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 
 import json
 import logging
-import random
 import re
 import smtplib
 import string
@@ -56,7 +55,7 @@ from core.managers import RegistrationUserManager
 from core.querysets import ConfirmationQuerySet
 
 from backends import backend
-from backends.base import UserNotFound
+from xmpp_backends.base import UserNotFound
 
 PASSWORD_CHARS = string.ascii_letters + string.digits
 PURPOSE_CHOICES = (
@@ -143,8 +142,7 @@ class RegistrationUser(AbstractBaseUser):
         return backend.check_password(self.username, self.domain, raw_password)
 
     def set_unusable_password(self):
-        pwd = ''.join(random.choice(PASSWORD_CHARS) for x in range(16))
-        backend.set_unusable_password(self.username, self.domain, pwd)
+        backend.block_user(self.username, self.domain)
 
     def get_confirmation_key(self, purpose, payload):
         try:
@@ -160,9 +158,6 @@ class RegistrationUser(AbstractBaseUser):
 
     def get_short_name(self):
         return self.email
-
-    def has_usable_password(self):
-        return backend.has_usable_password(self.username, self.domain)
 
     def has_perm(self, perm, obj=None):
         return self.is_admin

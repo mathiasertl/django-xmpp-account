@@ -86,8 +86,8 @@ class Command(BaseCommand):
                                    confirmed__isnull=True, registered__lt=expired_timestamp)
             for user in expired:
                 username = user.username.lower()
-                log.info('%s: Removed (registration expired)', username)
-                backend.remove(username, user.domain)
+                log.info('%s: Registration expired', username)
+                backend.expire_reservation(username, user.domain)
             if len(expired) > 10:
                 # warn, if many users were removed
                 log.warn('Removed %s users', len(expired))

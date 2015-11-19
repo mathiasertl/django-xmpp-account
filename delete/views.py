@@ -27,7 +27,7 @@ from delete.forms import DeleteForm
 from delete.forms import DeleteConfirmationForm
 
 from backends import backend
-from backends.base import UserNotFound
+from xmpp_backends.base import UserNotFound
 
 User = get_user_model()
 _messages = {
@@ -78,5 +78,5 @@ class DeleteConfirmationView(ConfirmedView):
 
     def after_delete(self, data):
         # actually delete user from the database
-        backend.remove(username=self.user.username, domain=self.user.domain)
+        backend.remove_user(username=self.user.username, domain=self.user.domain)
         self.user.delete()

@@ -130,7 +130,7 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         username = object.username
         domain = object.domain
         super(RegistrationUserAdmin, self).log_deletion(request, object, object_repr)
-        backend.remove(username, domain)
+        backend.remove_user(username, domain)
 
     def _confirm(self, request, user, purpose, payload=None):
         key, kwargs = confirm(request, user, purpose=purpose, payload=payload)
@@ -153,9 +153,8 @@ class RegistrationUserAdmin(admin.ModelAdmin):
                 self._confirm(request, obj, purpose=PURPOSE_REGISTER, payload=payload)
         else: # new user
             if site.get('RESERVE', False):
-                backend.reserve(username=obj.username, domain=obj.domain, email=obj.email)
-            if obj.email:
-                self._confirm(request, obj, purpose=PURPOSE_REGISTER)
+                backend.create_reservation(username=obj.username, domain=obj.domain, email=obj.email)
+            self._confirm(request, obj, purpose=PURPOSE_REGISTER)
 
     def resend_registration(self, request, queryset):
         for user in queryset:

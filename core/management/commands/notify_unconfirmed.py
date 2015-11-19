@@ -52,7 +52,7 @@ class Command(BaseCommand):
                     'domain': user.domain,
                 })
                 message = unicode(template.render(context))
-                backend.message(user.username, user.domain, subject, message)
+                backend.message_user(user.username, user.domain, subject, message)
             except Exception as e:
                 self.stderr.write("Message failed for %s: %s: %s" % (user.jid, type(e).__name__, e))
         self.stdout.write('')

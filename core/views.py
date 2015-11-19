@@ -32,8 +32,8 @@ from django.views.generic import View
 from brake.decorators import ratelimit
 
 from backends import backend
-from backends.base import UserExists
-from backends.base import UserNotFound
+from xmpp_backends.base import UserExists
+from xmpp_backends.base import UserNotFound
 
 from core.exceptions import GpgError
 from core.exceptions import RateException
@@ -239,7 +239,7 @@ class ExistsView(View):
             pass
 
         # Check if the user exists in the backend
-        if backend.exists(username, domain):
+        if backend.user_exists(username, domain):
             cache.set(cache_key, True, 30)
             return HttpResponse('')
         else:
