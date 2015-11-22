@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 import logging
 import socket
 import time
+import warnings
 
 from httplib import BadStatusLine
 
@@ -38,6 +39,8 @@ from backends.base import BackendError
 from backends.base import UserExists
 
 log = logging.getLogger(__name__)
+warnings.warn('This module is deprecated, please use "xmpp_backends.ejabberd_xmlrpc" instead.',
+              DeprecationWarning)
 
 
 class EjabberdXMLRPCBackend(XmppBackendBase):
