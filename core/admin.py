@@ -154,7 +154,8 @@ class RegistrationUserAdmin(admin.ModelAdmin):
         else: # new user
             if site.get('RESERVE', False):
                 backend.create_reservation(username=obj.username, domain=obj.domain, email=obj.email)
-            self._confirm(request, obj, purpose=PURPOSE_REGISTER)
+            if obj.email:
+                self._confirm(request, obj, purpose=PURPOSE_REGISTER)
 
     def resend_registration(self, request, queryset):
         for user in queryset:
