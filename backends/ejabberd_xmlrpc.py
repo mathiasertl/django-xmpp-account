@@ -122,32 +122,30 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
             raise TemporaryError(_("Our server is experiencing temporary difficulties. "
                                    "Please try again later."))
 
-    def create(self, username, domain, password, email):
-        if password is None:
-            password = self.get_random_password()
-
-        elif settings.XMPP_HOSTS[domain].get('RESERVE', False):
-            self.set_password(username, domain, password)
-            self.set_email(username, domain, email)
-            return
-
+    def create_user(self, username, domain, password, email=None):
         result = self.rpc('register', user=username, host=domain, password=password)
         if result['res'] == 0:
             # set last activity, so that no user has the activity 'Never'. This way the account
             # isn't removed with delete_old_users.
             try:
-                self.rpc('set_last', user=username, host=domain, timestamp=int(time.time()),
-                         status='Registered')
-            except TemporaryError:
-                log.error('Temporary error when setting last activity.')
+                self.set_last_activity(username, domain, status='Registered')
+            except BackendError as e:
+                log.error('Error setting last activity: %s', e)
 
-            return
+            if email is not None:
+                self.set_email(username, domain, email)
         elif result['res'] == 1:
             raise UserExists()
         else:
             raise BackendError(result.get('text', 'Unknown Error'))
 
-    def exists(self, username, domain):
+    def set_last_activity(self, username, domain, status, timestamp=None):
+        if timestamp is None:
+            timestamp = int(time.time())
+
+        self.rpc('set_last', user=username, host=domain, timestamp=timestamp, status=status)
+
+    def user_exists(self, username, domain):
         result = self.rpc('check_account', user=username, host=domain)
         if result['res'] == 0:
             return True
@@ -183,7 +181,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         """Not yet implemented."""
         pass
 
-    def message(self, username, domain, subject, message):
+    def message_user(self, username, domain, subject, message):
         """Currently use send_message_chat and discard subject, because headline messages are not
         stored by mod_offline."""
 
@@ -200,7 +198,7 @@ class EjabberdXMLRPCBackend(XmppBackendBase):
         users = self.rpc('registered_users', host=domain)['users']
         return set([e['username'] for e in users])
 
-    def remove(self, username, domain):
+    def remove_user(self, username, domain):
         result = self.rpc('unregister', user=username, host=domain)
         if result['res'] == 0:
             return True
