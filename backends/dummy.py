@@ -28,8 +28,8 @@ from backends.base import UserExists
 from backends.base import UserNotFound
 
 log = logging.getLogger(__name__)
-warnings.warn('This module is deprecated, please use "xmpp_backends.ejabberdctl" instead.',
-              DeprecationWarning)
+warnings.warn('This module is deprecated, please use "xmpp_backends.dummy" instead.')
+
 
 class DummyBackend(XmppBackendBase):
     """A dummy backend for development using Djangos caching framework.

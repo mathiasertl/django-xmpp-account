@@ -39,8 +39,7 @@ from backends.base import BackendError
 from backends.base import UserExists
 
 log = logging.getLogger(__name__)
-warnings.warn('This module is deprecated, please use "xmpp_backends.ejabberd_xmlrpc" instead.',
-              DeprecationWarning)
+warnings.warn('This module is deprecated, please use "xmpp_backends.ejabberd_xmlrpc" instead.')
 
 
 class EjabberdXMLRPCBackend(XmppBackendBase):

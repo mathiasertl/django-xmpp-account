@@ -20,8 +20,6 @@ from __future__ import unicode_literals
 import time
 import warnings
 
-from django.conf import settings
-
 from subprocess import PIPE
 from subprocess import Popen
 
@@ -29,8 +27,7 @@ from backends.base import UserExists
 from backends.base import BackendError
 from backends.base import XmppBackendBase
 
-warnings.warn('This module is deprecated, please use "xmpp_backends.ejabberdctl" instead.',
-              DeprecationWarning)
+warnings.warn('This module is deprecated, please use "xmpp_backends.ejabberdctl" instead.')
 
 
 class EjabberdctlBackend(XmppBackendBase):
