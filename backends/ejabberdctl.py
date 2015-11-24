@@ -68,25 +68,30 @@ class EjabberdctlBackend(XmppBackendBase):
     def ctl(self, *cmd):
         return self.ex(self.ejabberdctl, *cmd)
 
-    def create(self, username, domain, password, email):
-        if password is None:
-            password = self.get_random_password()
-
-        elif settings.XMPP_HOSTS[domain].get('RESERVE', False):
-            self.set_password(username, domain, password)
-            self.set_email(username, domain, email)
-            return
-
+    def create_user(self, username, domain, password, email):
         code, out, err = self.ctl('register', username, domain, password)
-
         if code == 0:
-            self.ctl('set_last', username, domain, int(time.time()),
-                     'Registered')
-            return
+            self.set_last_activity(username, domain, status='Registered')
+            if email is not None:
+                self.set_email(username, domain, email)
         elif code == 1:
             raise UserExists()
         else:
             raise BackendError(code)  # TODO: 3 means nodedown.
+
+    def set_last_activity(self, username, domain, status, timestamp=None):
+        if timestamp is None:
+            timestamp = int(time.time())
+        self.ctl('set_last', username, domain, timestamp, status)
+
+    def user_exists(self, username, domain):
+        code, out, err = self.ctl('check_account', username, domain)
+        if code == 0:
+            return True
+        elif code == 1:
+            return False
+        else:
+            raise BackendError(err)
 
     def check_password(self, username, domain, password):
         code, out, err = self.ctl('check_password', username, domain, password)
@@ -104,12 +109,6 @@ class EjabberdctlBackend(XmppBackendBase):
         if code != 0:  # 0 is also returned if the user doesn't exist.
             raise BackendError(code)
 
-    def set_unusable_password(self, username, domain):
-        code, out, err = self.ctl('ban_account', username, domain,
-                                  'by django-xmpp-account')
-        if code != 0:
-            raise BackendError(code)
-
     def has_usable_password(self, username, domain):
         return True  # unfortunately we can't tell
 
@@ -122,7 +121,7 @@ class EjabberdctlBackend(XmppBackendBase):
         """Not yet implemented."""
         pass  # maybe as vcard field?
 
-    def message(self, username, domain, subject, message):
+    def message_user(self, username, domain, subject, message):
         """Currently use send_message_chat and discard subject, because headline messages are not
         stored by mod_offline."""
         self.ctl('send_message_chat', domain, '%s@%s' % (username, domain), message)
@@ -134,8 +133,7 @@ class EjabberdctlBackend(XmppBackendBase):
 
         return set(out.splitlines())
 
-
-    def remove(self, username, domain):
+    def remove_user(self, username, domain):
         code, out, err = self.ctl('unregister', username, domain)
         if code != 0:  # 0 is also returned if the user does not exist
             raise BackendError(code)
