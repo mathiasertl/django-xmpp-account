@@ -96,7 +96,7 @@ class AntiSpamFormView(FormView):
         context['TWITTER_TEXT'] = getattr(self, 'twitter_text', context['OPENGRAPH_TITLE'])
 
         form = context['form']
-        if hasattr(form, 'cleaned_data') and isinstance(form, EmailMixin):
+        if settings.GPG and hasattr(form, 'cleaned_data') and isinstance(form, EmailMixin):
             if form['gpg_key'].errors or form['fingerprint'].errors or \
                     form.cleaned_data.get('fingerprint') or form.cleaned_data.get('gpg_key'):
                 context['show_gpg'] = True
