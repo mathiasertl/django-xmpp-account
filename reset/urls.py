@@ -16,7 +16,6 @@
 
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns
 from django.conf.urls import url
 
 from reset.views import ResetPasswordView
@@ -25,11 +24,11 @@ from reset.views import ResetEmailView
 from reset.views import ResetEmailConfirmationView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^password/$', ResetPasswordView.as_view(), name='ResetPassword'),
     url(r'^password/confirm/(?P<key>\w+)/$', ResetPasswordConfirmationView.as_view(),
         name='ResetPasswordConfirmation'),
     url(r'^email/$', ResetEmailView.as_view(), name='ResetEmail'),
     url(r'^email/confirm/(?P<key>\w+)/$', ResetEmailConfirmationView.as_view(),
         name='ResetEmailConfirmation'),
-)
+]

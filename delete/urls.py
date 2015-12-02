@@ -24,8 +24,8 @@ from delete.views import DeleteView
 from delete.views import DeleteConfirmationView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', DeleteView.as_view(), name='Delete'),
     url(r'^confirm/(?P<key>\w+)/$', DeleteConfirmationView.as_view(),
         name='DeleteConfirmation'),
-)
+]

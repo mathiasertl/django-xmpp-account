@@ -16,12 +16,11 @@
 
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns
 from django.conf.urls import url
 
 from core.views import ExistsView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'exists/$', ExistsView.as_view(), name='ExistsView'),
-)
+]

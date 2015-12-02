@@ -16,13 +16,12 @@
 
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns
 from django.conf.urls import url
 
 from register.views import RegistrationConfirmationView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^confirm/(?P<key>\w+)/$', RegistrationConfirmationView.as_view(),
         name='RegistrationConfirmation'),
-)
+]
