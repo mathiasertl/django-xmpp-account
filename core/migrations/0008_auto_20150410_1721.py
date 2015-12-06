@@ -7,7 +7,7 @@ from django.db import migrations
 def set_jid(apps, schema_editor):
     RegistrationUser = apps.get_model('core', 'RegistrationUser')
     for u in RegistrationUser.objects.all():
-        u.jid = '%s@%s' % (u.username, u.domain)
+        u.jid = '%s@%s' % (u.node, u.domain)
         u.save()
 
 

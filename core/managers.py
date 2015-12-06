@@ -76,7 +76,7 @@ class ConfirmationManager(models.Manager):
     def create(self, user, purpose, key=None, **kwargs):
         if key is None:
             salt = get_random_string(32)
-            value = '%s-%s-%s' % (user.email, user.username, user.domain)
+            value = '%s-%s-%s' % (user.email, user.node, user.domain)
             key = salted_hmac(salt, value).hexdigest()
         return super(ConfirmationManager, self).create(
             user=user, purpose=purpose, key=key, **kwargs)

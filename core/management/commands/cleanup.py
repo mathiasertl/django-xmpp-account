@@ -74,7 +74,7 @@ class Command(BaseCommand):
             users = User.objects.filter(jid__endswith='@%s' % domain, confirmation__isnull=True)
 
             for user in users:
-                username = user.username.lower()
+                username = user.node.lower()
                 if username not in existing_users:
                     log.info('%s: Removed from database (gone from backend)', username)
                     user.delete()
@@ -85,7 +85,7 @@ class Command(BaseCommand):
             expired = users.filter(registration_method=REGISTRATION_WEBSITE,
                                    confirmed__isnull=True, registered__lt=expired_timestamp)
             for user in expired:
-                username = user.username.lower()
+                username = user.node.lower()
                 log.info('%s: Registration expired', username)
                 backend.expire_reservation(username, user.domain)
             if len(expired) > 10:

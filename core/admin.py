@@ -127,7 +127,7 @@ class RegistrationUserAdmin(admin.ModelAdmin):
 
         This is unfortunately the only good method to hook into.
         """
-        username = object.username
+        username = object.node
         domain = object.domain
         super(RegistrationUserAdmin, self).log_deletion(request, object, object_repr)
         backend.remove_user(username, domain)
@@ -153,7 +153,7 @@ class RegistrationUserAdmin(admin.ModelAdmin):
                 self._confirm(request, obj, purpose=PURPOSE_REGISTER, payload=payload)
         else: # new user
             if site.get('RESERVE', False):
-                backend.create_reservation(username=obj.username, domain=obj.domain, email=obj.email)
+                backend.create_reservation(username=obj.node, domain=obj.domain, email=obj.email)
             if obj.email:
                 self._confirm(request, obj, purpose=PURPOSE_REGISTER)
 

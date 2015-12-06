@@ -6,8 +6,8 @@ from django.db import migrations
 def lowercase(apps, schema_editor):
     RegistrationUser = apps.get_model('core', 'RegistrationUser')
     for user in RegistrationUser.objects.all():
-        lowercased = user.username.lower()
-        if lowercased != user.username:
+        lowercased = user.node.lower()
+        if lowercased != user.node:
             user.save()
 
 

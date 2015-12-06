@@ -76,7 +76,7 @@ class ResetPasswordConfirmationView(ConfirmedView):
     opengraph_description = _messages['password']['opengraph_description']
 
     def handle_key(self, key, form):
-        backend.set_password(username=key.user.username, domain=key.user.domain,
+        backend.set_password(username=key.user.node, domain=key.user.domain,
                              password=form.cleaned_data['password'])
         key.user.confirmed = now()
         key.user.save()
@@ -129,7 +129,7 @@ class ResetEmailConfirmationView(ConfirmedView):
     opengraph_description = _messages['email']['opengraph_description']
 
     def handle_key(self, key, form):
-        if not backend.check_password(username=key.user.username, domain=key.user.domain,
+        if not backend.check_password(username=key.user.node, domain=key.user.domain,
                                       password=form.cleaned_data['password']):
             raise UserNotFound()
 
@@ -141,4 +141,4 @@ class ResetEmailConfirmationView(ConfirmedView):
             key.user.email = data['email']
 
         key.user.save()
-        backend.set_email(username=key.user.username, domain=key.user.domain, email=key.user.email)
+        backend.set_email(username=key.user.node, domain=key.user.domain, email=key.user.email)

@@ -317,7 +317,7 @@ class Confirmation(models.Model):
             'domain': self.user.domain,
         }
         context = {
-            'username': self.user.username,
+            'username': self.user.node,
             'domain': self.user.domain,
             'jid': self.user.jid,
             'user': self.user,

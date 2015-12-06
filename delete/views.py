@@ -69,7 +69,7 @@ class DeleteConfirmationView(ConfirmedView):
     opengraph_description = _messages['opengraph_description']
 
     def handle_key(self, key, form):
-        username = key.user.username
+        username = key.user.node
         domain = key.user.domain
         password = form.cleaned_data['password']
 
@@ -78,5 +78,5 @@ class DeleteConfirmationView(ConfirmedView):
 
     def after_delete(self, data):
         # actually delete user from the database
-        backend.remove_user(username=self.user.username, domain=self.user.domain)
+        backend.remove_user(username=self.user.node, domain=self.user.domain)
         self.user.delete()
