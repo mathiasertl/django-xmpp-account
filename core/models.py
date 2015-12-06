@@ -36,7 +36,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy as _l
 
-from django.contrib.auth.models import AbstractBaseUser
+from django_xmpp_backends.models import XmppBackendUser
 
 from core.constants import PURPOSE_DELETE
 from core.constants import PURPOSE_REGISTER
@@ -54,7 +54,6 @@ from core.managers import ConfirmationManager
 from core.managers import RegistrationUserManager
 from core.querysets import ConfirmationQuerySet
 
-from backends import backend
 from xmpp_backends.base import UserNotFound
 
 PASSWORD_CHARS = string.ascii_letters + string.digits
@@ -102,7 +101,7 @@ pgp_version.set_payload('Version: 1\n')
 
 
 @python_2_unicode_compatible
-class RegistrationUser(AbstractBaseUser):
+class RegistrationUser(XmppBackendUser):
     # NOTE: MySQL only allows a 255 character limit
     jid = models.CharField(max_length=255, unique=True, verbose_name='JID')
     email = models.EmailField(null=True, blank=True)
@@ -123,26 +122,11 @@ class RegistrationUser(AbstractBaseUser):
     USERNAME_FIELD = 'jid'
     REQUIRED_FIELDS = ('email', )
 
-    class Meta:
-        verbose_name = _('User')
-
     def has_email(self):
         if not self.email or not self.confirmed:
             raise UserNotFound(
                 _("You have either not yet set your email address or have not confirmed it yet."))
         return True
-
-    def set_password(self, raw_password):
-        if raw_password is None:
-            self.set_unusable_password()
-        else:
-            backend.set_password(self.username, self.domain, raw_password)
-
-    def check_password(self, raw_password):
-        return backend.check_password(self.username, self.domain, raw_password)
-
-    def set_unusable_password(self):
-        backend.block_user(self.username, self.domain)
 
     def get_confirmation_key(self, purpose, payload):
         try:
@@ -156,9 +140,6 @@ class RegistrationUser(AbstractBaseUser):
             Confirmation.objects.create(user=self, purpose=purpose, payload=payload),
         )
 
-    def get_short_name(self):
-        return self.email
-
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
@@ -167,14 +148,6 @@ class RegistrationUser(AbstractBaseUser):
 
     def __str__(self):
         return self.jid
-
-    @property
-    def username(self):
-        return self.jid.split('@', 1)[0]
-
-    @property
-    def domain(self):
-        return self.jid.split('@', 1)[1]
 
     @property
     def is_staff(self):
