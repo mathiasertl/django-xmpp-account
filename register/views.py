@@ -38,7 +38,7 @@ from core.views import ConfirmedView
 from register.forms import RegistrationForm
 from register.forms import RegistrationConfirmationForm
 
-from backends import backend
+from django_xmpp_backends import backend
 
 User = get_user_model()
 tzinfo = pytz.timezone(settings.TIME_ZONE)

@@ -26,7 +26,7 @@ from core.views import ConfirmedView
 from delete.forms import DeleteForm
 from delete.forms import DeleteConfirmationForm
 
-from backends import backend
+from django_xmpp_backends import backend
 from xmpp_backends.base import UserNotFound
 
 User = get_user_model()

@@ -25,7 +25,7 @@ from django.core.management.base import BaseCommand
 from django.template import Context
 from django.template import loader
 
-from backends import backend
+from django_xmpp_backends import backend
 
 User = get_user_model()
 

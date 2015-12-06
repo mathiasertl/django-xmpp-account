@@ -31,7 +31,7 @@ from django.views.generic import View
 
 from brake.decorators import ratelimit
 
-from backends import backend
+from django_xmpp_backends import backend
 from xmpp_backends.base import UserExists
 from xmpp_backends.base import UserNotFound
 

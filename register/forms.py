@@ -23,7 +23,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from backends import backend
+from django_xmpp_backends import backend
 from core.forms import AntiSpamForm
 from core.forms import EmailBlockedMixin
 from core.forms import JidMixin

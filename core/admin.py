@@ -24,7 +24,7 @@ from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from backends import backend
+from django_xmpp_backends import backend
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_EMAIL
 from core.constants import PURPOSE_SET_PASSWORD

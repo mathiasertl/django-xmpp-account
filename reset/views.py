@@ -23,7 +23,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.timezone import now
 from django.utils.translation import ugettext as _
 
-from backends import backend
+from django_xmpp_backends import backend
 from xmpp_backends.base import UserNotFound
 
 from core.constants import PURPOSE_SET_PASSWORD
