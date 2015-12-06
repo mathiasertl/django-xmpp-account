@@ -169,9 +169,9 @@ INSTALLED_APPS = (
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
-AUTHENTICATION_BACKENDS = (
-    'core.auth_backends.BackendBackend',
-)
+AUTHENTICATION_BACKENDS = [
+    'django_xmpp_backends.auth_backends.XmppBackendBackend',
+]
 
 AUTH_USER_MODEL = 'core.RegistrationUser'
 
