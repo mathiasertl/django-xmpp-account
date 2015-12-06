@@ -25,6 +25,7 @@ from copy import copy
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
 
@@ -34,7 +35,6 @@ from xmppaccount.jid import parse_jid
 
 from core.exceptions import SpamException
 from core.exceptions import RateException
-from core.utils import random_string
 from core.widgets import EmailWidget
 from core.widgets import FingerprintWidget
 from core.widgets import PasswordWidget
@@ -78,7 +78,7 @@ class AntiSpamForm(forms.Form):
 
     def init_security(self, initial):
         initial['timestamp'] = int(time.time())
-        initial['token'] = random_string()
+        initial['token'] = get_random_string(32)
         initial['security_hash'] = self.generate_hash(initial['timestamp'], initial['token'])
         return initial
 

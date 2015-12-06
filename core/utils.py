@@ -16,17 +16,8 @@
 
 from __future__ import unicode_literals
 
-import random
-import string
-
 from django.conf import settings
 from django.core.urlresolvers import reverse
-
-SAFE_CHARS = string.ascii_letters + string.digits
-
-
-def random_string(length=32):
-    return ''.join(random.choice(SAFE_CHARS) for x in range(length))
 
 
 def get_client_ip(request):

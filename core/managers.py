@@ -24,12 +24,12 @@ import pytz
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
+from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 
 from core.constants import REGISTRATION_WEBSITE as WEBSITE
 from core.querysets import ConfirmationQuerySet
 from core.querysets import RegistrationUserQuerySet
-from core.utils import random_string
 
 tzinfo = pytz.timezone(settings.TIME_ZONE)
 
@@ -75,7 +75,7 @@ class ConfirmationManager(models.Manager):
 
     def create(self, user, purpose, key=None, **kwargs):
         if key is None:
-            salt = random_string()
+            salt = get_random_string(32)
             value = '%s-%s-%s' % (user.email, user.username, user.domain)
             key = salted_hmac(salt, value).hexdigest()
         return super(ConfirmationManager, self).create(
