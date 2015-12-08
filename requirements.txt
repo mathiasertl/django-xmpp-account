@@ -3,7 +3,8 @@ Pillow==3.0.0
 celery[redis]==3.1.19
 django-brake==1.3.1
 django-redis==4.3.0
-django-simple-captcha==0.5.1
+django-simple-captcha==0.5.1a
+django-xmpp-backends==0.1
 dnspython==1.12.0
 hiredis==0.2.0
 lxml==3.5.0
@@ -13,5 +14,3 @@ pytz==2015.7
 setuptools
 six==1.10.0
 sleekxmpp==1.3.1
-xmpp-backends==0.1
-git+https://github.com/mathiasertl/django-xmpp-backends.git
