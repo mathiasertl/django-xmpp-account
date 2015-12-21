@@ -176,7 +176,7 @@ class ConfirmedView(AntiSpamFormView):
     user = None
 
     def dispatch(self, request, *args, **kwargs):
-        if request.META['HTTP_USER_AGENT'].startswith('Twitterbot'):
+        if request.META.get('HTTP_USER_AGENT', '').startswith('Twitterbot'):
             return HttpResponseRedirect(reverse(self.action_url))
         return super(ConfirmedView, self).dispatch(request, *args, **kwargs)
 
