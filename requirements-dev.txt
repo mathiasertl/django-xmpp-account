@@ -1,4 +1,4 @@
-Fabric==1.10.2
+Fabric3==1.10.2.post1
 GitPython==1.0.1
 iPython>=4.0.0
 fabric-webbuilders==0.2
