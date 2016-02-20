@@ -1,7 +1,7 @@
 [Unit]
 Description=Celery workers
-After=network.target
-Require=systemd-tmpfiles-setup
+After=network.target redis-server
+Require=systemd-tmpfiles-setup redis-server
 
 [Service]
 Type=forking
