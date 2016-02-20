@@ -9,6 +9,7 @@ User=xmpp-account
 Group=xmpp-account
 EnvironmentFile=/etc/conf.d/celery-xmpp-account.conf
 WorkingDirectory=/usr/local/home/xmpp-account/django-xmpp-account/
+RestartSec=5
 ExecStart=/usr/local/home/xmpp-account/bin/celery multi start $CELERYD_NODES \
     -A xmppaccount --pidfile=${CELERYD_PID_FILE} \
     --logfile=${CELERYD_LOG_FILE} --loglevel="${CELERYD_LOG_LEVEL}" \
