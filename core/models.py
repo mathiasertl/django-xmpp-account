@@ -128,7 +128,7 @@ class RegistrationUser(XmppBackendUser):
                 _("You have either not yet set your email address or have not confirmed it yet."))
         return True
 
-    def get_confirmation_key(self, purpose, payload):
+    def get_confirmation_key(self, purpose, payload, request):
         try:
             payload = json.dumps(payload)
         except UnicodeDecodeError:
