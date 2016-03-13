@@ -152,11 +152,11 @@ DEFAULT_XMPP_HOST = 'example.com'
 XMPP_BACKENDS = {
     'default': {
         'BACKEND': 'backends.ejabberd_xmlrpc.EjabberdXMLRPCBackend',
-        'HOST': '127.0.0.1',
+        'uri': 'http://127.0.0.1:4560',
         # If you have authentication defined for the xmlrpc API:
-        #'USER': '',
-        #'SERVER': '',
-        #'PASSWORD': '',
+        #'user': '',
+        #'server': '',
+        #'password': '',
     }
 }
 
