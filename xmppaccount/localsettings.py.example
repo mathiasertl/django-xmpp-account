@@ -133,6 +133,11 @@ XMPP_HOSTS = {
     },
 }
 
+# Set to False to disable all social media buttons. Note that shariff[1] is used for all social
+# media buttons so no data is leaked to any social network.
+#   [1] https://github.com/heiseonline/shariff
+#ENABLE_SOCIAL_BUTTONS = False
+
 # If you have multiple XMPP hosts defined in XMPP_HOSTS and your site is available via multiple
 # hostnames, you can map the hostnames to specific XMPP hosts. This will cause the hostname to be
 # preselected in the dropdown when users visit the site through a particular URL.

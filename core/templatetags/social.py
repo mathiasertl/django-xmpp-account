@@ -33,6 +33,7 @@ _purpose = {
 @register.inclusion_tag("core/social.html", takes_context=True)
 def social(context, noauto=False, purpose='default'):
     passed_context = {
+        'ENABLE_SOCIAL_BUTTONS': getattr('ENABLE_SOCIAL_BUTTONS', True),
         'SITE': context['SITE'],
         'noauto': noauto,
         'register_url': context['REGISTER_URL'],
