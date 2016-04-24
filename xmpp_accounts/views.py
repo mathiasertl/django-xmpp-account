@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
@@ -23,8 +23,8 @@ from core.constants import PURPOSE_DELETE
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
-from delete.forms import DeleteForm
-from delete.forms import DeleteConfirmationForm
+from .forms import DeleteForm
+from .forms import DeleteConfirmationForm
 
 from django_xmpp_backends import backend
 from xmpp_backends.base import UserNotFound
