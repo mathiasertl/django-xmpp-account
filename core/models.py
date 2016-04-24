@@ -90,7 +90,7 @@ PURPOSES = {
     PURPOSE_DELETE: {
         'urlname': 'xmpp_accounts:delete_confirm',
         'subject': _l('Delete your account on %(domain)s'),
-        'template': 'delete/mail',
+        'template': 'xmpp_accounts/delete/mail',
     },
 }
 
