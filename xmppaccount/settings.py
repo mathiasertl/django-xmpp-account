@@ -161,6 +161,7 @@ INSTALLED_APPS = (
 
     'captcha',
 
+    'xmpp_accounts',
     'core',
     'register',
     'reset',
