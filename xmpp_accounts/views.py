@@ -38,7 +38,7 @@ _messages = {
 
 class DeleteView(ConfirmationView):
     form_class = DeleteForm
-    template_name = 'delete/delete.html'
+    template_name = 'xmpp_accounts/delete/delete.html'
 
     purpose = PURPOSE_DELETE
     menuitem = 'delete'
@@ -62,7 +62,7 @@ class DeleteView(ConfirmationView):
 
 class DeleteConfirmationView(ConfirmedView):
     form_class = DeleteConfirmationForm
-    template_name = 'delete/delete-confirm.html'
+    template_name = 'xmpp_accounts/delete/delete-confirm.html'
     purpose = PURPOSE_DELETE
     action_url = 'xmpp_accounts:delete'
     opengraph_title = _messages['opengraph_title']
