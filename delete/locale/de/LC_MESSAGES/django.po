@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-xmpp-account-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-06 12:39+0200\n"
+"POT-Creation-Date: 2016-04-24 12:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mathias Ertl <mati@jabber.at>\n"
 "Language-Team: jabber.at <jabber@jabber.at>\n"
@@ -44,12 +44,12 @@ msgstr ""
 "gibt keinen Weg, ihr Konto, gespeicherte Kontakte oder sonst irgendwelche "
 "Informationen über ihr Konto wiederherzustellen."
 
-#: templates/delete/delete-confirm.html:33
+#: templates/delete/delete-confirm.html:29
 msgid "Yes, really delete my account!"
 msgstr "Ja, mein Konto wirklich löschen!"
 
 #: templates/delete/delete.html:4 templates/delete/delete.html.py:9
-#: templates/delete/delete.html:40
+#: templates/delete/delete.html:36
 msgid "Delete account"
 msgstr "Konto löschen"
 
@@ -78,7 +78,7 @@ msgstr ""
 "Wenn sie ihr Konto löschen, ist er für immer weg. Es gibt keinen Weg, ihr "
 "Konto wiederherzustellen."
 
-#: templates/delete/mail.html:5 templates/delete/mail.txt:1
+#: templates/delete/mail.html:5 templates/delete/mail.txt.py:1
 #, python-format
 msgid "Dear %(username)s,"
 msgstr "Sehr geehrte/geehrter %(username)s,"
@@ -92,14 +92,14 @@ msgstr ""
 "Sie wollten ihren Jabber-Account %(jid)s löschen. Um ihr Konto komplett zu "
 "löschen, klicken sie bitte <a href=\"%(uri)s\">hier</a>."
 
-#: templates/delete/mail.html:10 templates/delete/mail.txt:8
+#: templates/delete/mail.html:10 templates/delete/mail.txt.py:8
 msgid ""
 "If you no longer want to delete the account, simply disregard this email."
 msgstr ""
 "Falls sie ihr Konto doch nicht löschen wollen, ignorieren sie einfach\n"
 "diese E-Mail."
 
-#: templates/delete/mail.html:12 templates/delete/mail.txt:10
+#: templates/delete/mail.html:12 templates/delete/mail.txt.py:10
 msgid "greetings,"
 msgstr "mit freundlichen Grüßen,"
 
@@ -111,18 +111,3 @@ msgid ""
 msgstr ""
 "Sie wollten ihren Jabber-Account %(jid)s löschen. Um ihr Konto komplett\n"
 "zu löschen, klicken sie bitte hier:"
-
-#: views.py:34
-#, python-format
-msgid "%(DOMAIN)s: Delete your account"
-msgstr "%(DOMAIN)s: Konto löschen"
-
-#: views.py:35
-#, python-format
-msgid ""
-"Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it "
-"can never be restored."
-msgstr ""
-
-#~ msgid "Delete your account on %(domain)s"
-#~ msgstr "Löschen ihres Kontos auf %(domain)s"
