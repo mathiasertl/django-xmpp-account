@@ -16,8 +16,8 @@ address or delete their account.
 3.  Fully localized, translation is available in German.
 4.  As standard [Django](https://www.djangoproject.com/) application, it runs on any WSGI capable
     webserver and supports e.g. MySQL, PostgreSQL.
-5.  Currently works only with [ejabberd](https://www.ejabberd.im/) (via `mod_xmlrpc`), but could
-    easily extended to work with other servers.
+5.  Currently works only with [ejabberd](https://www.ejabberd.im/) (via
+    `mod_xmlrpc` or `ejabberd_xmlrpc`), but could easily extended to work with other servers.
 6.  Robust anti-SPAM features including CAPTCHA support, email confirmations and configurable
     rate-limiting.
 7.  Manages accounts on multiple XMPP servers, page will adapt to the URL used (e.g. see how the
@@ -48,8 +48,9 @@ installation](#basic-installation)) or all dependencies manually installed.
 
 ### Requirements
 
-* Currently only [ejabberd](https://www.ejabberd.im) via `mod_xmlrpc` is supported. If you want to
-  use a different server, please consider [contributing your own backend](#custom-backends).
+* Currently only [ejabberd](https://www.ejabberd.im) via `mod_xmlrpc` or
+  `ejabberd_xmlrpc` is supported. If you want to use a different server, please
+  consider [contributing your own backend](#custom-backends).
 * Python 2.7 or Python 3.4
 * We strongly recommend you run the project inside a
   [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) and install all Python
@@ -262,9 +263,10 @@ fab deploy
 
 ## Custom backends
 
-Currently only `ejabberd` via `mod_xmlrpc` is supported. But `django-xmpp-account` was written with
-additional backends in mind, so you can easily add support for any custom XMPP server, if you know
-a little Python. If you do, please consider doing a pull request for your backend.
+Currently only `ejabberd` via `mod_xmlrpc` or `ejabberd_xmlrpc` is
+supported. But `django-xmpp-account` was written with additional backends in
+mind, so you can easily add support for any custom XMPP server, if you know a
+little Python. If you do, please consider doing a pull request for your backend.
 
 To implement support for your own server, simply create a python class that subclasses
 `backends.base.XmppBackendBase`. Raise `backends.base.UserExists` if the user already exists and
