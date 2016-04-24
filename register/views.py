@@ -137,7 +137,7 @@ class RegistrationConfirmationView(ConfirmedView):
         if settings.WELCOME_MESSAGE is not None:
             reset_pass_path = reverse('ResetPassword')
             reset_mail_path = reverse('ResetEmail')
-            delete_path = reverse('Delete')
+            delete_path = reverse('xmpp_accounts:delete')
 
             context = {
                 'username': key.user.node,
