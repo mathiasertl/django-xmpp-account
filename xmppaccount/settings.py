@@ -165,7 +165,6 @@ INSTALLED_APPS = (
     'core',
     'register',
     'reset',
-    'delete',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
