@@ -1,5 +1,5 @@
 Fabric3==1.10.2.post3
-GitPython==1.0.2
+GitPython==2.0.0
 iPython>=4.0.0
 fabric-webbuilders==0.2
 pyinotify==0.9.6
