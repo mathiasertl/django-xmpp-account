@@ -88,7 +88,7 @@ PURPOSES = {
         'template': 'reset/password-mail',
     },
     PURPOSE_DELETE: {
-        'urlname': 'DeleteConfirmation',
+        'urlname': 'xmpp_accounts:delete_confirm',
         'subject': _l('Delete your account on %(domain)s'),
         'template': 'delete/mail',
     },

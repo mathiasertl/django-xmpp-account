@@ -36,10 +36,10 @@ urlpatterns = [
     url(r'^core/', include('core.urls')),
     url(r'^register/', include('register.urls')),
     url(r'^reset/', include('reset.urls')),
-    url(r'^delete/', include('delete.urls')),
 
     # admin interface
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include('xmpp_accounts.urls')),
 ]
 
 for path, include_args in settings.EXTRA_URL_INCLUDES.items():
