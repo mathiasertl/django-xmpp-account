@@ -31,7 +31,7 @@ class Command(BaseCommand):
         if settings.STATIC_ROOT:
             call_command('collectstatic', interactive=False)
 
-        for app in ['core', 'register', 'reset', 'delete']:
+        for app in ['core', 'register', 'reset', 'xmpp_accounts']:
             curdir = os.path.abspath(os.getcwd())
 
             try:
