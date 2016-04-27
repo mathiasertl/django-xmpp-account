@@ -31,8 +31,10 @@ from xmpp_backends.base import UserNotFound
 
 User = get_user_model()
 _messages = {
-    'opengraph_title': _('%(DOMAIN)s: Delete your account'),
-    'opengraph_description': _('Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it can never be restored.'),
+    'delete': {
+        'opengraph_title': _('%(DOMAIN)s: Delete your account'),
+        'opengraph_description': _('Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it can never be restored.'),
+    },
 }
 
 
@@ -42,8 +44,8 @@ class DeleteView(ConfirmationView):
 
     purpose = PURPOSE_DELETE
     menuitem = 'delete'
-    opengraph_title = _messages['opengraph_title']
-    opengraph_description = _messages['opengraph_description']
+    opengraph_title = _messages['delete']['opengraph_title']
+    opengraph_description = _messages['delete']['opengraph_description']
 
     def get_user(self, data):
         username = data['username']
@@ -65,8 +67,8 @@ class DeleteConfirmationView(ConfirmedView):
     template_name = 'xmpp_accounts/delete/delete-confirm.html'
     purpose = PURPOSE_DELETE
     action_url = 'xmpp_accounts:delete'
-    opengraph_title = _messages['opengraph_title']
-    opengraph_description = _messages['opengraph_description']
+    opengraph_title = _messages['delete']['opengraph_title']
+    opengraph_description = _messages['delete']['opengraph_description']
 
     def handle_key(self, key, form):
         username = key.user.node
