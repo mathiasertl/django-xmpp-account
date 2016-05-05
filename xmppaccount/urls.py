@@ -35,7 +35,6 @@ urlpatterns = [
     # core URLs
     url(r'^core/', include('core.urls')),
     url(r'^register/', include('register.urls')),
-    url(r'^reset/', include('reset.urls')),
 
     # admin interface
     url(r'^admin/', include(admin.site.urls)),

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-24 13:07+0200\n"
+"POT-Creation-Date: 2016-05-05 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:46
+msgid "New email address"
+msgstr "Neue E-Mail-Adresse"
 
 #: templates/xmpp_accounts/delete/delete-confirm.html:4
 msgid "Confirm account deletion"
@@ -81,6 +85,10 @@ msgstr ""
 
 #: templates/xmpp_accounts/delete/mail.html:5
 #: templates/xmpp_accounts/delete/mail.txt:1
+#: templates/xmpp_accounts/reset/email-mail.html:5
+#: templates/xmpp_accounts/reset/email-mail.txt:1
+#: templates/xmpp_accounts/reset/password-mail.html:5
+#: templates/xmpp_accounts/reset/password-mail.txt:1
 #, python-format
 msgid "Dear %(username)s,"
 msgstr "Sehr geehrte/geehrter %(username)s,"
@@ -104,6 +112,10 @@ msgstr ""
 
 #: templates/xmpp_accounts/delete/mail.html:12
 #: templates/xmpp_accounts/delete/mail.txt:10
+#: templates/xmpp_accounts/reset/email-mail.html:12
+#: templates/xmpp_accounts/reset/email-mail.txt:10
+#: templates/xmpp_accounts/reset/password-mail.html:16
+#: templates/xmpp_accounts/reset/password-mail.txt:13
 msgid "greetings,"
 msgstr "mit freundlichen Grüßen,"
 
@@ -114,12 +126,183 @@ msgid ""
 "To completely delete your account, please go to this address:"
 msgstr ""
 
-#: views.py:34
+#: templates/xmpp_accounts/reset/email-confirm.html:4
+msgid "Confirm new email address"
+msgstr "Neue E-Mail-Adresse"
+
+#: templates/xmpp_accounts/reset/email-confirm.html:9
+#: templates/xmpp_accounts/reset/email.html:9
+#: templates/xmpp_accounts/reset/password-confirm.html:9
+#: templates/xmpp_accounts/reset/password.html:11
+msgid "Change successful!"
+msgstr "Änderung erfolgreich!"
+
+#: templates/xmpp_accounts/reset/email-confirm.html:10
+msgid "You have successfully set your new email address."
+msgstr "Sie haben erfolgreich ihre neue E-Mail-Adresse gesetzt."
+
+#: templates/xmpp_accounts/reset/email-confirm.html:15
+msgid ""
+"Please give your password again to make sure you are really authorized to\n"
+"make this change."
+msgstr ""
+"Bitte geben sie ihr Passwort erneut an, um sicher zu stellen, dass\n"
+"sich niemand unbefugt Zutritt zu ihrem Konto verschaffen kann."
+
+#: templates/xmpp_accounts/reset/email-confirm.html:29
+#: templates/xmpp_accounts/reset/password-confirm.html:30
+msgid "Submit"
+msgstr "Bestätigen"
+
+#: templates/xmpp_accounts/reset/email-mail.html:7
+msgid ""
+"You have changed the email address for your Jabber account %(jid)s.\n"
+"To complete the change, please <a href=\"%(uri)s\">click here</a>."
+msgstr ""
+"Sie haben ihre E-Mail-Adrese für ihren Jabber-Konto %(jid)s geändert. Um die "
+"Änderung abzuschließen, klicken sie bitte <a href=\"%(uri)s\">hier</a>."
+
+#: templates/xmpp_accounts/reset/email-mail.html:10
+#: templates/xmpp_accounts/reset/email-mail.txt:8
+#: templates/xmpp_accounts/reset/password-mail.html:13
+#: templates/xmpp_accounts/reset/password-mail.txt:11
+msgid "If you haven't made this change, simply disregard this email."
+msgstr ""
+"Falls sie diese Änderung nicht veranlasst haben, ignorieren sie einfach "
+"diese E-Mail."
+
+#: templates/xmpp_accounts/reset/email-mail.txt:3
+msgid ""
+"You have changed the email address for your Jabber account %(jid)s.\n"
+"To complete the change, please go to this address:"
+msgstr ""
+"Sie haben ihre E-Mail-Adresse für ihren Jabber-Konto %(jid)s geändert. Um "
+"die Änderung abzuschließen, klicken sie bitte hier:"
+
+#: templates/xmpp_accounts/reset/email.html:4
+#: templates/xmpp_accounts/reset/email.html:45
+msgid "Set email"
+msgstr "E-Mail setzen"
+
+#: templates/xmpp_accounts/reset/email.html:10
+msgid ""
+"Thank you for your request. You have received an email to confirm your\n"
+"request. It contains a link you have to click to complete your request."
+msgstr ""
+"Vielen Dank für ihre Anfrage. Sie haben eine E-Mail erhalten, um die "
+"Änderung zu bestätigen. Sie enthält einen Link, den sie klicken müssen, um "
+"die Änderung abzuschließen."
+
+#: templates/xmpp_accounts/reset/email.html:17
+msgid ""
+"If you want to change your email address (or initially set it, if you have\n"
+"registered via other means), you can set it here. You will receive an email\n"
+"at the new address containing a confirmation link that you must click in\n"
+"order to complete the change."
+msgstr ""
+"Falls sie ihre E-Mail-Adresse ändern wollen (oder überhaupt einmal setzen "
+"wollen, wenn wie sich über einen anderen Weg registriert haben), können sie "
+"das hier tun. Sie erhalten eine E-Mail zur Bestätigung ihrer neuen Adresse. "
+"Sie müssen auf den Link in der E-Mail klicken, um die Änderung abzuschließen."
+
+#: templates/xmpp_accounts/reset/password-confirm.html:4
+msgid "Reset password"
+msgstr "Passwort neu setzen"
+
+#: templates/xmpp_accounts/reset/password-confirm.html:10
+msgid ""
+"You have successfully set a new password for your account.\n"
+"You can use it immediately."
+msgstr ""
+"Die Änderung ihres Passworts war erfolgreich. Sie können ihr neues Passwort "
+"sofort nutzen."
+
+#: templates/xmpp_accounts/reset/password-mail.html:7
+msgid ""
+"You requested to change the password for your Jabber account %(jid)s.\n"
+"To complete the change, please <a href=\"%(uri)s\">click here</a>."
+msgstr ""
+"Sie möchten ein neues Passwort für ihren Jabber-account %(jid)s setzen. Um "
+"die Änderung abzuschließen, klicken sie bitte <a href=\"%(uri)s\">hier</a>."
+
+#: templates/xmpp_accounts/reset/password-mail.html:10
+#: templates/xmpp_accounts/reset/password-mail.txt:8
+msgid ""
+"Please note that this server stores passwords as plain text. We can only\n"
+"encourage you to choose a safe password you use nowhere else."
+msgstr ""
+"Bitte beachten sie, dass dieser Server Passwörter im Klartext abspeichert. "
+"Wir raten ihnen daher, ein sicheres Passwort zu verwenden, dass sie nirgends "
+"sonst benutzen."
+
+#: templates/xmpp_accounts/reset/password-mail.txt:3
+msgid ""
+"You requested to change the password for your Jabber account %(jid)s.\n"
+"To complete the change, please go to this address:"
+msgstr ""
+"Sie möchten ein neues Passwort für ihren Jabber-Konto %(jid)s setzen.Um die "
+"Änderung abzuschließen, klicken sie bitte hier:"
+
+#: templates/xmpp_accounts/reset/password.html:6
+#: templates/xmpp_accounts/reset/password.html:38
+msgid "Set password"
+msgstr "Passwort setzen"
+
+#: templates/xmpp_accounts/reset/password.html:12
+msgid ""
+"Thank you for your request. You have received an email to confirm your\n"
+"request. It contains a link to a page where you can reset your password."
+msgstr ""
+
+#: templates/xmpp_accounts/reset/password.html:18
+msgid ""
+"If you have forgotten your password, you can reset it here. Please give\n"
+"your Jabber address and the email address you have used for registration.\n"
+"You will receive an email with a link to a page that allows you to reset\n"
+"your password."
+msgstr ""
+"Falls sie ihr Passwort vergessen haben, können sie es hier neu setzen. Bitte "
+"geben sie ihre Jabber-Adresse und die E-Mail-Adresse, die sie für die "
+"Registrierung verwendet haben, an. Sie erhalten anschließend eine E-Mail mit "
+"einem Link zu einer Seite, auf der sie ihr Passwort neu setzen können."
+
+#: templates/xmpp_accounts/reset/password.html:24
+#, python-format
+msgid ""
+"<strong>Please note:</strong> You can only reset your password here if you\n"
+"have registered via this site (or <a href=\"%(url)s\">set your email</a>)."
+msgstr ""
+"<strong>Achtung:</strong> Sie können ihr Passwort hier nur dann neu setzen, "
+"wenn sie sich auch über diese Seite registriert haben (oder sie nachträglich "
+"ihr <a href=\"%(url)s\">Passwort neu gesetzt</a> haben)."
+
+#: views.py:46
+#, python-format
+msgid "%(DOMAIN)s: Set a new email address"
+msgstr "%(DOMAIN)s: Setze eine neue E-Mail-Adresse"
+
+#: views.py:47
+#, python-format
+msgid ""
+"Set a new email address for your Jabber account on %(DOMAIN)s. You must have "
+"a valid email address set to be able to reset your password."
+msgstr ""
+
+#: views.py:50
+msgid "%(DOMAIN)s: Reset your password"
+msgstr "%(DOMAIN)s: Passwort neu setzen"
+
+#: views.py:51
+#, python-format
+msgid "Reset the password for your %(DOMAIN)s account."
+msgstr "Passwort für ihr %(DOMAIN)s-Konto neu setzen"
+
+#: views.py:54
 #, python-format
 msgid "%(DOMAIN)s: Delete your account"
 msgstr "%(DOMAIN)s: Konto löschen"
 
-#: views.py:35
+#: views.py:55
 #, python-format
 msgid ""
 "Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it "
@@ -127,3 +310,7 @@ msgid ""
 msgstr ""
 "Löschen ihres Kontos auf %(DOMAIN)s. ACHTUNG: Ein gelöschtes Konto kann "
 "nicht wieder her gestellt werden."
+
+#: views.py:70
+msgid "User not found."
+msgstr "Benutzer/Benutzerin nicht gefunden."

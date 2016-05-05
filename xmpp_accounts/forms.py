@@ -16,10 +16,41 @@
 
 from __future__ import unicode_literals
 
-from core.forms import AntiSpamForm
+from copy import copy
 
+from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
+
+from core.forms import AntiSpamForm
+from core.forms import EmailBlockedMixin
 from core.forms import JidMixin
+from core.forms import PasswordConfirmationMixin
 from core.forms import PasswordMixin
+
+
+class ResetPasswordForm(AntiSpamForm, JidMixin):
+    username = JidMixin.USERNAME_FIELD
+    domain = JidMixin.ALL_DOMAINS_FIELD
+
+
+class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
+    password = PasswordConfirmationMixin.PASSWORD_FIELD
+    password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
+
+
+class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailBlockedMixin):
+    username = JidMixin.USERNAME_FIELD
+    domain = JidMixin.ALL_DOMAINS_FIELD
+    email = copy(EmailBlockedMixin.EMAIL_FIELD)
+    password = PasswordMixin.PASSWORD_FIELD
+    email.label = _("New email address")
+    if settings.GPG:
+        fingerprint = EmailBlockedMixin.FINGERPRINT_FIELD
+        gpg_key = EmailBlockedMixin.GPG_KEY_FIELD
+
+
+class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
+    password = PasswordMixin.PASSWORD_FIELD
 
 
 class DeleteForm(AntiSpamForm, JidMixin, PasswordMixin):

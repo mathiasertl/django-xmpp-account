@@ -78,14 +78,14 @@ PURPOSES = {
         'template': 'register/mail',
     },
     PURPOSE_SET_EMAIL: {
-        'urlname': 'ResetEmailConfirmation',
+        'urlname': 'xmpp_accounts:reset_email_confirm',
         'subject': _l('Confirm the email address for your %(domain)s account'),
-        'template': 'reset/email-mail',
+        'template': 'xmpp_accounts/reset/email-mail',
     },
     PURPOSE_SET_PASSWORD: {
-        'urlname': 'ResetPasswordConfirmation',
+        'urlname': 'xmpp_accounts:reset_password_confirm',
         'subject': _l('Reset the password for your %(domain)s account'),
-        'template': 'reset/password-mail',
+        'template': 'xmpp_accounts/reset/password-mail',
     },
     PURPOSE_DELETE: {
         'urlname': 'xmpp_accounts:delete_confirm',
