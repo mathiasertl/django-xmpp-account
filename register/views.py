@@ -135,8 +135,8 @@ class RegistrationConfirmationView(ConfirmedView):
         backend.create_user(username=key.user.node, domain=key.user.domain,
                             email=key.user.email, password=form.cleaned_data['password'])
         if settings.WELCOME_MESSAGE is not None:
-            reset_pass_path = reverse('ResetPassword')
-            reset_mail_path = reverse('ResetEmail')
+            reset_pass_path = reverse('xmpp_accounts:reset_password')
+            reset_mail_path = reverse('xmpp_accounts:reset_email')
             delete_path = reverse('xmpp_accounts:delete')
 
             context = {
