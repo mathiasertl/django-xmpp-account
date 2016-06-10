@@ -18,14 +18,47 @@ from __future__ import unicode_literals
 
 from copy import copy
 
+from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
+
+from django_xmpp_backends import backend
 
 from core.forms import AntiSpamForm
 from core.forms import EmailBlockedMixin
 from core.forms import JidMixin
 from core.forms import PasswordConfirmationMixin
 from core.forms import PasswordMixin
+
+User = get_user_model()
+
+
+class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
+    email = EmailBlockedMixin.EMAIL_FIELD
+    if settings.GPG:
+        fingerprint = EmailBlockedMixin.FINGERPRINT_FIELD
+        gpg_key = EmailBlockedMixin.GPG_KEY_FIELD
+    username = copy(JidMixin.USERNAME_FIELD)  # copy because we override some fields
+    domain = JidMixin.DOMAIN_FIELD
+
+    username.help_text = _(
+        'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.')
+
+
+    def clean(self):
+        data = super(RegistrationForm, self).clean()
+        if data.get('jid'):  # implies username/domain also present
+            if User.objects.filter(jid=data['jid']).exists() \
+                    or backend.user_exists(username=data['username'], domain=data['domain']):
+                self._username_status = 'taken'
+                raise forms.ValidationError(_("User already exists."))
+        return data
+
+
+class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
+    password = PasswordConfirmationMixin.PASSWORD_FIELD
+    password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
 class ResetPasswordForm(AntiSpamForm, JidMixin):

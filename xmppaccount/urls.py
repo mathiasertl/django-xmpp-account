@@ -20,21 +20,16 @@ from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls import url
 
-from register.views import RegistrationView
-
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', RegistrationView.as_view(), name='index'),
-
     # for captchas:
     url(r'^captcha/', include('captcha.urls')),
 
     # core URLs
     url(r'^core/', include('core.urls')),
-    url(r'^register/', include('register.urls')),
 
     # admin interface
     url(r'^admin/', include(admin.site.urls)),

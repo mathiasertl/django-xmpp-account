@@ -18,30 +18,46 @@ from __future__ import unicode_literals, absolute_import
 
 import json
 
+from datetime import datetime
+
+import pytz
+
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse_lazy
+from django.core.cache import cache
+from django.core.urlresolvers import reverse
 from django.utils.timezone import now
 from django.utils.translation import ugettext as _
 
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
 from core.constants import PURPOSE_DELETE
+from core.constants import PURPOSE_REGISTER
 from core.constants import REGISTRATION_INBAND
+from core.constants import REGISTRATION_WEBSITE
+from core.exceptions import RegistrationRateException
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
-from .forms import DeleteForm
 from .forms import DeleteConfirmationForm
-from .forms import ResetPasswordForm
-from .forms import ResetPasswordConfirmationForm
-from .forms import ResetEmailForm
+from .forms import DeleteForm
+from .forms import RegistrationConfirmationForm
+from .forms import RegistrationForm
 from .forms import ResetEmailConfirmationForm
+from .forms import ResetEmailForm
+from .forms import ResetPasswordConfirmationForm
+from .forms import ResetPasswordForm
 
 from django_xmpp_backends import backend
 from xmpp_backends.base import UserNotFound
 
 User = get_user_model()
+tzinfo = pytz.timezone(settings.TIME_ZONE)
 _messages = {
+    'register': {
+        'opengraph_title': _('%(DOMAIN)s: Register a new account'),
+        'opengraph_description': _('Register on %(DOMAIN)s, a reliable and secure Jabber server. Jabber is a free and open instant messaging protocol used by millions of people worldwide.'),
+    },
     'reset_email': {
         'opengraph_title': _('%(DOMAIN)s: Set a new email address'),
         'opengraph_description': _('Set a new email address for your Jabber account on %(DOMAIN)s. You must have a valid email address set to be able to reset your password.'),
@@ -55,6 +71,111 @@ _messages = {
         'opengraph_description': _('Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it can never be restored.'),
     },
 }
+
+
+class RegistrationView(ConfirmationView):
+    template_name = 'xmpp_accounts/register/create.html'
+    form_class = RegistrationForm
+
+    purpose = PURPOSE_REGISTER
+    menuitem = 'register'
+    opengraph_title = _messages['register']['opengraph_title']
+    opengraph_description = _messages['register']['opengraph_description']
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrationView, self).get_context_data(**kwargs)
+        form = context['form']
+        context['username_help_text'] = form.fields['username'].help_text % {
+            'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
+            'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
+        }
+
+        if hasattr(form, 'cleaned_data') and hasattr(form, '_username_status'):  # form was submitted
+            context['username_status'] = form._username_status
+        return context
+
+    def registration_rate(self):
+        # Check for a registration rate
+        cache_key = 'registration-%s' % self.request.get_host()
+        registrations = cache.get(cache_key, set())
+        _now = datetime.utcnow()
+
+        for key, value in settings.REGISTRATION_RATE.items():
+            if len([s for s in registrations if s > _now - key]) >= value:
+                raise RegistrationRateException()
+        registrations.add(_now)
+        cache.set(cache_key, registrations)
+
+    def get_form_kwargs(self):
+        """Override to remove the intial domain if registration is turned off."""
+        kwargs = super(RegistrationView, self).get_form_kwargs()
+        if self.request.site.get('REGISTRATION', True) is False:
+            del kwargs['initial']['domain']
+        return kwargs
+
+    def get_user(self, data):
+        last_login = tzinfo.localize(datetime.now())
+        jid = '%s@%s' % (data['username'], data['domain'])
+        return User.objects.create(jid=jid, last_login=last_login, email=data['email'],
+                                   registration_method=REGISTRATION_WEBSITE,
+        )
+
+    def handle_valid(self, form, user):
+        domain = form.cleaned_data['domain']
+        payload = self.handle_gpg(form, user)
+        payload['email'] = form.cleaned_data['email']
+
+        if settings.XMPP_HOSTS[domain].get('RESERVE', False):
+            backend.create_reservation(
+                username=form.cleaned_data['username'], domain=domain, email=user.email)
+        return payload
+
+    def form_valid(self, form):
+        self.registration_rate()
+        return super(RegistrationView, self).form_valid(form)
+
+
+class RegistrationConfirmationView(ConfirmedView):
+    """Confirm a registration.
+
+    .. NOTE:: This is deliberately not implemented as a generic view related to the Confirmation
+       object. We want to present the form unconditionally and complain about a false key only when
+       the user passed various Anti-SPAM measures.
+    """
+    form_class = RegistrationConfirmationForm
+    template_name = 'xmpp_accounts/register/confirm.html'
+    purpose = PURPOSE_REGISTER
+    menuitem = 'register'
+    action_url = 'xmpp_accounts:register'
+    opengraph_title = _messages['register']['opengraph_title']
+    opengraph_description = _messages['register']['opengraph_description']
+
+    def handle_key(self, key, form):
+        data = json.loads(key.payload)
+        key.user.gpg_fingerprint = data.get('gpg_fingerprint')
+        key.user.confirmed = now()
+        key.user.save()
+
+        backend.create_user(username=key.user.node, domain=key.user.domain,
+                            email=key.user.email, password=form.cleaned_data['password'])
+        if settings.WELCOME_MESSAGE is not None:
+            reset_pass_path = reverse('xmpp_accounts:reset_password')
+            reset_mail_path = reverse('xmpp_accounts:reset_email')
+            delete_path = reverse('xmpp_accounts:delete')
+
+            context = {
+                'username': key.user.node,
+                'domain': key.user.domain,
+                'email': key.user.email,
+                'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
+                'email_reset_url': self.request.build_absolute_uri(location=reset_mail_path),
+                'delete_url': self.request.build_absolute_uri(location=delete_path),
+                'contact_url': self.request.site['CONTACT_URL'],
+            }
+            subject = settings.WELCOME_MESSAGE['subject'].format(**context)
+            message = settings.WELCOME_MESSAGE['message'].format(**context)
+            backend.message_user(username=key.user.node, domain=key.user.domain, subject=subject,
+                                 message=message)
 
 
 class ResetPasswordView(ConfirmationView):

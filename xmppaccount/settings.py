@@ -161,10 +161,8 @@ INSTALLED_APPS = (
 
     'captcha',
 
-    'xmpp_accounts',
     'core',
-    'register',
-    'reset',
+    'xmpp_accounts',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
