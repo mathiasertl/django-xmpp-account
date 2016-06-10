@@ -73,9 +73,9 @@ REGISTRATION_CHOICES = (
 REGISTRATION_DICT = dict(REGISTRATION_CHOICES)
 PURPOSES = {
     PURPOSE_REGISTER: {
-        'urlname': 'RegistrationConfirmation',
+        'urlname': 'xmpp_accounts:register_confirm',
         'subject': _l('Your new account on %(domain)s'),
-        'template': 'register/mail',
+        'template': 'xmpp_accounts/register/mail',
     },
     PURPOSE_SET_EMAIL: {
         'urlname': 'xmpp_accounts:reset_email_confirm',
