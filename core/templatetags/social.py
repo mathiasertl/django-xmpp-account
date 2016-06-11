@@ -32,6 +32,14 @@ _purpose = {
 
 @register.inclusion_tag("core/social.html", takes_context=True)
 def social(context, noauto=False, purpose='default'):
+    """
+    Parameters
+    ----------
+
+    noauto : bool, optional
+        If True, display fake shariff buttons to directly follow the site on Facebook/Twitter.
+        The label is obviously somewhat of a misnomer.
+    """
     passed_context = {
         'ENABLE_SOCIAL_BUTTONS': context.get('ENABLE_SOCIAL_BUTTONS', True),
         'SITE': context['SITE'],

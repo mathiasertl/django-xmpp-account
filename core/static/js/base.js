@@ -143,6 +143,8 @@ $(document).ready(function() {
         window.open(url, 'newwindow', 'width=' + width + ', height=' + height);
         return false;
     });
+
+    /* This is only displayed on the submit page of a registration confirmation. */
     $('#fb-page-modal').on('show.bs.modal', function(e) {
         load_facebook();
     });
