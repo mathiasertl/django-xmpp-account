@@ -22,9 +22,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
+from captcha.fields import CaptchaField
 from django_xmpp_backends import backend
-
-from core.forms import AntiSpamForm
 
 from .formfields import XMPPAccountPasswordField
 from .formfields import XMPPAccountEmailField
@@ -33,6 +32,15 @@ from .formfields import XMPPAccountKeyUploadField
 from .formfields import XMPPAccountJIDField
 
 User = get_user_model()
+
+
+class AntiSpamForm(forms.Form):
+    if settings.ENABLE_CAPTCHAS:
+        captcha = CaptchaField(help_text=_(
+            'This <a href="https://en.wikipedia.org/wiki/CAPTCHA">CAPTCHA</a> prevents '
+            'automated SPAM. If you can\'t read it, just <a '
+            'class="js-captcha-refresh">&#8634; reload</a> it.'
+        ))
 
 
 class PasswordConfirmationMixin(forms.Form):
