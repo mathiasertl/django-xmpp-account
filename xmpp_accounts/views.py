@@ -96,13 +96,6 @@ class RegistrationView(ConfirmationView):
         registrations.add(_now)
         cache.set(cache_key, registrations)
 
-    def get_form_kwargs(self):
-        """Override to remove the intial domain if registration is turned off."""
-        kwargs = super(RegistrationView, self).get_form_kwargs()
-        if self.request.site.get('REGISTRATION', True) is False:
-            del kwargs['initial']['domain']
-        return kwargs
-
     def get_user(self, data):
         last_login = tzinfo.localize(datetime.now())
         return User.objects.create(jid=data['username'], last_login=last_login,
