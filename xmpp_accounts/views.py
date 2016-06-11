@@ -85,10 +85,6 @@ class RegistrationView(ConfirmationView):
     def get_context_data(self, **kwargs):
         context = super(RegistrationView, self).get_context_data(**kwargs)
         form = context['form']
-        context['username_help_text'] = form.fields['username'].help_text % {
-            'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
-            'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
-        }
 
         if hasattr(form, 'cleaned_data') and hasattr(form, '_username_status'):  # form was submitted
             context['username_status'] = form._username_status

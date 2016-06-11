@@ -20,7 +20,10 @@ import re
 
 from django import forms
 from django.conf import settings
+from django.utils.html import mark_safe
 from django.utils.translation import ugettext_lazy as _
+
+from .widgets import XMPPAccountJIDWidget
 
 
 class BootstrapMixin(object):
@@ -145,3 +148,44 @@ class XMPPAccountKeyUploadField(forms.FileField):
             raise forms.ValidationError(self.error_messages['no-keys'])
 
         return value
+
+
+class XMPPAccountJIDField(forms.MultiValueField):
+    def __init__(self, **kwargs):
+        self._register = kwargs.pop('register', False)
+        self._status_check = kwargs.pop('status_check', self._register)
+
+        hosts = getattr(settings, 'XMPP_HOSTS', {})
+        if self._register is True:
+            hosts = [k for k, v in hosts.items()
+                     if v.get('REGISTRATION') and v.get('MANAGE', True)]
+        else:
+            hosts = [k for k, v in hosts.items() if v.get('MANAGE', True)]
+        choices = tuple([(d, '@%s' % d) for d in hosts])
+
+        fields = (
+            forms.CharField(
+                min_length=settings.MIN_USERNAME_LENGTH,
+                max_length=settings.MAX_USERNAME_LENGTH,
+                error_messages = {
+                    'min_length': _('Username must have at least %(limit_value)d characters.'),
+                    'max_length': _('Username must have at most %(limit_value)d characters.'),
+                }
+            ),
+            forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST, choices=choices,
+                              disabled=len(hosts) == 1),
+        )
+        widgets = [f.widget for f in fields]
+
+        # add bootstrap CSS classes
+        widgets[0].attrs['class'] = 'form-control'
+        widgets[1].attrs['class'] = 'form-control'
+
+        self.widget = XMPPAccountJIDWidget(widgets=widgets)
+
+        print('self._status_check: ', self._status_check)
+        super(XMPPAccountJIDField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
+
+    def compress(self, data_list):
+        node, domain = data_list
+        return '@'.join(data_list)

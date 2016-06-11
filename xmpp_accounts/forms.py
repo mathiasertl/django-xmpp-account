@@ -33,24 +33,26 @@ from core.forms import PasswordMixin
 from .formfields import XMPPAccountEmailField
 from .formfields import XMPPAccountFingerprintField
 from .formfields import XMPPAccountKeyUploadField
+from .formfields import XMPPAccountJIDField
 
 User = get_user_model()
 
 
-class RegistrationForm(JidMixin, AntiSpamForm):
+class RegistrationForm(AntiSpamForm):
     email = XMPPAccountEmailField()
     if settings.GPG:
         fingerprint = XMPPAccountFingerprintField()
         gpg_key = XMPPAccountKeyUploadField()
-    username = copy(JidMixin.USERNAME_FIELD)  # copy because we override some fields
-    domain = JidMixin.DOMAIN_FIELD
-
-    username.help_text = _(
-        'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.')
-
+    username = XMPPAccountJIDField(register=True, help_text=
+        _('At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
+            'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
+            'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
+        }
+    )
 
     def clean(self):
         data = super(RegistrationForm, self).clean()
+
         if data.get('jid'):  # implies username/domain also present
             if User.objects.filter(jid=data['jid']).exists() \
                     or backend.user_exists(username=data['username'], domain=data['domain']):

@@ -29,7 +29,7 @@ email to complete your registration.{% endblocktrans %}</p>
         {% include "core/forms/field.html" %}
     {% endwith %}
 
-    {% with username=form.username domain=form.domain %}
+    {% with field=form.username %}
         {% include "core/forms/jid.html" %}
     {% endwith %}
 

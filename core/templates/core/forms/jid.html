@@ -1,45 +1,10 @@
 {% load i18n %}
-<div class="form-group" id="fg_username">
-    <label for="{{ username.id_for_label }}" class="control-label">
-        {{ username.label }}
-    </label>
-    <label for="{{ domain.id_for_label }}" class="sr-only">
-        {{ domain.label }}
-    </label>
-    <div class="row">
-        <div class="col-lg-3 {% if username.errors %}has-error{% endif %}">
-            {{ username }}
-        </div>
-        <div class="col-lg-2 {% if domain.errors %}has-error{% endif %}">
-            {% if domain.field.choices|length == 1 %}
-                <p class="form-control-static">{{ domain.field.choices.0.1 }}</p>
-                <div class="single-domain">{{ domain }}</div>
-            {% else %}
-                {{ domain }}
-            {% endif %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-5 {% if username.errors or domain.errors %}has-error{% endif %}">
-            <div class="help-block">
-                {{ username.errors }}
-                {{ domain.errors }}
-                {% if username_help_text %}
-                    {{ username_help_text }}
-                {% elif username.help_text %}
-                    {{ username.help_text }}
-                {% endif %}
-                {% if menuitem == 'register' %}
-                <p id="status-check">
-                    <span id="default"{% if username_status %} style="display:none"{% endif %}>{% trans "Type at least three characters to check if the account already exists." %}</span>
-                    <span class="text-muted" id="checking">{% trans "Checking username..." %}</span>
-                    <span class="text-success"{% if username_status == "ok" %} style="display: inline"{% endif %} id="username-ok">{% trans "Username is still available." %}</span>
-                    <span class="text-danger"{% if username_status == "taken" %} style="display: inline"{% endif %} id="username-taken">{% trans "Username is already taken." %}</span>
-                    <span class="text-danger"{% if username_status == "too-long" %} style="display: inline"{% endif %} id="username-too-long">{% trans "Username is too long." %}</span>
-                    <span class="text-danger" id="username-error">{% trans "There was an error checking this username." %}</span>
-                </p>
-                {% endif %}
-            </div>
-        </div>
+<div class="form-group{% if field.errors %} has-error{% endif %}" id="fg_username">
+    {{ field.label_tag }} {% comment %}TODO: wee need a control-label class here {% endcomment %}
+    {{ field }}
+
+    <div class="help-block">
+        {{ field.help_text }}
+        {{ field.errors }}
     </div>
 </div>

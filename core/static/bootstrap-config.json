@@ -14,6 +14,8 @@
     "close.less"
   ],
   "js": [
+    "tooltip.js",
+    "popover.js",
     "modal.js"
   ],
   "customizerUrl": "http://getbootstrap.com/customize/?id=c2fc6c228d0ae99325b6"
