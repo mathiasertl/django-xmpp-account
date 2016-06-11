@@ -16,9 +16,7 @@
 
 from __future__ import unicode_literals
 
-from copy import copy
 
-from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
@@ -27,8 +25,8 @@ from django_xmpp_backends import backend
 
 from core.forms import AntiSpamForm
 from core.forms import PasswordConfirmationMixin
-from core.forms import PasswordMixin
 
+from .formfields import XMPPAccountPasswordField
 from .formfields import XMPPAccountEmailField
 from .formfields import XMPPAccountFingerprintField
 from .formfields import XMPPAccountKeyUploadField
@@ -60,7 +58,7 @@ class RegistrationForm(AntiSpamForm):
 
 
 class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
-    password = PasswordConfirmationMixin.PASSWORD_FIELD
+    password = XMPPAccountPasswordField()
     password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
@@ -69,27 +67,27 @@ class ResetPasswordForm(AntiSpamForm):
 
 
 class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
-    password = PasswordConfirmationMixin.PASSWORD_FIELD
+    password = XMPPAccountPasswordField()
     password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
-class ResetEmailForm(AntiSpamForm, PasswordMixin):
+class ResetEmailForm(AntiSpamForm):
     username = XMPPAccountJIDField()
     email = XMPPAccountEmailField(label=_('New email address'))
-    password = PasswordMixin.PASSWORD_FIELD
+    password = XMPPAccountPasswordField()
     if settings.GPG:
         fingerprint = XMPPAccountFingerprintField()
         gpg_key = XMPPAccountKeyUploadField()
 
 
-class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
-    password = PasswordMixin.PASSWORD_FIELD
+class ResetEmailConfirmationForm(AntiSpamForm):
+    password = XMPPAccountPasswordField()
 
 
-class DeleteForm(AntiSpamForm, PasswordMixin):
+class DeleteForm(AntiSpamForm):
     username = XMPPAccountJIDField()
-    password = PasswordMixin.PASSWORD_FIELD
+    password = XMPPAccountPasswordField()
 
 
-class DeleteConfirmationForm(AntiSpamForm, PasswordMixin):
-    password = PasswordMixin.PASSWORD_FIELD
+class DeleteConfirmationForm(AntiSpamForm):
+    password = XMPPAccountPasswordField()

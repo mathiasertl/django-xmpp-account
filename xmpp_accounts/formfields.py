@@ -37,6 +37,13 @@ class BootstrapMixin(object):
             self.widget.attrs['class'] = 'form-control'
 
 
+class XMPPAccountPasswordField(BootstrapMixin, forms.CharField):
+    def __init__(self, **kwargs):
+        kwargs.setdefault('widget', forms.PasswordInput)
+        kwargs.setdefault('min_length', 6)
+        super(XMPPAccountPasswordField, self).__init__(**kwargs)
+
+
 class XMPPAccountEmailField(BootstrapMixin, forms.EmailField):
     def __init__(self, **kwargs):
         kwargs.setdefault('label', _('email'))

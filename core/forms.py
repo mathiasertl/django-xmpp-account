@@ -46,11 +46,7 @@ class AntiSpamForm(forms.Form):
         ))
 
 
-class PasswordMixin(object):
-    PASSWORD_FIELD = forms.CharField(label=_("Password"), max_length=60, widget=PasswordWidget)
-
-
-class PasswordConfirmationMixin(PasswordMixin):
+class PasswordConfirmationMixin(object):
     password_error_messages = {
         'password_mismatch': _("The two password fields didn't match.")
     }
