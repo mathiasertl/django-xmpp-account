@@ -18,13 +18,13 @@ from __future__ import unicode_literals
 
 
 from django.conf import settings
+from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 from django_xmpp_backends import backend
 
 from core.forms import AntiSpamForm
-from core.forms import PasswordConfirmationMixin
 
 from .formfields import XMPPAccountPasswordField
 from .formfields import XMPPAccountEmailField
@@ -33,6 +33,24 @@ from .formfields import XMPPAccountKeyUploadField
 from .formfields import XMPPAccountJIDField
 
 User = get_user_model()
+
+
+class PasswordConfirmationMixin(forms.Form):
+    password2 = XMPPAccountPasswordField(
+        label=_("Confirm"), help_text=_("Enter the same password as above, for verification."))
+    password_error_messages = {
+        'password_mismatch': _("The two password fields didn't match.")
+    }
+
+    def clean(self):
+        cleaned_data = super(PasswordConfirmationMixin, self).clean()
+
+        password1 = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+        if password1 and password2:
+            if password1 != password2:
+                self.add_error('password2', self.password_error_messages['password_mismatch'])
+        return password2
 
 
 class RegistrationForm(AntiSpamForm):
@@ -59,16 +77,14 @@ class RegistrationForm(AntiSpamForm):
 
 class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
     password = XMPPAccountPasswordField()
-    password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
 class ResetPasswordForm(AntiSpamForm):
     username = XMPPAccountJIDField()
 
 
-class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
+class ResetPasswordConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
     password = XMPPAccountPasswordField()
-    password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
 class ResetEmailForm(AntiSpamForm):

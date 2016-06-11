@@ -22,8 +22,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import CaptchaField
 
-from core.widgets import PasswordWidget
-
 
 class AntiSpamForm(forms.Form):
     if settings.ENABLE_CAPTCHAS:
@@ -32,22 +30,3 @@ class AntiSpamForm(forms.Form):
             'automated SPAM. If you can\'t read it, just <a '
             'class="js-captcha-refresh">&#8634; reload</a> it.'
         ))
-
-
-class PasswordConfirmationMixin(object):
-    password_error_messages = {
-        'password_mismatch': _("The two password fields didn't match.")
-    }
-
-    PASSWORD2_FIELD = forms.CharField(
-        label=_("Confirm"), widget=PasswordWidget, max_length=60,
-        help_text=_("Enter the same password as above, for verification."))
-
-    def clean_password2(self):
-        password1 = self.cleaned_data.get('password')
-        password2 = self.cleaned_data.get('password2')
-        if password1 and password2:
-            if password1 != password2:
-                raise forms.ValidationError(self.password_error_messages['password_mismatch'])
-        return password2
-
