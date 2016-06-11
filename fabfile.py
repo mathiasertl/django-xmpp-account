@@ -42,6 +42,7 @@ if os.path.exists(node_path):
 
 datestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
 build_jquery = BuildJqueryTask(
+    version='~2',
     excludes='-deprecated,-dimensions',
     dest_dir='core/static/lib/jquery/'
 )
