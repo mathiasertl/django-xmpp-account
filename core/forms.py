@@ -17,23 +17,18 @@
 from __future__ import unicode_literals
 
 import logging
-import time
 
 from copy import copy
 
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
-from django.utils.crypto import get_random_string
-from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import CaptchaField
 
 from xmppaccount.jid import parse_jid
 
-from core.exceptions import SpamException
-from core.exceptions import RateException
 from core.widgets import PasswordWidget
 from core.widgets import SelectWidget
 from core.widgets import TextWidget
