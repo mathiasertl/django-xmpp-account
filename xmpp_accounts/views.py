@@ -179,7 +179,7 @@ class ResetPasswordView(ConfirmationView):
     user_not_found_error = _("User not found.")
 
     def get_user(self, data):
-        return User.objects.has_email().get_user(username=data['username'], domain=data['domain'])
+        return User.objects.has_email().get(jid=data['username'])
 
 
 class ResetPasswordConfirmationView(ConfirmedView):
@@ -209,12 +209,11 @@ class ResetEmailView(ConfirmationView):
 
     def get_user(self, data):
         """User may or may not exist."""
-        username = data['username']
-        domain = data['domain']
-        jid = '%s@%s' % (data['username'], data['domain'])
+        jid = data['username']
+        node, domain = jid.split('@', 1)
         password = data['password']
 
-        if not backend.check_password(username=username, domain=domain, password=password):
+        if not backend.check_password(username=node, domain=domain, password=password):
             raise UserNotFound()
 
         # Defaults are only used for *new* User objects. If they aren't in the database already,
