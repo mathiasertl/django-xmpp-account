@@ -38,7 +38,6 @@ from xmpp_backends.base import UserNotFound
 from core.exceptions import GpgError
 from core.exceptions import RateException
 from core.exceptions import SpamException
-from core.forms import EmailMixin
 from core.models import Address
 from core.models import Confirmation
 from core.models import UserAddresses
@@ -96,7 +95,7 @@ class AntiSpamFormView(FormView):
         context['TWITTER_TEXT'] = getattr(self, 'twitter_text', context['OPENGRAPH_TITLE'])
 
         form = context['form']
-        if settings.GPG and hasattr(form, 'cleaned_data') and isinstance(form, EmailMixin):
+        if settings.GPG and hasattr(form, 'cleaned_data') and 'gpg_key' in form.fields:
             if form['gpg_key'].errors or form['fingerprint'].errors or \
                     form.cleaned_data.get('fingerprint') or form.cleaned_data.get('gpg_key'):
                 context['show_gpg'] = True

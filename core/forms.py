@@ -123,32 +123,3 @@ class JidMixin(object):
             self._username_status = 'invalid'
             raise forms.ValidationError(_("Username is not a valid XMPP username."))
         return node
-
-
-class EmailMixin(object):
-    GPG_KEY_FIELD = forms.FileField(
-        required=False,
-        help_text=_('Upload your ASCII armored GPG key directly ("gpg --armor --export <fingerprint>").')
-    )
-
-    def clean_gpg_key(self):
-        if not settings.GPG: # check, just to be sure
-            raise forms.ValidationError('GPG not enabled.')
-
-        gpg_key = self.cleaned_data.get('gpg_key')
-        if gpg_key is None:
-            return gpg_key
-        if gpg_key.content_type not in ['text/plain', 'application/pgp-encrypted']:
-            raise forms.ValidationError(
-                'Only plain-text files are allowed (was: %s)!' % gpg_key.content_type)
-
-        result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
-        if result.stderr:
-            log.error('Could not import public key: %s', result.stderr)
-            raise forms.ValidationError('Could not import public key.')
-        elif len(result.fingerprints) > 1:
-            raise forms.ValidationError(_('File contains multiple keys.'))
-        elif len(result.fingerprints) < 1:
-            raise forms.ValidationError(_('File contains no keys.'))
-
-        return gpg_key
