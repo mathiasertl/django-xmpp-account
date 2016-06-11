@@ -152,11 +152,11 @@ class XMPPAccountKeyUploadField(forms.FileField):
 
 class XMPPAccountJIDField(forms.MultiValueField):
     def __init__(self, **kwargs):
-        self._register = kwargs.pop('register', False)
-        self._status_check = kwargs.pop('status_check', self._register)
+        self.register = kwargs.pop('register', False)
+        self.status_check = kwargs.pop('status_check', self.register)
 
         hosts = getattr(settings, 'XMPP_HOSTS', {})
-        if self._register is True:
+        if self.register is True:
             hosts = [k for k, v in hosts.items()
                      if v.get('REGISTRATION') and v.get('MANAGE', True)]
         else:
