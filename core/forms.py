@@ -49,10 +49,6 @@ class UserCreationFormNoPassword(UserCreationForm):
 
 
 class AntiSpamForm(forms.Form):
-    timestamp = forms.IntegerField(widget=forms.HiddenInput, required=True)
-    token = forms.CharField(widget=forms.HiddenInput, required=True)
-    security_hash = forms.CharField(required=True, widget=forms.HiddenInput)
-
     if settings.ENABLE_CAPTCHAS:
         captcha = CaptchaField(help_text=_(
             'This <a href="https://en.wikipedia.org/wiki/CAPTCHA">CAPTCHA</a> prevents '
@@ -60,60 +56,11 @@ class AntiSpamForm(forms.Form):
             'class="js-captcha-refresh">&#8634; reload</a> it.'
         ))
 
-    ANTI_SPAM_MESSAGES = {
-        'too-slow': _("This page has expired. Reload and try again."),
-    }
-
-    def __init__(self, *args, **kwargs):
-        kwargs['initial'] = self.init_security(kwargs.get('initial', {}))
-        super(AntiSpamForm, self).__init__(*args, **kwargs)
-
-    def generate_hash(self, timestamp, token):
-        key_salt = 'xmppaccount.core.forms.AntiSpamFormBase'
-        value = '%s-%s' % (timestamp, token)
-        return salted_hmac(key_salt, value).hexdigest()
-
-    def init_security(self, initial):
-        initial['timestamp'] = int(time.time())
-        initial['token'] = get_random_string(32)
-        initial['security_hash'] = self.generate_hash(initial['timestamp'], initial['token'])
-        return initial
-
     def clean(self):
         data = super(AntiSpamForm, self).clean()
         if isinstance(self, JidMixin) and data.get('username') and data.get('domain'):
             data['jid'] = '%s@%s' % (data['username'], data['domain'])
         return data
-
-    def clean_timestamp(self):
-        now = time.time()
-        timestamp = self.cleaned_data.get("timestamp")
-        if timestamp is None:
-            raise SpamException(_("Missing form-field."))
-
-        if now - 1 < timestamp:  # MUCH to fast - definetly spam
-            raise SpamException(_("Form submitted within one second."))
-        elif now - 3 < timestamp:  # submit is to fast.
-            raise RateException()
-        elif now - (settings.FORM_TIMEOUT) > timestamp:
-            raise forms.ValidationError(self.ANTI_SPAM_MESSAGES['too-slow'])
-        return timestamp
-
-    def clean_security_hash(self):
-        good = self.generate_hash(self.data.get("timestamp", ''), self.data.get("token", ''))
-        received = self.cleaned_data.get('security_hash')
-        if received is None:
-            raise SpamException(_("No security hash"))
-        if received != good:
-            raise SpamException(_("Wrong security hash"))
-        return received
-
-    def clean_value(self):
-        value = self.cleaned_data["value"]
-
-        if value:
-            raise SpamException(_("Wrong value: \"%s\"") % value)
-        return value
 
 
 class PasswordMixin(object):
