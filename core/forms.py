@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import logging
 
-from copy import copy
-
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
@@ -27,11 +25,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import CaptchaField
 
-from xmppaccount.jid import parse_jid
-
 from core.widgets import PasswordWidget
-from core.widgets import SelectWidget
-from core.widgets import TextWidget
 
 log = logging.getLogger(__name__)
 
@@ -50,12 +44,6 @@ class AntiSpamForm(forms.Form):
             'automated SPAM. If you can\'t read it, just <a '
             'class="js-captcha-refresh">&#8634; reload</a> it.'
         ))
-
-    def clean(self):
-        data = super(AntiSpamForm, self).clean()
-        if isinstance(self, JidMixin) and data.get('username') and data.get('domain'):
-            data['jid'] = '%s@%s' % (data['username'], data['domain'])
-        return data
 
 
 class PasswordMixin(object):
@@ -79,47 +67,3 @@ class PasswordConfirmationMixin(PasswordMixin):
                 raise forms.ValidationError(self.password_error_messages['password_mismatch'])
         return password2
 
-
-class JidMixin(object):
-    USERNAME_FIELD = forms.CharField(label=_("Username"), max_length=settings.MAX_USERNAME_LENGTH,
-                                     widget=TextWidget)
-
-    DOMAIN_FIELD = forms.ChoiceField(
-        widget=SelectWidget,
-        initial=settings.DEFAULT_XMPP_HOST,
-        choices=tuple([(d, '@%s' % d) for d in settings.REGISTRATION_HOSTS])
-    )
-    ALL_DOMAINS_FIELD = forms.ChoiceField(
-        widget=copy(SelectWidget),
-        initial=settings.DEFAULT_XMPP_HOST,
-        choices=tuple([(d, '@%s' % d) for d in settings.MANAGED_HOSTS])
-    )
-
-    def clean_domain(self):
-        domain = self.cleaned_data.get('domain', '').lower().strip()
-        if domain not in settings.XMPP_HOSTS:
-            raise forms.ValidationError(_('Unknown domain given'))
-        return domain
-
-    def clean_username(self):
-        node = self.cleaned_data.get('username', '').lower().strip()
-
-        # validate minimum and maximum length
-        length = len(node.encode('utf-8'))
-        max_length = min(settings.MAX_USERNAME_LENGTH, 1023)
-        self._username_status = 'ok'
-
-        if length > max_length:
-            self._username_status = 'too-long'
-            raise forms.ValidationError(
-                _("Username must not be longer then %s characters.") % max_length)
-        if length < settings.MIN_USERNAME_LENGTH:
-            self._username_status = 'too-short'
-            raise forms.ValidationError(_(
-                "Username must not be shorter then %s characters.") % settings.MIN_USERNAME_LENGTH)
-
-        results = parse_jid('%s@example.com' % node)  # fake the server part
-        if not results:
-            self._username_status = 'invalid'
-            raise forms.ValidationError(_("Username is not a valid XMPP username."))
-        return node

@@ -26,7 +26,6 @@ from django.utils.translation import ugettext_lazy as _
 from django_xmpp_backends import backend
 
 from core.forms import AntiSpamForm
-from core.forms import JidMixin
 from core.forms import PasswordConfirmationMixin
 from core.forms import PasswordMixin
 
@@ -56,7 +55,6 @@ class RegistrationForm(AntiSpamForm):
         if data.get('jid'):  # implies username/domain also present
             if User.objects.filter(jid=data['jid']).exists() \
                     or backend.user_exists(username=data['username'], domain=data['domain']):
-                self._username_status = 'taken'
                 raise forms.ValidationError(_("User already exists."))
         return data
 
@@ -66,9 +64,8 @@ class RegistrationConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
     password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
-class ResetPasswordForm(AntiSpamForm, JidMixin):
-    username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.ALL_DOMAINS_FIELD
+class ResetPasswordForm(AntiSpamForm):
+    username = XMPPAccountJIDField()
 
 
 class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
@@ -76,9 +73,8 @@ class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
     password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
-class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin):
-    username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.ALL_DOMAINS_FIELD
+class ResetEmailForm(AntiSpamForm, PasswordMixin):
+    username = XMPPAccountJIDField()
     email = XMPPAccountEmailField(label=_('New email address'))
     password = PasswordMixin.PASSWORD_FIELD
     if settings.GPG:
@@ -90,9 +86,8 @@ class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
     password = PasswordMixin.PASSWORD_FIELD
 
 
-class DeleteForm(AntiSpamForm, JidMixin, PasswordMixin):
-    username = JidMixin.USERNAME_FIELD
-    domain = JidMixin.ALL_DOMAINS_FIELD
+class DeleteForm(AntiSpamForm, PasswordMixin):
+    username = XMPPAccountJIDField()
     password = PasswordMixin.PASSWORD_FIELD
 
 
