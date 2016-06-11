@@ -58,7 +58,6 @@ class PasswordConfirmationMixin(forms.Form):
         if password1 and password2:
             if password1 != password2:
                 self.add_error('password2', self.password_error_messages['password_mismatch'])
-        return password2
 
 
 class RegistrationForm(AntiSpamForm):
