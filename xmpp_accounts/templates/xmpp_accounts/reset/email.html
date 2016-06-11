@@ -24,7 +24,7 @@ order to complete the change.{% endblocktrans %}</p>
 <form role="form" action="{{ request.path }}" method="post" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}
     {% include "core/forms/head.html" %}
 
-    {% with username=form.username domain=form.domain %}
+    {% with field=form.username %}
         {% include "core/forms/jid.html" %}
     {% endwith %}
 
