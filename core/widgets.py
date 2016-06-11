@@ -21,9 +21,6 @@ from django import forms
 _fieldattrs = {'class': 'form-control', 'maxlength': 30}
 _inputattrs = _fieldattrs.copy()
 _inputattrs['autocomplete'] = 'off'
-_emailattrs = _fieldattrs.copy()
-_emailattrs['autocomplete'] = 'off'
-_emailattrs['type'] = 'email'
 _selectattrs = _fieldattrs.copy()
 _fingerprintattrs = _fieldattrs.copy()
 _fingerprintattrs['autocomplete'] = 'off'
@@ -33,6 +30,5 @@ _fingerprintattrs['maxlength'] = 50
 
 TextWidget = forms.TextInput(attrs=_inputattrs)
 PasswordWidget = forms.PasswordInput(attrs=_inputattrs)
-EmailWidget = forms.TextInput(attrs=_emailattrs)
 SelectWidget = forms.Select(attrs={'class': 'form-control', })
 FingerprintWidget = forms.TextInput(attrs=_fingerprintattrs)

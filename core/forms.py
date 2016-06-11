@@ -35,7 +35,6 @@ from xmppaccount.jid import parse_jid
 
 from core.exceptions import SpamException
 from core.exceptions import RateException
-from core.widgets import EmailWidget
 from core.widgets import FingerprintWidget
 from core.widgets import PasswordWidget
 from core.widgets import SelectWidget
@@ -187,10 +186,6 @@ class JidMixin(object):
 
 
 class EmailMixin(object):
-    EMAIL_FIELD = forms.EmailField(
-        label=_("email"), max_length=50, widget=EmailWidget,
-        help_text=_('Required, a confirmation email will be sent to this address.')
-    )
     FINGERPRINT_FIELD = forms.CharField(
         label=_('GPG key (advanced, optional)'), max_length=50, required=False,
         widget=FingerprintWidget,
@@ -202,26 +197,6 @@ class EmailMixin(object):
         required=False,
         help_text=_('Upload your ASCII armored GPG key directly ("gpg --armor --export <fingerprint>").')
     )
-    EMAIL_ERROR_MESSAGES = {
-        'own-domain': _(
-            "This Jabber host does not provide email addresses. You're supposed to give your own "
-            "email address."
-        ),
-        'blocked-domain': _(
-            "Email addresses with this domain are blocked and cannot be used on this site."
-        ),
-    }
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email', '').strip().lower()
-        try:
-            hostname = email.rsplit('@', 1)[1]
-            if hostname in settings.NO_EMAIL_HOSTS:
-                raise forms.ValidationError(
-                    self.EMAIL_ERROR_MESSAGES['own-domain'])
-        except IndexError:
-            pass
-        return email
 
     def clean_fingerprint(self):
         if not settings.GPG:  # check, just to be sure
@@ -264,15 +239,3 @@ class EmailMixin(object):
             raise forms.ValidationError(_('File contains no keys.'))
 
         return gpg_key
-
-
-class EmailBlockedMixin(EmailMixin):
-    def clean_email(self):
-        email = super(EmailBlockedMixin, self).clean_email()
-        try:
-            hostname = email.rsplit('@', 1)[1]
-            if hostname in settings.BLOCKED_EMAIL_TLDS:
-                raise forms.ValidationError(self.EMAIL_ERROR_MESSAGES['blocked-domain'])
-        except IndexError:
-            pass
-        return email

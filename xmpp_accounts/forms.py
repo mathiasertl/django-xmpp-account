@@ -26,19 +26,21 @@ from django.utils.translation import ugettext_lazy as _
 from django_xmpp_backends import backend
 
 from core.forms import AntiSpamForm
-from core.forms import EmailBlockedMixin
+from core.forms import EmailMixin
 from core.forms import JidMixin
 from core.forms import PasswordConfirmationMixin
 from core.forms import PasswordMixin
 
+from .formfields import XMPPAccountEmailField
+
 User = get_user_model()
 
 
-class RegistrationForm(JidMixin, EmailBlockedMixin, AntiSpamForm):
-    email = EmailBlockedMixin.EMAIL_FIELD
+class RegistrationForm(JidMixin, EmailMixin, AntiSpamForm):
+    email = XMPPAccountEmailField()
     if settings.GPG:
-        fingerprint = EmailBlockedMixin.FINGERPRINT_FIELD
-        gpg_key = EmailBlockedMixin.GPG_KEY_FIELD
+        fingerprint = EmailMixin.FINGERPRINT_FIELD
+        gpg_key = EmailMixin.GPG_KEY_FIELD
     username = copy(JidMixin.USERNAME_FIELD)  # copy because we override some fields
     domain = JidMixin.DOMAIN_FIELD
 
@@ -71,15 +73,14 @@ class ResetPasswordConfirmationForm(AntiSpamForm, PasswordConfirmationMixin):
     password2 = PasswordConfirmationMixin.PASSWORD2_FIELD
 
 
-class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailBlockedMixin):
+class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailMixin):
     username = JidMixin.USERNAME_FIELD
     domain = JidMixin.ALL_DOMAINS_FIELD
-    email = copy(EmailBlockedMixin.EMAIL_FIELD)
+    email = XMPPAccountEmailField(label=_('New email address'))
     password = PasswordMixin.PASSWORD_FIELD
-    email.label = _("New email address")
     if settings.GPG:
-        fingerprint = EmailBlockedMixin.FINGERPRINT_FIELD
-        gpg_key = EmailBlockedMixin.GPG_KEY_FIELD
+        fingerprint = EmailMixin.FINGERPRINT_FIELD
+        gpg_key = EmailMixin.GPG_KEY_FIELD
 
 
 class ResetEmailConfirmationForm(AntiSpamForm, PasswordMixin):
