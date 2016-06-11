@@ -16,6 +16,8 @@
 
 from __future__ import unicode_literals, absolute_import
 
+import re
+
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -40,8 +42,8 @@ class XMPPAccountEmailField(BootstrapMixin, forms.EmailField):
         kwargs.setdefault('error_messages', {})
         kwargs['error_messages'].setdefault(
             'own-domain',
-            _("This Jabber host does not provide email addresses. You're supposed to give your own "
-              "email address."))
+            _("This Jabber host does not provide email addresses. You're supposed to give your "
+              "own email address."))
         kwargs['error_messages'].setdefault(
             'blocked-domain',
             _("Email addresses with this domain are blocked and cannot be used on this site."))
@@ -57,3 +59,49 @@ class XMPPAccountEmailField(BootstrapMixin, forms.EmailField):
         if hostname in getattr(settings, 'BLOCKED_EMAIL_TLDS', []):
                 raise forms.ValidationError(self.error_messages['blocked-domain'])
         return email
+
+
+class XMPPAccountFingerprintField(BootstrapMixin, forms.CharField):
+    def __init__(self, **kwargs):
+        # "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
+        kwargs.setdefault('label', _('GPG key (advanced, optional)'))
+        kwargs.setdefault('max_length', 50)
+        kwargs.setdefault('min_length', 50)
+        kwargs.setdefault('required', False)
+        kwargs.setdefault('help_text', _(
+            'Add your fingerprint ("gpg --list-secret-keys --fingerprint") if your key is '
+            'available on the public key servers.'))
+
+        # define error messages
+        kwargs.setdefault('error_messages', {})
+        kwargs['error_messages'].setdefault('not-enabled', _('GPG not enabled.'))
+        kwargs['error_messages'].setdefault('invalid-length',
+                                            _('Fingerprint should be 40 characters long.'))
+        kwargs['error_messages'].setdefault('invalid-chars',
+                                            _('Fingerprint contains invalid characters.'))
+        kwargs['error_messages'].setdefault('multiple-keys',
+                                            _('Multiple keys with that fingerprint found.'))
+        kwargs['error_messages'].setdefault('key-not-found',
+                                            _('No key with that fingerprint found.'))
+        super(XMPPAccountFingerprintField, self).__init__(**kwargs)
+
+    def clean(self, value):
+        if not settings.GPG:  # check, just to be sure
+            raise forms.ValidationError(self.error_messages['not-enabled'])
+
+        fp = super(XMPPAccountFingerprintField, self).clean(value).strip().replace(' ', '').upper()
+        if fp == '':
+            return None  # no fingerprint given
+        if len(fp) != 40:
+            raise forms.ValidationError(self.error_messages['invalid-length'])
+        if re.search('[^A-F0-9]', fp) is not None:
+            raise forms.ValidationError(self.error_messages['invalid-chars'])
+
+        # actually search for the key
+        keys = settings.GPG.search_keys(fp, settings.GPG_KEYSERVER)
+        if len(keys) > 1:
+            raise forms.ValidationError(self.error_messages['multple-keys'])
+        elif len(keys) < 1:
+            raise forms.ValidationError(self.error_messages['key-not-found'])
+
+        return fp

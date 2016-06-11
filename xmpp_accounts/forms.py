@@ -32,6 +32,7 @@ from core.forms import PasswordConfirmationMixin
 from core.forms import PasswordMixin
 
 from .formfields import XMPPAccountEmailField
+from .formfields import XMPPAccountFingerprintField
 
 User = get_user_model()
 
@@ -39,7 +40,7 @@ User = get_user_model()
 class RegistrationForm(JidMixin, EmailMixin, AntiSpamForm):
     email = XMPPAccountEmailField()
     if settings.GPG:
-        fingerprint = EmailMixin.FINGERPRINT_FIELD
+        fingerprint = XMPPAccountFingerprintField()
         gpg_key = EmailMixin.GPG_KEY_FIELD
     username = copy(JidMixin.USERNAME_FIELD)  # copy because we override some fields
     domain = JidMixin.DOMAIN_FIELD
@@ -79,7 +80,7 @@ class ResetEmailForm(AntiSpamForm, JidMixin, PasswordMixin, EmailMixin):
     email = XMPPAccountEmailField(label=_('New email address'))
     password = PasswordMixin.PASSWORD_FIELD
     if settings.GPG:
-        fingerprint = EmailMixin.FINGERPRINT_FIELD
+        fingerprint = XMPPAccountFingerprintField()
         gpg_key = EmailMixin.GPG_KEY_FIELD
 
 

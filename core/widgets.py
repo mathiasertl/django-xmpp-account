@@ -22,13 +22,7 @@ _fieldattrs = {'class': 'form-control', 'maxlength': 30}
 _inputattrs = _fieldattrs.copy()
 _inputattrs['autocomplete'] = 'off'
 _selectattrs = _fieldattrs.copy()
-_fingerprintattrs = _fieldattrs.copy()
-_fingerprintattrs['autocomplete'] = 'off'
-# "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
-_fingerprintattrs['maxlength'] = 50
-
 
 TextWidget = forms.TextInput(attrs=_inputattrs)
 PasswordWidget = forms.PasswordInput(attrs=_inputattrs)
 SelectWidget = forms.Select(attrs={'class': 'form-control', })
-FingerprintWidget = forms.TextInput(attrs=_fingerprintattrs)

@@ -17,7 +17,6 @@
 from __future__ import unicode_literals
 
 import logging
-import re
 import time
 
 from copy import copy
@@ -35,7 +34,6 @@ from xmppaccount.jid import parse_jid
 
 from core.exceptions import SpamException
 from core.exceptions import RateException
-from core.widgets import FingerprintWidget
 from core.widgets import PasswordWidget
 from core.widgets import SelectWidget
 from core.widgets import TextWidget
@@ -186,37 +184,10 @@ class JidMixin(object):
 
 
 class EmailMixin(object):
-    FINGERPRINT_FIELD = forms.CharField(
-        label=_('GPG key (advanced, optional)'), max_length=50, required=False,
-        widget=FingerprintWidget,
-        help_text=_(
-            'Add your fingerprint ("gpg --list-secret-keys --fingerprint") if your key is '
-            'available on the public key servers.')
-    )
     GPG_KEY_FIELD = forms.FileField(
         required=False,
         help_text=_('Upload your ASCII armored GPG key directly ("gpg --armor --export <fingerprint>").')
     )
-
-    def clean_fingerprint(self):
-        if not settings.GPG:  # check, just to be sure
-            raise forms.ValidationError('GPG not enabled.')
-
-        fp = self.cleaned_data.get('fingerprint', '').strip().replace(' ', '').upper()
-        if fp == '':
-            return None  # no fingerprint given
-        if len(fp) != 40:
-            raise forms.ValidationError(_("Fingerprint should be 40 characters long."))
-        if re.search('[^A-F0-9]', fp) is not None:
-            raise forms.ValidationError(_("Fingerprint contains invalid characters."))
-
-        # actually search for the key
-        keys = settings.GPG.search_keys(fp, settings.GPG_KEYSERVER)
-        if len(keys) > 1:
-            raise forms.ValidationError(_("Multiple keys with that fingerprint found."))
-        elif len(keys) < 1:
-            raise forms.ValidationError(_("No key with that fingerprint found."))
-        return fp
 
     def clean_gpg_key(self):
         if not settings.GPG: # check, just to be sure
