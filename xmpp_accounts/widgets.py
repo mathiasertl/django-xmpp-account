@@ -25,3 +25,8 @@ class XMPPAccountJIDWidget(forms.MultiWidget):
         if value:
             return value.split('@', 1)
         return '', settings.DEFAULT_XMPP_HOST
+
+    class Media:
+        js = (
+            'xmpp_accounts/js/jidfield.js',
+        )
