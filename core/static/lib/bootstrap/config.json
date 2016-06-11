@@ -392,14 +392,10 @@
     "navbar.less",
     "alerts.less",
     "close.less",
-    "tooltip.less",
-    "popovers.less",
     "modals.less"
   ],
   "js": [
-    "modal.js",
-    "tooltip.js",
-    "popover.js"
+    "modal.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=6918ad535f49432ac0512509a8058494"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=26866f1636a813884499f704b562a55d"
 }
