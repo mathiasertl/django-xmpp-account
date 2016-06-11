@@ -43,20 +43,20 @@ list with feature comparisons</a>.{% endblocktrans %}</li>
 </ul>
 {% else %}
 
-{% include "core/forms/errors.html" %}
+{% include "xmpp_accounts/fields/errors.html" %}
 
 <form role="form" action="{{ request.path }}" method="post" autocomplete="off">{% csrf_token %}
-    {% include "core/forms/head.html" %}
+    {% include "xmpp_accounts/fields/head.html" %}
    
     {% with field=form.password %}
-        {% include "core/forms/field.html" %}
+        {% include "xmpp_accounts/fields/field.html" %}
     {% endwith %}
     
     {% with field=form.password2 %}
-        {% include "core/forms/field.html" %}
+        {% include "xmpp_accounts/fields/field.html" %}
     {% endwith %}
 
-    {% include "core/forms/captcha.html" %}
+    {% include "xmpp_accounts/fields/captcha.html" %}
 
     <button type="submit" class="btn btn-default">{% trans "Confirm" %}</button>
 </form>
