@@ -30,7 +30,6 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.http import HttpResponse
-from django.http import HttpResponseBadRequest
 
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
@@ -106,8 +105,7 @@ class RegistrationView(ConfirmationView):
 
     def get_user(self, data):
         last_login = tzinfo.localize(datetime.now())
-        jid = '%s@%s' % (data['username'], data['domain'])
-        return User.objects.create(jid=jid, last_login=last_login, email=data['email'],
+        return User.objects.create(jid=data['jid'], last_login=last_login, email=data['email'],
                                    registration_method=REGISTRATION_WEBSITE,
         )
 
