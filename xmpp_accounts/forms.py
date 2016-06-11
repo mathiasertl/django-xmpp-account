@@ -76,9 +76,10 @@ class RegistrationForm(AntiSpamForm):
     def clean(self):
         data = super(RegistrationForm, self).clean()
 
-        if data.get('username'):  # implies username/domain also present
+        if data.get('username'):
+            node, domain = data['username'].split('@')
             if User.objects.filter(jid=data['username']).exists() \
-                    or backend.user_exists(username=data['username'], domain=data['domain']):
+                    or backend.user_exists(username=node, domain=domain):
                 self.add_error('username', _("User already exists."))
         return data
 
