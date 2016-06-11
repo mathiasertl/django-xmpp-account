@@ -20,7 +20,7 @@ import re
 
 from django import forms
 from django.conf import settings
-from django.utils.html import mark_safe
+from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
 from .widgets import XMPPAccountJIDWidget
@@ -170,7 +170,10 @@ class XMPPAccountJIDField(forms.MultiValueField):
                 error_messages = {
                     'min_length': _('Username must have at least %(limit_value)d characters.'),
                     'max_length': _('Username must have at most %(limit_value)d characters.'),
-                }
+                },
+                validators=[
+                    RegexValidator(r'^[^@\s]+$', _('Username contains invalid characters.')),
+                ],
             ),
             forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST, choices=choices,
                               disabled=len(hosts) == 1),
@@ -182,8 +185,6 @@ class XMPPAccountJIDField(forms.MultiValueField):
         widgets[1].attrs['class'] = 'form-control'
 
         self.widget = XMPPAccountJIDWidget(widgets=widgets)
-
-        print('self._status_check: ', self._status_check)
         super(XMPPAccountJIDField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
 
     def compress(self, data_list):
