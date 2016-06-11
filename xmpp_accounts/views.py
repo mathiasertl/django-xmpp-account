@@ -85,14 +85,6 @@ class RegistrationView(ConfirmationView):
     opengraph_title = _messages['register']['opengraph_title']
     opengraph_description = _messages['register']['opengraph_description']
 
-    def get_context_data(self, **kwargs):
-        context = super(RegistrationView, self).get_context_data(**kwargs)
-        form = context['form']
-
-        if hasattr(form, 'cleaned_data') and hasattr(form, '_username_status'):  # form was submitted
-            context['username_status'] = form._username_status
-        return context
-
     def registration_rate(self):
         # Check for a registration rate
         cache_key = 'registration-%s' % self.request.get_host()
