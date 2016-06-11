@@ -28,9 +28,6 @@ urlpatterns = [
     # for captchas:
     url(r'^captcha/', include('captcha.urls')),
 
-    # core URLs
-    url(r'^core/', include('core.urls')),
-
     # admin interface
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('xmpp_accounts.urls')),

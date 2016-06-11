@@ -18,20 +18,16 @@ from __future__ import unicode_literals
 
 import logging
 
-from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils.six.moves.urllib.parse import urlsplit
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
-from django.views.generic import View
 
 from brake.decorators import ratelimit
 
-from django_xmpp_backends import backend
 from xmpp_backends.base import UserExists
 from xmpp_backends.base import UserNotFound
 
@@ -214,33 +210,3 @@ class ConfirmedView(AntiSpamFormView):
             return self.form_invalid(form)
 
         return super(ConfirmedView, self).form_valid(form)
-
-
-class ExistsView(View):
-    def post(self, request):
-        username = request.POST.get('username', '').strip().lower()
-        domain = request.POST.get('domain', '').strip().lower()
-        log.info('Checking %s@%s for existence.', username, domain)
-
-        cache_key = 'exists_%s@%s' % (username, domain)
-        exists = cache.get(cache_key)
-        if exists is True:
-            return HttpResponse('')
-        elif exists is False:
-            return HttpResponse('', status=404)
-
-        # Check if the user exists in the database
-        try:
-            User.objects.get_user(username, domain)
-            cache.set(cache_key, True, 30)
-            return HttpResponse('')
-        except User.DoesNotExist:
-            pass
-
-        # Check if the user exists in the backend
-        if backend.user_exists(username, domain):
-            cache.set(cache_key, True, 30)
-            return HttpResponse('')
-        else:
-            cache.set(cache_key, False, 30)
-            return HttpResponse('', status=404)
