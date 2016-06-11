@@ -261,15 +261,13 @@ class DeleteView(ConfirmationView):
     opengraph_description = _messages['delete']['opengraph_description']
 
     def get_user(self, data):
-        username = data['username']
-        domain = data['domain']
-
         try:
-            user = User.objects.has_email().get_user(username, domain)
+            user = User.objects.has_email().get(jid=data['username'])
         except User.DoesNotExist:
             raise UserNotFound()
 
-        if not backend.check_password(username=username, domain=domain, password=data['password']):
+        node, domain = user.jid.split('@', 1)
+        if not backend.check_password(username=node, domain=domain, password=data['password']):
            raise UserNotFound()
 
         return user

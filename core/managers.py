@@ -38,9 +38,6 @@ class RegistrationUserManager(BaseUserManager):
     def get_queryset(self):
         return RegistrationUserQuerySet(self.model)
 
-    def get_user(self, username, domain):
-        return self.get_queryset().get_user(username, domain)
-
     def has_email(self):
         return self.get_queryset().has_email()
 
