@@ -10,70 +10,63 @@ $.ajaxSetup({
     }
 });
 
-var basic_username_check = function() {
-    var val = $('input#id_username').val();
-    var form_group = $('div#fg_username');
-    var status_check = $('#status-check')
+/**
+ * Revert the username input field back to the default state, as if the user
+ * hasn't entered anyting.
+ */
+var default_username_state = function(form_group) {
+    form_group.removeClass('has-error');
+    form_group.removeClass('has-success');
+    form_group.find('#status-check span').hide();
+    form_group.find('.errorlist').hide();
+    form_group.find('#status-check span#default').show();
+}
+var show_username_local_error = function(form_group, error) {
+    form_group.addClass('has-error');
+    form_group.removeClass('has-success');
 
-    if (val.length == 0) {
-        status_check.find('span').hide();
-        status_check.find('#default').show();
-        form_group.removeClass('has-error');
-        return false;
-    } else if (val.length < MIN_USERNAME_LENGTH) {
-        status_check.find('span').hide();
-        status_check.find('#default').show();
-        form_group.addClass('has-error');
-        return false;
-    } else if (/[@\s]/.test(val) || val.length > MAX_USERNAME_LENGTH) {
-        status_check.find('span').hide();
-        status_check.find('#username-error').show();
-        form_group.addClass('has-error');
-        return false;
-    }
-    return true;
+    form_group.find('#status-check span').hide();
+    form_group.find('#status-check span#default').show();
+};
+var show_username_available = function(form_group) {
+    form_group.removeClass('has-error');
+    form_group.addClass('has-success');
+    form_group.find('.errorlist').hide();
+    form_group.find('#status-check span').hide();
+    form_group.find('#status-check span#username-available').show();
+}
+var show_username_not_available = function(form_group) {
+    form_group.addClass('has-error');
+    form_group.removeClass('has-success');
+    form_group.find('.errorlist').hide();
+    form_group.find('#status-check span').hide();
+    form_group.find('#status-check span#username-not-available').show();
 }
 
-var ignored_keys = [0, 16, 17, 18, 20, 27, 33, 34, 35, 36, 45, 91, 144];
-var exists_timeout;
-var username_exists_check = function() {
-    if ($('body.register').length == 0) {
-        return;  // only check username on registration page
-    }
-    if (typeof exists_timeout !== "undefined") {
-        clearTimeout(exists_timeout)
-    }
-    var statuscheck = $('#status-check')
-    statuscheck.find('span[id!="checking"]').hide();
-    statuscheck.find('span#checking').show();
+var check_username = function(form_group) {
+    var val = form_group.find('input#id_username_0').val();
 
-    /** we use a timeout so that fast-typing users don't cause to many requests */
-    exists_timeout = setTimeout(function() {
-        if (! basic_username_check()) {
-            return;
-        }
-        var form_group = $('.form-group#fg_username');
-        var username = $('input#id_username').val();
-        var domain = $('select#id_domain option:selected').val();
+    if (val.length < MIN_USERNAME_LENGTH) {
+        default_username_state(form_group);
+        return;
+    } else if (/[@\s]/.test(val) || val.length > MAX_USERNAME_LENGTH) {
+        show_username_local_error(form_group);
+        return;
+    }
 
-        $.post(exists_url, {
-            username: username,
-            domain: domain
-        }).done(function(data) { // user exists!
-            form_group.addClass('has-error');
-            statuscheck.find('span').hide();
-            statuscheck.find('#username-taken').show();
-        }).fail(function(data) { 
-            statuscheck.find('span').hide();
-            if (data.status == 404) {
-                statuscheck.find('#username-ok').show();
-                form_group.removeClass('has-error');
-            } else {
-                statuscheck.find('#username-error').show();
-                form_group.addClass('has-error');
-            }
-        });
-    }, 500);
+    var username = form_group.find('input#id_username_0').val();
+    var domain = form_group.find('select#id_username_1 option:selected').val();
+
+    var exists_url = $('meta[name="xmpp-accounts:api-user-available"]').attr('content');
+
+    $.post(exists_url, {
+        username: username,
+        domain: domain
+    }).done(function(data) { // user exists!
+        show_username_available(form_group);
+    }).fail(function(data) {
+        show_username_not_available(form_group);
+    });
 };
 
 var show_fingerprint_msg = function() {
@@ -101,20 +94,16 @@ var load_facebook = function() {
 $(document).ready(function() {
     show_fingerprint_msg();
 
-    $('#id_username').keyup(function(data) {
-        if (ignored_keys.indexOf(data.which) !== -1) { 
-            return;
-        }
-        if (basic_username_check()) {
-            username_exists_check();
-        }
+    jQuery('#id_username_0').on('input propertychange paste', function(e) {
+        var form_group = $(e.target).parent('.form-group');
+        check_username(form_group);
     });
-    $('#id_domain').change(function() {
+    $('#id_username_1').change(function(e) {
         show_fingerprint_msg();
-        if (basic_username_check()) {
-            username_exists_check();
-        }
+        var form_group = $(e.target).parent('.form-group');
+        check_username(form_group);
     });
+
     $('.gpg-fields-toggle').click(function(data) {
         $('.gpg-fields-toggle .show-triangle').toggle();
         $('.gpg-fields-toggle .hide-triangle').toggle();

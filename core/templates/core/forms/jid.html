@@ -1,10 +1,22 @@
 {% load i18n %}
-<div class="form-group{% if field.errors %} has-error{% endif %}" id="fg_username">
+<div class="form-group{% if field.errors %} has-error{% elif field.value.0 and not field.errors %} has-success{% endif %}" id="fg_username">
     {{ field.label_tag }} {% comment %}TODO: wee need a control-label class here {% endcomment %}
     {{ field }}
 
     <div class="help-block">
         {{ field.help_text }}
         {{ field.errors }}
+
+        <p id="status-check">
+            <span id="default"{% if field.errors or field.value.0|length >= MIN_USERNAME_LENGTH %} style="display:none"{% endif %}>
+                {% blocktrans with length=MIN_USERNAME_LENGTH %}Type at least {{ length }} characters to check if the account already exists.{% endblocktrans %}</span>
+
+            <span id="username-available" class="text-success"{% if field.value.0 and not field.errors %} style="display: inline"{% endif %}>{% trans "Username is still available." %}</span>
+            <span id="username-not-available" class="text-danger"{% if field.value.0 and field.errors %} style="display: inline"{% endif %}>{% trans "Username is not available." %}</span>
+
+
+            <span class="text-muted" id="checking">{% trans "Checking username..." %}</span>
+        </p>
+
     </div>
 </div>
