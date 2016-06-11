@@ -100,8 +100,8 @@ class AntiSpamFormView(FormView):
     def get_form_kwargs(self):
         kwargs = super(AntiSpamFormView, self).get_form_kwargs()
 
-        if 'domain' in self.form_class.declared_fields:
-            kwargs['initial']['domain'] = self.request.site['DOMAIN']
+        if 'username' in self.form_class.declared_fields:
+            kwargs['initial']['username'] = '@%s' % self.request.site['DOMAIN']
         return kwargs
 
     def form_valid(self, form):
