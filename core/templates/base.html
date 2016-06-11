@@ -24,6 +24,8 @@
     <meta name="twitter:site" content="@{{ request.site.TWITTER }}" />
     <meta name="twitter:image" content="{{ request.site.TWITTER_IMAGE }}" />
     <meta name="twitter:url" content="{{ ACTION_URL }}" />{% comment %}NOTE: Documented but unsed by twitter{% endcomment %}
+
+    <meta name="xmpp-accounts:api-user-available" content="{% url "xmpp_accounts:api-user-available" %}" />
 {% endif %}
 
     <style>
