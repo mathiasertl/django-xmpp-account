@@ -109,7 +109,7 @@ class RegistrationView(ConfirmationView):
                                    email=data['email'], registration_method=REGISTRATION_WEBSITE)
 
     def handle_valid(self, form, user):
-        domain = form.cleaned_data['domain']
+        domain = user.jid.split('@', 1)[1]
         payload = self.handle_gpg(form, user)
         payload['email'] = form.cleaned_data['email']
 
