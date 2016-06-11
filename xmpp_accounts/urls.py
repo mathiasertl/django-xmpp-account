@@ -36,4 +36,5 @@ urlpatterns = [
     url(r'^delete/$', views.DeleteView.as_view(), name='delete'),
     url(r'^delete/confirm/(?P<key>\w+)/$', views.DeleteConfirmationView.as_view(),
         name='delete_confirm'),
+    url(r'^api/user-available/$', views.UserAvailableView.as_view(), name='api-user-available'),
 ]
