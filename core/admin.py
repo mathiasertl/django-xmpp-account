@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -28,7 +27,6 @@ from django_xmpp_backends import backend
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_EMAIL
 from core.constants import PURPOSE_SET_PASSWORD
-from core.forms import UserCreationFormNoPassword
 from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
@@ -174,10 +172,6 @@ class RegistrationUserAdmin(admin.ModelAdmin):
             self._confirm(request, user, purpose=PURPOSE_SET_EMAIL)
     resend_email_reset.short_description = _("Resend email reset email")
 
-
-
-class UserAdmin(UserAdminBase):
-    add_form = UserCreationFormNoPassword
 
 
 admin.site.register(Confirmation)

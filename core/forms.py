@@ -16,25 +16,13 @@
 
 from __future__ import unicode_literals
 
-import logging
-
 from django import forms
 from django.conf import settings
-from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import CaptchaField
 
 from core.widgets import PasswordWidget
-
-log = logging.getLogger(__name__)
-
-class UserCreationFormNoPassword(UserCreationForm):
-    #TODO: Dead code?
-    def __init__(self, *args, **kwargs):
-        super(UserCreationFormNoPassword, self).__init__(*args, **kwargs)
-        del self.fields['password1']
-        del self.fields['password2']
 
 
 class AntiSpamForm(forms.Form):
