@@ -59,6 +59,7 @@ minify_css = MinifyCSSTask(files=[
 ], dest='core/static/account-%s.min.css' % datestamp)
 minify_js = MinifyJSTask(files=[
     'core/static/lib/jquery/jquery.min.js',
+    'core/static/lib/bootstrap/js/bootstrap.min.js',
     'core/static/js/base.js',
 ], dest='core/static/account-%s.min.js' % datestamp)
 
