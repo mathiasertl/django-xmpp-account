@@ -26,6 +26,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
+from django.db import transaction
 from django.http import HttpResponse
 from django.utils.six.moves.urllib.parse import urlsplit
 from django.utils.timezone import now
@@ -152,7 +153,8 @@ class RegistrationView(ConfirmationMixin, XMPPAccountView):
 
     def form_valid(self, form):
         self.registration_rate()
-        return super(RegistrationView, self).form_valid(form)
+        with transaction.atomic():
+            return super(RegistrationView, self).form_valid(form)
 
 
 class OldRegistrationConfirmationView(ConfirmedView):
