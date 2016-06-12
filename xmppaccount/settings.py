@@ -160,6 +160,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 
     'captcha',
+    'django_confirm',
 
     'core',
     'xmpp_accounts',
