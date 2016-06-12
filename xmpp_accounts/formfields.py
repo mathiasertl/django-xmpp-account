@@ -26,6 +26,17 @@ from django.utils.translation import ugettext_lazy as _
 from .widgets import XMPPAccountJIDWidget
 
 
+class BoundField(forms.boundfield.BoundField):
+    def label_tag(self, contents=None, attrs=None, label_suffix=None):
+        attrs = attrs or {}
+        if 'class' in attrs:
+            attrs['class'] += ' %s' % 'control-label'
+        else:
+            attrs['class'] = 'control-label'
+
+        return super(BoundField, self).label_tag(contents, attrs=attrs, label_suffix=label_suffix)
+
+
 class BootstrapMixin(object):
     """Mixin that adds the form-control class used by bootstrap to input widgets."""
 
@@ -35,6 +46,9 @@ class BootstrapMixin(object):
             self.widget.attrs['class'] += ' form-control'
         else:
             self.widget.attrs['class'] = 'form-control'
+
+    def get_bound_field(self, form, field_name):
+        return BoundField(form, self, field_name)
 
 
 class XMPPAccountPasswordField(BootstrapMixin, forms.CharField):
@@ -157,7 +171,7 @@ class XMPPAccountKeyUploadField(forms.FileField):
         return value
 
 
-class XMPPAccountJIDField(forms.MultiValueField):
+class XMPPAccountJIDField(BootstrapMixin, forms.MultiValueField):
     def __init__(self, **kwargs):
         self.register = kwargs.pop('register', False)
         self.status_check = kwargs.pop('status_check', self.register)

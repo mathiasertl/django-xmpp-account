@@ -5,7 +5,7 @@
             <span class="show-triangle" {% if show_gpg %} style="display: none;"{% endif %}></span>
             <span style="display: {% if show_gpg %}inline-block{% else %}none{% endif %};" class="hide-triangle"></span>
         </span>
-        <label for="{{ form.fingerprint.id_for_label }}">{% trans "GPG key (advanced, optional)" %}</label>
+        {{ form.fingerprint.label_tag }}
     </span>
     <div class="row"{% if show_gpg %} style="display: block;"{% endif %}>
         <div class="col-lg-5 help-block">

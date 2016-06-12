@@ -1,7 +1,5 @@
 <div class="form-group">
-    <label for="{{ field.id_for_label }}" class="control-label">
-        {{ field.label }}{{ form.label_suffix }}
-    </label>
+    {{ field.label_tag }}
     <div class="row">
         <div  class="col-lg-5 {% if field.errors %}has-error{% endif %}">
             {{ field }}
