@@ -15,7 +15,7 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav">
       <li {% if menuitem == "register" %}class="active"{% endif %}><a href="{% url "xmpp_accounts:register" %}">{% trans "Register" %}</a></li>
-      <li {% if menuitem == "password" %}class="active"{% endif %}><a href="{% url "xmpp_accounts:reset_password" %}">{% trans "Set password" %}</a></li>
+      <li {% if menuitem == "password" %}class="active"{% endif %}><a href="{% url "xmpp_accounts:password" %}">{% trans "Set password" %}</a></li>
       <li {% if menuitem == "email" %}class="active"{% endif %}><a href="{% url "xmpp_accounts:reset_email" %}">{% trans "Set email" %}</a></li>
       <li {% if menuitem == "delete" %}class="active"{% endif %}><a href="{% url "xmpp_accounts:delete" %}">{% trans "Delete account" %}</a></li>
     </ul>

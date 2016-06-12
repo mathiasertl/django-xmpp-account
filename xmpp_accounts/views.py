@@ -33,10 +33,8 @@ from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 from django.views.generic import View
 
-from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
 from core.constants import PURPOSE_DELETE
-from core.constants import PURPOSE_REGISTER
 from core.constants import REGISTRATION_INBAND
 from core.constants import REGISTRATION_WEBSITE
 from core.exceptions import RegistrationRateException
@@ -44,6 +42,7 @@ from core.views import ConfirmationView
 from core.views import ConfirmedView
 
 from .constants import PURPOSE_REGISTER
+from .constants import PURPOSE_SET_PASSWORD
 from .forms import DeleteConfirmationForm
 from .forms import DeleteForm
 from .forms import RegistrationConfirmationForm
@@ -62,7 +61,7 @@ from xmpp_backends.base import UserNotFound
 User = get_user_model()
 tzinfo = pytz.timezone(settings.TIME_ZONE)
 _messages = {
-    'register': {
+    PURPOSE_REGISTER: {
         'opengraph_title': _('%(DOMAIN)s: Register a new account'),
         'opengraph_description': _('Register on %(DOMAIN)s, a reliable and secure Jabber server. Jabber is a free and open instant messaging protocol used by millions of people worldwide.'),
     },
@@ -70,7 +69,7 @@ _messages = {
         'opengraph_title': _('%(DOMAIN)s: Set a new email address'),
         'opengraph_description': _('Set a new email address for your Jabber account on %(DOMAIN)s. You must have a valid email address set to be able to reset your password.'),
     },
-    'reset_password': {
+    PURPOSE_SET_PASSWORD: {
         'opengraph_title': _('%(DOMAIN)s: Reset your password'),
         'opengraph_description': _('Reset the password for your %(DOMAIN)s account.'),
     },
@@ -230,17 +229,14 @@ class RegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):
                                  message=message)
 
 
-class ResetPasswordView(ConfirmationView):
+class ResetPasswordView(ConfirmationMixin, XMPPAccountView):
     form_class = ResetPasswordForm
-#    success_url = reverse_lazy('ResetPasswordThanks')
-    template_name = 'xmpp_accounts/reset/password.html'
-
     purpose = PURPOSE_SET_PASSWORD
-    menuitem = 'password'
-    opengraph_title = _messages['reset_password']['opengraph_title']
-    opengraph_description = _messages['reset_password']['opengraph_description']
 
-    user_not_found_error = _("User not found.")
+    def handle_valid(self, form, user):
+        kwargs = self.gpg_from_user(user)
+        kwargs['recipient'] = user.email
+        return kwargs
 
     def get_user(self, data):
         return User.objects.has_email().get(jid=data['username'])
@@ -250,9 +246,9 @@ class ResetPasswordConfirmationView(ConfirmedView):
     form_class = ResetPasswordConfirmationForm
     template_name = 'xmpp_accounts/reset/password-confirm.html'
     purpose = PURPOSE_SET_PASSWORD
-    action_url = 'xmpp_accounts:reset_password'
-    opengraph_title = _messages['reset_password']['opengraph_title']
-    opengraph_description = _messages['reset_password']['opengraph_description']
+    action_url = 'xmpp_accounts:password'
+    opengraph_title = _messages['password']['opengraph_title']
+    opengraph_description = _messages['password']['opengraph_description']
 
     def handle_key(self, key, form):
         backend.set_password(username=key.user.node, domain=key.user.domain,

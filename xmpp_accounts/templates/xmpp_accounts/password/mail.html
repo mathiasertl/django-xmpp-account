@@ -2,9 +2,9 @@
 <html>
 <head><title>{{ subject }}</title></head>
 <body>
-<p>{% blocktrans %}Dear {{ username }},{% endblocktrans %}</p>
+<p>{% blocktrans with username=extra.username %}Dear {{ username }},{% endblocktrans %}</p>
 
-<p>{% blocktrans %}You requested to change the password for your Jabber account {{ jid }}.
+<p>{% blocktrans with username=extra.username uri=extra.uri %}You requested to change the password for your Jabber account {{ jid }}.
 To complete the change, please <a href="{{ uri }}">click here</a>.{% endblocktrans %}</p>
 {% if cleartext %}
 {% blocktrans %}Please note that this server stores passwords as plain text. We can only
@@ -14,6 +14,6 @@ encourage you to choose a safe password you use nowhere else.{% endblocktrans %}
 
 
 <p>{% trans "greetings," %}<br />
-<p style="padding-left: 4em;">{{ domain }}</p>
+<p style="padding-left: 4em;">{{ extra.domain }}</p>
 {% endlanguage %}
 </body></html>
