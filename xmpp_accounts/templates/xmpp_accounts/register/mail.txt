@@ -1,10 +1,10 @@
-{% load i18n %}{% language lang %}{% blocktrans %}Dear {{ username }},{% endblocktrans %}
+{% load i18n %}{% language lang %}{% blocktrans with username=extra.username %}Dear {{ username }},{% endblocktrans %}
 
-{% blocktrans %}You have registered the account {{ jid }} with this email address.
+{% blocktrans with jid=extra.jid %}You have registered the account {{ jid }} with this email address.
 To complete your registration, please click on the following link and
 provide a password for your new account:{% endblocktrans %}
 
-    {{ uri }}
+    {{ extra.uri }}
 {% if cleartext %}
 {% blocktrans %}Please note that this server stores passwords as plain text. We can only
 encourage you to choose a safe password you use nowhere else.{% endblocktrans %}{% endif %}
@@ -13,4 +13,4 @@ encourage you to choose a safe password you use nowhere else.{% endblocktrans %}
 Email.{% endblocktrans %}
 
 {% trans "greetings," %}
-    {{ domain }}{% endlanguage %}
+    {{ extra.domain }}{% endlanguage %}
