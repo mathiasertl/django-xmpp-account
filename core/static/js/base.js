@@ -11,7 +11,7 @@ $.ajaxSetup({
 });
 
 var show_fingerprint_msg = function() {
-    var id = 'fp-' + $('#id_domain option:selected').val();
+    var id = 'fp-' + $('#id_username_1 option:selected').val();
     $('.fingerprint[id!="' + id + '"]').hide();
     $('.fingerprint[id="' + id + '"]').show();
 };
