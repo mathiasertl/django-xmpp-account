@@ -200,7 +200,7 @@ class RegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):
        the user passed various Anti-SPAM measures.
     """
     form_class = RegistrationConfirmationForm
-    purpose = 'register'
+    purpose = PURPOSE_REGISTER
 
     def handle_key(self, key, user, form):
         user.gpg_fingerprint = key.payload.get('gpg_encrypt')
@@ -242,19 +242,15 @@ class ResetPasswordView(ConfirmationMixin, XMPPAccountView):
         return User.objects.has_email().get(jid=data['username'])
 
 
-class ResetPasswordConfirmationView(ConfirmedView):
+class ResetPasswordConfirmationView(ConfirmedMixin, XMPPAccountView):
     form_class = ResetPasswordConfirmationForm
-    template_name = 'xmpp_accounts/reset/password-confirm.html'
     purpose = PURPOSE_SET_PASSWORD
-    action_url = 'xmpp_accounts:password'
-    opengraph_title = _messages['password']['opengraph_title']
-    opengraph_description = _messages['password']['opengraph_description']
 
-    def handle_key(self, key, form):
-        backend.set_password(username=key.user.node, domain=key.user.domain,
-                             password=form.cleaned_data['password'])
-        key.user.confirmed = now()
-        key.user.save()
+    def handle_key(self, key, user, form):
+        node, domain = user.get_username().split('@', 1)
+        backend.set_password(username=node, domain=domain, password=form.cleaned_data['password'])
+        user.confirmed = now()
+        user.save()
 
 
 class ResetEmailView(ConfirmationView):
