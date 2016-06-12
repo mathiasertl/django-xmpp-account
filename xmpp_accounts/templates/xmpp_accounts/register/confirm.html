@@ -1,7 +1,7 @@
-{% extends "container.html" %}
+{% extends "base.html" %}
 {% load i18n staticfiles social %}
 
-{% block title %}{% trans "Confirm Registration" %}{% endblock title %}
+{% block pagetitle %}{% block title %}{% trans "Confirm Registration" %}{% endblock title %}{% endblock pagetitle %}
 
 {% block body %}
 {% if form.is_valid or SUBMIT %}

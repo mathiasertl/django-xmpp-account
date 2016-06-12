@@ -1,9 +1,9 @@
-{% extends "container.html" %}
+{% extends "base.html" %}
 {% load i18n %}
 
 {% block description %}Register an account on {{ SITE.BRAND }}, a free and open Jabber/XMPP server.{% endblock description %}
 
-{% block title %}{% trans "Account registration" %}{% endblock title %}
+{% block pagetitle %}{% block title %}{% trans "Account registration" %}{% endblock title %}{% endblock pagetitle %}
 
 {% block body %}
 {% if form.is_valid %}{# successfull registration - don't display form! #}

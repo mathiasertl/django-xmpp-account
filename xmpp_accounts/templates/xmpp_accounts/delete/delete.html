@@ -1,7 +1,7 @@
-{% extends "container.html" %}
+{% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Delete account" %}{% endblock title %}
+{% block pagetitle %}{% block title %}{% trans "Delete account" %}{% endblock title %}{% endblock pagetitle %}
 
 {% block body %}
 {% if form.is_valid %}{# successfull registration - don't display form! #}
