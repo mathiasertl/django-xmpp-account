@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="form-group{% if field.errors %} has-error{% elif field.value.0 and not field.errors %} has-success{% endif %}" id="fg_username">
+<div class="form-group {% if form.is_bound %}{% if field.errors %} has-error{% elif field.value.0 and not field.errors %} has-success{% endif %}{% endif %}" id="fg_username">
     {{ field.label_tag }}{{ field }}
 
     <div class="help-block">
