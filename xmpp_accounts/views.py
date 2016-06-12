@@ -43,6 +43,7 @@ from core.exceptions import RegistrationRateException
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
+from .constants import PURPOSE_REGISTER
 from .forms import DeleteConfirmationForm
 from .forms import DeleteForm
 from .forms import RegistrationConfirmationForm
@@ -120,7 +121,7 @@ class XMPPAccountView(AntiSpamMixin, FormView):
 
 class RegistrationView(ConfirmationMixin, XMPPAccountView):
     form_class = RegistrationForm
-    purpose = 'register'
+    purpose = PURPOSE_REGISTER
 
     def registration_rate(self):
         # Check for a registration rate
