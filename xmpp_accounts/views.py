@@ -118,6 +118,43 @@ class XMPPAccountView(AntiSpamMixin, FormView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
+class RegistrationView(ConfirmationMixin, XMPPAccountView):
+    form_class = RegistrationForm
+    purpose = 'register'
+
+    def registration_rate(self):
+        # Check for a registration rate
+        cache_key = 'registration-%s' % self.request.get_host()
+        registrations = cache.get(cache_key, set())
+        _now = datetime.utcnow()
+
+        for key, value in settings.REGISTRATION_RATE.items():
+            if len([s for s in registrations if s > _now - key]) >= value:
+                raise RegistrationRateException()
+        registrations.add(_now)
+        cache.set(cache_key, registrations)
+
+    def get_user(self, data):
+        last_login = tzinfo.localize(datetime.now())
+        return User.objects.create(jid=data['username'], last_login=last_login,
+                                   email=data['email'], registration_method=REGISTRATION_WEBSITE)
+
+    def handle_valid(self, form, user):
+        node, domain = user.get_username().split('@', 1)
+        if settings.XMPP_HOSTS[domain].get('RESERVE', False):
+            backend.create_reservation(username=node, domain=domain, email=user.email)
+
+        kwargs = {
+            'recipient': user.email,
+        }
+        kwargs.update(self.gpg_from_form(form))
+        return kwargs
+
+    def form_valid(self, form):
+        self.registration_rate()
+        return super(RegistrationView, self).form_valid(form)
+
+
 class RegistrationConfirmationView(ConfirmedView):
     form_class = RegistrationConfirmationForm
     template_name = 'xmpp_accounts/register/confirm.html'
@@ -153,43 +190,6 @@ class RegistrationConfirmationView(ConfirmedView):
             message = settings.WELCOME_MESSAGE['message'].format(**context)
             backend.message_user(username=key.user.node, domain=key.user.domain, subject=subject,
                                  message=message)
-
-
-class NewRegistrationView(ConfirmationMixin, XMPPAccountView):
-    form_class = RegistrationForm
-    purpose = 'register'
-
-    def registration_rate(self):
-        # Check for a registration rate
-        cache_key = 'registration-%s' % self.request.get_host()
-        registrations = cache.get(cache_key, set())
-        _now = datetime.utcnow()
-
-        for key, value in settings.REGISTRATION_RATE.items():
-            if len([s for s in registrations if s > _now - key]) >= value:
-                raise RegistrationRateException()
-        registrations.add(_now)
-        cache.set(cache_key, registrations)
-
-    def get_user(self, data):
-        last_login = tzinfo.localize(datetime.now())
-        return User.objects.create(jid=data['username'], last_login=last_login,
-                                   email=data['email'], registration_method=REGISTRATION_WEBSITE)
-
-    def handle_valid(self, form, user):
-        node, domain = user.get_username().split('@', 1)
-        if settings.XMPP_HOSTS[domain].get('RESERVE', False):
-            backend.create_reservation(username=node, domain=domain, email=user.email)
-
-        kwargs = {
-            'recipient': user.email,
-        }
-        kwargs.update(self.gpg_from_form(form))
-        return kwargs
-
-    def form_valid(self, form):
-        self.registration_rate()
-        return super(NewRegistrationView, self).form_valid(form)
 
 
 class NewRegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):

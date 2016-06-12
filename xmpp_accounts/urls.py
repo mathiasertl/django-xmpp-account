@@ -24,7 +24,7 @@ from . import views
 app_name = 'xmpp_accounts'
 
 urlpatterns = [
-    url(r'^$', views.NewRegistrationView.as_view(), name='register'),
+    url(r'^$', views.RegistrationView.as_view(), name='register'),
 
     url(r'^register/confirm/(?P<key>\w+)/$', views.RegistrationConfirmationView.as_view(),
         name='register_confirm'),
