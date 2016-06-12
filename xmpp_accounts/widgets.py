@@ -35,5 +35,5 @@ class XMPPAccountJIDWidget(forms.MultiWidget):
 
     class Media:
         js = (
-            'xmpp_accounts/js/jidfield.js',
+            'xmpp_accounts/js/jid_widget.js',
         )
