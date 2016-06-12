@@ -58,11 +58,11 @@ var check_username = function(form_group) {
 };
 
 $(document).ready(function() {
-    jQuery('#id_username_0').on('input propertychange paste', function(e) {
+    jQuery('#id_username_0.status-check').on('input propertychange paste', function(e) {
         var form_group = $(e.target).parent('.form-group');
         check_username(form_group);
     });
-    $('#id_username_1').change(function(e) {
+    $('#id_username_1.status-check').change(function(e) {
         var form_group = $(e.target).parent('.form-group');
         check_username(form_group);
     });

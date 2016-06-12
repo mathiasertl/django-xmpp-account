@@ -203,7 +203,10 @@ class XMPPAccountJIDField(BootstrapMixin, forms.MultiValueField):
         )
         widgets = [f.widget for f in fields]
 
-        self.widget = XMPPAccountJIDWidget(widgets=widgets, attrs={'class': 'status-check'})
+        attrs = {}
+        if self.register is True:
+            attrs['class'] = 'status-check'
+        self.widget = XMPPAccountJIDWidget(widgets=widgets, attrs=attrs)
         super(XMPPAccountJIDField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
 
     def compress(self, data_list):
