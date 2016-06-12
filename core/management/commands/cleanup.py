@@ -30,7 +30,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
+from django_confirm.models import default_expires
 from django_xmpp_backends import backend
+
 from core.constants import REGISTRATION_WEBSITE
 from core.models import Confirmation
 from core.models import UserAddresses
@@ -38,6 +40,8 @@ from core.models import UserAddresses
 User = get_user_model()
 sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 log = logging.getLogger('cleanup')  # we log to a file
+
+_default_timeout_delta = getattr(settings, 'DJANGO_CONFIRM_DEFAULT_TIMEOUT', timedelta(hours=24))
 
 
 class Command(BaseCommand):
@@ -71,7 +75,8 @@ class Command(BaseCommand):
                 continue
 
             # only consider users that have no pending confirmation keys
-            users = User.objects.filter(jid__endswith='@%s' % domain, confirmation__isnull=True)
+            created_before = timezone.now() - _default_timeout_delta
+            users = User.objects.filter(jid__endswith='@%s' % domain, created__lt=created_before)
 
             for user in users:
                 username = user.node.lower()
