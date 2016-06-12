@@ -27,20 +27,6 @@ var load_facebook = function() {
 
 
 $(document).ready(function() {
-    $('#id_email').keyup(function(data) {
-        if (ignored_keys.indexOf(data.which) !== -1) {
-            return;
-        }
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        var input = $(this);
-        var form_group = input.parents('div.form-group');
-        if (re.test($(this).val())) {
-            form_group.removeClass('has-error');
-        } else {
-            form_group.addClass('has-error');
-        }
-    });
-
     $('a.social').on('click', function(event) {
         link = $(event.currentTarget);
         url = link.attr('href');

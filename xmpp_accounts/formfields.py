@@ -24,6 +24,7 @@ from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
 from .widgets import XMPPAccountJIDWidget
+from .widgets import XMPPAccountEmailWidget
 
 
 class BoundField(forms.boundfield.BoundField):
@@ -61,6 +62,7 @@ class XMPPAccountPasswordField(BootstrapMixin, forms.CharField):
 class XMPPAccountEmailField(BootstrapMixin, forms.EmailField):
     def __init__(self, **kwargs):
         kwargs.setdefault('label', _('email'))
+        kwargs.setdefault('widget', XMPPAccountEmailWidget)
         kwargs.setdefault(
             'help_text', _('Required, a confirmation email will be sent to this address.'))
         kwargs.setdefault('error_messages', {})

@@ -20,6 +20,13 @@ from django import forms
 from django.conf import settings
 
 
+class XMPPAccountEmailWidget(forms.EmailInput):
+    class Media:
+        js = (
+            'xmpp_accounts/js/email_widget.js',
+        )
+
+
 class XMPPAccountJIDWidget(forms.MultiWidget):
     def decompress(self, value):
         if value:
