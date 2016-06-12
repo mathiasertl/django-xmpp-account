@@ -158,7 +158,7 @@ class RegistrationView(ConfirmationMixin, XMPPAccountView):
 class OldRegistrationConfirmationView(ConfirmedView):
     form_class = RegistrationConfirmationForm
     template_name = 'xmpp_accounts/register/confirm.html'
-    purpose = PURPOSE_REGISTER
+    purpose = 0
     menuitem = 'register'
     action_url = 'xmpp_accounts:register'
     opengraph_title = _messages['register']['opengraph_title']
