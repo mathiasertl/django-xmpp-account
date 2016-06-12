@@ -155,7 +155,7 @@ class RegistrationView(ConfirmationMixin, XMPPAccountView):
         return super(RegistrationView, self).form_valid(form)
 
 
-class RegistrationConfirmationView(ConfirmedView):
+class OldRegistrationConfirmationView(ConfirmedView):
     form_class = RegistrationConfirmationForm
     template_name = 'xmpp_accounts/register/confirm.html'
     purpose = PURPOSE_REGISTER
@@ -192,7 +192,7 @@ class RegistrationConfirmationView(ConfirmedView):
                                  message=message)
 
 
-class NewRegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):
+class RegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):
     """Confirm a registration.
 
     .. NOTE:: This is deliberately not implemented as a generic view related to the Confirmation
