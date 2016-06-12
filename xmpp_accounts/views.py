@@ -26,10 +26,12 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.utils.six.moves.urllib.parse import urlsplit
 from django.utils.timezone import now
 from django.utils.translation import ugettext as _
+from django.views.generic import FormView
 from django.views.generic import View
-from django.http import HttpResponse
 
 from core.constants import PURPOSE_SET_PASSWORD
 from core.constants import PURPOSE_SET_EMAIL
@@ -49,6 +51,9 @@ from .forms import ResetEmailConfirmationForm
 from .forms import ResetEmailForm
 from .forms import ResetPasswordConfirmationForm
 from .forms import ResetPasswordForm
+from .mixins import AntiSpamMixin
+from .mixins import ConfirmationMixin
+from .mixins import ConfirmedMixin
 
 from django_xmpp_backends import backend
 from xmpp_backends.base import UserNotFound
@@ -73,6 +78,44 @@ _messages = {
         'opengraph_description': _('Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it can never be restored.'),
     },
 }
+
+
+class XMPPAccountView(AntiSpamMixin, FormView):
+    """Base class for all other views in this module."""
+
+    purpose = None
+
+    def get_context_data(self, **kwargs):
+        context = super(XMPPAccountView, self).get_context_data(**kwargs)
+        context['menuitem'] = self.purpose
+
+        # Social media
+        action_url = reverse('xmpp_accounts:%s' % self.purpose)
+        context['ACTION_URL'] = self.request.build_absolute_uri(action_url)
+        context['REGISTER_URL'] = self.request.build_absolute_uri(
+            reverse('xmpp_accounts:register'))
+        context['OPENGRAPH_TITLE'] = _messages[self.purpose]['opengraph_title'] % self.request.site
+        context['OPENGRAPH_DESCRIPTION'] = _messages[self.purpose]['opengraph_description'] \
+                                            % self.request.site
+        context['TWITTER_TEXT'] = _messages[self.purpose].get('twitter_text',
+                                                              context['OPENGRAPH_TITLE'])
+
+        if 'CANONICAL_HOST' in self.request.site:
+            context['ACTION_URL'] = urlsplit(context['ACTION_URL'])._replace(
+                netloc=self.request.site['CANONICAL_HOST']).geturl()
+            context['REGISTER_URL'] = urlsplit(context['REGISTER_URL'])._replace(
+                netloc=self.request.site['CANONICAL_HOST']).geturl()
+
+        # TODO: Yes, that's ugly!
+        form = context['form']
+        if settings.GPG and hasattr(form, 'cleaned_data') and 'gpg_key' in form.fields:
+            if form['gpg_key'].errors or form['fingerprint'].errors or \
+                    form.cleaned_data.get('fingerprint') or form.cleaned_data.get('gpg_key'):
+                context['show_gpg'] = True
+        return context
+
+    def form_valid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class RegistrationView(ConfirmationView):
@@ -156,6 +199,80 @@ class RegistrationConfirmationView(ConfirmedView):
             subject = settings.WELCOME_MESSAGE['subject'].format(**context)
             message = settings.WELCOME_MESSAGE['message'].format(**context)
             backend.message_user(username=key.user.node, domain=key.user.domain, subject=subject,
+                                 message=message)
+
+
+class NewRegistrationView(ConfirmationMixin, XMPPAccountView):
+    form_class = RegistrationForm
+    purpose = 'register'
+
+    def registration_rate(self):
+        # Check for a registration rate
+        cache_key = 'registration-%s' % self.request.get_host()
+        registrations = cache.get(cache_key, set())
+        _now = datetime.utcnow()
+
+        for key, value in settings.REGISTRATION_RATE.items():
+            if len([s for s in registrations if s > _now - key]) >= value:
+                raise RegistrationRateException()
+        registrations.add(_now)
+        cache.set(cache_key, registrations)
+
+    def get_user(self, data):
+        last_login = tzinfo.localize(datetime.now())
+        return User.objects.create(jid=data['username'], last_login=last_login,
+                                   email=data['email'], registration_method=REGISTRATION_WEBSITE)
+
+    def handle_valid(self, form, user):
+        node, domain = user.get_username().split('@', 1)
+        if settings.XMPP_HOSTS[domain].get('RESERVE', False):
+            backend.create_reservation(username=node, domain=domain, email=user.email)
+
+        kwargs = {
+            'recipient': user.email,
+        }
+        kwargs.update(self.gpg_from_form(form))
+        return kwargs
+
+    def form_valid(self, form):
+        self.registration_rate()
+        return super(NewRegistrationView, self).form_valid(form)
+
+
+class NewRegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):
+    """Confirm a registration.
+
+    .. NOTE:: This is deliberately not implemented as a generic view related to the Confirmation
+       object. We want to present the form unconditionally and complain about a false key only when
+       the user passed various Anti-SPAM measures.
+    """
+    form_class = RegistrationConfirmationForm
+    purpose = 'register'
+
+    def handle_key(self, key, user, form):
+        user.gpg_fingerprint = key.payload.get('gpg_encrypt')
+        user.confirmed = now()
+        user.save()
+
+        backend.create_user(username=user.node, domain=user.domain, email=user.email,
+                            password=form.cleaned_data['password'])
+        if settings.WELCOME_MESSAGE is not None:
+            reset_pass_path = reverse('xmpp_accounts:reset_password')
+            reset_mail_path = reverse('xmpp_accounts:reset_email')
+            delete_path = reverse('xmpp_accounts:delete')
+
+            context = {
+                'username': user.node,
+                'domain': user.domain,
+                'email': user.email,
+                'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
+                'email_reset_url': self.request.build_absolute_uri(location=reset_mail_path),
+                'delete_url': self.request.build_absolute_uri(location=delete_path),
+                'contact_url': self.request.site['CONTACT_URL'],
+            }
+            subject = settings.WELCOME_MESSAGE['subject'].format(**context)
+            message = settings.WELCOME_MESSAGE['message'].format(**context)
+            backend.message_user(username=user.node, domain=user.domain, subject=subject,
                                  message=message)
 
 
