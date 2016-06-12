@@ -63,7 +63,6 @@ $(document).ready(function() {
         check_username(form_group);
     });
     $('#id_username_1').change(function(e) {
-        show_fingerprint_msg();
         var form_group = $(e.target).parent('.form-group');
         check_username(form_group);
     });

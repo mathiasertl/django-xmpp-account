@@ -10,12 +10,6 @@ $.ajaxSetup({
     }
 });
 
-var show_fingerprint_msg = function() {
-    var id = 'fp-' + $('#id_username_1 option:selected').val();
-    $('.fingerprint[id!="' + id + '"]').hide();
-    $('.fingerprint[id="' + id + '"]').show();
-};
-
 /**
  * Code to insert Facebook SDK.
  */
@@ -33,14 +27,6 @@ var load_facebook = function() {
 
 
 $(document).ready(function() {
-    show_fingerprint_msg();
-
-    $('.gpg-fields-toggle').click(function(data) {
-        $('.gpg-fields-toggle .show-triangle').toggle();
-        $('.gpg-fields-toggle .hide-triangle').toggle();
-        $('.gpg-form-group .row').slideToggle();
-    });
-
     $('#id_email').keyup(function(data) {
         if (ignored_keys.indexOf(data.which) !== -1) {
             return;

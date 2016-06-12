@@ -43,6 +43,17 @@ class AntiSpamForm(forms.Form):
         ))
 
 
+class GPGMixin(forms.Form):
+    if settings.GPG:
+        fingerprint = XMPPAccountFingerprintField()
+        gpg_key = XMPPAccountKeyUploadField()
+
+    class Media:
+        js = (
+            'xmpp_accounts/js/gpgmixin.js',
+        )
+
+
 class PasswordConfirmationMixin(forms.Form):
     password2 = XMPPAccountPasswordField(
         label=_("Confirm"), help_text=_("Enter the same password as above, for verification."))
@@ -60,11 +71,8 @@ class PasswordConfirmationMixin(forms.Form):
                 self.add_error('password2', self.password_error_messages['password_mismatch'])
 
 
-class RegistrationForm(AntiSpamForm):
+class RegistrationForm(GPGMixin, AntiSpamForm):
     email = XMPPAccountEmailField()
-    if settings.GPG:
-        fingerprint = XMPPAccountFingerprintField()
-        gpg_key = XMPPAccountKeyUploadField()
     username = XMPPAccountJIDField(register=True, help_text=
         _('At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
             'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
@@ -95,13 +103,10 @@ class ResetPasswordConfirmationForm(PasswordConfirmationMixin, AntiSpamForm):
     password = XMPPAccountPasswordField()
 
 
-class ResetEmailForm(AntiSpamForm):
+class ResetEmailForm(GPGMixin, AntiSpamForm):
     username = XMPPAccountJIDField()
     email = XMPPAccountEmailField(label=_('New email address'))
     password = XMPPAccountPasswordField()
-    if settings.GPG:
-        fingerprint = XMPPAccountFingerprintField()
-        gpg_key = XMPPAccountKeyUploadField()
 
 
 class ResetEmailConfirmationForm(AntiSpamForm):
