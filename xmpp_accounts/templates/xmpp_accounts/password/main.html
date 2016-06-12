@@ -20,7 +20,7 @@ your Jabber address and the email address you have used for registration.
 You will receive an email with a link to a page that allows you to reset
 your password.{% endblocktrans %}</p>
 <p class="alert alert-info">
-{% url "ResetEmail" as email_reset_url %}
+{% url "xmpp_accounts:reset_email" as email_reset_url %}
 {% blocktrans with url=email_reset_url %}<strong>Please note:</strong> You can only reset your password here if you
 have registered via this site (or <a href="{{ url }}">set your email</a>).{% endblocktrans %}
 </p>
