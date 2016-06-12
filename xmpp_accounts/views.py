@@ -118,54 +118,7 @@ class XMPPAccountView(AntiSpamMixin, FormView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class RegistrationView(ConfirmationView):
-    template_name = 'xmpp_accounts/register/create.html'
-    form_class = RegistrationForm
-
-    purpose = PURPOSE_REGISTER
-    menuitem = 'register'
-    opengraph_title = _messages['register']['opengraph_title']
-    opengraph_description = _messages['register']['opengraph_description']
-
-    def registration_rate(self):
-        # Check for a registration rate
-        cache_key = 'registration-%s' % self.request.get_host()
-        registrations = cache.get(cache_key, set())
-        _now = datetime.utcnow()
-
-        for key, value in settings.REGISTRATION_RATE.items():
-            if len([s for s in registrations if s > _now - key]) >= value:
-                raise RegistrationRateException()
-        registrations.add(_now)
-        cache.set(cache_key, registrations)
-
-    def get_user(self, data):
-        last_login = tzinfo.localize(datetime.now())
-        return User.objects.create(jid=data['username'], last_login=last_login,
-                                   email=data['email'], registration_method=REGISTRATION_WEBSITE)
-
-    def handle_valid(self, form, user):
-        domain = user.jid.split('@', 1)[1]
-        payload = self.handle_gpg(form, user)
-        payload['email'] = form.cleaned_data['email']
-
-        if settings.XMPP_HOSTS[domain].get('RESERVE', False):
-            backend.create_reservation(
-                username=form.cleaned_data['username'], domain=domain, email=user.email)
-        return payload
-
-    def form_valid(self, form):
-        self.registration_rate()
-        return super(RegistrationView, self).form_valid(form)
-
-
 class RegistrationConfirmationView(ConfirmedView):
-    """Confirm a registration.
-
-    .. NOTE:: This is deliberately not implemented as a generic view related to the Confirmation
-       object. We want to present the form unconditionally and complain about a false key only when
-       the user passed various Anti-SPAM measures.
-    """
     form_class = RegistrationConfirmationForm
     template_name = 'xmpp_accounts/register/confirm.html'
     purpose = PURPOSE_REGISTER
