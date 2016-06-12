@@ -62,6 +62,7 @@ minify_js = MinifyJSTask(files=[
     'core/static/lib/bootstrap/js/bootstrap.min.js',
     'core/static/js/base.js',
     'xmpp_accounts/static/xmpp_accounts/js/jidfield.js',
+    'xmpp_accounts/static/xmpp_accounts/js/gpgmixin.js',
 ], dest='core/static/account-%s.min.js' % datestamp)
 
 
