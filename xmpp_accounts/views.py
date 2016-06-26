@@ -366,7 +366,6 @@ class UserAvailableView(View):
         username = request.POST.get('username', '').strip().lower()
         domain = request.POST.get('domain', '').strip().lower()
         jid = '%s@%s' % (username, domain)
-        print('checking %s' % jid)
 
         cache_key = 'exists_%s' % jid
         exists = cache.get(cache_key)
