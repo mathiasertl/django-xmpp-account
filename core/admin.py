@@ -40,7 +40,7 @@ User = get_user_model()
 class UserAddressAdmin(admin.ModelAdmin):
     list_display = ['purpose', 'address', 'user', 'timestamp', ]
     list_select_related = ('address', 'user', )
-    search_fields = ('address__address', 'user__email', 'user__username')
+    search_fields = ('address__address', 'user__email', 'user__jid')
 
 
 class AddressAdmin(admin.ModelAdmin):
