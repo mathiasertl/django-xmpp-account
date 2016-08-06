@@ -22,7 +22,6 @@ import sys
 
 from datetime import datetime
 from datetime import timedelta
-from optparse import make_option
 
 import pytz
 
@@ -45,10 +44,9 @@ _default_timeout_delta = getattr(settings, 'DJANGO_CONFIRM_DEFAULT_TIMEOUT', tim
 
 
 class Command(BaseCommand):
-    option_list = BaseCommand.option_list + (
-        make_option('-q', '--quiet', action='store_true', default=False,
-                    help="Do not output deleted users."),
-    )
+    def add_argument(self, parser):
+        parser.add_argument('-q', '--quiet', action='store_true', default=False,
+                            help="Do not output deleted users."),
 
     def handle(self, *args, **kwargs):
         if kwargs.get('quiet'):
