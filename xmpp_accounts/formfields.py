@@ -25,6 +25,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .widgets import XMPPAccountJIDWidget
 from .widgets import XMPPAccountEmailWidget
+from .widgets import XMPPAccountNodeWidget
 
 
 class BoundField(forms.boundfield.BoundField):
@@ -187,7 +188,7 @@ class XMPPAccountJIDField(BootstrapMixin, forms.MultiValueField):
         choices = tuple([(d, '@%s' % d) for d in hosts])
 
         fields = (
-            forms.CharField(
+            XMPPAccountNodeWidget(
                 min_length=settings.MIN_USERNAME_LENGTH,
                 max_length=settings.MAX_USERNAME_LENGTH,
                 error_messages = {
@@ -210,5 +211,6 @@ class XMPPAccountJIDField(BootstrapMixin, forms.MultiValueField):
         super(XMPPAccountJIDField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
 
     def compress(self, data_list):
+        print('compress: %s' % (data_list, ))
         node, domain = data_list
         return '@'.join(data_list)

@@ -27,6 +27,11 @@ class XMPPAccountEmailWidget(forms.EmailInput):
         )
 
 
+class XMPPAccountNodeWidget(forms.CharField):
+    def clean(self, value):
+        return super(XMPPAccountNodeWidget, self).clean(value).lower().strip()
+
+
 class XMPPAccountJIDWidget(forms.MultiWidget):
     def decompress(self, value):
         if value:
