@@ -256,9 +256,9 @@ if not os.path.exists(LOGDIR):
 # compute path to latest minified js/css files
 _static_base = os.path.join(BASE_DIR, 'core', 'static')
 MINIFIED_JS = sorted(glob.glob(os.path.join(_static_base, 'account-*.min.js')))[-1]
-MINIFIED_JS = '%s%s' % (STATIC_URL, os.path.basename(MINIFIED_JS))
+MINIFIED_JS = os.path.basename(MINIFIED_JS)
 MINIFIED_CSS = sorted(glob.glob(os.path.join(_static_base, 'account-*.min.css')))[-1]
-MINIFIED_CSS = '%s%s' % (STATIC_URL, os.path.basename(MINIFIED_CSS))
+MINIFIED_CSS = os.path.basename(MINIFIED_CSS)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
