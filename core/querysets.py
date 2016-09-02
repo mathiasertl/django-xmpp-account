@@ -47,6 +47,9 @@ class ConfirmationQuerySet(QuerySet):
     def expired(self):
         return self.filter(created__lt=self.timestamp)
 
+    def purpose(self, purpose):
+        return self.filter(purpose=purpose)
+
     def registrations(self):
         return self.filter(purpose=PURPOSE_REGISTER)
 
