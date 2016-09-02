@@ -82,15 +82,17 @@ REGISTRATION_CHOICES = (
 )
 REGISTRATION_DICT = dict(REGISTRATION_CHOICES)
 PURPOSES = {
-    PURPOSE_SET_EMAIL: {
-        'urlname': 'xmpp_accounts:reset_email_confirm',
-        'subject': _l('Confirm the email address for your %(domain)s account'),
-        'template': 'xmpp_accounts/reset/email-mail',
+    NEW_PURPOSE_REGISTER: {
+        'subject': _('Your new account on %(domain)s'),
     },
-    PURPOSE_DELETE: {
-        'urlname': 'xmpp_accounts:delete_confirm',
+    NEW_PURPOSE_SET_PASSWORD: {
+        'subject':  _('Reset the password for your %(domain)s account'),
+    },
+    NEW_PURPOSE_SET_EMAIL: {
+        'subject': _l('Confirm the email address for your %(domain)s account'),
+    },
+    NEW_PURPOSE_DELETE: {
         'subject': _l('Delete your account on %(domain)s'),
-        'template': 'xmpp_accounts/delete/mail',
     },
 }
 
@@ -135,10 +137,7 @@ class RegistrationUser(XmppBackendUser):
             raise TemporaryError(
                 "It appears you have entered some weird characters. Please try again.")
 
-        return (
-            PURPOSES[purpose]['urlname'],
-            Confirmation.objects.create(user=self, purpose=purpose, payload=payload),
-        )
+        return self.confirmation_set.create(purpose=purpose, payload=payload)
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
