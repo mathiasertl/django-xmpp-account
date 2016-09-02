@@ -23,8 +23,6 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth import get_user_model
 
 from brake.decorators import ratelimit
-from django_confirm.exceptions import GpgError
-from django_confirm.models import Confirmation
 from xmpp_backends.base import UserExists
 from xmpp_backends.base import UserNotFound
 
