@@ -34,16 +34,15 @@ from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 from django.views.generic import View
 
-from core.constants import PURPOSE_SET_EMAIL
-from core.constants import PURPOSE_DELETE
-from core.constants import REGISTRATION_INBAND
-from core.constants import REGISTRATION_WEBSITE
 from core.exceptions import RegistrationRateException
 from core.views import ConfirmationView
 from core.views import ConfirmedView
 
+from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
+from .constants import PURPOSE_SET_EMAIL
 from .constants import PURPOSE_SET_PASSWORD
+from .constants import REGISTRATION_WEBSITE
 from .forms import DeleteConfirmationForm
 from .forms import DeleteForm
 from .forms import RegistrationConfirmationForm
@@ -157,43 +156,6 @@ class RegistrationView(ConfirmationMixin, XMPPAccountView):
             return super(RegistrationView, self).form_valid(form)
 
 
-class OldRegistrationConfirmationView(ConfirmedView):
-    form_class = RegistrationConfirmationForm
-    template_name = 'xmpp_accounts/register/confirm.html'
-    purpose = 0
-    menuitem = 'register'
-    action_url = 'xmpp_accounts:register'
-    opengraph_title = _messages['register']['opengraph_title']
-    opengraph_description = _messages['register']['opengraph_description']
-
-    def handle_key(self, key, form):
-        data = json.loads(key.payload)
-        key.user.gpg_fingerprint = data.get('gpg_fingerprint')
-        key.user.confirmed = now()
-        key.user.save()
-
-        backend.create_user(username=key.user.node, domain=key.user.domain,
-                            email=key.user.email, password=form.cleaned_data['password'])
-        if settings.WELCOME_MESSAGE is not None:
-            reset_pass_path = reverse('xmpp_accounts:password')
-            reset_mail_path = reverse('xmpp_accounts:reset_email')
-            delete_path = reverse('xmpp_accounts:delete')
-
-            context = {
-                'username': key.user.node,
-                'domain': key.user.domain,
-                'email': key.user.email,
-                'password_reset_url': self.request.build_absolute_uri(location=reset_pass_path),
-                'email_reset_url': self.request.build_absolute_uri(location=reset_mail_path),
-                'delete_url': self.request.build_absolute_uri(location=delete_path),
-                'contact_url': self.request.site['CONTACT_URL'],
-            }
-            subject = settings.WELCOME_MESSAGE['subject'].format(**context)
-            message = settings.WELCOME_MESSAGE['message'].format(**context)
-            backend.message_user(username=key.user.node, domain=key.user.domain, subject=subject,
-                                 message=message)
-
-
 class RegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):
     """Confirm a registration.
 
@@ -255,34 +217,9 @@ class ResetPasswordConfirmationView(ConfirmedMixin, XMPPAccountView):
         user.save()
 
 
-class ResetEmailView(ConfirmationView):
+class ResetEmailView(ConfirmationMixin, XMPPAccountView):
     form_class = ResetEmailForm
-#    success_url = reverse_lazy('ResetEmailThanks')
-    template_name = 'xmpp_accounts/reset/email.html'
-
     purpose = PURPOSE_SET_EMAIL
-    menuitem = 'email'
-    opengraph_title = _messages['reset_email']['opengraph_title']
-    opengraph_description = _messages['reset_email']['opengraph_description']
-
-    def get_user(self, data):
-        """User may or may not exist."""
-        jid = data['username']
-        node, domain = jid.split('@', 1)
-        password = data['password']
-
-        if not backend.check_password(username=node, domain=domain, password=password):
-            raise UserNotFound()
-
-        # Defaults are only used for *new* User objects. If they aren't in the database already,
-        # it means they registered through InBand-Registration.
-        defaults = {
-            'email': data['email'],
-            'registration_method': REGISTRATION_INBAND,
-        }
-
-        user, created = User.objects.get_or_create(jid=jid, defaults=defaults)
-        return user
 
     def handle_valid(self, form, user):
         payload = super(ResetEmailView, self).handle_valid(form, user)
@@ -296,7 +233,6 @@ class ResetEmailConfirmationView(ConfirmedView):
     template_name = 'xmpp_accounts/reset/email-confirm.html'
     purpose = PURPOSE_SET_EMAIL
 
-    action_url = 'xmpp_accounts:reset_email'
     opengraph_title = _messages['reset_email']['opengraph_title']
     opengraph_description = _messages['reset_email']['opengraph_description']
 
