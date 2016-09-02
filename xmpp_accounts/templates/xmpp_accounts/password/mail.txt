@@ -1,9 +1,9 @@
-{% load i18n %}{% language lang %}{% blocktrans with username=extra.username %}Dear {{ username }},{% endblocktrans %}
+{% load i18n %}{% language lang %}{% blocktrans with username=username %}Dear {{ username }},{% endblocktrans %}
 
 {% blocktrans %}You requested to change the password for your Jabber account {{ jid }}.
 To complete the change, please go to this address:{% endblocktrans %}
 
-    {{ extra.uri }}
+    {{ uri }}
 {% if cleartext %}
 {% blocktrans %}Please note that this server stores passwords as plain text. We can only
 encourage you to choose a safe password you use nowhere else.{% endblocktrans %}{% endif %}
@@ -11,4 +11,4 @@ encourage you to choose a safe password you use nowhere else.{% endblocktrans %}
 {% trans "If you haven't made this change, simply disregard this email." %}
 
 {% trans "greetings," %}
-    {{ extra.domain }}{% endlanguage %}
+    {{ domain }}{% endlanguage %}
