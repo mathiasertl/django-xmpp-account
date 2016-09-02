@@ -90,8 +90,7 @@ class XMPPAccountView(AntiSpamMixin, FormView):
         context['menuitem'] = self.purpose
 
         # Social media
-        action_url = reverse('xmpp_accounts:%s' % self.purpose)
-        context['ACTION_URL'] = self.request.build_absolute_uri(action_url)
+        context['ACTION_URL'] = self.request.build_absolute_uri(self.action_path)
         context['REGISTER_URL'] = self.request.build_absolute_uri(
             reverse('xmpp_accounts:register'))
         context['OPENGRAPH_TITLE'] = _messages[self.purpose]['opengraph_title'] % self.request.site
