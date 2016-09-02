@@ -211,6 +211,5 @@ class XMPPAccountJIDField(BootstrapMixin, forms.MultiValueField):
         super(XMPPAccountJIDField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
 
     def compress(self, data_list):
-        print('compress: %s' % (data_list, ))
         node, domain = data_list
         return '@'.join(data_list)
