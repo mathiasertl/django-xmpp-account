@@ -26,14 +26,14 @@ from brake.decorators import ratelimit
 from xmpp_backends.base import UserExists
 from xmpp_backends.base import UserNotFound
 
-from core.models import Confirmation
-from core.models import Address
-from core.models import UserAddresses
-from core.utils import get_client_ip
 from core.exceptions import RateException
 from core.exceptions import SpamException
-
+from core.models import Address
 from core.models import Confirmation
+from core.models import UserAddresses
+from core.tasks import send_email
+from core.utils import confirm
+from core.utils import get_client_ip
 
 User = get_user_model()
 
@@ -89,10 +89,7 @@ class ConfirmationMixin(object):
     def form_valid(self, form):
         try:
             user = self.get_user(form.cleaned_data)
-            kwargs = self.handle_valid(form, user)
-        except GpgError as e:
-            form.add_error(e.field, e.message)
-            return self.form_invalid(form)
+            payload = self.handle_valid(form, user)
         except User.DoesNotExist:
             form.add_error(None, self.user_not_found_error)
             return self.form_invalid(form)
@@ -106,12 +103,14 @@ class ConfirmationMixin(object):
         # log user address:
         address = Address.objects.get_or_create(address=self.request.META['REMOTE_ADDR'])[0]
         # TODO: this is still an int in the db
-        #UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
-        UserAddresses.objects.create(address=address, user=user, purpose=1)
+        UserAddresses.objects.create(address=address, user=user, purpose=self.purpose)
 
         # Send confirmation email to the user
-        key = XMPPAccountConfirmation.objects.create(purpose=self.purpose)
-        key.send(self.purpose, self.request, user, **kwargs)
+        key, kwargs = confirm(self.request, user, purpose=self.purpose, payload=payload)
+        if settings.BROKER_URL is None:
+            key.send(**kwargs)
+        else:
+            send_email.delay(key_id=key.pk, **kwargs)
 
         return super(ConfirmationMixin, self).form_valid(form)
 
