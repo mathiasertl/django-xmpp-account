@@ -230,25 +230,26 @@ class ResetEmailView(ConfirmationMixin, XMPPAccountView):
         return payload
 
 
-class ResetEmailConfirmationView(ConfirmedView):
+class ResetEmailConfirmationView(ConfirmedMixin, XMPPAccountView):
     form_class = ResetEmailConfirmationForm
-    template_name = 'xmpp_accounts/reset/email-confirm.html'
     purpose = PURPOSE_SET_EMAIL
 
-    def handle_key(self, key, form):
+    def handle_key(self, key, user, form):
         if not backend.check_password(username=key.user.node, domain=key.user.domain,
                                       password=form.cleaned_data['password']):
             raise UserNotFound()
 
         data = json.loads(key.payload)
-        key.user.gpg_fingerprint = data.get('gpg_fingerprint')
-        key.user.confirmed = now()
+        user.gpg_fingerprint = data.get('gpg_fingerprint')
+        user.confirmed = now()
 
-        if 'email' in data:  # set email from payload (might not be present in old keys)
-            key.user.email = data['email']
+        if 'recipient' in data:
+            user.email = data['recipient']
+        elif 'email' in data:
+            user.email = data['email']
 
-        key.user.save()
-        backend.set_email(username=key.user.node, domain=key.user.domain, email=key.user.email)
+        user.save()
+        backend.set_email(username=user.node, domain=user.domain, email=user.email)
 
 
 class DeleteView(ConfirmationView):
