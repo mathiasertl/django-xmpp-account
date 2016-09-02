@@ -37,7 +37,8 @@ def confirm(request, user, purpose, payload=None, lang=None):
     if payload is None:
         payload = {}
 
-    urlname, key = user.get_confirmation_key(purpose, payload, request)
+    urlname = 'xmpp_accounts:%s_confirm' % purpose
+    key = user.get_confirmation_key(purpose, payload, request)
 
     path = reverse(urlname, kwargs={'key': key.key, })
     uri = request.build_absolute_uri(location=path)

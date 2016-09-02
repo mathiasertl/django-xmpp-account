@@ -326,9 +326,9 @@ class Confirmation(models.Model):
             'lang': lang,
             'subject': subject,
         }
-        text = render_to_string('%s.txt' % PURPOSES[self.purpose]['template'], context)
+        text = render_to_string('xmpp_accounts/%s/mail.txt' % self.purpose, context)
         text = re.sub('\n\n+', '\n\n', text)
-        html = render_to_string('%s.html' % PURPOSES[self.purpose]['template'], context)
+        html = render_to_string('xmpp_accounts/%s/mail.html' % self.purpose, context)
 
         return frm, recipient, subject, text, html
 
