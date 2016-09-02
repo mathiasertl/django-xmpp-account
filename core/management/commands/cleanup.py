@@ -74,7 +74,7 @@ class Command(BaseCommand):
 
             # only consider users that have no pending confirmation keys
             created_before = timezone.now() - _default_timeout_delta
-            users = User.objects.filter(jid__endswith='@%s' % domain, created__lt=created_before)
+            users = User.objects.filter(jid__endswith='@%s' % domain, registered__lt=created_before)
 
             for user in users:
                 username = user.node.lower()
