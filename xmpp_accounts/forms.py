@@ -108,6 +108,14 @@ class ResetEmailForm(GPGMixin, AntiSpamForm):
     email = XMPPAccountEmailField(label=_('New email address'))
     password = XMPPAccountPasswordField()
 
+    def clean(self):
+        data = super(ResetEmailForm, self).clean()
+        username = data['username']
+        password = data['password']
+        node, domain = username.split('@', 1)
+        if not backend.check_password(username=node, domain=domain, password=password):
+            self.add_error('password', _('Password incorrect.'))
+
 
 class ResetEmailConfirmationForm(AntiSpamForm):
     password = XMPPAccountPasswordField()
