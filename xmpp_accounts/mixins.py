@@ -26,6 +26,7 @@ from brake.decorators import ratelimit
 from xmpp_backends.base import UserExists
 from xmpp_backends.base import UserNotFound
 
+from core.models import Confirmation
 from core.models import Address
 from core.models import UserAddresses
 from core.utils import get_client_ip
