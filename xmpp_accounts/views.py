@@ -286,10 +286,9 @@ class DeleteConfirmationView(ConfirmedMixin, XMPPAccountView):
         if not backend.check_password(username=username, domain=domain, password=password):
             raise UserNotFound()
 
-    def after_delete(self, data):
-        print('REMOVING USER FROM BACKEND')
+    def after_delete(self, user, data):
         # actually delete user from the database
-        backend.remove_user(username=self.user.node, domain=self.user.domain)
+        backend.remove_user(username=user.node, domain=user.domain)
         self.user.delete()
 
 
