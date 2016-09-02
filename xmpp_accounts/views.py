@@ -65,7 +65,7 @@ _messages = {
         'opengraph_title': _('%(DOMAIN)s: Register a new account'),
         'opengraph_description': _('Register on %(DOMAIN)s, a reliable and secure Jabber server. Jabber is a free and open instant messaging protocol used by millions of people worldwide.'),
     },
-    'reset_email': {
+    PURPOSE_SET_EMAIL: {
         'opengraph_title': _('%(DOMAIN)s: Set a new email address'),
         'opengraph_description': _('Set a new email address for your Jabber account on %(DOMAIN)s. You must have a valid email address set to be able to reset your password.'),
     },
@@ -73,7 +73,7 @@ _messages = {
         'opengraph_title': _('%(DOMAIN)s: Reset your password'),
         'opengraph_description': _('Reset the password for your %(DOMAIN)s account.'),
     },
-    'delete': {
+    PURPOSE_DELETE: {
         'opengraph_title': _('%(DOMAIN)s: Delete your account'),
         'opengraph_description': _('Delete your account on %(DOMAIN)s. WARNING: Once your account is deleted, it can never be restored.'),
     },
@@ -221,10 +221,13 @@ class ResetEmailView(ConfirmationMixin, XMPPAccountView):
     form_class = ResetEmailForm
     purpose = PURPOSE_SET_EMAIL
 
+    def get_user(self, data):
+        return User.objects.get(jid=data['username'])
+
     def handle_valid(self, form, user):
         payload = super(ResetEmailView, self).handle_valid(form, user)
         payload.update(self.handle_gpg(form, user))
-        payload['email'] = form.cleaned_data['email']
+        payload['recipient'] = form.cleaned_data['email']
         return payload
 
 
@@ -232,9 +235,6 @@ class ResetEmailConfirmationView(ConfirmedView):
     form_class = ResetEmailConfirmationForm
     template_name = 'xmpp_accounts/reset/email-confirm.html'
     purpose = PURPOSE_SET_EMAIL
-
-    opengraph_title = _messages['reset_email']['opengraph_title']
-    opengraph_description = _messages['reset_email']['opengraph_description']
 
     def handle_key(self, key, form):
         if not backend.check_password(username=key.user.node, domain=key.user.domain,
@@ -258,8 +258,6 @@ class DeleteView(ConfirmationView):
 
     purpose = PURPOSE_DELETE
     menuitem = 'delete'
-    opengraph_title = _messages['delete']['opengraph_title']
-    opengraph_description = _messages['delete']['opengraph_description']
 
     def get_user(self, data):
         try:
