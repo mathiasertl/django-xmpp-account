@@ -2,9 +2,9 @@
 <html>
 <head><title>{{ subject }}</title></head>
 <body>
-<p>{% blocktrans with username=extra.username %}Dear {{ username }},{% endblocktrans %}</p>
+<p>{% blocktrans with username=username %}Dear {{ username }},{% endblocktrans %}</p>
 
-<p>{% blocktrans with jid=extra.jid uri=extra.uri %}You have registered the account {{ extra.jid }} with this email address.
+<p>{% blocktrans with jid=jid uri=uri %}You have registered the account {{ jid }} with this email address.
 To complete your registration, please <a href="{{ uri }}">click here</a> and
 provide a password for your new account.{% endblocktrans %}</p>
 
@@ -17,6 +17,6 @@ encourage you to choose a safe password you use nowhere else.{% endblocktrans %}
 Email.{% endblocktrans %}</p>
 
 <p>{% trans "greetings," %}<br />
-<p style="padding-left: 4em;">{{ extra.domain }}</p>
+<p style="padding-left: 4em;">{{ domain }}</p>
 {% endlanguage %}
 </body></html>
