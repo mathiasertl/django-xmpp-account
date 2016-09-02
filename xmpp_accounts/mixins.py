@@ -16,6 +16,8 @@
 
 from __future__ import unicode_literals, absolute_import
 
+import json
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -143,7 +145,7 @@ class ConfirmedMixin(object):
         except Confirmation.DoesNotExist:
             form.add_error(None, _("Confirmation key expired or not found."))
             return self.form_invalid(form)
-        self.user = User.objects.get(jid=key.payload['extra']['jid'])
+        self.user = key.user
 
         try:
             self.handle_key(key, self.user, form)

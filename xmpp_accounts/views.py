@@ -167,7 +167,7 @@ class RegistrationConfirmationView(ConfirmedMixin, XMPPAccountView):
     purpose = PURPOSE_REGISTER
 
     def handle_key(self, key, user, form):
-        user.gpg_fingerprint = key.payload.get('gpg_encrypt')
+        user.gpg_fingerprint = json.loads(key.payload).get('gpg_encrypt')
         user.confirmed = now()
         user.save()
 
