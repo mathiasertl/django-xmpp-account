@@ -33,7 +33,7 @@ from core.utils import get_client_ip
 from core.exceptions import RateException
 from core.exceptions import SpamException
 
-from .models import XMPPAccountConfirmation
+from core.models import Confirmation
 
 User = get_user_model()
 

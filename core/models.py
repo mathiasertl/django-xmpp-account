@@ -166,7 +166,7 @@ class Confirmation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
-    new_purpose = models.CharField(max_length=12, choices=NEW_PURPOSE_CHOICES, null=True)
+    new_purpose = models.CharField(max_length=12, choices=NEW_PURPOSE_CHOICES)
     payload = models.TextField(null=True, blank=True)
 
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
