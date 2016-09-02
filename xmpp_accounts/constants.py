@@ -14,7 +14,13 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-PURPOSE_REGISTER = 'register'
-PURPOSE_SET_EMAIL = 'email'
-PURPOSE_SET_PASSWORD = 'password'
-PURPOSE_DELETE = 'delete'
+from __future__ import unicode_literals
+
+PURPOSE_REGISTER = 0
+PURPOSE_SET_PASSWORD = 1
+PURPOSE_SET_EMAIL = 2
+PURPOSE_DELETE = 3
+
+REGISTRATION_WEBSITE = 0
+REGISTRATION_INBAND = 1
+REGISTRATION_UNKNOWN = 99
