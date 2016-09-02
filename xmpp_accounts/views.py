@@ -198,9 +198,9 @@ class ResetPasswordView(ConfirmationMixin, XMPPAccountView):
     purpose = PURPOSE_SET_PASSWORD
 
     def handle_valid(self, form, user):
-        kwargs = self.gpg_from_user(user)
-        kwargs['recipient'] = user.email
-        return kwargs
+        payload = self.gpg_from_user(user)
+        payload['recipient'] = user.email
+        return payload
 
     def get_user(self, data):
         return User.objects.has_email().get(jid=data['username'])
@@ -225,8 +225,7 @@ class ResetEmailView(ConfirmationMixin, XMPPAccountView):
         return User.objects.get(jid=data['username'])
 
     def handle_valid(self, form, user):
-        payload = super(ResetEmailView, self).handle_valid(form, user)
-        payload.update(self.handle_gpg(form, user))
+        payload = self.gpg_from_form(form)
         payload['recipient'] = form.cleaned_data['email']
         return payload
 
