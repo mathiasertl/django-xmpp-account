@@ -65,10 +65,6 @@ class ConfirmationMixin(object):
     # TODO: Very ugly here (should be part of the form or so)
     user_not_found_error = _("User not found (or false password provided)!")
 
-    @property
-    def action_path(self):
-        return reverse('xmpp_accounts:%s' % self.purpose)
-
     def get_template_names(self):
         return ['xmpp_accounts/%s/main.html' % self.purpose]
 
