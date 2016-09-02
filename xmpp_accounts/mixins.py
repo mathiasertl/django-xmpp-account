@@ -152,7 +152,7 @@ class ConfirmedMixin(object):
             key.delete()
             self.after_delete(self.user, form)
         except UserNotFound as e:
-            if e.message:
+            if hasattr(e, 'message') and e.message:
                 form.add_error(None, _("User not found: %s") % e.message)
             else:
                 form.add_error(None, _("User not found!"))
