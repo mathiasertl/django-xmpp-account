@@ -42,6 +42,10 @@ from core.constants import PURPOSE_DELETE
 from core.constants import PURPOSE_REGISTER
 from core.constants import PURPOSE_SET_EMAIL
 from core.constants import PURPOSE_SET_PASSWORD
+from core.constants import NEW_PURPOSE_DELETE
+from core.constants import NEW_PURPOSE_REGISTER
+from core.constants import NEW_PURPOSE_SET_EMAIL
+from core.constants import NEW_PURPOSE_SET_PASSWORD
 from core.constants import REGISTRATION_INBAND
 from core.constants import REGISTRATION_WEBSITE
 from core.constants import REGISTRATION_UNKNOWN
@@ -62,6 +66,12 @@ PURPOSE_CHOICES = (
     (PURPOSE_SET_PASSWORD, 'set password'),
     (PURPOSE_SET_EMAIL, 'set email'),
     (PURPOSE_DELETE, 'delete'),
+)
+NEW_PURPOSE_CHOICES = (
+    (NEW_PURPOSE_REGISTER, 'registration'),
+    (NEW_PURPOSE_SET_PASSWORD, 'set password'),
+    (NEW_PURPOSE_SET_EMAIL, 'set email'),
+    (NEW_PURPOSE_DELETE, 'delete'),
 )
 PURPOSE_DICT = dict(PURPOSE_CHOICES)
 
@@ -156,6 +166,7 @@ class Confirmation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created = models.DateTimeField(auto_now_add=True)
     purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
+    new_purpose = models.CharField(max_length=12, choices=NEW_PURPOSE_CHOICES, null=True)
     payload = models.TextField(null=True, blank=True)
 
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)()
