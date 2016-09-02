@@ -25,7 +25,7 @@ app_name = 'xmpp_accounts'
 
 urlpatterns = [
     url(r'^$', views.RegistrationView.as_view(), name='register'),
-    url(r'^register/confirm-new/(?P<key>\w+)/$', views.RegistrationConfirmationView.as_view(),
+    url(r'^register/confirm/(?P<key>\w+)/$', views.RegistrationConfirmationView.as_view(),
         name='register_confirm'),
     url(r'^password/$', views.ResetPasswordView.as_view(), name='password'),
     url(r'^password/confirm/(?P<key>\w+)/$', views.ResetPasswordConfirmationView.as_view(),
