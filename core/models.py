@@ -376,8 +376,7 @@ class UserAddresses(models.Model):
     user = models.ForeignKey(RegistrationUser)
 
     timestamp = models.DateTimeField(auto_now_add=True)
-    purpose = models.SmallIntegerField(choices=PURPOSE_CHOICES)
-    new_purpose = models.CharField(max_length=12, choices=NEW_PURPOSE_CHOICES, null=True)
+    purpose = models.CharField(max_length=12, choices=NEW_PURPOSE_CHOICES)
 
     class Meta:
         verbose_name = _('IP-Address Activity')
