@@ -252,12 +252,14 @@ class ResetEmailConfirmationView(ConfirmedMixin, XMPPAccountView):
         backend.set_email(username=user.node, domain=user.domain, email=user.email)
 
 
-class DeleteView(ConfirmationView):
+class DeleteView(ConfirmationMixin, XMPPAccountView):
     form_class = DeleteForm
-    template_name = 'xmpp_accounts/delete/delete.html'
-
     purpose = PURPOSE_DELETE
-    menuitem = 'delete'
+
+    def handle_valid(self, form, user):
+        payload = self.gpg_from_user(user)
+        payload['recipient'] = user.email
+        return payload
 
     def get_user(self, data):
         try:
@@ -272,23 +274,20 @@ class DeleteView(ConfirmationView):
         return user
 
 
-class DeleteConfirmationView(ConfirmedView):
+class DeleteConfirmationView(ConfirmedMixin, XMPPAccountView):
     form_class = DeleteConfirmationForm
-    template_name = 'xmpp_accounts/delete/delete-confirm.html'
     purpose = PURPOSE_DELETE
-    action_url = 'xmpp_accounts:delete'
-    opengraph_title = _messages['delete']['opengraph_title']
-    opengraph_description = _messages['delete']['opengraph_description']
 
-    def handle_key(self, key, form):
-        username = key.user.node
-        domain = key.user.domain
+    def handle_key(self, key, user, form):
+        username = user.node
+        domain = user.domain
         password = form.cleaned_data['password']
 
         if not backend.check_password(username=username, domain=domain, password=password):
             raise UserNotFound()
 
     def after_delete(self, data):
+        print('REMOVING USER FROM BACKEND')
         # actually delete user from the database
         backend.remove_user(username=self.user.node, domain=self.user.domain)
         self.user.delete()
