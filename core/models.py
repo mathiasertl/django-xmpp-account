@@ -310,7 +310,7 @@ class Confirmation(models.Model):
 
     def get_msg_data(self, payload, uri, site, lang):
         frm = site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-        recipient = payload.get('email', self.user.email)
+        recipient = payload.get('recipient', self.user.email)
 
         subject = PURPOSES[self.purpose]['subject'] % {
             'domain': self.user.domain,
